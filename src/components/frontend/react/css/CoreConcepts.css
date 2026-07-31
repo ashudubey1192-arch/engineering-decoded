@@ -1,0 +1,1 @@
+.reactFlow{display:flex;justify-content:center;align-items:center;gap:12px;padding:26px;background:#080906;border:1px solid #293238}.reactFlow b{border:1px solid #61dafb;padding:11px}.reactFlow span{color:#61dafb;font:9px ui-monospace}@media(max-width:600px){.reactFlow{flex-direction:column}}

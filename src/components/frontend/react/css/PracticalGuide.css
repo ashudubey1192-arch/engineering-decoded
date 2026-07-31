@@ -1,0 +1,1 @@
+.buildSteps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.buildSteps span{padding:12px;background:color-mix(in srgb,#61dafb 10%,var(--surface));border:1px solid #315661;font-size:11px}@media(max-width:600px){.buildSteps{grid-template-columns:1fr 1fr}}

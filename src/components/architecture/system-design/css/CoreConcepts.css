@@ -1,0 +1,1 @@
+.dimensionGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dimensionGrid>div{border:1px solid var(--line);background:var(--surface);padding:17px}.dimensionGrid b{font:9px ui-monospace;color:#f27d63}.dimensionGrid p{font-size:12px}@media(max-width:550px){.dimensionGrid{grid-template-columns:1fr}}

@@ -1,0 +1,61 @@
+.brandLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+
+.brandLogoMark {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.brandLogoFrame {
+  fill: color-mix(in srgb, var(--accent-green) 10%, var(--surface));
+  stroke: url(#engineeringDecodedGradient);
+  stroke-width: 2;
+}
+
+.brandLogoCode {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brandLogoMark circle {
+  fill: var(--accent-green);
+}
+
+.brandLogoText {
+  display: grid;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+  line-height: 1;
+}
+
+.brandLogoText strong {
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.brandLogoText span {
+  margin-top: 4px;
+  color: var(--accent-green);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.brandLogoCompact .brandLogoMark {
+  width: 32px;
+  height: 32px;
+}
+
+@media (max-width: 460px) {
+  .brandLogoText {
+    display: none;
+  }
+}

@@ -1,0 +1,87 @@
+.siteHeader {
+  height: 68px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 0 26px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark {
+  border: 0;
+  background: none;
+  color: var(--text);
+  padding: 0;
+}
+
+.siteHeader nav {
+  display: flex;
+  gap: 6px;
+}
+
+.siteHeader nav button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  padding: 9px 11px;
+  border-radius: 7px;
+  font-size: 12px;
+}
+
+.siteHeader nav button:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.headerSearch {
+  margin-left: auto;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 0 11px;
+}
+
+.headerSearch kbd {
+  font: 8px ui-monospace;
+  padding: 3px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.roundButton {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+@media (max-width: 760px) {
+  .siteHeader {
+    padding: 0 14px;
+    gap: 10px;
+  }
+
+  .siteHeader nav,
+  .headerSearch > span:nth-child(2),
+  .headerSearch kbd {
+    display: none;
+  }
+
+  .headerSearch {
+    margin-left: auto;
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+  }
+}

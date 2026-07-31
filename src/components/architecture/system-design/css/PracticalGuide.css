@@ -1,0 +1,1 @@
+.designStages{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}.designStages span{border:1px solid var(--line);padding:14px;background:var(--surface)}.designStages b{color:#f27d63;font:9px ui-monospace;margin-right:9px}

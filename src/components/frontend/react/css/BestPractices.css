@@ -1,0 +1,1 @@
+.practiceList p{display:grid;grid-template-columns:45px 1fr;border-top:1px solid var(--line);padding:16px;margin:0}.practiceList p>b{color:#61dafb;font:9px ui-monospace}.practiceList strong{display:block;color:var(--text)}
