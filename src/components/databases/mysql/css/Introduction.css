@@ -1,1 +1,10 @@
-.article-databases-mysql-introduction{--article-accent:#68b7ed}.article-databases-mysql-introduction .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-databases-mysql-introduction h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-databases-mysql-introduction {
+  --article-accent: #68b7ed;
+}
+.article-databases-mysql-introduction .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-databases-mysql-introduction h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

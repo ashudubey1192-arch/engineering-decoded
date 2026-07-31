@@ -1,2 +1,52 @@
 import "../css/PracticalGuide.css";
-export default function SystemDesignPracticalGuide(){return <div className="systemPractical"><section id="overview"><p className="lead">Design a production notification platform for email, push, and SMS.</p></section><section id="concepts"><h2>1. Requirements</h2><ul><li>Accept transactional and bulk notification requests.</li><li>Respect user preferences and provider rate limits.</li><li>Retry transient failures without duplicate delivery.</li><li>Expose delivery status and operational metrics.</li></ul></section><section id="example"><h2>2. Build in stages</h2><div className="designStages"><span><b>01</b>API + database</span><span><b>02</b>Queue + workers</span><span><b>03</b>Provider adapters</span><span><b>04</b>Retries + observability</span></div><pre><code>{`POST /notifications\n{ userId, channel, templateId, idempotencyKey }`}</code></pre></section><section id="mistakes"><h2>3. Failure review</h2><p>Model provider outages, poison messages, duplicate requests, preference changes, and queue backlogs before calling the design complete.</p></section><section id="check"><h2>4. Stretch requirement</h2><div className="quiz"><p>How would the design change for scheduled campaigns sent to 50 million users?</p></div></section></div>}
+export default function SystemDesignPracticalGuide() {
+  return (
+    <div className="systemPractical">
+      <section id="overview">
+        <p className="lead">Design a production notification platform for email, push, and SMS.</p>
+      </section>
+      <section id="concepts">
+        <h2>1. Requirements</h2>
+        <ul>
+          <li>Accept transactional and bulk notification requests.</li>
+          <li>Respect user preferences and provider rate limits.</li>
+          <li>Retry transient failures without duplicate delivery.</li>
+          <li>Expose delivery status and operational metrics.</li>
+        </ul>
+      </section>
+      <section id="example">
+        <h2>2. Build in stages</h2>
+        <div className="designStages">
+          <span>
+            <b>01</b>API + database
+          </span>
+          <span>
+            <b>02</b>Queue + workers
+          </span>
+          <span>
+            <b>03</b>Provider adapters
+          </span>
+          <span>
+            <b>04</b>Retries + observability
+          </span>
+        </div>
+        <pre>
+          <code>{`POST /notifications\n{ userId, channel, templateId, idempotencyKey }`}</code>
+        </pre>
+      </section>
+      <section id="mistakes">
+        <h2>3. Failure review</h2>
+        <p>
+          Model provider outages, poison messages, duplicate requests, preference changes, and queue
+          backlogs before calling the design complete.
+        </p>
+      </section>
+      <section id="check">
+        <h2>4. Stretch requirement</h2>
+        <div className="quiz">
+          <p>How would the design change for scheduled campaigns sent to 50 million users?</p>
+        </div>
+      </section>
+    </div>
+  );
+}

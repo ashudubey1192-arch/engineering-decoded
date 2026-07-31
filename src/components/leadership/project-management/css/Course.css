@@ -1,1 +1,3 @@
-.course-leadership-project-management .courseMain>header{background:radial-gradient(circle at 90% 15%,color-mix(in srgb,#70d3a8 12%,transparent),transparent 32%)}
+.course-leadership-project-management .courseMain > header {
+  background: radial-gradient(circle at 90% 15%, color-mix(in srgb, #70d3a8 12%, transparent), transparent 32%);
+}

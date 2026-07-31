@@ -1,1 +1,3 @@
-.course-dsa-dynamic-programming .courseMain>header{background:radial-gradient(circle at 90% 15%,color-mix(in srgb,#a88af4 12%,transparent),transparent 32%)}
+.course-dsa-dynamic-programming .courseMain > header {
+  background: radial-gradient(circle at 90% 15%, color-mix(in srgb, #a88af4 12%, transparent), transparent 32%);
+}

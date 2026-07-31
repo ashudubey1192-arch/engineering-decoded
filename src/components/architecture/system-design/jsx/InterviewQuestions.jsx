@@ -1,2 +1,60 @@
 import "../css/InterviewQuestions.css";
-export default function SystemDesignInterviewQuestions(){return <div className="systemInterview"><section id="overview"><p className="lead">System design interviews evaluate how you reduce ambiguity, reason about trade-offs, and communicate under changing constraints.</p></section><section id="concepts"><h2>1. Practice prompts</h2><details open><summary>Design a rate limiter</summary><p>Clarify scope, algorithm, key granularity, consistency needs, storage, enforcement point, and failure behavior.</p></details><details><summary>Design a news feed</summary><p>Compare fan-out on write and fan-out on read, then handle ranking, celebrity accounts, pagination, and freshness.</p></details><details><summary>Design file storage</summary><p>Discuss metadata, blob storage, chunking, checksums, uploads, replication, sharing, and lifecycle policies.</p></details></section><section id="example"><h2>2. Use a repeatable structure</h2><ol><li>Requirements and estimates</li><li>API and data model</li><li>High-level design</li><li>Deep dive and bottlenecks</li><li>Failure modes and trade-offs</li></ol></section><section id="mistakes"><h2>3. Interview mistakes</h2><p>Do not silently assume scale, dominate the conversation, or add infrastructure without explaining why. Invite alignment at each stage.</p></section><section id="check"><h2>4. Mock interview</h2><div className="quiz"><p>Design a collaborative document editor. Begin by asking five clarifying questions.</p></div></section></div>}
+export default function SystemDesignInterviewQuestions() {
+  return (
+    <div className="systemInterview">
+      <section id="overview">
+        <p className="lead">
+          System design interviews evaluate how you reduce ambiguity, reason about trade-offs, and
+          communicate under changing constraints.
+        </p>
+      </section>
+      <section id="concepts">
+        <h2>1. Practice prompts</h2>
+        <details open>
+          <summary>Design a rate limiter</summary>
+          <p>
+            Clarify scope, algorithm, key granularity, consistency needs, storage, enforcement
+            point, and failure behavior.
+          </p>
+        </details>
+        <details>
+          <summary>Design a news feed</summary>
+          <p>
+            Compare fan-out on write and fan-out on read, then handle ranking, celebrity accounts,
+            pagination, and freshness.
+          </p>
+        </details>
+        <details>
+          <summary>Design file storage</summary>
+          <p>
+            Discuss metadata, blob storage, chunking, checksums, uploads, replication, sharing, and
+            lifecycle policies.
+          </p>
+        </details>
+      </section>
+      <section id="example">
+        <h2>2. Use a repeatable structure</h2>
+        <ol>
+          <li>Requirements and estimates</li>
+          <li>API and data model</li>
+          <li>High-level design</li>
+          <li>Deep dive and bottlenecks</li>
+          <li>Failure modes and trade-offs</li>
+        </ol>
+      </section>
+      <section id="mistakes">
+        <h2>3. Interview mistakes</h2>
+        <p>
+          Do not silently assume scale, dominate the conversation, or add infrastructure without
+          explaining why. Invite alignment at each stage.
+        </p>
+      </section>
+      <section id="check">
+        <h2>4. Mock interview</h2>
+        <div className="quiz">
+          <p>Design a collaborative document editor. Begin by asking five clarifying questions.</p>
+        </div>
+      </section>
+    </div>
+  );
+}

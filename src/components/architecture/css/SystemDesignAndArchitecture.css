@@ -1,1 +1,3 @@
-.module-architecture .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#f27d63 14%,transparent),transparent 32%)}
+.module-architecture .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #f27d63 14%, transparent), transparent 32%);
+}

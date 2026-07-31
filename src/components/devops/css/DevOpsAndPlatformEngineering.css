@@ -1,1 +1,3 @@
-.module-devops .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#6fd1b3 14%,transparent),transparent 32%)}
+.module-devops .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #6fd1b3 14%, transparent), transparent 32%);
+}

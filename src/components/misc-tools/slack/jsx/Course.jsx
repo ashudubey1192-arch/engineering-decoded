@@ -1,4 +1,11 @@
 import CoursePage from "../../../learning/CoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
 import "../css/Course.css";
-export default function MiscToolsSlackCourse({ navigate }) { const module = getModule("misc-tools"); return <div className="course-misc-tools-slack"><CoursePage module={module} track={getTrack(module, "slack")} navigate={navigate} /></div>; }
+export default function MiscToolsSlackCourse({ navigate }) {
+  const module = getModule("misc-tools");
+  return (
+    <div className="course-misc-tools-slack">
+      <CoursePage module={module} track={getTrack(module, "slack")} navigate={navigate} />
+    </div>
+  );
+}

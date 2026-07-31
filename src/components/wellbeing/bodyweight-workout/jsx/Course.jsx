@@ -1,4 +1,15 @@
 import CoursePage from "../../../learning/CoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
 import "../css/Course.css";
-export default function WellbeingBodyweightWorkoutCourse({ navigate }) { const module = getModule("wellbeing"); return <div className="course-wellbeing-bodyweight-workout"><CoursePage module={module} track={getTrack(module, "bodyweight-workout")} navigate={navigate} /></div>; }
+export default function WellbeingBodyweightWorkoutCourse({ navigate }) {
+  const module = getModule("wellbeing");
+  return (
+    <div className="course-wellbeing-bodyweight-workout">
+      <CoursePage
+        module={module}
+        track={getTrack(module, "bodyweight-workout")}
+        navigate={navigate}
+      />
+    </div>
+  );
+}

@@ -1,1 +1,3 @@
-.module-career .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#60c7b0 14%,transparent),transparent 32%)}
+.module-career .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #60c7b0 14%, transparent), transparent 32%);
+}

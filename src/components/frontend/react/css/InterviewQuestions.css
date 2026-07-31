@@ -1,1 +1,11 @@
-.reactInterview details{border-top:1px solid var(--line);padding:15px 0}.reactInterview summary{font-weight:750;cursor:pointer}.reactInterview details p{font-size:14px}
+.reactInterview details {
+  border-top: 1px solid var(--line);
+  padding: 15px 0;
+}
+.reactInterview summary {
+  font-weight: 750;
+  cursor: pointer;
+}
+.reactInterview details p {
+  font-size: 14px;
+}

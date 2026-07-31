@@ -1,1 +1,10 @@
-.article-marketing-seo-practical-guide{--article-accent:#ef9b58}.article-marketing-seo-practical-guide .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-marketing-seo-practical-guide h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-marketing-seo-practical-guide {
+  --article-accent: #ef9b58;
+}
+.article-marketing-seo-practical-guide .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-marketing-seo-practical-guide h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

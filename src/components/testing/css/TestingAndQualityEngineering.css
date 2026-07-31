@@ -1,1 +1,3 @@
-.module-testing .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#ff728d 14%,transparent),transparent 32%)}
+.module-testing .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #ff728d 14%, transparent), transparent 32%);
+}

@@ -40,6 +40,7 @@
 
 .headerSearch {
   margin-left: auto;
+  min-width: 270px;
   height: 38px;
   display: flex;
   align-items: center;
@@ -52,6 +53,7 @@
 }
 
 .headerSearch kbd {
+  margin-left: auto;
   font: 8px ui-monospace;
   padding: 3px 5px;
   border: 1px solid var(--line);
@@ -80,6 +82,7 @@
 
   .headerSearch {
     margin-left: auto;
+    min-width: 38px;
     width: 38px;
     padding: 0;
     justify-content: center;

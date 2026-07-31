@@ -1,1 +1,10 @@
-.article-communication-corporate-vocabulary-practical-guide{--article-accent:#f5c56b}.article-communication-corporate-vocabulary-practical-guide .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-communication-corporate-vocabulary-practical-guide h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-communication-corporate-vocabulary-practical-guide {
+  --article-accent: #f5c56b;
+}
+.article-communication-corporate-vocabulary-practical-guide .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-communication-corporate-vocabulary-practical-guide h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

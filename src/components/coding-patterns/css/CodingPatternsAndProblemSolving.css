@@ -1,1 +1,3 @@
-.module-coding-patterns .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#c18cff 14%,transparent),transparent 32%)}
+.module-coding-patterns .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #c18cff 14%, transparent), transparent 32%);
+}

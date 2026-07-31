@@ -9,7 +9,7 @@ import useRouter from "./hooks/useRouter";
 import { getModule, getTrack, modules } from "./data/catalog";
 
 export default function App() {
-  const { path, navigate } = useRouter();
+  const { path, navigate, isNavigating } = useRouter();
   const [theme, setTheme] = useState("dark");
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -37,10 +37,19 @@ export default function App() {
   };
 
   const results = useMemo(
-    () => modules
-      .flatMap((module) => module.groups.flatMap((group) => group.tracks.map((track) => ({ module, track }))))
-      .filter((item) => `${item.module.name} ${item.track.name}`.toLowerCase().includes(query.toLowerCase()))
-      .slice(0, 10),
+    () =>
+      modules
+        .flatMap((module) =>
+          module.groups.flatMap((group) =>
+            group.tracks.map((track) => ({ module, track, group: group.name })),
+          ),
+        )
+        .filter((item) =>
+          `${item.module.name} ${item.group} ${item.track.name}`
+            .toLowerCase()
+            .includes(query.toLowerCase()),
+        )
+        .slice(0, 12),
     [query],
   );
 
@@ -52,40 +61,108 @@ export default function App() {
   } else if (parts[0] === "learn" && parts.length === 2) {
     const module = getModule(parts[1]);
     const ModuleComponent = getModuleComponent(parts[1]);
-    page = ModuleComponent ? <ModuleComponent navigate={navigate} /> : <ModulePage module={module} navigate={navigate} />;
+    page = ModuleComponent ? (
+      <ModuleComponent navigate={navigate} />
+    ) : (
+      <ModulePage module={module} navigate={navigate} />
+    );
   } else if (parts[0] === "learn" && parts.length === 3) {
     const module = getModule(parts[1]);
     const track = getTrack(module, parts[2]);
     const CourseComponent = getCourseComponent(parts[1], parts[2]);
-    page = CourseComponent ? <CourseComponent navigate={navigate} /> : <CoursePage module={module} track={track} navigate={navigate} />;
+    page = CourseComponent ? (
+      <CourseComponent navigate={navigate} />
+    ) : (
+      <CoursePage module={module} track={track} navigate={navigate} />
+    );
   } else if (parts[0] === "learn" && parts.length >= 4) {
     const module = getModule(parts[1]);
-    page = <ArticlePage module={module} track={getTrack(module, parts[2])} articleSlug={parts[3]} navigate={navigate} />;
+    page = (
+      <ArticlePage
+        module={module}
+        track={getTrack(module, parts[2])}
+        articleSlug={parts[3]}
+        navigate={navigate}
+      />
+    );
   } else {
     page = <Home navigate={navigate} />;
   }
 
+  const closeSearch = () => setSearchOpen(false);
+
   return (
     <>
-      <Header theme={theme} onTheme={toggleTheme} onSearch={() => setSearchOpen(true)} navigate={navigate} />
-      <Suspense fallback={<main className="pageLoading" aria-live="polite">Loading lesson…</main>}>
-        {page}
+      <Header
+        theme={theme}
+        onTheme={toggleTheme}
+        onSearch={() => setSearchOpen(true)}
+        navigate={navigate}
+      />
+      <div className={`routeLoadingBar${isNavigating ? " active" : ""}`} aria-hidden="true" />
+      <Suspense
+        fallback={
+          <main className="pageLoading" aria-live="polite">
+            <span />
+            <p>Preparing your lesson…</p>
+          </main>
+        }
+      >
+        <div className="routeView" key={path}>
+          {page}
+        </div>
       </Suspense>
       {searchOpen && (
-        <div className="overlay" onMouseDown={() => setSearchOpen(false)}>
-          <section className="command" onMouseDown={(event) => event.stopPropagation()}>
+        <div className="overlay" onMouseDown={closeSearch}>
+          <section
+            className="command"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search learning library"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="commandTitle">
+              <span>SEARCH THE LIBRARY</span>
+              <button onClick={closeSearch} aria-label="Close search">
+                ×
+              </button>
+            </div>
             <header>
-              <span>⌕</span>
-              <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search modules and courses..." />
+              <span aria-hidden="true">⌕</span>
+              <input
+                autoFocus
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search modules, categories, and courses..."
+              />
               <kbd>ESC</kbd>
             </header>
-            {results.map(({ module, track }) => (
-              <button key={`${module.id}-${track.slug}`} onClick={() => { navigate(`/learn/${module.id}/${track.slug}`); setSearchOpen(false); }}>
-                <span className="resultIcon" style={{ background: module.accent }}>{module.icon}</span>
-                <span><small>{module.name}</small><b>{track.name}</b></span>
-                <i>↗</i>
-              </button>
-            ))}
+            <div className="commandHint">
+              <span>{query ? `RESULTS FOR “${query}”` : "POPULAR LEARNING PATHS"}</span>
+              <span>{results.length} results</span>
+            </div>
+            <div className="commandResults">
+              {results.map(({ module, track, group }) => (
+                <button
+                  key={`${module.id}-${track.slug}`}
+                  onClick={() => {
+                    navigate(`/learn/${module.id}/${track.slug}`);
+                    closeSearch();
+                  }}
+                >
+                  <span className="resultIcon" style={{ background: module.accent }}>
+                    {module.icon}
+                  </span>
+                  <span>
+                    <small>
+                      {module.name} · {group}
+                    </small>
+                    <b>{track.name}</b>
+                  </span>
+                  <i>↗</i>
+                </button>
+              ))}
+            </div>
           </section>
         </div>
       )}

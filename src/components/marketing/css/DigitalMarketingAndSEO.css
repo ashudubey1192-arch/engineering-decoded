@@ -1,1 +1,3 @@
-.module-marketing .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#ef9b58 14%,transparent),transparent 32%)}
+.module-marketing .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #ef9b58 14%, transparent), transparent 32%);
+}

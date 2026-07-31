@@ -1,1 +1,10 @@
-.article-messaging-dead-letter-queue-introduction{--article-accent:#f5b84b}.article-messaging-dead-letter-queue-introduction .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-messaging-dead-letter-queue-introduction h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-messaging-dead-letter-queue-introduction {
+  --article-accent: #f5b84b;
+}
+.article-messaging-dead-letter-queue-introduction .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-messaging-dead-letter-queue-introduction h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

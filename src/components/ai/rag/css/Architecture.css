@@ -1,1 +1,10 @@
-.article-ai-rag-architecture{--article-accent:#b491ff}.article-ai-rag-architecture .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-ai-rag-architecture h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-ai-rag-architecture {
+  --article-accent: #b491ff;
+}
+.article-ai-rag-architecture .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-ai-rag-architecture h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

@@ -15,7 +15,16 @@ export function getModuleComponent(moduleId) {
   return entry ? getLazyComponent(entry[0], entry[1]) : null;
 }
 
+export function preloadModuleComponent(moduleId) {
+  const entry = Object.entries(moduleFiles).find(([path]) => path.startsWith(`./${moduleId}/jsx/`));
+  return entry?.[1]?.();
+}
+
 export function getCourseComponent(moduleId, trackSlug) {
   const path = `./${moduleId}/${trackSlug}/jsx/Course.jsx`;
   return getLazyComponent(path, courseFiles[path]);
+}
+
+export function preloadCourseComponent(moduleId, trackSlug) {
+  return courseFiles[`./${moduleId}/${trackSlug}/jsx/Course.jsx`]?.();
 }

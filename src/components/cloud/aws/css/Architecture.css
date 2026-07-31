@@ -1,1 +1,10 @@
-.article-cloud-aws-architecture{--article-accent:#76a9ff}.article-cloud-aws-architecture .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-cloud-aws-architecture h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-cloud-aws-architecture {
+  --article-accent: #76a9ff;
+}
+.article-cloud-aws-architecture .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-cloud-aws-architecture h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

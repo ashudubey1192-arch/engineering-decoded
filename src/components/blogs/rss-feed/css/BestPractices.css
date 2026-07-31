@@ -1,1 +1,10 @@
-.article-blogs-rss-feed-best-practices{--article-accent:#de8cf0}.article-blogs-rss-feed-best-practices .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-blogs-rss-feed-best-practices h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-blogs-rss-feed-best-practices {
+  --article-accent: #de8cf0;
+}
+.article-blogs-rss-feed-best-practices .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-blogs-rss-feed-best-practices h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

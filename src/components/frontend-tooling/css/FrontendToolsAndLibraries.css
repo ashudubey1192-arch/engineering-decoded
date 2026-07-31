@@ -1,1 +1,3 @@
-.module-frontend-tooling .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#ff9775 14%,transparent),transparent 32%)}
+.module-frontend-tooling .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #ff9775 14%, transparent), transparent 32%);
+}

@@ -33,7 +33,7 @@
 .brandLogoText {
   display: grid;
   text-transform: uppercase;
-  letter-spacing: .11em;
+  letter-spacing: 0.11em;
   line-height: 1;
 }
 

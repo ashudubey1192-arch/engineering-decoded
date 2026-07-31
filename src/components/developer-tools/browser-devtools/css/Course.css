@@ -1,1 +1,3 @@
-.course-developer-tools-browser-devtools .courseMain>header{background:radial-gradient(circle at 90% 15%,color-mix(in srgb,#74b8f2 12%,transparent),transparent 32%)}
+.course-developer-tools-browser-devtools .courseMain > header {
+  background: radial-gradient(circle at 90% 15%, color-mix(in srgb, #74b8f2 12%, transparent), transparent 32%);
+}

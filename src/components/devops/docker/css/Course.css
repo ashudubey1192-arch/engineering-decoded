@@ -1,1 +1,3 @@
-.course-devops-docker .courseMain>header{background:radial-gradient(circle at 90% 15%,color-mix(in srgb,#6fd1b3 12%,transparent),transparent 32%)}
+.course-devops-docker .courseMain > header {
+  background: radial-gradient(circle at 90% 15%, color-mix(in srgb, #6fd1b3 12%, transparent), transparent 32%);
+}

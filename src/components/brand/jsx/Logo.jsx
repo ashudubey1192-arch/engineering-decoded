@@ -3,9 +3,21 @@ import "../css/Logo.css";
 export default function Logo({ compact = false }) {
   return (
     <span className={`brandLogo${compact ? " brandLogoCompact" : ""}`}>
-      <svg className="brandLogoMark" viewBox="0 0 48 48" role="img" aria-label="Engineering Decoded logo">
+      <svg
+        className="brandLogoMark"
+        viewBox="0 0 48 48"
+        role="img"
+        aria-label="Engineering Decoded logo"
+      >
         <defs>
-          <linearGradient id="engineeringDecodedGradient" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="engineeringDecodedGradient"
+            x1="4"
+            y1="4"
+            x2="44"
+            y2="44"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="#78ed9a" />
             <stop offset="1" stopColor="#68b7ed" />
           </linearGradient>

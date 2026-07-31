@@ -1,1 +1,3 @@
-.module-communication .moduleIntro{background:radial-gradient(circle at 85% 30%,color-mix(in srgb,#f5c56b 14%,transparent),transparent 32%)}
+.module-communication .moduleIntro {
+  background: radial-gradient(circle at 85% 30%, color-mix(in srgb, #f5c56b 14%, transparent), transparent 32%);
+}

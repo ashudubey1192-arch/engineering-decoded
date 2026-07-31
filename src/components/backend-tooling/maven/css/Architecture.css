@@ -1,1 +1,10 @@
-.article-backend-tooling-maven-architecture{--article-accent:#b9ed68}.article-backend-tooling-maven-architecture .lead{border-left:3px solid var(--article-accent);padding-left:18px}.article-backend-tooling-maven-architecture h2{color:color-mix(in srgb,var(--article-accent) 78%,var(--text))}
+.article-backend-tooling-maven-architecture {
+  --article-accent: #b9ed68;
+}
+.article-backend-tooling-maven-architecture .lead {
+  border-left: 3px solid var(--article-accent);
+  padding-left: 18px;
+}
+.article-backend-tooling-maven-architecture h2 {
+  color: color-mix(in srgb, var(--article-accent) 78%, var(--text));
+}

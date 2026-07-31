@@ -1,1 +1,3 @@
-.course-video-capcut .courseMain>header{background:radial-gradient(circle at 90% 15%,color-mix(in srgb,#e979d7 12%,transparent),transparent 32%)}
+.course-video-capcut .courseMain > header {
+  background: radial-gradient(circle at 90% 15%, color-mix(in srgb, #e979d7 12%, transparent), transparent 32%);
+}

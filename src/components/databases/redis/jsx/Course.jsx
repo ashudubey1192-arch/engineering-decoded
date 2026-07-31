@@ -1,4 +1,11 @@
 import CoursePage from "../../../learning/CoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
 import "../css/Course.css";
-export default function DatabasesRedisCourse({ navigate }) { const module = getModule("databases"); return <div className="course-databases-redis"><CoursePage module={module} track={getTrack(module, "redis")} navigate={navigate} /></div>; }
+export default function DatabasesRedisCourse({ navigate }) {
+  const module = getModule("databases");
+  return (
+    <div className="course-databases-redis">
+      <CoursePage module={module} track={getTrack(module, "redis")} navigate={navigate} />
+    </div>
+  );
+}
