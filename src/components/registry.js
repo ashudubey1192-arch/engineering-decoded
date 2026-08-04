@@ -3,6 +3,17 @@ import { lazy } from "react";
 const moduleFiles = import.meta.glob(["./*/jsx/*.jsx", "!./brand/jsx/*.jsx"]);
 const courseFiles = import.meta.glob("./*/*/jsx/Course.jsx");
 const componentCache = new Map();
+const systemDesignTracks = new Set([
+  "system-design-fundamentals",
+  "high-level-design",
+  "low-level-design",
+]);
+
+function getCourseModuleDirectory(moduleId, trackSlug) {
+  return moduleId === "architecture" && systemDesignTracks.has(trackSlug)
+    ? "system-design"
+    : moduleId;
+}
 
 function getLazyComponent(path, loader) {
   if (!loader) return null;
@@ -21,10 +32,12 @@ export function preloadModuleComponent(moduleId) {
 }
 
 export function getCourseComponent(moduleId, trackSlug) {
-  const path = `./${moduleId}/${trackSlug}/jsx/Course.jsx`;
+  const directory = getCourseModuleDirectory(moduleId, trackSlug);
+  const path = `./${directory}/${trackSlug}/jsx/Course.jsx`;
   return getLazyComponent(path, courseFiles[path]);
 }
 
 export function preloadCourseComponent(moduleId, trackSlug) {
-  return courseFiles[`./${moduleId}/${trackSlug}/jsx/Course.jsx`]?.();
+  const directory = getCourseModuleDirectory(moduleId, trackSlug);
+  return courseFiles[`./${directory}/${trackSlug}/jsx/Course.jsx`]?.();
 }

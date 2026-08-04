@@ -15,6 +15,24 @@ const makeModule = (id, name, icon, accent, description, groups) => ({
 });
 
 export const modules = [
+  
+  makeModule(
+    "architecture",
+    "System Design and Architecture",
+    "SD",
+    "#f27d63",
+    "Reason about scale, reliability, boundaries, and trade-offs.",
+    [
+      {
+        name: "System design",
+        tracks: tracks("System Design Fundamentals, High Level Design, Low Level Design"),
+      },
+      {
+        name: "Architecture",
+        tracks: tracks("Microservices, Clean Architecture, Design Patterns, DDD"),
+      },
+    ],
+  ),
   makeModule(
     "frontend",
     "Frontend Engineering",
@@ -124,23 +142,6 @@ export const modules = [
     "#76a9ff",
     "Architect secure and scalable cloud services.",
     [{ name: "Platforms", tracks: tracks("AWS, Azure, Google Cloud, Serverless") }],
-  ),
-  makeModule(
-    "architecture",
-    "System Design and Architecture",
-    "AR",
-    "#f27d63",
-    "Reason about scale, reliability, boundaries, and trade-offs.",
-    [
-      {
-        name: "System design",
-        tracks: tracks("System Design, Low Level Design, High Level Design, Load Balancing"),
-      },
-      {
-        name: "Architecture",
-        tracks: tracks("Microservices, Clean Architecture, Design Patterns, DDD"),
-      },
-    ],
   ),
   makeModule(
     "ai",

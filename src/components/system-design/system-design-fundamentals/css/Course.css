@@ -1,0 +1,17 @@
+.fundamentalsCourse { width: min(980px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0 96px; }
+.fundamentalsCourse > header { padding: 32px 0; border-bottom: 1px solid var(--line); }
+.fundamentalsCourse > header button { border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+.fundamentalsCourse > header small { display: block; margin-top: 40px; color: var(--course-accent); font: 700 11px ui-monospace; letter-spacing: .12em; }
+.fundamentalsCourse h1 { margin: 10px 0; font-size: clamp(34px, 6vw, 64px); }
+.fundamentalsCourse header p { color: var(--muted); }
+.fundamentalsOutline { display: grid; gap: 14px; padding-top: 28px; }
+.fundamentalsOutline details { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.fundamentalsOutline summary { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 12px; padding: 20px; cursor: pointer; }
+.fundamentalsOutline summary > span { color: var(--course-accent); font: 700 12px ui-monospace; }
+.fundamentalsOutline summary small { color: var(--muted); }
+.fundamentalsOutline nav { border-top: 1px solid var(--line); }
+.fundamentalsOutline nav button { width: 100%; display: grid; grid-template-columns: 42px 1fr auto 24px; align-items: center; gap: 12px; padding: 15px 20px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; cursor: pointer; }
+.fundamentalsOutline nav button:hover { background: color-mix(in srgb, var(--course-accent) 8%, transparent); }
+.fundamentalsOutline nav button span, .fundamentalsOutline nav button small { color: var(--muted); }
+.fundamentalsOutline nav button i { color: var(--course-accent); }
+@media (max-width: 640px) { .fundamentalsOutline nav button { grid-template-columns: 32px 1fr 20px; } .fundamentalsOutline nav button small { display: none; } }
