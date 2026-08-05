@@ -12,7 +12,8 @@ export default function Header({ theme, onTheme, onSearch, navigate }) {
         <Logo />
       </button>
       <nav aria-label="Main navigation">
-        <button onClick={() => navigate("/")}>Learn</button>
+        <button onClick={() => navigate("/")}>Dashboard</button>
+        <button onClick={() => navigate("/courses", { scrollBehavior: "smooth" })}>Courses</button>
         <button onClick={() => navigate("/learn/interviews")}>Interview prep</button>
         <button onClick={() => navigate("/learn/roadmaps")}>Roadmaps</button>
         <button onClick={() => navigate("/learn/career")}>Career</button>
