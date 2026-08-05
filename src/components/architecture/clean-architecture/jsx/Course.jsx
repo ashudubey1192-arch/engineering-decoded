@@ -1,15 +1,15 @@
-import CoursePage from "../../../learning/CoursePage";
+import StructuredCoursePage from "../../../learning/StructuredCoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
+import { cleanArchitectureSections } from "../../../../data/cleanArchitecture";
 import "../css/Course.css";
 export default function ArchitectureCleanArchitectureCourse({ navigate }) {
   const module = getModule("architecture");
   return (
-    <div className="course-architecture-clean-architecture">
-      <CoursePage
-        module={module}
-        track={getTrack(module, "clean-architecture")}
-        navigate={navigate}
-      />
-    </div>
+    <StructuredCoursePage
+      module={module}
+      track={getTrack(module, "clean-architecture")}
+      sections={cleanArchitectureSections}
+      navigate={navigate}
+    />
   );
 }

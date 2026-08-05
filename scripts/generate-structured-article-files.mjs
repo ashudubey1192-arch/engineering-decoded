@@ -9,9 +9,54 @@ import { angularSections } from "../src/data/angular.js";
 import { springBootSections } from "../src/data/springBoot.js";
 import { microservicesSections } from "../src/data/microservices.js";
 import { apiDesignSections } from "../src/data/apiDesign.js";
+import { cleanCodeSections } from "../src/data/cleanCode.js";
+import { cleanArchitectureSections } from "../src/data/cleanArchitecture.js";
+import { designPatternsSections } from "../src/data/designPatterns.js";
+import { dddSections } from "../src/data/ddd.js";
+import {
+  cssSections, htmlSections, javascriptSections, materialUiSections, nextJsSections,
+  reduxSections, tailwindCssSections, typescriptSections, viteSections, vueSections,
+} from "../src/data/frontendCourses.js";
+import {
+  authenticationSections, djangoSections, expressJsSections, fastApiSections,
+  goSections, graphQlSections, nodeJsSections, oauthSections, pythonSections,
+  restApiSections,
+} from "../src/data/backendCourses.js";
 
 const root = resolve("src/components");
 const courses = [
+  { componentPath: "backend/python", name: "Python", sections: pythonSections },
+  { componentPath: "backend/node-js", name: "Node.js", sections: nodeJsSections },
+  { componentPath: "backend/go", name: "Go", sections: goSections },
+  { componentPath: "backend/express-js", name: "Express.js", sections: expressJsSections },
+  { componentPath: "backend/fastapi", name: "FastAPI", sections: fastApiSections },
+  { componentPath: "backend/django", name: "Django", sections: djangoSections },
+  { componentPath: "backend/rest-api", name: "REST API", sections: restApiSections },
+  { componentPath: "backend/graphql", name: "GraphQL", sections: graphQlSections },
+  { componentPath: "backend/authentication", name: "Authentication", sections: authenticationSections },
+  { componentPath: "backend/oauth", name: "OAuth", sections: oauthSections },
+  { componentPath: "frontend/html", name: "HTML", sections: htmlSections },
+  { componentPath: "frontend/css", name: "CSS", sections: cssSections },
+  { componentPath: "frontend/javascript", name: "JavaScript", sections: javascriptSections },
+  { componentPath: "frontend/typescript", name: "TypeScript", sections: typescriptSections },
+  { componentPath: "frontend/vue", name: "Vue", sections: vueSections },
+  { componentPath: "frontend/next-js", name: "Next.js", sections: nextJsSections },
+  { componentPath: "frontend/tailwind-css", name: "Tailwind CSS", sections: tailwindCssSections },
+  { componentPath: "frontend/material-ui", name: "Material UI", sections: materialUiSections },
+  { componentPath: "frontend/redux", name: "Redux", sections: reduxSections },
+  { componentPath: "frontend/vite", name: "Vite", sections: viteSections },
+  {
+    componentPath: "architecture/design-patterns",
+    name: "Design Patterns",
+    sections: designPatternsSections,
+  },
+  { componentPath: "architecture/ddd", name: "Domain-Driven Design", sections: dddSections },
+  {
+    componentPath: "architecture/clean-architecture",
+    name: "Clean Architecture",
+    sections: cleanArchitectureSections,
+  },
+  { componentPath: "architecture/clean-code", name: "Clean Code", sections: cleanCodeSections },
   { componentPath: "architecture/api-design", name: "API Design", sections: apiDesignSections },
   {
     componentPath: "architecture/microservices",

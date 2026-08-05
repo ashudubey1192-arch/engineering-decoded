@@ -29,7 +29,9 @@ export const modules = [
       },
       {
         name: "Architecture",
-        tracks: tracks("Microservices, API Design, Clean Architecture, Design Patterns, DDD"),
+        tracks: tracks(
+          "Microservices, API Design, Clean Code, Clean Architecture, Design Patterns, DDD",
+        ),
       },
     ],
   ),
