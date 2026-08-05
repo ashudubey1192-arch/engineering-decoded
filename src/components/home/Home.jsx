@@ -1,8 +1,34 @@
+import { useEffect, useState } from "react";
 import { preloadModuleComponent } from "../registry";
 import { modules } from "../../data/catalog";
 import "./Home.css";
 
 export default function Home({ navigate }) {
+  const [openingModule, setOpeningModule] = useState(null);
+
+  useEffect(() => {
+    const preloadModules = () => {
+      modules.forEach((module) => preloadModuleComponent(module.id));
+    };
+    const idleId = window.requestIdleCallback?.(preloadModules, { timeout: 1500 });
+    const timerId = idleId === undefined ? window.setTimeout(preloadModules, 500) : null;
+    return () => {
+      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
+      if (timerId !== null) window.clearTimeout(timerId);
+    };
+  }, []);
+
+  const openModule = async (moduleId) => {
+    if (openingModule) return;
+    setOpeningModule(moduleId);
+    try {
+      await preloadModuleComponent(moduleId);
+      navigate(`/learn/${moduleId}`, { scrollBehavior: "smooth" });
+    } finally {
+      setOpeningModule(null);
+    }
+  };
+
   return (
     <main className="home">
       <section className="homeHero">
@@ -39,9 +65,12 @@ export default function Home({ navigate }) {
             <button
               className="moduleTile"
               key={module.id}
-              onMouseEnter={() => preloadModuleComponent(module.id)}
+              aria-busy={openingModule === module.id}
+              disabled={Boolean(openingModule)}
+              onPointerEnter={() => preloadModuleComponent(module.id)}
+              onPointerDown={() => preloadModuleComponent(module.id)}
               onFocus={() => preloadModuleComponent(module.id)}
-              onClick={() => navigate(`/learn/${module.id}`)}
+              onClick={() => openModule(module.id)}
               style={{ "--tile-accent": module.accent }}
             >
               <span className="tileVisual">
@@ -57,7 +86,7 @@ export default function Home({ navigate }) {
                 </small>
                 <strong>{module.name}</strong>
                 <p>{module.description}</p>
-                <i>OPEN MODULE ↗</i>
+                <i>{openingModule === module.id ? "OPENING…" : "OPEN MODULE ↗"}</i>
               </span>
             </button>
           ))}

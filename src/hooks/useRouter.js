@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
 export default function useRouter() {
   const [path, setPath] = useState(window.location.pathname);
   const [isNavigating, startNavigation] = useTransition();
+  const nextScrollBehavior = useRef("auto");
 
   useEffect(() => {
     const onPopState = () => {
@@ -13,11 +14,14 @@ export default function useRouter() {
   }, []);
 
   useEffect(() => {
-    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "auto" }));
+    const behavior = nextScrollBehavior.current;
+    nextScrollBehavior.current = "auto";
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior }));
   }, [path]);
 
-  const navigate = useCallback((next) => {
+  const navigate = useCallback((next, options = {}) => {
     if (next === window.location.pathname) return;
+    nextScrollBehavior.current = options.scrollBehavior || "auto";
     window.history.pushState({}, "", next);
     startNavigation(() => setPath(next));
   }, []);
