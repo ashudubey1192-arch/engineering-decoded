@@ -6,6 +6,10 @@ import { highLevelDesignArticles, highLevelDesignSections } from "./highLevelDes
 import { lowLevelDesignArticles, lowLevelDesignSections } from "./lowLevelDesign";
 import { javaArticles, javaSections } from "./java";
 import { reactArticles, reactSections } from "./react";
+import { angularArticles, angularSections } from "./angular";
+import { springBootArticles, springBootSections } from "./springBoot";
+import { microservicesArticles, microservicesSections } from "./microservices";
+import { apiDesignArticles, apiDesignSections } from "./apiDesign";
 
 const courses = {
   "system-design-fundamentals": {
@@ -25,6 +29,26 @@ const courses = {
   },
   java: { sections: javaSections, articles: javaArticles, componentPath: "backend/java" },
   react: { sections: reactSections, articles: reactArticles, componentPath: "frontend/react" },
+  angular: {
+    sections: angularSections,
+    articles: angularArticles,
+    componentPath: "frontend/angular",
+  },
+  "spring-boot": {
+    sections: springBootSections,
+    articles: springBootArticles,
+    componentPath: "backend/spring-boot",
+  },
+  microservices: {
+    sections: microservicesSections,
+    articles: microservicesArticles,
+    componentPath: "architecture/microservices",
+  },
+  "api-design": {
+    sections: apiDesignSections,
+    articles: apiDesignArticles,
+    componentPath: "architecture/api-design",
+  },
 };
 
 export const getStructuredCourse = (trackSlug) => courses[trackSlug] || null;

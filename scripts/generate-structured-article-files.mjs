@@ -5,9 +5,21 @@ import { javaSections } from "../src/data/java.js";
 import { systemDesignFundamentalsSections } from "../src/data/systemDesignFundamentals.js";
 import { highLevelDesignSections } from "../src/data/highLevelDesign.js";
 import { lowLevelDesignSections } from "../src/data/lowLevelDesign.js";
+import { angularSections } from "../src/data/angular.js";
+import { springBootSections } from "../src/data/springBoot.js";
+import { microservicesSections } from "../src/data/microservices.js";
+import { apiDesignSections } from "../src/data/apiDesign.js";
 
 const root = resolve("src/components");
 const courses = [
+  { componentPath: "architecture/api-design", name: "API Design", sections: apiDesignSections },
+  {
+    componentPath: "architecture/microservices",
+    name: "Microservices",
+    sections: microservicesSections,
+  },
+  { componentPath: "backend/spring-boot", name: "Spring Boot", sections: springBootSections },
+  { componentPath: "frontend/angular", name: "Angular", sections: angularSections },
   { componentPath: "frontend/react", name: "React", sections: reactSections },
   { componentPath: "backend/java", name: "Java", sections: javaSections },
   {
@@ -26,6 +38,7 @@ const courses = [
     sections: lowLevelDesignSections,
   },
 ];
+const requestedCourses = new Set(process.argv.slice(2));
 
 const componentName = (slug) =>
   `${slug
@@ -35,6 +48,7 @@ const componentName = (slug) =>
     .join("")}Article`;
 
 for (const course of courses) {
+  if (requestedCourses.size && !requestedCourses.has(course.componentPath)) continue;
   for (const section of course.sections) {
     const sectionRoot = resolve(root, course.componentPath, section.slug);
     await rm(resolve(sectionRoot, "jsx/Article.jsx"), { force: true });
