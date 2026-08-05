@@ -1,7 +1,11 @@
 import { lazy } from "react";
 import { getStructuredCourse } from "../../data/structuredCourses";
 
-const articleFiles = import.meta.glob(["../*/*/jsx/*.jsx", "../*/*/*/jsx/*.jsx"]);
+const articleFiles = import.meta.glob([
+  "../*/*/jsx/*.jsx",
+  "../*/*/*/jsx/*.jsx",
+  "../*/*/*/articles/*/jsx/*.jsx",
+]);
 const slugByFile = {
   Introduction: "introduction",
   CoreConcepts: "core-concepts",
@@ -22,7 +26,7 @@ function getArticlePath(moduleId, trackSlug, articleSlug) {
   if (structuredCourse) {
     const article = structuredCourse.articles.find((item) => item.slug === articleSlug);
     return article
-      ? `../${structuredCourse.componentPath}/${article.sectionSlug}/jsx/Article.jsx`
+      ? `../${structuredCourse.componentPath}/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`
       : null;
   }
   const file = Object.entries(slugByFile).find(([, slug]) => slug === articleSlug)?.[0];
