@@ -22,9 +22,11 @@ import {
   goSections, graphQlSections, nodeJsSections, oauthSections, pythonSections,
   restApiSections,
 } from "../src/data/backendCourses.js";
+import { databaseCourses } from "../src/data/databaseCourses.js";
 
 const root = resolve("src/components");
 const courses = [
+  ...Object.values(databaseCourses),
   { componentPath: "backend/python", name: "Python", sections: pythonSections },
   { componentPath: "backend/node-js", name: "Node.js", sections: nodeJsSections },
   { componentPath: "backend/go", name: "Go", sections: goSections },

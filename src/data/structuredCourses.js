@@ -31,8 +31,10 @@ import {
   oauthArticles, oauthSections, pythonArticles, pythonSections, restApiArticles,
   restApiSections,
 } from "./backendCourses";
+import { databaseCourses } from "./databaseCourses";
 
 const courses = {
+  ...databaseCourses,
   "system-design-fundamentals": {
     sections: systemDesignFundamentalsSections,
     articles: systemDesignFundamentalsArticles,

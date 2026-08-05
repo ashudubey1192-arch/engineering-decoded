@@ -1,18 +1,21 @@
 import { useEffect } from "react";
 import { articleTemplates } from "../../data/catalog";
 import { preloadArticleComponent } from "../articles/registry";
+import { getStructuredCourseSections } from "../../data/structuredCourses";
+import StructuredCoursePage from "./StructuredCoursePage";
 import "./CoursePage.css";
 
 export default function CoursePage({ module, track, navigate }) {
+  const structuredSections = track ? getStructuredCourseSections(track.slug) : null;
   useEffect(() => {
-    if (!module || !track) return undefined;
+    if (!module || !track || structuredSections) return undefined;
     const timer = window.setTimeout(() => {
       articleTemplates.forEach((article) =>
         preloadArticleComponent(module.id, track.slug, article.slug),
       );
     }, 180);
     return () => window.clearTimeout(timer);
-  }, [module, track]);
+  }, [module, track, structuredSections]);
 
   if (!module || !track)
     return (
@@ -21,6 +24,17 @@ export default function CoursePage({ module, track, navigate }) {
         <button onClick={() => navigate("/")}>Back home</button>
       </main>
     );
+
+  if (structuredSections) {
+    return (
+      <StructuredCoursePage
+        module={module}
+        track={track}
+        sections={structuredSections}
+        navigate={navigate}
+      />
+    );
+  }
 
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);
