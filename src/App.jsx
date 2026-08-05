@@ -108,9 +108,7 @@ export default function App() {
           </main>
         }
       >
-        <div className="routeView" key={path}>
-          {page}
-        </div>
+        <div className="routeView">{page}</div>
       </Suspense>
       {searchOpen && (
         <div className="overlay" onMouseDown={closeSearch}>

@@ -1,15 +1,15 @@
-import CoursePage from "../../../learning/CoursePage";
+import StructuredCoursePage from "../../../learning/StructuredCoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
+import { lowLevelDesignSections } from "../../../../data/lowLevelDesign";
 import "../css/Course.css";
-export default function ArchitectureLowLevelDesignCourse({ navigate }) {
+export default function LowLevelDesignCourse({ navigate }) {
   const module = getModule("architecture");
   return (
-    <div className="course-architecture-low-level-design">
-      <CoursePage
-        module={module}
-        track={getTrack(module, "low-level-design")}
-        navigate={navigate}
-      />
-    </div>
+    <StructuredCoursePage
+      module={module}
+      track={getTrack(module, "low-level-design")}
+      sections={lowLevelDesignSections}
+      navigate={navigate}
+    />
   );
 }

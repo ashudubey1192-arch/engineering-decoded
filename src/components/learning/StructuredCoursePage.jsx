@@ -1,29 +1,24 @@
 import { useState } from "react";
-import { getModule, getTrack } from "../../../../data/catalog";
-import { systemDesignFundamentalsSections } from "../../../../data/systemDesignFundamentals";
-import { preloadArticleComponent } from "../../../articles/registry";
-import "../css/Course.css";
-export default function SystemDesignFundamentalsCourse({ navigate }) {
-  const module = getModule("architecture");
-  const track = getTrack(module, "system-design-fundamentals");
-  const lessonCount = systemDesignFundamentalsSections.reduce(
-    (total, item) => total + item.lessons.length,
-    0,
-  );
+import { preloadArticleComponent } from "../articles/registry";
+import "./StructuredCoursePage.css";
+
+export default function StructuredCoursePage({ module, track, sections, navigate }) {
+  const storageKey = `${track.slug}Section`;
+  const lessonCount = sections.reduce((total, item) => total + item.lessons.length, 0);
   const [openSection, setOpenSection] = useState(
-    () => window.sessionStorage.getItem("systemDesignFundamentalsSection") || "welcome",
+    () => window.sessionStorage.getItem(storageKey) || sections[0]?.slug,
   );
 
   return (
-    <main className="fundamentalsCourse" style={{ "--course-accent": module.accent }}>
+    <main className="structuredCourse" style={{ "--course-accent": module.accent }}>
       <header>
         <button onClick={() => navigate(`/learn/${module.id}`)}>← {module.name}</button>
         <small>SYSTEM DESIGN / COURSE</small>
         <h1>{track.name}</h1>
-        <p>{lessonCount} focused lessons covering the foundations of scalable systems.</p>
+        <p>{lessonCount} focused lessons arranged in an ordered learning path.</p>
       </header>
-      <section className="fundamentalsOutline">
-        {systemDesignFundamentalsSections.map((group, groupIndex) => (
+      <section className="structuredOutline">
+        {sections.map((group, groupIndex) => (
           <details
             id={group.slug}
             key={group.slug}
@@ -31,7 +26,7 @@ export default function SystemDesignFundamentalsCourse({ navigate }) {
             onToggle={(event) => {
               if (event.currentTarget.open) {
                 setOpenSection(group.slug);
-                window.sessionStorage.setItem("systemDesignFundamentalsSection", group.slug);
+                window.sessionStorage.setItem(storageKey, group.slug);
               }
             }}
           >
@@ -44,13 +39,11 @@ export default function SystemDesignFundamentalsCourse({ navigate }) {
               {group.lessons.map((lesson, lessonIndex) => (
                 <button
                   key={lesson.slug}
-                  onMouseEnter={() =>
-                    preloadArticleComponent(module.id, track.slug, lesson.slug)
-                  }
+                  onMouseEnter={() => preloadArticleComponent(module.id, track.slug, lesson.slug)}
                   onFocus={() => preloadArticleComponent(module.id, track.slug, lesson.slug)}
                   onPointerDown={() => preloadArticleComponent(module.id, track.slug, lesson.slug)}
                   onClick={() => {
-                    window.sessionStorage.setItem("systemDesignFundamentalsSection", group.slug);
+                    window.sessionStorage.setItem(storageKey, group.slug);
                     navigate(`/learn/${module.id}/${track.slug}/${lesson.slug}`);
                   }}
                 >

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { articleTemplates } from "../../data/catalog";
 import {
-  getArticlesForTrack,
-  systemDesignFundamentalsSections,
-} from "../../data/systemDesignFundamentals";
+  getStructuredCourseArticles,
+  getStructuredCourseSections,
+} from "../../data/structuredCourses";
 import { getArticleComponent, preloadArticleComponent } from "../articles/registry";
 import "./ArticlePage.css";
 
@@ -50,13 +50,14 @@ function GenericArticle({ track }) {
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const [progress, setProgress] = useState(0);
   const [expandedSections, setExpandedSections] = useState([]);
-  const articles = getArticlesForTrack(track?.slug) || articleTemplates;
+  const structuredSections = getStructuredCourseSections(track?.slug);
+  const articles = getStructuredCourseArticles(track?.slug) || articleTemplates;
   const article = articles.find((item) => item.slug === articleSlug) || articles[0];
   const index = articles.findIndex((item) => item.slug === article.slug);
   const next = articles[index + 1];
-  const isSystemDesignFundamentals = track?.slug === "system-design-fundamentals";
-  const currentSection = isSystemDesignFundamentals
-    ? systemDesignFundamentalsSections.find((item) => item.slug === article.sectionSlug)
+  const isStructuredCourse = Boolean(structuredSections);
+  const currentSection = isStructuredCourse
+    ? structuredSections.find((item) => item.slug === article.sectionSlug)
     : null;
 
   useEffect(() => {
@@ -108,9 +109,9 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             <b style={{ width: `${((index + 1) / articles.length) * 100}%` }} />
           </i>
         </div>
-        {isSystemDesignFundamentals ? (
+        {isStructuredCourse ? (
           <nav className="groupedChapterNav">
-            {systemDesignFundamentalsSections.map((section, sectionIndex) => {
+            {structuredSections.map((section, sectionIndex) => {
               const isCurrentSection = section.slug === currentSection?.slug;
               const isExpanded = isCurrentSection || expandedSections.includes(section.slug);
               return (
@@ -139,6 +140,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
                           key={item.slug}
                           onMouseEnter={() => preloadArticle(item.slug)}
                           onFocus={() => preloadArticle(item.slug)}
+                          onPointerDown={() => preloadArticle(item.slug)}
                           onClick={() => openArticle(item.slug)}
                         >
                           <span>{String(lessonIndex + 1).padStart(2, "0")}</span>
@@ -159,6 +161,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
                 key={item.slug}
                 onMouseEnter={() => preloadArticle(item.slug)}
                 onFocus={() => preloadArticle(item.slug)}
+                onPointerDown={() => preloadArticle(item.slug)}
                 onClick={() => openArticle(item.slug)}
               >
                 <span>{itemIndex < index ? "✓" : String(itemIndex + 1).padStart(2, "0")}</span>
@@ -196,6 +199,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             className="nextArticle"
             onMouseEnter={() => preloadArticle(next.slug)}
             onFocus={() => preloadArticle(next.slug)}
+            onPointerDown={() => preloadArticle(next.slug)}
             onClick={() => openArticle(next.slug)}
           >
             <span>NEXT ARTICLE</span>

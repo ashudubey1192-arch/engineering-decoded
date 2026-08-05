@@ -13,7 +13,7 @@ export default function useRouter() {
   }, []);
 
   useEffect(() => {
-    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "auto" }));
   }, [path]);
 
   const navigate = useCallback((next) => {
