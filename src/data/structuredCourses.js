@@ -4,14 +4,25 @@ import {
 } from "./systemDesignFundamentals";
 import { highLevelDesignArticles, highLevelDesignSections } from "./highLevelDesign";
 import { lowLevelDesignArticles, lowLevelDesignSections } from "./lowLevelDesign";
+import { javaArticles, javaSections } from "./java";
 
 const courses = {
   "system-design-fundamentals": {
     sections: systemDesignFundamentalsSections,
     articles: systemDesignFundamentalsArticles,
+    componentPath: "system-design/system-design-fundamentals",
   },
-  "high-level-design": { sections: highLevelDesignSections, articles: highLevelDesignArticles },
-  "low-level-design": { sections: lowLevelDesignSections, articles: lowLevelDesignArticles },
+  "high-level-design": {
+    sections: highLevelDesignSections,
+    articles: highLevelDesignArticles,
+    componentPath: "system-design/high-level-design",
+  },
+  "low-level-design": {
+    sections: lowLevelDesignSections,
+    articles: lowLevelDesignArticles,
+    componentPath: "system-design/low-level-design",
+  },
+  java: { sections: javaSections, articles: javaArticles, componentPath: "backend/java" },
 };
 
 export const getStructuredCourse = (trackSlug) => courses[trackSlug] || null;

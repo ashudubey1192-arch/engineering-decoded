@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { getStructuredCourseArticles } from "../../data/structuredCourses";
+import { getStructuredCourse } from "../../data/structuredCourses";
 
 const articleFiles = import.meta.glob(["../*/*/jsx/*.jsx", "../*/*/*/jsx/*.jsx"]);
 const slugByFile = {
@@ -18,11 +18,11 @@ const systemDesignTracks = new Set([
 ]);
 
 function getArticlePath(moduleId, trackSlug, articleSlug) {
-  const structuredArticles = getStructuredCourseArticles(trackSlug);
-  if (structuredArticles) {
-    const article = structuredArticles.find((item) => item.slug === articleSlug);
+  const structuredCourse = getStructuredCourse(trackSlug);
+  if (structuredCourse) {
+    const article = structuredCourse.articles.find((item) => item.slug === articleSlug);
     return article
-      ? `../system-design/${trackSlug}/${article.sectionSlug}/jsx/Article.jsx`
+      ? `../${structuredCourse.componentPath}/${article.sectionSlug}/jsx/Article.jsx`
       : null;
   }
   const file = Object.entries(slugByFile).find(([, slug]) => slug === articleSlug)?.[0];
