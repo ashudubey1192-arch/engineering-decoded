@@ -68,6 +68,16 @@
   background: var(--surface);
 }
 
+.accountButton {
+  height: 37px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 11px;
+}
+
 @media (max-width: 760px) {
   .siteHeader {
     padding: 0 14px;

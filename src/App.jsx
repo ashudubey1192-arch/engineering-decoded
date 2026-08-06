@@ -5,6 +5,10 @@ import ModulePage from "./components/learning/ModulePage";
 import CoursePage from "./components/learning/CoursePage";
 import ArticlePage from "./components/learning/ArticlePage";
 import Courses from "./components/courses/Courses";
+import AuthPage from "./components/auth/AuthPage";
+import AdminPage from "./components/admin/AdminPage";
+import RecoveryPage from "./components/auth/RecoveryPage";
+import AccountPage from "./components/auth/AccountPage";
 import { getCourseComponent, getModuleComponent } from "./components/registry";
 import useRouter from "./hooks/useRouter";
 import { getModule, getTrack, modules } from "./data/catalog";
@@ -61,6 +65,14 @@ export default function App() {
     page = <Home navigate={navigate} />;
   } else if (parts[0] === "courses") {
     page = <Courses navigate={navigate} />;
+  } else if (parts[0] === "login") {
+    page = <AuthPage navigate={navigate} />;
+  } else if (parts[0] === "admin") {
+    page = <AdminPage navigate={navigate} />;
+  } else if (parts[0] === "forgot-password") {
+    page = <RecoveryPage navigate={navigate} />;
+  } else if (parts[0] === "account") {
+    page = <AccountPage navigate={navigate} />;
   } else if (parts[0] === "learn" && parts.length === 2) {
     const module = getModule(parts[1]);
     const ModuleComponent = getModuleComponent(parts[1]);

@@ -6,6 +6,7 @@ import {
 } from "../../data/structuredCourses";
 import { getArticleComponent, preloadArticleComponent } from "../articles/registry";
 import "./ArticlePage.css";
+import { saveArticleProgress } from "../../services/api";
 
 function GenericArticle({ track }) {
   return (
@@ -91,6 +92,16 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);
+  const persistProgress = (completed = false) =>
+    saveArticleProgress({
+      moduleSlug: module.id,
+      courseSlug: track.slug,
+      sectionSlug: article.sectionSlug || "course",
+      articleSlug: article.slug,
+      progressPercent: completed ? 100 : Math.max(1, Math.round(progress)),
+      lastPosition: Math.max(0, Math.round(window.scrollY)),
+      completed,
+    }).catch(() => null);
 
   return (
     <main className="reader" style={{ "--course-accent": module.accent }}>
@@ -190,7 +201,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <div className="articleMeta">
             <span>▷ {article.time} read</span>
             <span>◆ Updated Aug 2026</span>
-            <button>☆ SAVE</button>
+            <button onClick={() => persistProgress(true)}>✓ MARK COMPLETE</button>
           </div>
         </header>
         {DedicatedArticle ? <DedicatedArticle article={article} /> : <GenericArticle track={track} />}
@@ -200,7 +211,10 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             onMouseEnter={() => preloadArticle(next.slug)}
             onFocus={() => preloadArticle(next.slug)}
             onPointerDown={() => preloadArticle(next.slug)}
-            onClick={() => openArticle(next.slug)}
+            onClick={() => {
+              persistProgress(true);
+              openArticle(next.slug);
+            }}
           >
             <span>NEXT ARTICLE</span>
             <b>{next.title}</b>
