@@ -22,7 +22,7 @@ const systemDesignTracks = new Set([
 ]);
 
 function getArticlePath(moduleId, trackSlug, articleSlug) {
-  const structuredCourse = getStructuredCourse(trackSlug);
+  const structuredCourse = getStructuredCourse(moduleId, trackSlug);
   if (structuredCourse) {
     const article = structuredCourse.articles.find((item) => item.slug === articleSlug);
     return article

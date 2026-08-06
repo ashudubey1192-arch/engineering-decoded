@@ -50,8 +50,8 @@ function GenericArticle({ track }) {
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const [progress, setProgress] = useState(0);
   const [expandedSections, setExpandedSections] = useState([]);
-  const structuredSections = getStructuredCourseSections(track?.slug);
-  const articles = getStructuredCourseArticles(track?.slug) || articleTemplates;
+  const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
+  const articles = getStructuredCourseArticles(module?.id, track?.slug) || articleTemplates;
   const article = articles.find((item) => item.slug === articleSlug) || articles[0];
   const index = articles.findIndex((item) => item.slug === article.slug);
   const next = articles[index + 1];

@@ -6,7 +6,7 @@ import StructuredCoursePage from "./StructuredCoursePage";
 import "./CoursePage.css";
 
 export default function CoursePage({ module, track, navigate }) {
-  const structuredSections = track ? getStructuredCourseSections(track.slug) : null;
+  const structuredSections = track ? getStructuredCourseSections(module?.id, track.slug) : null;
   useEffect(() => {
     if (!module || !track || structuredSections) return undefined;
     const timer = window.setTimeout(() => {

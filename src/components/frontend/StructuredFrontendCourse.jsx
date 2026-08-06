@@ -8,7 +8,7 @@ export default function StructuredFrontendCourse({ trackSlug, navigate }) {
     <StructuredCoursePage
       module={module}
       track={getTrack(module, trackSlug)}
-      sections={getStructuredCourseSections(trackSlug)}
+      sections={getStructuredCourseSections("frontend", trackSlug)}
       navigate={navigate}
     />
   );

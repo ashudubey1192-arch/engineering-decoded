@@ -23,9 +23,13 @@ import {
   restApiSections,
 } from "../src/data/backendCourses.js";
 import { databaseCourses } from "../src/data/databaseCourses.js";
+import { messagingCourses } from "../src/data/messagingCourses.js";
+import { remainingCourses } from "../src/data/remainingCourses.js";
 
 const root = resolve("src/components");
 const courses = [
+  ...Object.values(remainingCourses),
+  ...Object.values(messagingCourses),
   ...Object.values(databaseCourses),
   { componentPath: "backend/python", name: "Python", sections: pythonSections },
   { componentPath: "backend/node-js", name: "Node.js", sections: nodeJsSections },

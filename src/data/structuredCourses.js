@@ -32,8 +32,11 @@ import {
   restApiSections,
 } from "./backendCourses";
 import { databaseCourses } from "./databaseCourses";
+import { messagingCourses } from "./messagingCourses";
+import { remainingCourses } from "./remainingCourses";
 
 const courses = {
+  ...messagingCourses,
   ...databaseCourses,
   "system-design-fundamentals": {
     sections: systemDesignFundamentalsSections,
@@ -110,6 +113,11 @@ const courses = {
   ddd: { sections: dddSections, articles: dddArticles, componentPath: "architecture/ddd" },
 };
 
-export const getStructuredCourse = (trackSlug) => courses[trackSlug] || null;
-export const getStructuredCourseSections = (trackSlug) => getStructuredCourse(trackSlug)?.sections;
-export const getStructuredCourseArticles = (trackSlug) => getStructuredCourse(trackSlug)?.articles;
+export const getStructuredCourse = (moduleId, trackSlug) => {
+  if (trackSlug) return remainingCourses[`${moduleId}/${trackSlug}`] || courses[trackSlug] || null;
+  return courses[moduleId] || null;
+};
+export const getStructuredCourseSections = (moduleId, trackSlug) =>
+  getStructuredCourse(moduleId, trackSlug)?.sections;
+export const getStructuredCourseArticles = (moduleId, trackSlug) =>
+  getStructuredCourse(moduleId, trackSlug)?.articles;
