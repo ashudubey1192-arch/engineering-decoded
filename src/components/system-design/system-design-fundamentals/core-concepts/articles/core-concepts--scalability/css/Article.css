@@ -5,3 +5,102 @@
 .dedicatedStructuredArticle section {
   margin-bottom: 36px;
 }
+
+/* Everyday analogy / notice boxes */
+.scalabilityArticle .analogyBox {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border: 1px solid color-mix(in srgb, var(--course-accent) 45%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--course-accent) 6%, var(--surface));
+}
+.scalabilityArticle .analogyBox small {
+  font: 8px ui-monospace;
+  letter-spacing: 0.12em;
+  color: var(--course-accent);
+}
+.scalabilityArticle .analogyBox p {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+/* Definition grid (vertical vs horizontal) */
+.scalabilityArticle .defGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.scalabilityArticle .defGrid > div {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.scalabilityArticle .defGrid b {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--text);
+}
+.scalabilityArticle .defGrid p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Inline SVG figures */
+.scalabilityArticle .scaleFig {
+  margin: 26px 0 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.scalabilityArticle .scaleFig svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.scalabilityArticle .scaleFig .box {
+  fill: var(--surface-2);
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+.scalabilityArticle .scaleFig .boxAccent {
+  fill: color-mix(in srgb, var(--course-accent) 16%, var(--surface));
+  stroke: var(--course-accent);
+  stroke-width: 1.5;
+}
+.scalabilityArticle .scaleFig .boxText {
+  fill: var(--text);
+  font: 12px ui-sans-serif, system-ui, sans-serif;
+  text-anchor: middle;
+}
+.scalabilityArticle .scaleFig .figLabel {
+  fill: var(--course-accent);
+  font: 700 10px ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+}
+.scalabilityArticle .scaleFig .figHint {
+  fill: var(--muted);
+  font: 10px ui-monospace, monospace;
+  text-anchor: middle;
+}
+.scalabilityArticle .scaleFig .divider {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.scalabilityArticle .scaleFig .flow {
+  stroke: var(--course-accent);
+  stroke-width: 1.75;
+}
+
+@media (max-width: 760px) {
+  .scalabilityArticle .defGrid {
+    grid-template-columns: 1fr;
+  }
+}
