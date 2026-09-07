@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: engineering_decoded
+      POSTGRES_USER: engineering
+      POSTGRES_PASSWORD: engineering
+    ports:
+      - "5432:5432"
+    volumes:
+      - engineering_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U engineering -d engineering_decoded"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/engineering_decoded
+      DATABASE_USERNAME: engineering
+      DATABASE_PASSWORD: engineering
+      JWT_SECRET: ${JWT_SECRET:-local-development-secret-change-before-production-1234}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@engineeringdecoded.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChangeMe123!}
+      CORS_ORIGINS: http://localhost:5173
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      EXPOSE_DEVELOPMENT_TOKENS: ${EXPOSE_DEVELOPMENT_TOKENS:-true}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  engineering_postgres:

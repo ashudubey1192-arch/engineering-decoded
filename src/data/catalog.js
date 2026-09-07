@@ -15,6 +15,26 @@ const makeModule = (id, name, icon, accent, description, groups) => ({
 });
 
 export const modules = [
+  
+  makeModule(
+    "architecture",
+    "System Design and Architecture",
+    "SD",
+    "#f27d63",
+    "Reason about scale, reliability, boundaries, and trade-offs.",
+    [
+      {
+        name: "System design",
+        tracks: tracks("System Design Fundamentals, High Level Design, Low Level Design"),
+      },
+      {
+        name: "Architecture",
+        tracks: tracks(
+          "Microservices, API Design, Clean Code, Clean Architecture, Design Patterns, DDD",
+        ),
+      },
+    ],
+  ),
   makeModule(
     "architecture",
     "System Design and Architecture",

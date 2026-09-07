@@ -1,11 +1,15 @@
-import CoursePage from "../../../learning/CoursePage";
+import StructuredCoursePage from "../../../learning/StructuredCoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
+import { javaSections } from "../../../../data/java";
 import "../css/Course.css";
 export default function JavaCourse({ navigate }) {
   const module = getModule("backend");
   return (
-    <div className="javaCourse">
-      <CoursePage module={module} track={getTrack(module, "java")} navigate={navigate} />
-    </div>
+    <StructuredCoursePage
+      module={module}
+      track={getTrack(module, "java")}
+      sections={javaSections}
+      navigate={navigate}
+    />
   );
 }

@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { articleTemplates } from "../../data/catalog";
+import {
+  getStructuredCourseArticles,
+  getStructuredCourseSections,
+} from "../../data/structuredCourses";
 import { getArticleComponent, preloadArticleComponent } from "../articles/registry";
 import "./ArticlePage.css";
+import { saveArticleProgress } from "../../services/api";
 
 function GenericArticle({ track }) {
   return (
@@ -45,9 +50,16 @@ function GenericArticle({ track }) {
 
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const [progress, setProgress] = useState(0);
-  const article = articleTemplates.find((item) => item.slug === articleSlug) || articleTemplates[0];
-  const index = articleTemplates.findIndex((item) => item.slug === article.slug);
-  const next = articleTemplates[index + 1];
+  const [expandedSections, setExpandedSections] = useState([]);
+  const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
+  const articles = getStructuredCourseArticles(module?.id, track?.slug) || articleTemplates;
+  const article = articles.find((item) => item.slug === articleSlug) || articles[0];
+  const index = articles.findIndex((item) => item.slug === article.slug);
+  const next = articles[index + 1];
+  const isStructuredCourse = Boolean(structuredSections);
+  const currentSection = isStructuredCourse
+    ? structuredSections.find((item) => item.slug === article.sectionSlug)
+    : null;
 
   useEffect(() => {
     const updateProgress = () => {
@@ -77,8 +89,19 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
     );
 
   const DedicatedArticle = getArticleComponent(module.id, track.slug, article.slug);
+  const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);
+  const persistProgress = (completed = false) =>
+    saveArticleProgress({
+      moduleSlug: module.id,
+      courseSlug: track.slug,
+      sectionSlug: article.sectionSlug || "course",
+      articleSlug: article.slug,
+      progressPercent: completed ? 100 : Math.max(1, Math.round(progress)),
+      lastPosition: Math.max(0, Math.round(window.scrollY)),
+      completed,
+    }).catch(() => null);
 
   return (
     <main className="reader" style={{ "--course-accent": module.accent }}>
@@ -91,26 +114,73 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <small>{module.name}</small>
           <h2>{track.name}</h2>
           <span>
-            {index + 1} / {articleTemplates.length} ARTICLES
+            {index + 1} / {articles.length} ARTICLES
           </span>
           <i>
-            <b style={{ width: `${((index + 1) / articleTemplates.length) * 100}%` }} />
+            <b style={{ width: `${((index + 1) / articles.length) * 100}%` }} />
           </i>
         </div>
-        <nav>
-          {articleTemplates.map((item, itemIndex) => (
-            <button
-              className={item.slug === article.slug ? "active" : ""}
-              key={item.slug}
-              onMouseEnter={() => preloadArticle(item.slug)}
-              onFocus={() => preloadArticle(item.slug)}
-              onClick={() => openArticle(item.slug)}
-            >
-              <span>{itemIndex < index ? "✓" : String(itemIndex + 1).padStart(2, "0")}</span>
-              <b>{item.title}</b>
-            </button>
-          ))}
-        </nav>
+        {isStructuredCourse ? (
+          <nav className="groupedChapterNav">
+            {structuredSections.map((section, sectionIndex) => {
+              const isCurrentSection = section.slug === currentSection?.slug;
+              const isExpanded = isCurrentSection || expandedSections.includes(section.slug);
+              return (
+                <section className={isExpanded ? "open" : ""} key={section.slug}>
+                  <button
+                    className="sectionLink"
+                    onClick={() => {
+                      if (isCurrentSection) return;
+                      setExpandedSections((current) =>
+                        current.includes(section.slug)
+                          ? current.filter((slug) => slug !== section.slug)
+                          : [...current, section.slug],
+                      );
+                    }}
+                    aria-expanded={isExpanded}
+                  >
+                    <span>{String(sectionIndex + 1).padStart(2, "0")}</span>
+                    <b>{section.title}</b>
+                    <i>{section.lessons.length}</i>
+                  </button>
+                  {isExpanded && (
+                    <div>
+                      {section.lessons.map((item, lessonIndex) => (
+                        <button
+                          className={item.slug === article.slug ? "active" : ""}
+                          key={item.slug}
+                          onMouseEnter={() => preloadArticle(item.slug)}
+                          onFocus={() => preloadArticle(item.slug)}
+                          onPointerDown={() => preloadArticle(item.slug)}
+                          onClick={() => openArticle(item.slug)}
+                        >
+                          <span>{String(lessonIndex + 1).padStart(2, "0")}</span>
+                          <b>{item.title}</b>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              );
+            })}
+          </nav>
+        ) : (
+          <nav>
+            {articles.map((item, itemIndex) => (
+              <button
+                className={item.slug === article.slug ? "active" : ""}
+                key={item.slug}
+                onMouseEnter={() => preloadArticle(item.slug)}
+                onFocus={() => preloadArticle(item.slug)}
+                onPointerDown={() => preloadArticle(item.slug)}
+                onClick={() => openArticle(item.slug)}
+              >
+                <span>{itemIndex < index ? "✓" : String(itemIndex + 1).padStart(2, "0")}</span>
+                <b>{item.title}</b>
+              </button>
+            ))}
+          </nav>
+        )}
       </aside>
       <article className="article">
         <header>
@@ -120,21 +190,31 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             <button onClick={() => navigate(`/learn/${module.id}/${track.slug}`)}>
               {track.name}
             </button>
+            {currentSection && (
+              <>
+                <span>/</span>
+                <button onClick={() => navigate(coursePath)}>{currentSection.title}</button>
+              </>
+            )}
           </div>
           <h1>{article.title}</h1>
           <div className="articleMeta">
             <span>▷ {article.time} read</span>
             <span>◆ Updated Aug 2026</span>
-            <button>☆ SAVE</button>
+            <button onClick={() => persistProgress(true)}>✓ MARK COMPLETE</button>
           </div>
         </header>
-        {DedicatedArticle ? <DedicatedArticle /> : <GenericArticle track={track} />}
+        {DedicatedArticle ? <DedicatedArticle article={article} /> : <GenericArticle track={track} />}
         {next && (
           <button
             className="nextArticle"
             onMouseEnter={() => preloadArticle(next.slug)}
             onFocus={() => preloadArticle(next.slug)}
-            onClick={() => openArticle(next.slug)}
+            onPointerDown={() => preloadArticle(next.slug)}
+            onClick={() => {
+              persistProgress(true);
+              openArticle(next.slug);
+            }}
           >
             <span>NEXT ARTICLE</span>
             <b>{next.title}</b>

@@ -1,11 +1,15 @@
-import CoursePage from "../../../learning/CoursePage";
+import StructuredCoursePage from "../../../learning/StructuredCoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
+import { microservicesSections } from "../../../../data/microservices";
 import "../css/Course.css";
 export default function ArchitectureMicroservicesCourse({ navigate }) {
   const module = getModule("architecture");
   return (
-    <div className="course-architecture-microservices">
-      <CoursePage module={module} track={getTrack(module, "microservices")} navigate={navigate} />
-    </div>
+    <StructuredCoursePage
+      module={module}
+      track={getTrack(module, "microservices")}
+      sections={microservicesSections}
+      navigate={navigate}
+    />
   );
 }

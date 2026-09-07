@@ -1,11 +1,15 @@
-import CoursePage from "../../../learning/CoursePage";
+import StructuredCoursePage from "../../../learning/StructuredCoursePage";
 import { getModule, getTrack } from "../../../../data/catalog";
+import { angularSections } from "../../../../data/angular";
 import "../css/Course.css";
 export default function AngularCourse({ navigate }) {
   const module = getModule("frontend");
   return (
-    <div className="angularCourse">
-      <CoursePage module={module} track={getTrack(module, "angular")} navigate={navigate} />
-    </div>
+    <StructuredCoursePage
+      module={module}
+      track={getTrack(module, "angular")}
+      sections={angularSections}
+      navigate={navigate}
+    />
   );
 }

@@ -84,6 +84,40 @@
 .chapterNav nav b {
   font-size: 11px;
 }
+.chapterNav .groupedChapterNav {
+  display: grid;
+  gap: 5px;
+}
+.chapterNav .groupedChapterNav section {
+  padding: 0;
+  border: 1px solid transparent;
+}
+.chapterNav .groupedChapterNav section.open {
+  border-color: var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--course-accent) 3%, var(--surface));
+}
+.chapterNav .groupedChapterNav .sectionLink {
+  grid-template-columns: 25px 1fr 18px;
+  color: var(--text);
+  padding: 10px 8px;
+}
+.chapterNav .groupedChapterNav .sectionLink i {
+  color: var(--muted);
+  font: 8px ui-monospace;
+  text-align: right;
+}
+.chapterNav .groupedChapterNav section.open .sectionLink {
+  color: var(--course-accent);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+}
+.chapterNav .groupedChapterNav section > div {
+  padding: 5px;
+}
+.chapterNav .groupedChapterNav section > div button {
+  padding-left: 6px;
+}
 .article {
   padding: 48px 0 100px;
 }
