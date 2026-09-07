@@ -298,15 +298,40 @@
   margin-top: 50px;
 }
 .articleToc small {
-  font: 8px ui-monospace;
-  color: var(--muted);
+  display: block;
+  font: 700 8px ui-monospace;
+  letter-spacing: 0.14em;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.articleToc > i {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  margin-top: 0;
+}
+.articleToc > i b {
+  display: block;
+  height: 100%;
+  min-width: 8px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--course-accent) 65%, var(--text)),
+    var(--course-accent)
+  );
+  box-shadow: 0 0 8px color-mix(in srgb, var(--course-accent) 55%, transparent);
+  transition: width 0.15s ease-out;
 }
 .articleToc > span {
   display: block;
   text-align: right;
-  font: 8px ui-monospace;
-  color: var(--muted);
-  margin-top: 5px;
+  font: 700 11px ui-monospace;
+  color: var(--course-accent);
+  margin-top: 7px;
 }
 .articleToc h3 {
   font-size: 13px;

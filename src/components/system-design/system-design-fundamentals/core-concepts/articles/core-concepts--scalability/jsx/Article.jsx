@@ -14,12 +14,17 @@ export default function CoreConceptsScalabilityArticle() {
         </p>
 
         <div className="analogyBox">
-          <small>EVERYDAY ANALOGY</small>
+          <small>A REAL SCENARIO</small>
           <p>
-            Think of a coffee shop. One barista serves 10 customers an hour comfortably. At lunchtime
-            200 people show up. You can either give that one barista a faster machine
-            (<b>scale up</b>), or add five more baristas and a second counter (<b>scale out</b>).
-            Software faces the exact same choice.
+            You build a small website and run it on <b>one server</b>. On a normal day it gets about
+            5 visitors a minute and every page loads in 200&nbsp;ms. Then a popular newsletter links
+            to you and traffic jumps to <b>3,000 visitors a minute</b>.
+          </p>
+          <p>
+            The server&apos;s CPU pegs at 100%. Requests pile up in a queue, pages that took 200&nbsp;ms
+            now take 25&nbsp;seconds, and many visitors just see a timeout error. Nothing crashed and
+            no code is &quot;wrong&quot;&mdash;the system simply cannot absorb the growth. That gap is
+            what scalability is about, and you have two ways to close it.
           </p>
         </div>
       </section>
