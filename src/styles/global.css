@@ -6,6 +6,7 @@
   --muted: #9fa19a;
   --line: #31332d;
   --accent-green: #78ed9a;
+  --accent: var(--accent-green);
   color-scheme: dark;
 }
 
