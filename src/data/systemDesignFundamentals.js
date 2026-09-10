@@ -45,9 +45,11 @@ export const systemDesignFundamentalsSections = [
     "Proxy vs Reverse Proxy",
   ]),
   section("load-balancing", "Load Balancing", [
-    "Introduction to Load Balancing",
+    "What are Load Balancers?",
     "Load Balancing Algorithms",
     "Layer 4 vs Layer 7 Load Balancing",
+    "DNS Load Balancing",
+    "Anycast Routing",
     "Health Checks and Failover",
   ]),
   section("api-fundamentals", "API Fundamentals", [
