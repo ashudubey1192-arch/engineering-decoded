@@ -1,4 +1,4 @@
-import "../../../conceptArticle.css";
+import "../../../../conceptArticle.css";
 import "../css/Article.css";
 
 export default function CoreConceptsAvailabilityArticle() {
