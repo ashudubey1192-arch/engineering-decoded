@@ -13,7 +13,6 @@ export const systemDesignFundamentalsSections = [
   section("welcome", "Welcome", [
     "Course Introduction",
     "Course Roadmap",
-    "Join the Community",
   ]),
   section("introduction-to-system-design", "Introduction to System Design", [
     "What is System Design?",
