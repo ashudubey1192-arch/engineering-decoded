@@ -1,5 +1,5 @@
 .modulePage {
-  --course-accent: #7ce8b2;
+  --course-accent: #22c55e;
   width: min(1180px, calc(100% - 36px));
   margin: auto;
   padding: 38px 0 100px;
@@ -26,11 +26,11 @@
   border: 1px solid var(--course-accent);
   display: grid;
   place-items: center;
-  font: 800 18px ui-monospace;
+  font: 800 18px var(--font-sans);
   color: var(--course-accent);
 }
 .moduleIntro small {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--course-accent);
   letter-spacing: 0.13em;
 }
@@ -53,7 +53,7 @@
   font-size: 40px;
 }
 .moduleIntro aside span {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--muted);
 }
 .courseGroup {
@@ -66,7 +66,7 @@
   margin-bottom: 24px;
 }
 .courseGroup > header > span {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--course-accent);
   margin-top: 7px;
 }
@@ -110,7 +110,7 @@
   left: 18px;
   bottom: 17px;
   color: var(--course-accent);
-  font: 800 29px ui-monospace;
+  font: 800 29px var(--font-sans);
   font-style: normal;
 }
 .courseArtwork > b {
@@ -118,7 +118,7 @@
   right: 16px;
   top: 13px;
   color: color-mix(in srgb, var(--course-accent) 60%, transparent);
-  font: 26px ui-monospace;
+  font: 26px var(--font-sans);
 }
 .courseArtwork em {
   position: absolute;
@@ -128,7 +128,7 @@
   height: 25px;
   display: grid;
   place-items: center;
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   font-style: normal;
   left: 47%;
   top: 27px;
@@ -156,7 +156,7 @@
   padding: 17px;
 }
 .courseInfo small {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--course-accent);
 }
 .courseInfo strong {
@@ -175,7 +175,7 @@
   border-top: 1px solid var(--line);
   padding-top: 12px;
   margin-top: 13px;
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   font-style: normal;
 }
 @media (max-width: 1000px) {

@@ -18,7 +18,7 @@
   background: color-mix(in srgb, var(--course-accent) 6%, var(--surface));
 }
 .sdConcept .scenarioBox small {
-  font: 700 8px ui-monospace, monospace;
+  font: 700 8px var(--font-sans);
   letter-spacing: 0.14em;
   color: var(--course-accent);
 }
@@ -62,7 +62,7 @@
   background: color-mix(in srgb, var(--course-accent) 18%, var(--surface));
   border: 1px solid var(--course-accent);
   color: var(--course-accent);
-  font: 700 13px ui-monospace, monospace;
+  font: 700 13px var(--font-sans);
 }
 .sdConcept .stepList > li b {
   color: var(--text);
@@ -102,7 +102,7 @@
 }
 .sdConcept .miniTable caption {
   text-align: left;
-  font: 700 8px ui-monospace, monospace;
+  font: 700 8px var(--font-sans);
   letter-spacing: 0.12em;
   color: var(--course-accent);
   margin-bottom: 8px;
@@ -166,13 +166,13 @@
 }
 .sdConcept .fig .figLabel {
   fill: var(--course-accent);
-  font: 700 10px ui-monospace, monospace;
+  font: 700 10px var(--font-sans);
   letter-spacing: 0.08em;
   text-anchor: middle;
 }
 .sdConcept .fig .figHint {
   fill: var(--muted);
-  font: 10px ui-monospace, monospace;
+  font: 10px var(--font-sans);
   text-anchor: middle;
 }
 .sdConcept .fig .flow {

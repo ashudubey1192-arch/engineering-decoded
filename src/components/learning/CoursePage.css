@@ -1,5 +1,5 @@
 .coursePage {
-  --course-accent: #7ce8b2;
+  --course-accent: #22c55e;
   display: grid;
   grid-template-columns: 290px 1fr;
   min-height: calc(100vh - 68px);
@@ -33,12 +33,12 @@
   border: 1px solid var(--course-accent);
   display: grid;
   place-items: center;
-  font: 800 10px ui-monospace;
+  font: 800 10px var(--font-sans);
 }
 .courseIdentity small {
   display: block;
   color: var(--course-accent);
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   margin-top: 18px;
 }
 .courseIdentity h2 {
@@ -82,7 +82,7 @@
 }
 .courseSidebar nav span,
 .courseSidebar nav i {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   font-style: normal;
   color: var(--course-accent);
 }
@@ -99,7 +99,7 @@
 }
 .courseMain > header small,
 .learningOutcomes > small {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--course-accent);
   letter-spacing: 0.12em;
 }
@@ -124,7 +124,7 @@
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 20px;
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
 }
 .learningOutcomes {
   margin: 55px 0;
@@ -147,7 +147,7 @@
 }
 .learningOutcomes b {
   color: var(--course-accent);
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   margin-right: 9px;
 }
 .articleList > header {
@@ -159,7 +159,7 @@
   font-size: 28px;
 }
 .articleList header span {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--muted);
 }
 .articleList > button {
@@ -180,12 +180,12 @@
   padding-left: 12px;
 }
 .articleNo {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--course-accent);
 }
 .articleList button small {
   display: block;
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--muted);
   margin-bottom: 4px;
 }
@@ -193,7 +193,7 @@
   font-size: 15px;
 }
 .articleList button em {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--muted);
   font-style: normal;
 }

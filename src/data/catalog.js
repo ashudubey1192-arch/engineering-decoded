@@ -20,7 +20,7 @@ export const modules = [
     "architecture",
     "System Design and Architecture",
     "SD",
-    "#f27d63",
+    "#22c55e",
     "Reason about scale, reliability, boundaries, and trade-offs.",
     [
       {
@@ -39,7 +39,7 @@ export const modules = [
     "architecture",
     "System Design and Architecture",
     "SD",
-    "#f27d63",
+    "#22c55e",
     "Reason about scale, reliability, boundaries, and trade-offs.",
     [
       {
@@ -56,7 +56,7 @@ export const modules = [
     "frontend",
     "Frontend Engineering",
     "FE",
-    "#ff7657",
+    "#22c55e",
     "Create accessible, fast, production-ready interfaces.",
     [
       { name: "Core web", tracks: tracks("HTML, CSS, JavaScript, TypeScript") },
@@ -68,7 +68,7 @@ export const modules = [
     "backend",
     "Backend Engineering",
     "BE",
-    "#c9f85b",
+    "#22c55e",
     "Design APIs, services, security, and business systems.",
     [
       { name: "Languages", tracks: tracks("Java, Python, Node.js, Go") },
@@ -80,7 +80,7 @@ export const modules = [
     "databases",
     "Database Engineering",
     "DB",
-    "#68b7ed",
+    "#22c55e",
     "Model, query, scale, and operate reliable data systems.",
     [
       { name: "RDBMS", tracks: tracks("SQL, PostgreSQL, MySQL, Oracle, Transactions") },
@@ -102,7 +102,7 @@ export const modules = [
     "messaging",
     "Messaging and Event Streaming",
     "MQ",
-    "#f5b84b",
+    "#22c55e",
     "Build asynchronous systems with queues, streams, and events.",
     [
       { name: "Platforms", tracks: tracks("Kafka, RabbitMQ, Solace, Event Streaming") },
@@ -116,7 +116,7 @@ export const modules = [
     "dsa",
     "Data Structures and Algorithms",
     "DS",
-    "#a88af4",
+    "#22c55e",
     "Build strong problem-solving and interview foundations.",
     [
       { name: "Structures", tracks: tracks("Arrays, Linked Lists, Trees, Graphs") },
@@ -130,7 +130,7 @@ export const modules = [
     "coding-patterns",
     "Coding Patterns and Problem Solving",
     "CP",
-    "#c18cff",
+    "#22c55e",
     "Recognize reusable patterns and solve coding problems systematically.",
     [
       {
@@ -147,7 +147,7 @@ export const modules = [
     "devops",
     "DevOps and Platform Engineering",
     "DO",
-    "#6fd1b3",
+    "#22c55e",
     "Automate delivery, infrastructure, and operations.",
     [
       { name: "Containers", tracks: tracks("Docker, Kubernetes, Helm, OpenShift") },
@@ -158,7 +158,7 @@ export const modules = [
     "cloud",
     "Cloud Engineering",
     "CL",
-    "#76a9ff",
+    "#22c55e",
     "Architect secure and scalable cloud services.",
     [{ name: "Platforms", tracks: tracks("AWS, Azure, Google Cloud, Serverless") }],
   ),
@@ -166,7 +166,7 @@ export const modules = [
     "ai",
     "AI, ML and Data Science",
     "AI",
-    "#b491ff",
+    "#22c55e",
     "Build intelligent products with data and language models.",
     [
       {
@@ -180,7 +180,7 @@ export const modules = [
     "communication",
     "Engineering Communication",
     "CS",
-    "#f5c56b",
+    "#22c55e",
     "Communicate technical ideas clearly across teams and audiences.",
     [
       {
@@ -199,7 +199,7 @@ export const modules = [
     "leadership",
     "Engineering Leadership and Management",
     "LM",
-    "#70d3a8",
+    "#22c55e",
     "Lead teams, projects, delivery, and technical decisions with confidence.",
     [
       {
@@ -215,7 +215,7 @@ export const modules = [
     "frontend-tooling",
     "Frontend Tools and Libraries",
     "FT",
-    "#ff9775",
+    "#22c55e",
     "Master the build tools, package managers, and libraries used by frontend teams.",
     [
       { name: "Package and build", tracks: tracks("npm, yarn, pnpm, Webpack") },
@@ -226,7 +226,7 @@ export const modules = [
     "backend-tooling",
     "Backend Tools and Libraries",
     "BT",
-    "#b9ed68",
+    "#22c55e",
     "Use essential backend libraries for persistence, APIs, caching, and builds.",
     [
       { name: "Persistence and APIs", tracks: tracks("Hibernate, JPA, Swagger, OpenAPI") },
@@ -237,7 +237,7 @@ export const modules = [
     "developer-tools",
     "Developer Productivity Tools",
     "DT",
-    "#74b8f2",
+    "#22c55e",
     "Configure an efficient daily development environment and workflow.",
     [
       {
@@ -254,7 +254,7 @@ export const modules = [
     "misc-tools",
     "Collaboration and Miscellaneous Tools",
     "MT",
-    "#a5a8b3",
+    "#22c55e",
     "Learn the supporting tools used across modern engineering organizations.",
     [
       { name: "Collaboration", tracks: tracks("Notion, Confluence, Slack, Teams") },
@@ -268,7 +268,7 @@ export const modules = [
     "testing",
     "Testing and Quality Engineering",
     "QA",
-    "#ff728d",
+    "#22c55e",
     "Build confidence with a balanced testing strategy.",
     [
       {
@@ -281,7 +281,7 @@ export const modules = [
     "interviews",
     "Interview Preparation",
     "IP",
-    "#ff6f61",
+    "#22c55e",
     "Prepare by language, framework, and interview round.",
     [
       {
@@ -300,7 +300,7 @@ export const modules = [
     "mock-interviews",
     "Mock Interviews",
     "MI",
-    "#fb7f72",
+    "#22c55e",
     "Practice realistic interview rounds and improve with structured feedback.",
     [
       {
@@ -319,7 +319,7 @@ export const modules = [
     "roadmaps",
     "Career Roadmaps",
     "RM",
-    "#8f9cff",
+    "#22c55e",
     "Follow progressive role and skill learning plans.",
     [
       {
@@ -332,7 +332,7 @@ export const modules = [
     "career",
     "Career Growth",
     "CG",
-    "#60c7b0",
+    "#22c55e",
     "Improve your resume, portfolio, job search, and leadership.",
     [
       {
@@ -345,7 +345,7 @@ export const modules = [
     "blogs",
     "Technical Blogging and Content",
     "BL",
-    "#de8cf0",
+    "#22c55e",
     "Plan, write, publish, and grow high-quality technical content.",
     [
       {
@@ -364,7 +364,7 @@ export const modules = [
     "marketing",
     "Digital Marketing and SEO",
     "DM",
-    "#ef9b58",
+    "#22c55e",
     "Grow technical content and products with measurable marketing.",
     [
       {
@@ -377,7 +377,7 @@ export const modules = [
     "video",
     "Video Editing and Content",
     "VE",
-    "#e979d7",
+    "#22c55e",
     "Create engaging technical videos and tutorials.",
     [{ name: "Tools", tracks: tracks("DaVinci Resolve, Premiere Pro, CapCut, YouTube Strategy") }],
   ),
@@ -385,7 +385,7 @@ export const modules = [
     "wellbeing",
     "Developer Wellbeing",
     "WB",
-    "#79d6a3",
+    "#22c55e",
     "Build sustainable habits for energy, mobility, focus, and long-term health.",
     [
       { name: "Movement", tracks: tracks("Home Workout, Bodyweight Workout, Stretching, Yoga") },

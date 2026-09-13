@@ -54,7 +54,7 @@
 
 .headerSearch kbd {
   margin-left: auto;
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   padding: 3px 5px;
   border: 1px solid var(--line);
   border-radius: 4px;

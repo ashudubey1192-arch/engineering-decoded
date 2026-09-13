@@ -1,5 +1,5 @@
 .reader {
-  --course-accent: #7ce8b2;
+  --course-accent: #22c55e;
   display: grid;
   grid-template-columns: 275px minmax(0, 820px) 190px;
   gap: 38px;
@@ -33,7 +33,7 @@
   border-bottom: 1px solid var(--line);
 }
 .chapterNav small {
-  font: 700 9px ui-monospace;
+  font: 700 9px var(--font-sans);
   letter-spacing: 0.08em;
   color: var(--course-accent);
 }
@@ -42,7 +42,7 @@
   margin: 8px 0;
 }
 .chapterNav > div > span {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--muted);
 }
 .chapterNav > div > i,
@@ -83,7 +83,7 @@
   font-weight: 700;
 }
 .chapterNav nav span {
-  font: 700 9px ui-monospace;
+  font: 700 9px var(--font-sans);
   color: var(--muted);
   display: inline-flex;
   align-items: center;
@@ -126,7 +126,7 @@
 }
 .chapterNav .groupedChapterNav .sectionLink i {
   color: var(--muted);
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   text-align: right;
 }
 .chapterNav .groupedChapterNav section.open .sectionLink {
@@ -185,7 +185,7 @@
   border-radius: 20px;
   padding: 7px 10px;
   background: var(--surface);
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--muted);
 }
 .articleCallout {
@@ -199,7 +199,7 @@
   background: color-mix(in srgb, var(--course-accent) 5%, var(--surface));
 }
 .articleCallout span {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--course-accent);
 }
 .articleCallout p {
@@ -248,7 +248,7 @@
 }
 .conceptDiagram small {
   display: block;
-  font: 7px ui-monospace;
+  font: 7px var(--font-sans);
   color: var(--course-accent);
   margin-bottom: 7px;
 }
@@ -260,7 +260,7 @@
   color: #eee;
   padding: 24px;
   overflow: auto;
-  font: 13px/1.8 ui-monospace;
+  font: 13px/1.8 var(--font-mono);
 }
 .article pre i {
   color: var(--course-accent);
@@ -276,7 +276,7 @@
   padding: 17px;
 }
 .mistakeGrid b {
-  font: 9px ui-monospace;
+  font: 9px var(--font-sans);
   color: var(--course-accent);
 }
 .mistakeGrid h3 {
@@ -293,7 +293,7 @@
   border-radius: 10px;
 }
 .quiz small {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--course-accent);
 }
 .quiz button {
@@ -301,7 +301,7 @@
   color: #09100b;
   border: 0;
   padding: 11px 14px;
-  font: 800 9px ui-monospace;
+  font: 800 9px var(--font-sans);
 }
 .nextArticle {
   width: 100%;
@@ -316,7 +316,7 @@
   margin-top: 35px;
 }
 .nextArticle span {
-  font: 8px ui-monospace;
+  font: 8px var(--font-sans);
   color: var(--course-accent);
 }
 .nextArticle i {
@@ -331,7 +331,7 @@
 }
 .articleToc small {
   display: block;
-  font: 700 8px ui-monospace;
+  font: 700 8px var(--font-sans);
   letter-spacing: 0.14em;
   color: var(--text);
   margin-bottom: 10px;
@@ -361,7 +361,7 @@
 .articleToc > span {
   display: block;
   text-align: right;
-  font: 700 11px ui-monospace;
+  font: 700 11px var(--font-sans);
   color: var(--course-accent);
   margin-top: 7px;
 }
