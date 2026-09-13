@@ -36,23 +36,6 @@ export const modules = [
     ],
   ),
   makeModule(
-    "architecture",
-    "System Design and Architecture",
-    "SD",
-    "#22c55e",
-    "Reason about scale, reliability, boundaries, and trade-offs.",
-    [
-      {
-        name: "System design",
-        tracks: tracks(" High Level Design, Low Level Design"),
-      },
-      {
-        name: "Architecture",
-        tracks: tracks("Microservices, Clean Architecture, Design Patterns, DDD"),
-      },
-    ],
-  ),
-  makeModule(
     "frontend",
     "Frontend Engineering",
     "FE",
