@@ -33,7 +33,8 @@
   border-bottom: 1px solid var(--line);
 }
 .chapterNav small {
-  font: 8px ui-monospace;
+  font: 700 9px ui-monospace;
+  letter-spacing: 0.08em;
   color: var(--course-accent);
 }
 .chapterNav h2 {
@@ -73,13 +74,30 @@
   border-radius: 7px;
 }
 .chapterNav nav button.active {
-  background: color-mix(in srgb, var(--course-accent) 10%, var(--surface));
+  background: color-mix(in srgb, var(--course-accent) 16%, var(--surface));
   color: var(--text);
-  border-left: 2px solid var(--course-accent);
+  border-left: 3px solid var(--course-accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--course-accent) 30%, transparent);
+}
+.chapterNav nav button.active b {
+  font-weight: 700;
 }
 .chapterNav nav span {
-  font: 8px ui-monospace;
-  color: var(--course-accent);
+  font: 700 9px ui-monospace;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+.chapterNav nav button.active span {
+  background: var(--course-accent);
+  color: #09100b;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--course-accent) 60%, transparent);
 }
 .chapterNav nav b {
   font-size: 11px;
@@ -95,7 +113,11 @@
 .chapterNav .groupedChapterNav section.open {
   border-color: var(--line);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--course-accent) 3%, var(--surface));
+  background: var(--surface-2);
+}
+.chapterNav .groupedChapterNav section.current {
+  border-color: color-mix(in srgb, var(--course-accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--course-accent) 8%, var(--surface));
 }
 .chapterNav .groupedChapterNav .sectionLink {
   grid-template-columns: 25px 1fr 18px;
@@ -108,9 +130,19 @@
   text-align: right;
 }
 .chapterNav .groupedChapterNav section.open .sectionLink {
-  color: var(--course-accent);
+  color: var(--text);
   border-bottom: 1px solid var(--line);
   border-radius: 0;
+}
+.chapterNav .groupedChapterNav section.current .sectionLink {
+  color: var(--course-accent);
+  font-weight: 700;
+  border-bottom-color: color-mix(in srgb, var(--course-accent) 45%, var(--line));
+}
+.chapterNav .groupedChapterNav section.current .sectionLink span {
+  background: var(--course-accent);
+  color: #09100b;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--course-accent) 60%, transparent);
 }
 .chapterNav .groupedChapterNav section > div {
   padding: 5px;

@@ -126,7 +126,12 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
               const isCurrentSection = section.slug === currentSection?.slug;
               const isExpanded = isCurrentSection || expandedSections.includes(section.slug);
               return (
-                <section className={isExpanded ? "open" : ""} key={section.slug}>
+                <section
+                  className={[isExpanded ? "open" : "", isCurrentSection ? "current" : ""]
+                    .filter(Boolean)
+                    .join(" ")}
+                  key={section.slug}
+                >
                   <button
                     className="sectionLink"
                     onClick={() => {
