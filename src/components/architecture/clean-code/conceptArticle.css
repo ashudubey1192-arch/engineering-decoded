@@ -1,0 +1,263 @@
+/* Shared styles for Clean Code articles.
+   Everything is scoped under .sdConcept and uses theme tokens, so it works
+   in dark and light mode and cannot affect other pages. Reused as-is from
+   the API Design / Microservices / System Design Fundamentals design system
+   for visual consistency across the whole site. */
+
+.sdConcept .lead {
+  font-size: 1.25rem;
+}
+.sdConcept section {
+  margin-bottom: 36px;
+}
+
+/* Concrete scenario / "read this first" box */
+.sdConcept .scenarioBox {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border: 1px solid color-mix(in srgb, var(--course-accent) 45%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--course-accent) 6%, var(--surface));
+}
+.sdConcept .scenarioBox small {
+  font: 700 8px var(--font-sans);
+  letter-spacing: 0.14em;
+  color: var(--course-accent);
+}
+.sdConcept .scenarioBox p {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+/* Numbered step-by-step list */
+.sdConcept .stepList {
+  list-style: none;
+  counter-reset: step;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 12px;
+}
+.sdConcept .stepList > li {
+  counter-increment: step;
+  position: relative;
+  padding: 16px 16px 16px 58px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.sdConcept .stepList > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--course-accent) 18%, var(--surface));
+  border: 1px solid var(--course-accent);
+  color: var(--course-accent);
+  font: 700 13px var(--font-sans);
+}
+.sdConcept .stepList > li b {
+  color: var(--text);
+}
+
+/* Two-column comparison / definition cards */
+.sdConcept .twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.sdConcept .twoCol > div {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.sdConcept .twoCol h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--text);
+}
+.sdConcept .twoCol p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* Small data table (SLAs, numbers, etc.) */
+.sdConcept .miniTable {
+  width: 100%;
+  margin-top: 22px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.sdConcept .miniTable caption {
+  text-align: left;
+  font: 700 8px var(--font-sans);
+  letter-spacing: 0.12em;
+  color: var(--course-accent);
+  margin-bottom: 8px;
+}
+.sdConcept .miniTable th,
+.sdConcept .miniTable td {
+  border: 1px solid var(--line);
+  padding: 9px 12px;
+  text-align: left;
+}
+.sdConcept .miniTable th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+}
+.sdConcept .miniTable td {
+  color: var(--muted);
+}
+.sdConcept .miniTable tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--surface-2) 45%, transparent);
+}
+
+/* Inline SVG figure */
+.sdConcept .fig {
+  margin: 26px 0 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.sdConcept .fig svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.sdConcept .fig figcaption {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.sdConcept .fig .box {
+  fill: var(--surface-2);
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+.sdConcept .fig .boxAccent {
+  fill: color-mix(in srgb, var(--course-accent) 16%, var(--surface));
+  stroke: var(--course-accent);
+  stroke-width: 1.5;
+}
+.sdConcept .fig .boxWarn {
+  fill: color-mix(in srgb, #e0574f 16%, var(--surface));
+  stroke: #e0574f;
+  stroke-width: 1.5;
+}
+.sdConcept .fig .boxText {
+  fill: var(--text);
+  font: 12px ui-sans-serif, system-ui, sans-serif;
+  text-anchor: middle;
+}
+.sdConcept .fig .figLabel {
+  fill: var(--course-accent);
+  font: 700 10px var(--font-sans);
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+}
+.sdConcept .fig .figHint {
+  fill: var(--muted);
+  font: 10px var(--font-sans);
+  text-anchor: middle;
+}
+.sdConcept .fig .flow {
+  stroke: var(--course-accent);
+  stroke-width: 1.75;
+  fill: none;
+}
+.sdConcept .fig .flowMuted {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 4 4;
+}
+.sdConcept .fig .divider {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.sdConcept .fig .ringNode {
+  fill: var(--course-accent);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+.sdConcept .fig .ringKey {
+  fill: var(--text);
+}
+
+/* Key takeaway line */
+.sdConcept .takeaway {
+  margin-top: 24px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--course-accent);
+  background: color-mix(in srgb, var(--course-accent) 5%, var(--surface));
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Small caption above a code block ("HTTP REQUEST", "CONFIG", ...) */
+.sdConcept .codeLabel {
+  display: block;
+  margin: 22px 0 -10px;
+  font: 700 8px var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--course-accent);
+}
+
+/* Real code / request / config snippet, on genuine monospace */
+.sdConcept .codeBlock {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  overflow-x: auto;
+}
+.sdConcept .codeBlock pre {
+  margin: 0;
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Consolas, monospace);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre;
+}
+
+/* Small inline verb/status/state badge inside prose or tables */
+.sdConcept .badge {
+  display: inline-block;
+  padding: 2px 8px;
+  margin-right: 6px;
+  border-radius: 5px;
+  font: 700 11px var(--font-mono, ui-monospace, monospace);
+  background: color-mix(in srgb, var(--course-accent) 14%, var(--surface));
+  color: var(--course-accent);
+  border: 1px solid color-mix(in srgb, var(--course-accent) 40%, var(--line));
+}
+
+@media (max-width: 760px) {
+  .sdConcept .twoCol {
+    grid-template-columns: 1fr;
+  }
+  .sdConcept .miniTable {
+    display: block;
+    overflow-x: auto;
+  }
+}
