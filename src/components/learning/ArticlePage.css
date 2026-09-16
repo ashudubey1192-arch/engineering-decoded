@@ -265,6 +265,46 @@
 .article pre i {
   color: var(--course-accent);
 }
+.svgDiagram {
+  margin-top: 25px;
+  padding: 28px;
+  background: #080906;
+  border: 1px solid #272821;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.svgDiagram svg {
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+}
+.svgDiagram .accentStroke {
+  stroke: var(--course-accent);
+}
+.svgDiagram .accentFill {
+  fill: var(--course-accent);
+}
+.svgDiagram .mutedStroke {
+  stroke: #4b4d43;
+}
+.svgDiagram .mutedFill {
+  fill: #4b4d43;
+}
+.svgDiagram text {
+  fill: #eee;
+  font: 11px var(--font-mono);
+}
+.svgDiagram .dim {
+  fill: #9a9d90;
+}
+.diagramCaption {
+  font: 11px var(--font-sans);
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+}
 .mistakeGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
