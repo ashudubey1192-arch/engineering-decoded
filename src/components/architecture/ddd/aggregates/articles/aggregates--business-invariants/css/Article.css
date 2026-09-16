@@ -1,7 +1,1 @@
-.dedicatedStructuredArticle .lead {
-  font-size: 1.25rem;
-}
-
-.dedicatedStructuredArticle section {
-  margin-bottom: 36px;
-}
+@import "../../../../conceptArticle.css";
