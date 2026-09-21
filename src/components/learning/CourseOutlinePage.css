@@ -1,0 +1,21 @@
+.courseOutlinePage .courseSidebar nav a {
+  display: block;
+  padding: 12px 8px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+}
+.courseOutlinePage .courseSidebar nav a:hover {
+  color: var(--course-accent);
+}
+.courseOutlinePage .courseSidebar nav a span { margin-right: 8px; }
+.courseOutlinePage .learningOutcomes { scroll-margin-top: 90px; }
+.courseOutlinePage .learningOutcomes h2 { font-size: 22px; }
+.courseOutlinePage .learningOutcomes ul {
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 2;
+}
+.courseOutlinePage .courseMain > header > div { flex-wrap: wrap; }
+.courseOutlinePage .courseMain > header h1 { overflow-wrap: anywhere; }

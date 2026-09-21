@@ -1,3 +1,5 @@
+import { desktopCourses } from "./desktopCourses";
+
 export const slugify = (value) =>
   value
     .toLowerCase()
@@ -58,6 +60,14 @@ export const modules = [
       { name: "Frameworks", tracks: tracks("Spring Boot, Express.js, FastAPI, Django") },
       { name: "API engineering", tracks: tracks("REST API, GraphQL, Authentication, OAuth") },
     ],
+  ),
+  makeModule(
+    "desktop",
+    "Desktop App Development",
+    "DA",
+    "#22c55e",
+    "Build desktop applications for Windows, Linux, and macOS.",
+    [{ name: "Desktop frameworks and stacks", tracks: desktopCourses }],
   ),
   makeModule(
     "databases",

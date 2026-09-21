@@ -1,0 +1,50 @@
+@import "../../react/css/ReactLesson.css";
+.nextJsLesson .nextDemoNote {
+  font-size: 13px;
+  border-left: 2px solid var(--course-accent);
+  padding-left: 12px;
+}
+.nextDemoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.nextStateGrid,
+.nextBoundaryTree {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+.nextStateGrid > div,
+.nextBoundaryTree > div {
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--course-accent);
+  background: var(--bg);
+  padding: 16px;
+  min-width: 0;
+}
+.nextJsLesson :is(.nextStateGrid, .nextBoundaryTree) small {
+  display: block;
+  color: var(--muted);
+  font: 10px/1.5 var(--font-mono);
+  margin-bottom: 12px;
+}
+.nextJsLesson :is(.nextStateGrid, .nextBoundaryTree) strong {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.nextJsLesson .reactLab button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  .nextDemoGrid,
+  .nextStateGrid,
+  .nextBoundaryTree {
+    grid-template-columns: 1fr;
+  }
+}

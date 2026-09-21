@@ -3,12 +3,13 @@ import { articleTemplates } from "../../data/catalog";
 import { preloadArticleComponent } from "../articles/registry";
 import { getStructuredCourseSections } from "../../data/structuredCourses";
 import StructuredCoursePage from "./StructuredCoursePage";
+import CourseOutlinePage from "./CourseOutlinePage";
 import "./CoursePage.css";
 
 export default function CoursePage({ module, track, navigate }) {
   const structuredSections = track ? getStructuredCourseSections(module?.id, track.slug) : null;
   useEffect(() => {
-    if (!module || !track || structuredSections) return undefined;
+    if (!module || !track || structuredSections || track.outline) return undefined;
     const timer = window.setTimeout(() => {
       articleTemplates.forEach((article) =>
         preloadArticleComponent(module.id, track.slug, article.slug),
@@ -24,6 +25,8 @@ export default function CoursePage({ module, track, navigate }) {
         <button onClick={() => navigate("/")}>Back home</button>
       </main>
     );
+
+  if (track.outline) return <CourseOutlinePage module={module} track={track} navigate={navigate} />;
 
   if (structuredSections) {
     return (

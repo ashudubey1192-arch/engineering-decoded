@@ -21,8 +21,9 @@ export default function ModulePage({ module, navigate }) {
           <small>LEARNING MODULE</small>
           <h1>{module.name}</h1>
           <p>
-            {module.description} Choose a focused course below and work through its articles in
-            sequence.
+            {module.description} {module.groups.every((group) => group.tracks.every((track) => track.outline))
+              ? "Choose a course below to explore its planned structure."
+              : "Choose a focused course below and work through its articles in sequence."}
           </p>
         </div>
         <aside>
@@ -56,13 +57,12 @@ export default function ModulePage({ module, navigate }) {
                   <em>03</em>
                 </span>
                 <span className="courseInfo">
-                  <small>6 ARTICLES · SELF PACED</small>
+                  <small>{track.outline ? `${track.outline.length} SECTIONS · COURSE OUTLINE` : "6 ARTICLES · SELF PACED"}</small>
                   <strong>{track.name}</strong>
                   <p>
-                    Learn {track.name} through clear concepts, practical examples, projects, and
-                    interview preparation.
+                    {track.outline ? `${track.language}. Explore the planned course structure.` : `Learn ${track.name} through clear concepts, practical examples, projects, and interview preparation.`}
                   </p>
-                  <i>START COURSE ↗</i>
+                  <i>{track.outline ? "VIEW OUTLINE ↗" : "START COURSE ↗"}</i>
                 </span>
               </button>
             ))}
