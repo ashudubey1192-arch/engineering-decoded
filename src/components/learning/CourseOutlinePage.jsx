@@ -27,7 +27,7 @@ export default function CourseOutlinePage({ module, track, navigate }) {
           <h1>{track.name}</h1>
           <p>{track.language}</p>
           <p>Course structure is ready. Lessons and examples will be added later.</p>
-          <div><span>{track.outline.length} sections</span><span>Windows · Linux · macOS</span></div>
+          <div><span>{track.outline.length} sections</span><span>{track.platforms || "Windows · Linux · macOS"}</span></div>
         </header>
         {track.outline.map(([title, ...topics], index) => (
           <section className="learningOutcomes" id={`section-${index + 1}`} key={title}>

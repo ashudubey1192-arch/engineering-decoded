@@ -1,4 +1,6 @@
 import { desktopCourses } from "./desktopCourses";
+import { mobileCourses } from "./mobileCourses";
+import { backendToolingOutlines } from "./backendToolingOutlines";
 
 export const slugify = (value) =>
   value
@@ -60,6 +62,14 @@ export const modules = [
       { name: "Frameworks", tracks: tracks("Spring Boot, Express.js, FastAPI, Django") },
       { name: "API engineering", tracks: tracks("REST API, GraphQL, Authentication, OAuth") },
     ],
+  ),
+  makeModule(
+    "mobile",
+    "Mobile App Development",
+    "MA",
+    "#22c55e",
+    "Build mobile experiences for Android and iOS.",
+    [{ name: "Mobile frameworks and stacks", tracks: mobileCourses }],
   ),
   makeModule(
     "desktop",
@@ -223,7 +233,10 @@ export const modules = [
     "Use essential backend libraries for persistence, APIs, caching, and builds.",
     [
       { name: "Persistence and APIs", tracks: tracks("Hibernate, JPA, Swagger, OpenAPI") },
-      { name: "Caching and builds", tracks: tracks("Caffeine, Guava Cache, Maven, Gradle") },
+      { name: "Backend → Caching", tracks: [...tracks("Caffeine, Guava Cache"), backendToolingOutlines.springCache] },
+      { name: "Infrastructure → Distributed Cache", tracks: [backendToolingOutlines.redis, backendToolingOutlines.memcached] },
+      { name: "Database", tracks: [backendToolingOutlines.postgresql] },
+      { name: "Build tools", tracks: tracks("Maven, Gradle") },
     ],
   ),
   makeModule(
