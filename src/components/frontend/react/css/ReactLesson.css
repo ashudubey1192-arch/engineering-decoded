@@ -1,0 +1,236 @@
+.reactLesson section {
+  margin-bottom: 36px;
+}
+.reactLesson .reactLessonEyebrow {
+  color: var(--course-accent);
+  font: 700 10px/1.6 var(--font-mono);
+  letter-spacing: 0.09em;
+  margin-top: 22px;
+}
+.reactConcept {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+.reactConcept > span {
+  color: var(--course-accent);
+  font: 700 11px/1.85 var(--font-mono);
+  padding-top: 4px;
+}
+.reactConcept p {
+  margin: 0;
+}
+.reactFlow {
+  margin: 28px 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.reactFlow figcaption {
+  font: 700 11px var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--course-accent);
+  margin-bottom: 20px;
+}
+.reactFlow ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+}
+.reactFlow li {
+  position: relative;
+  border: 1px solid var(--course-accent);
+  padding: 16px 12px;
+  min-width: 0;
+  background: var(--bg);
+}
+.reactFlow li:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -20px;
+  top: 40%;
+  color: var(--course-accent);
+}
+.reactFlow small {
+  display: block;
+  color: var(--muted);
+  font: 10px var(--font-mono);
+  margin-bottom: 10px;
+}
+.reactFlow strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.reactLesson .reactFlow .diagramCaption {
+  font-size: 11px;
+  line-height: 1.6;
+}
+.reactLesson pre {
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.reactTakeaway {
+  border-left: 3px solid var(--course-accent);
+  background: var(--surface);
+  padding: 20px 24px;
+}
+.reactTakeaway p {
+  margin-bottom: 0;
+}
+.reactLesson details {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.reactLesson summary {
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.reactLesson .reactReference {
+  font-size: 13px;
+  margin-top: 22px;
+}
+.reactReference a {
+  color: var(--course-accent);
+  text-underline-offset: 4px;
+}
+.reactLab {
+  padding: 24px;
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--course-accent);
+  background: var(--surface);
+  border-radius: 6px;
+}
+.reactLab h3 {
+  margin-top: 0;
+  font-size: 19px;
+}
+.reactLab label {
+  display: block;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.reactLab input:not([type="checkbox"]),
+.reactLab select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 8px 0 16px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 4px;
+  font: inherit;
+}
+.reactLab input[type="checkbox"] {
+  accent-color: var(--course-accent);
+  width: 18px;
+  height: 18px;
+}
+.reactLabActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.reactLab button {
+  border: 1px solid var(--course-accent);
+  background: var(--bg);
+  color: var(--text);
+  padding: 11px 14px;
+  border-radius: 4px;
+  font: 600 12px/1.5 var(--font-sans);
+}
+.reactLab button:hover {
+  background: var(--surface-2);
+}
+.reactLesson :is(button, input, select, summary, a, pre):focus-visible {
+  outline: 2px solid var(--course-accent);
+  outline-offset: 4px;
+}
+.reactLabNumber {
+  display: block;
+  font: 700 48px var(--font-mono);
+  color: var(--course-accent);
+}
+.reactLabFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.reactPreview {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  padding: 20px;
+  overflow-wrap: anywhere;
+}
+.reactPreview small {
+  color: var(--course-accent);
+  font: 10px var(--font-mono);
+}
+.reactPreview h3 {
+  margin: 12px 0 4px;
+}
+.reactLabList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reactLabList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+.reactLabList label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reactLabList code {
+  color: var(--muted);
+  font-size: 11px;
+}
+@media (max-width: 600px) {
+  .reactFlow,
+  .reactLab {
+    padding: 18px;
+  }
+  .reactFlow ol,
+  .reactLabFields {
+    grid-template-columns: 1fr;
+  }
+  .reactFlow li:not(:last-child)::after {
+    content: "↓";
+    right: 50%;
+    top: auto;
+    bottom: -25px;
+  }
+  .reactLesson pre {
+    padding: 16px;
+    font-size: 12px;
+  }
+  .reactLabActions {
+    flex-direction: column;
+  }
+  .reactLabActions button {
+    width: 100%;
+  }
+}
