@@ -15,8 +15,11 @@ let typescript;
 let parseTemplate;
 if (toolingRoot) {
   const modules = path.resolve(toolingRoot, "node_modules");
-  typescript = (await import(pathToFileURL(path.join(modules, "typescript/lib/typescript.js")))).default;
-  ({ parseTemplate } = await import(pathToFileURL(path.join(modules, "@angular/compiler/fesm2022/compiler.mjs"))));
+  typescript = (await import(pathToFileURL(path.join(modules, "typescript/lib/typescript.js"))))
+    .default;
+  ({ parseTemplate } = await import(
+    pathToFileURL(path.join(modules, "@angular/compiler/fesm2022/compiler.mjs"))
+  ));
 }
 
 assert.equal(Object.keys(angularLessons).length, angularArticles.length);
@@ -28,7 +31,10 @@ try {
     const content = angularLessons[article.slug];
     assert.ok(content, `Missing lesson: ${article.slug}`);
     for (const field of ["intro", "code", "walkthrough", "mistake", "exercise", "answer"]) {
-      assert.ok(content[field]?.length > (field === "exercise" ? 15 : 30), `${article.slug}: incomplete ${field}`);
+      assert.ok(
+        content[field]?.length > (field === "exercise" ? 15 : 30),
+        `${article.slug}: incomplete ${field}`,
+      );
     }
     assert.equal(content.concepts.length, 3, `${article.slug}: missing concepts`);
     assert.equal(content.flow.length, 3, `${article.slug}: missing visual`);
@@ -45,15 +51,25 @@ try {
 
     let code = content.code;
     // SSR lesson explicitly separates shell commands from a TypeScript component.
-    if (article.slug === "production-angular--server-side-rendering") code = code.slice(code.indexOf("import "));
+    if (article.slug === "production-angular--server-side-rendering")
+      code = code.slice(code.indexOf("import "));
     if (/^(?:import |const |\/\/)/.test(code) && !code.includes("<!--")) {
       await transformWithOxc(code, article.slug + ".ts", { lang: "ts" });
       parsedSnippets += 1;
       if (typescript) {
-        const source = typescript.createSourceFile(article.slug + ".ts", code, typescript.ScriptTarget.Latest, true);
+        const source = typescript.createSourceFile(
+          article.slug + ".ts",
+          code,
+          typescript.ScriptTarget.Latest,
+          true,
+        );
         assert.equal(source.parseDiagnostics.length, 0, `${article.slug}: TypeScript parse error`);
-        const visit = node => {
-          if (typescript.isPropertyAssignment(node) && node.name.getText(source) === "template" && typescript.isStringLiteralLike(node.initializer)) {
+        const visit = (node) => {
+          if (
+            typescript.isPropertyAssignment(node) &&
+            node.name.getText(source) === "template" &&
+            typescript.isStringLiteralLike(node.initializer)
+          ) {
             const result = parseTemplate(node.initializer.text, article.slug + ".html");
             assert.ok(!result.errors?.length, `${article.slug}: ${result.errors?.join("; ")}`);
             parsedTemplates += 1;
@@ -68,8 +84,12 @@ try {
       parsedTemplates += 1;
     }
   }
-  console.log(`PASS: ${angularArticles.length} Angular route entries rendered; ${parsedSnippets} TypeScript snippets parsed${parseTemplate ? `; ${parsedTemplates} Angular templates parsed` : ""}.`);
-  console.log("Syntax checks do not replace compiling complete examples in an Angular practice workspace.");
+  console.log(
+    `PASS: ${angularArticles.length} Angular route entries rendered; ${parsedSnippets} TypeScript snippets parsed${parseTemplate ? `; ${parsedTemplates} Angular templates parsed` : ""}.`,
+  );
+  console.log(
+    "Syntax checks do not replace compiling complete examples in an Angular practice workspace.",
+  );
 } finally {
   await server.close();
 }
