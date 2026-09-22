@@ -1,0 +1,330 @@
+.webLesson section {
+  margin-bottom: 36px;
+}
+.webLesson .webEyebrow {
+  color: var(--course-accent);
+  font: 700 11px/1.6 var(--font-mono);
+  letter-spacing: 0.07em;
+}
+.webConcept {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 14px;
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+}
+.webConcept > span {
+  color: var(--course-accent);
+  font: 700 12px/1.8 var(--font-mono);
+}
+.webConcept p {
+  margin: 0;
+}
+.webLesson pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.webLesson .webExampleNote,
+.webLesson .webStepsHint {
+  font-size: 13px;
+}
+.webSteps {
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: var(--surface);
+}
+.webStepTabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+.webStepTabs li {
+  min-width: 0;
+}
+.webLesson button {
+  font: inherit;
+  cursor: pointer;
+}
+.webStepTabs button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.webStepTabs button span {
+  display: block;
+  font: 700 11px/1.8 var(--font-mono);
+  color: var(--course-accent);
+}
+.webStepTabs button[aria-pressed="true"] {
+  border-color: var(--course-accent);
+  box-shadow: inset 0 -3px var(--course-accent);
+}
+.webStepPanel {
+  padding: 20px 0 8px;
+}
+.webLesson .webStepCount {
+  font: 700 11px/1.8 var(--font-mono);
+  color: var(--course-accent);
+  margin: 0;
+}
+.webStepPanel h4 {
+  font-size: 19px;
+  margin: 8px 0 20px;
+}
+.webStateDiagram {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding: 0;
+  margin: 20px 0;
+}
+.webStateDiagram li {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--course-accent);
+  background: var(--bg);
+  border-radius: 5px;
+  padding: 16px 12px;
+}
+.webStateDiagram li:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -20px;
+  top: 45%;
+  color: var(--course-accent);
+}
+.webStateDiagram span {
+  display: block;
+  color: var(--muted);
+  font: 11px var(--font-mono);
+  margin-bottom: 10px;
+}
+.webStateDiagram code {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.7;
+  background: transparent;
+  padding: 0;
+}
+.webStepControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.webStepControls button,
+.webLab button {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+.webLesson button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.webLesson :is(button, summary, input, select, a, pre):focus-visible {
+  outline: 2px solid var(--course-accent);
+  outline-offset: 4px;
+}
+.webTakeaway {
+  border-left: 3px solid var(--course-accent);
+  background: var(--surface);
+  padding: 16px 20px;
+}
+.webTakeaway p {
+  margin: 0;
+}
+.webLesson details {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.webLesson summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.webReference {
+  font-size: 13px;
+  margin-top: 22px;
+}
+.webReference a {
+  color: var(--course-accent);
+  text-underline-offset: 4px;
+}
+.webLab {
+  margin-top: 28px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.webLab label {
+  display: block;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.webLab select,
+.webLab input:not([type="checkbox"]) {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.webLab input[type="range"] {
+  accent-color: var(--course-accent);
+}
+.webLabPreview {
+  padding: 20px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  overflow: auto;
+}
+.webBoxMargin {
+  padding: 16px;
+  border: 1px dashed var(--muted);
+}
+.webBoxBorder {
+  border: 4px solid var(--course-accent);
+  background: var(--surface-2);
+  width: 100%;
+}
+.webBoxContent {
+  background: var(--bg);
+  border: 1px dashed var(--course-accent);
+  text-align: center;
+  padding: 8px;
+}
+.webLab output {
+  display: block;
+  margin-top: 16px;
+  font: 13px/1.8 var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.webTypeBranches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.webTypeBranches span {
+  flex: 1;
+  min-width: 90px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  opacity: 0.45;
+}
+.webTypeBranches span[data-active="true"] {
+  opacity: 1;
+  border-color: var(--course-accent);
+}
+.webDomTree {
+  padding: 20px 0;
+  font: 13px/1.8 var(--font-mono);
+}
+.webDomTree div {
+  margin-inline-start: 20px;
+  padding: 8px;
+  border-inline-start: 1px solid var(--line);
+}
+.webDomTree span {
+  margin-inline-start: 14px;
+}
+.webDomTree [data-selected="true"],
+.webDomRegion[data-selected="true"],
+.webDomRegion > [data-selected="true"] {
+  outline: 2px solid var(--course-accent);
+  outline-offset: 3px;
+}
+.webDomRegion {
+  padding: 12px;
+}
+.webDomRegion h4 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+.webStepControls button[aria-pressed="true"] {
+  border-color: var(--course-accent);
+  box-shadow: inset 0 -3px var(--course-accent);
+}
+.webLayoutPreview {
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.webLayoutPreview > div {
+  border: 1px solid var(--course-accent);
+  padding: 18px 8px;
+  overflow-wrap: anywhere;
+  text-align: center;
+  font-size: 13px;
+}
+.webQueueGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.webQueueGrid > div {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 14px;
+}
+.webQueueGrid dt {
+  font-weight: 700;
+  font-size: 13px;
+}
+.webQueueGrid dd {
+  margin: 10px 0 0;
+  font: 12px/1.7 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .webSteps,
+  .webLab {
+    padding: 16px;
+  }
+  .webStepTabs {
+    grid-template-columns: 1fr;
+  }
+  .webStepTabs button span {
+    display: inline;
+    margin-right: 12px;
+  }
+  .webStateDiagram {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .webStateDiagram li:not(:last-child)::after {
+    content: "↓";
+    top: auto;
+    bottom: -24px;
+    right: 50%;
+  }
+  .webStepControls button {
+    flex: 1 1 120px;
+  }
+  .webQueueGrid {
+    grid-template-columns: 1fr;
+  }
+}
