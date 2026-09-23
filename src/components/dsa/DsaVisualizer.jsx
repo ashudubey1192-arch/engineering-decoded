@@ -68,7 +68,13 @@ function Network({ frame }) {
   }
   const depth = Math.max(0, ...levels),
     height = hierarchy ? Math.max(180, 85 + depth * 90) : 360;
-  const widestLevel = Math.max(1, ...Array.from({ length: depth + 1 }, (_, level) => levels.filter((v, i) => v === level && values[i] !== null).length));
+  const widestLevel = Math.max(
+    1,
+    ...Array.from(
+      { length: depth + 1 },
+      (_, level) => levels.filter((v, i) => v === level && values[i] !== null).length,
+    ),
+  );
   const width = hierarchy ? Math.max(availableWidth, (widestLevel + 1) * 72) : availableWidth;
   const positions = values.map((_, i) => {
     if (hierarchy) {
@@ -81,7 +87,10 @@ function Network({ frame }) {
       };
     }
     const angle = (2 * Math.PI * i) / Math.max(1, values.length) - Math.PI / 2;
-    return { x: width / 2 + Math.cos(angle) * (width / 2 - 42), y: height / 2 + Math.sin(angle) * 125 };
+    return {
+      x: width / 2 + Math.cos(angle) * (width / 2 - 42),
+      y: height / 2 + Math.sin(angle) * 125,
+    };
   });
   return (
     <div

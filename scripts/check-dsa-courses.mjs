@@ -296,7 +296,7 @@ assert.deepEqual(dsaAlgorithms.bloom({ values: [1, 4], queries: [1, 2, 9], size:
   true,
 ]);
 
-const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ server: { middlewareMode: true, hmr: false }, appType: "custom" });
 try {
   const { getModule } = await server.ssrLoadModule("/src/data/catalog.js");
   const { getStructuredCourse } = await server.ssrLoadModule("/src/data/structuredCourses.js");
