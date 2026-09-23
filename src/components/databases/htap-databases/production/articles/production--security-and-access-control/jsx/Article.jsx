@@ -1,28 +1,5 @@
-import "../css/Article.css";
+import DatabaseLessonArticle from "../../../../../DatabaseLessonArticle.jsx";
 
-export default function ProductionSecurityAndAccessControlArticle() {
-  return (
-    <div className="dedicatedStructuredArticle">
-      <section id="overview">
-        <p className="lead">Security and Access Control</p>
-        <p>This dedicated article belongs to HTAP Databases / Production HTAP Databases. Replace this placeholder with the final article content.</p>
-      </section>
-      <section id="concepts">
-        <h2>Key concepts</h2>
-        <p>Explain the terminology, responsibilities, constraints, and trade-offs for Security and Access Control.</p>
-      </section>
-      <section id="example">
-        <h2>Practical example</h2>
-        <p>Add a focused implementation, diagram, or walkthrough for this article.</p>
-      </section>
-      <section id="mistakes">
-        <h2>Common mistakes</h2>
-        <p>Document common failure modes and how to avoid them.</p>
-      </section>
-      <section id="check">
-        <h2>Knowledge check</h2>
-        <div className="quiz"><p>What are the most important decisions and trade-offs in Security and Access Control?</p></div>
-      </section>
-    </div>
-  );
+export default function Article() {
+  return <DatabaseLessonArticle courseSlug="htap-databases" lessonSlug="production--security-and-access-control" />;
 }

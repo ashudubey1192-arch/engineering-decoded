@@ -1,0 +1,81 @@
+.databaseLesson .lead {
+  font-size: 1.25rem;
+}
+.databaseLesson section {
+  margin-bottom: 36px;
+}
+.databaseLesson .databaseLessonMeta,
+.databaseLesson .databaseCodeLabel {
+  color: var(--muted, #a1a1aa);
+  font-size: 0.85rem;
+}
+.databaseLessonContext,
+.databaseWalkthrough {
+  border: 1px solid var(--line, #303038);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 22px 0;
+}
+.databaseLessonContext p:last-child,
+.databaseWalkthroughPanel p:last-child {
+  margin-bottom: 0;
+}
+.databaseWalkthroughTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.databaseWalkthroughTabs button {
+  background: transparent;
+  border: 1px solid var(--line, #52525b);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.databaseWalkthroughTabs button[aria-pressed="true"] {
+  border-color: var(--course-accent, #22c55e);
+  background: color-mix(in srgb, var(--course-accent, #22c55e) 12%, transparent);
+}
+.databaseWalkthroughTabs button:focus-visible,
+.databaseLesson summary:focus-visible {
+  outline: 2px solid var(--course-accent, #22c55e);
+  outline-offset: 3px;
+}
+.databaseWalkthroughPanel {
+  margin-top: 18px;
+  min-height: 110px;
+  overflow-wrap: anywhere;
+}
+.databaseLesson pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.databaseLesson pre code {
+  white-space: pre;
+}
+.databaseLesson summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+.databaseLesson .databaseReference {
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.databasePrerequisites {
+  margin: 16px 0;
+}
+@media (max-width: 600px) {
+  .databaseWalkthroughTabs {
+    flex-direction: column;
+  }
+  .databaseWalkthroughTabs button {
+    width: 100%;
+  }
+  .databaseLessonContext,
+  .databaseWalkthrough {
+    padding: 14px;
+  }
+}

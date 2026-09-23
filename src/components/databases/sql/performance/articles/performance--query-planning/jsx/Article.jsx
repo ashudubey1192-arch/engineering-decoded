@@ -1,28 +1,5 @@
-import "../css/Article.css";
+import DatabaseLessonArticle from "../../../../../DatabaseLessonArticle.jsx";
 
-export default function PerformanceQueryPlanningArticle() {
-  return (
-    <div className="dedicatedStructuredArticle">
-      <section id="overview">
-        <p className="lead">Query Planning</p>
-        <p>This dedicated article belongs to SQL / Performance and Scale. Replace this placeholder with the final article content.</p>
-      </section>
-      <section id="concepts">
-        <h2>Key concepts</h2>
-        <p>Explain the terminology, responsibilities, constraints, and trade-offs for Query Planning.</p>
-      </section>
-      <section id="example">
-        <h2>Practical example</h2>
-        <p>Add a focused implementation, diagram, or walkthrough for this article.</p>
-      </section>
-      <section id="mistakes">
-        <h2>Common mistakes</h2>
-        <p>Document common failure modes and how to avoid them.</p>
-      </section>
-      <section id="check">
-        <h2>Knowledge check</h2>
-        <div className="quiz"><p>What are the most important decisions and trade-offs in Query Planning?</p></div>
-      </section>
-    </div>
-  );
+export default function Article() {
+  return <DatabaseLessonArticle courseSlug="sql" lessonSlug="performance--query-planning" />;
 }
