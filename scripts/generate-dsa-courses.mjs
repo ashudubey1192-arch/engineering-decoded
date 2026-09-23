@@ -1,0 +1,153 @@
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { dirname, join, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { dsaLessons } from "../src/data/dsaLessons.js";
+import { dsaAlgorithms } from "../src/data/dsaAlgorithms.js";
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const catalog = {},
+  groups = new Map();
+const legacySections = [
+  "foundations",
+  "core-concepts",
+  "practical-skills",
+  "advanced-topics",
+  "real-world",
+  "mastery",
+];
+async function files(directory) {
+  let entries;
+  try {
+    entries = await readdir(directory, { withFileTypes: true });
+  } catch (error) {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  }
+  const result = [];
+  for (const item of entries) {
+    const path = join(directory, item.name);
+    if (item.isDirectory()) result.push(...(await files(path)));
+    else result.push(path);
+  }
+  return result;
+}
+async function save(path, content) {
+  try {
+    if ((await readFile(path, "utf8")) === content) return;
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, content);
+}
+const articleWrapper = (courseSlug, lessonSlug, importPath) =>
+  `import DsaLessonArticle from "${importPath}";\n\nexport default function Article() {\n  return <DsaLessonArticle courseSlug="${courseSlug}" lessonSlug="${lessonSlug}" />;\n}\n`;
+let lessons = 0,
+  aliases = 0;
+for (const [courseSlug, course] of Object.entries(dsaLessons)) {
+  const sections = course.sections.map((section) => ({
+    slug: section.slug,
+    title: section.title,
+    lessons: section.lessons.map(({ title, slug, sectionSlug, time }) => ({
+      title,
+      slug,
+      sectionSlug,
+      time,
+    })),
+  }));
+  const articles = sections.flatMap((section) => section.lessons);
+  const courseDir = join(root, "src/components/dsa", courseSlug);
+  const aliasMap = {};
+  for (const path of await files(courseDir)) {
+    const normalized = relative(courseDir, path).replaceAll("\\", "/");
+    const match = normalized.match(/^([^/]+)\/articles\/([^/]+)\/jsx\/Article.jsx$/);
+    if (!match || articles.some((article) => article.slug === match[2])) continue;
+    const existing = await readFile(path, "utf8");
+    if (!existing.includes("Replace this placeholder") && !existing.includes("<DsaLessonArticle"))
+      throw new Error(`Authored article requires explicit migration: ${path}`);
+    const index = Math.min(articles.length - 1, Math.max(0, legacySections.indexOf(match[1])));
+    const target = articles[index].slug;
+    aliasMap[match[2]] = target;
+    await save(path, articleWrapper(courseSlug, target, "../../../../../DsaLessonArticle.jsx"));
+    aliases++;
+  }
+  for (const article of articles) {
+    const path = join(courseDir, article.sectionSlug, "articles", article.slug, "jsx/Article.jsx");
+    let previous = "";
+    try {
+      previous = await readFile(path, "utf8");
+    } catch (e) {
+      if (e.code !== "ENOENT") throw e;
+    }
+    if (
+      previous &&
+      !previous.includes("<DsaLessonArticle") &&
+      !previous.includes("Replace this placeholder")
+    )
+      throw new Error(`Refusing authored overwrite: ${path}`);
+    await save(
+      path,
+      articleWrapper(courseSlug, article.slug, "../../../../../DsaLessonArticle.jsx"),
+    );
+    lessons++;
+  }
+  for (const [i, name] of [
+    "Introduction",
+    "CoreConcepts",
+    "Architecture",
+    "PracticalGuide",
+    "BestPractices",
+    "InterviewQuestions",
+  ].entries()) {
+    const path = join(courseDir, "jsx", `${name}.jsx`);
+    let previous = "";
+    try {
+      previous = await readFile(path, "utf8");
+    } catch (e) {
+      if (e.code !== "ENOENT") throw e;
+    }
+    if (
+      previous &&
+      !previous.includes("Replace this starter copy") &&
+      !previous.includes("<DsaLessonArticle")
+    )
+      throw new Error(`Refusing authored overwrite: ${path}`);
+    await save(
+      path,
+      articleWrapper(
+        courseSlug,
+        articles[Math.min(i, articles.length - 1)].slug,
+        "../../DsaLessonArticle.jsx",
+      ),
+    );
+  }
+  await save(
+    join(courseDir, "jsx/Course.jsx"),
+    `import CoursePage from "../../../learning/CoursePage";\nimport { getModule, getTrack } from "../../../../data/catalog";\nexport default function Course({ navigate }) {\n  const module = getModule("dsa");\n  return <CoursePage module={module} track={getTrack(module, "${courseSlug}")} navigate={navigate} />;\n}\n`,
+  );
+  catalog[courseSlug] = {
+    name: course.name,
+    prerequisites: course.prerequisites,
+    sections,
+    articles,
+    aliases: aliasMap,
+    componentPath: `dsa/${courseSlug}`,
+  };
+  if (!groups.has(course.group)) groups.set(course.group, []);
+  groups.get(course.group).push({ name: course.name, slug: courseSlug });
+}
+await save(
+  join(root, "src/data/dsaCourses.js"),
+  `// Generated by scripts/generate-dsa-courses.mjs from authored DSA lesson data.\nexport const dsaCourses = ${JSON.stringify(catalog, null, 2)};\n\nexport const dsaGroups = ${JSON.stringify(
+    [...groups].map(([name, tracks]) => ({ name, tracks })),
+    null,
+    2,
+  )};\n`,
+);
+console.log(
+  `Generated ${Object.keys(catalog).length} DSA courses, ${lessons} lessons, and ${aliases} legacy URL aliases.`,
+);
+await save(
+  join(root, "src/data/dsaAlgorithmSources.js"),
+  `// Generated readable source strings; production minification must not alter teaching examples.\nexport const dsaAlgorithmSources = ${JSON.stringify(Object.fromEntries(Object.entries(dsaAlgorithms).map(([name, implementation]) => [name, implementation.toString()])), null, 2)};\n`,
+);

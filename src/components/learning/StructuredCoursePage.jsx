@@ -13,7 +13,7 @@ export default function StructuredCoursePage({ module, track, sections, navigate
     <main className="structuredCourse" style={{ "--course-accent": module.accent }}>
       <header>
         <button onClick={() => navigate(`/learn/${module.id}`)}>← {module.name}</button>
-        <small>SYSTEM DESIGN / COURSE</small>
+        <small>{module.name.toUpperCase()} / COURSE</small>
         <h1>{track.name}</h1>
         <p>{lessonCount} focused lessons arranged in an ordered learning path.</p>
       </header>

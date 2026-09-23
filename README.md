@@ -78,3 +78,35 @@ provision database engines or execute their examples. After changing the outline
 update the matching topics/profiles and run
 `node scripts/populate-database-articles.mjs` to regenerate article wrappers;
 the script refuses to overwrite unrecognized authored content.
+
+## Data Structures and Algorithms
+
+The DSA module has 19 courses and 89 authored lessons, organized into foundations,
+linear structures, trees and networks, and algorithm techniques. Every lesson
+includes an invariant, time/space analysis, a worked input, a JavaScript
+implementation, an interactive visual trace, and a practice question with an
+explanation. Coverage uses the linked TutorialsPoint curriculum as a reference;
+the prose, code, and visualizations are original.
+
+Edit `src/data/dsaLinearLessons.js`, `dsaHierarchyLessons.js`, and
+`dsaAlgorithmLessons.js` for content. The pure implementations in
+`dsaAlgorithms.js` and `dsaAdvancedAlgorithms.js` emit the states rendered by the
+visual lab. Small fixed inputs keep recursion and trace storage bounded. The
+reader can reverse selected example arrays, step backward/forward, reset, and
+jump to any recorded step. Graphs have text alternatives; wide diagrams and
+matrices scroll within their own region on narrow screens.
+
+After changing content or algorithms, run:
+
+```bash
+node scripts/generate-dsa-courses.mjs
+npm run check:dsa
+```
+
+The generator refreshes route wrappers, the lightweight course catalog, legacy
+aliases, and readable code strings that remain unminified in production. It
+preserves the 240 old DSA article URLs through explicit aliases. The validator
+runs the displayed implementations independently, compares randomized examples
+against reference results, checks balanced-tree invariants and failure cases,
+and renders every lesson. Visualization snapshot overhead is excluded from the
+algorithmic complexity discussed in lessons.

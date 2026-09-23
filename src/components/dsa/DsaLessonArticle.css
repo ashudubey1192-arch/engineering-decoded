@@ -1,0 +1,297 @@
+.dsaLesson {
+  --dsa-active: var(--course-accent, #22c55e);
+}
+.dsaLesson section {
+  margin-bottom: 40px;
+}
+.dsaLesson .lead {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+.dsaEyebrow {
+  color: var(--dsa-active);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+}
+.dsaPrerequisites,
+.dsaTraceCost {
+  font-size: 0.9rem;
+}
+.dsaInvariant {
+  border-left: 3px solid var(--dsa-active);
+  padding: 3px 20px;
+  margin: 24px 0;
+  background: var(--surface);
+}
+.dsaInvariant h3 {
+  margin-bottom: 8px;
+}
+.dsaComplexity {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  border-block: 1px solid var(--line);
+  padding: 12px 0;
+}
+.dsaComplexity h3 {
+  font-size: 0.95rem;
+}
+.dsaComplexity p {
+  font-size: 0.9rem;
+}
+.dsaVisualizer {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 24px 0;
+  background: var(--surface);
+}
+.dsaVisualizerHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.dsaVisualizerHeading h3 {
+  margin: 0;
+}
+.dsaVisualizerHeading span,
+.dsaLabHint,
+.dsaDiagramText,
+.dsaVariant {
+  font-size: 0.85rem;
+}
+.dsaVariant {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+}
+.dsaControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+.dsaControls button {
+  padding: 10px 12px;
+  min-height: 44px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: var(--surface-2);
+  cursor: pointer;
+}
+.dsaControls button:not(:disabled):hover {
+  border-color: var(--dsa-active);
+}
+.dsaControls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.dsaLesson :is(button, input, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--dsa-active);
+  outline-offset: 4px;
+}
+.dsaScrubber {
+  display: grid;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+.dsaScrubber input {
+  width: 100%;
+  min-height: 30px;
+  accent-color: var(--dsa-active);
+}
+.dsaStage {
+  padding: 24px 0 16px;
+  min-height: 120px;
+}
+.dsaCells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.dsaCellUnit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.dsaCell {
+  min-width: 46px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  overflow-wrap: anywhere;
+}
+.dsaCell small {
+  font: 11px var(--font-mono);
+  color: var(--muted);
+}
+.dsaCell strong {
+  font: 600 16px var(--font-mono);
+  color: var(--text);
+}
+.dsaCell.dsaActive,
+.dsaMatrix td.dsaActive {
+  border: 2px solid var(--dsa-active);
+  background: color-mix(in srgb, var(--dsa-active) 15%, var(--surface));
+}
+.dsaExcluded {
+  opacity: 0.35;
+}
+.dsaLink {
+  color: var(--muted);
+  white-space: nowrap;
+}
+.dsaStack {
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+.dsaStack .dsaCell {
+  min-width: 100px;
+}
+.dsaEmpty {
+  padding: 16px;
+  color: var(--muted);
+  font-style: italic;
+}
+.dsaAuxiliary {
+  border-top: 1px dashed var(--line);
+  padding-top: 16px;
+  margin-top: 20px;
+}
+.dsaAuxiliary > small {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+.dsaNetworkScroll,
+.dsaMatrixScroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.dsaNetwork {
+  display: block;
+  width: 100%;
+}
+.dsaEdge {
+  color: var(--muted);
+}
+.dsaEdge line {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.dsaEdge text {
+  fill: var(--text);
+  font: 14px var(--font-mono);
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+.dsaNode circle {
+  fill: var(--surface-2);
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+.dsaNode text {
+  fill: var(--text);
+  text-anchor: middle;
+  font: 13px var(--font-mono);
+}
+.dsaNodeVisited circle {
+  fill: color-mix(in srgb, var(--dsa-active) 15%, var(--surface));
+}
+.dsaNodeActive circle {
+  stroke: var(--dsa-active);
+  stroke-width: 4;
+  fill: color-mix(in srgb, var(--dsa-active) 25%, var(--surface));
+}
+.dsaDiagramText {
+  margin: 12px 0 0;
+}
+.dsaMatrix {
+  border-collapse: separate;
+  border-spacing: 5px;
+  width: max-content;
+}
+.dsaMatrix caption {
+  font-size: 0.75rem;
+  text-align: left;
+  padding-bottom: 10px;
+}
+.dsaMatrix :is(th, td) {
+  min-width: 42px;
+  height: 42px;
+  text-align: center;
+  padding: 8px;
+  font: 14px var(--font-mono);
+}
+.dsaMatrix td {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 5px;
+}
+.dsaMatrix th {
+  color: var(--muted);
+}
+.dsaStepNote {
+  min-height: 80px;
+  padding: 14px;
+  border-left: 3px solid var(--dsa-active);
+  background: var(--bg);
+  overflow-wrap: anywhere;
+}
+.dsaLesson summary {
+  cursor: pointer;
+  padding: 10px 0;
+}
+.dsaLesson pre {
+  max-width: 100%;
+  overflow: auto;
+}
+.dsaLesson pre code {
+  white-space: pre;
+  font-size: 0.8rem;
+}
+.dsaSource {
+  max-height: 640px;
+}
+.dsaReference {
+  font-size: 0.85rem;
+}
+.dsaReference a {
+  color: var(--dsa-active);
+}
+@media (max-width: 600px) {
+  .dsaComplexity {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .dsaVisualizer {
+    padding: 14px;
+  }
+  .dsaControls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .dsaControls button {
+    font-size: 0.85rem;
+    padding: 10px 6px;
+  }
+  .dsaCell {
+    padding: 7px 9px;
+    min-width: 40px;
+  }
+}

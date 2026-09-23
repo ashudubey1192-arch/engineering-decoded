@@ -1,6 +1,7 @@
 import { desktopCourses } from "./desktopCourses";
 import { mobileCourses } from "./mobileCourses";
 import { backendToolingOutlines } from "./backendToolingOutlines";
+import { dsaGroups } from "./dsaCourses";
 
 export const slugify = (value) =>
   value
@@ -25,13 +26,7 @@ export const modules = [
     "DS",
     "#22c55e",
     "Build strong problem-solving and interview foundations.",
-    [
-      { name: "Structures", tracks: tracks("Arrays, Linked Lists, Trees, Graphs") },
-      {
-        name: "Algorithms",
-        tracks: tracks("Binary Search, Dynamic Programming, Greedy, Backtracking"),
-      },
-    ],
+    dsaGroups,
   ),
   makeModule(
     "coding-patterns",

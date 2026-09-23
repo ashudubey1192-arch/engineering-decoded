@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { articleTemplates } from "../../data/catalog";
 import {
   getStructuredCourseArticles,
+  getStructuredCourse,
   getStructuredCourseSections,
 } from "../../data/structuredCourses";
 import { getArticleComponent, preloadArticleComponent } from "../articles/registry";
@@ -53,7 +54,8 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const [expandedSections, setExpandedSections] = useState([]);
   const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
   const articles = getStructuredCourseArticles(module?.id, track?.slug) || articleTemplates;
-  const article = articles.find((item) => item.slug === articleSlug) || articles[0];
+  const canonicalSlug = getStructuredCourse(module?.id, track?.slug)?.aliases?.[articleSlug] || articleSlug;
+  const article = articles.find((item) => item.slug === canonicalSlug) || articles[0];
   const index = articles.findIndex((item) => item.slug === article.slug);
   const next = articles[index + 1];
   const isStructuredCourse = Boolean(structuredSections);

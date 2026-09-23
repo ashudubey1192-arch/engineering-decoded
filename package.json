@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint src",
     "check:databases": "node scripts/check-database-courses.mjs",
+    "check:dsa": "node scripts/check-dsa-courses.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

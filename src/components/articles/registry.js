@@ -24,7 +24,8 @@ const systemDesignTracks = new Set([
 function getArticlePath(moduleId, trackSlug, articleSlug) {
   const structuredCourse = getStructuredCourse(moduleId, trackSlug);
   if (structuredCourse) {
-    const article = structuredCourse.articles.find((item) => item.slug === articleSlug);
+    const canonicalSlug = structuredCourse.aliases?.[articleSlug] || articleSlug;
+    const article = structuredCourse.articles.find((item) => item.slug === canonicalSlug);
     return article
       ? `../${structuredCourse.componentPath}/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`
       : null;

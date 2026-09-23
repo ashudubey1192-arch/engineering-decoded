@@ -1,4 +1,6 @@
 import { preloadCourseComponent } from "../registry";
+import { articleTemplates } from "../../data/catalog";
+import { getStructuredCourseArticles } from "../../data/structuredCourses";
 import "./ModulePage.css";
 
 export default function ModulePage({ module, navigate }) {
@@ -57,10 +59,10 @@ export default function ModulePage({ module, navigate }) {
                   <em>03</em>
                 </span>
                 <span className="courseInfo">
-                  <small>{track.outline ? `${track.outline.length} SECTIONS · COURSE OUTLINE` : "6 ARTICLES · SELF PACED"}</small>
+                  <small>{track.outline ? `${track.outline.length} SECTIONS · COURSE OUTLINE` : `${getStructuredCourseArticles(module.id, track.slug)?.length ?? articleTemplates.length} ARTICLES · SELF PACED`}</small>
                   <strong>{track.name}</strong>
                   <p>
-                    {track.outline ? `${track.language}. Explore the planned course structure.` : `Learn ${track.name} through clear concepts, practical examples, projects, and interview preparation.`}
+                    {track.outline ? `${track.language}. Explore the planned course structure.` : module.id === "dsa" ? `Learn ${track.name} with worked examples, executable code, step-by-step visuals, complexity analysis, and practice.` : `Learn ${track.name} through clear concepts, practical examples, projects, and interview preparation.`}
                   </p>
                   <i>{track.outline ? "VIEW OUTLINE ↗" : "START COURSE ↗"}</i>
                 </span>
