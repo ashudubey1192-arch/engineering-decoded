@@ -1,0 +1,240 @@
+{
+  "id": "graph-valid-tree",
+  "title": "Graph Valid Tree / Redundant Connection Detection",
+  "contract": "Return whether undirected edges form one tree on n ≥ 1 vertices. Self-loops and duplicate edges invalidate a tree.",
+  "signature": "boolean solve(int n,int[][] edges)",
+  "brute": "if(edges.length!=n-1)return false;boolean[][] reach=new boolean[n][n];for(int i=0;i<n;i++)reach[i][i]=true;for(int[] edge:edges){reach[edge[0]][edge[1]]=true;reach[edge[1]][edge[0]]=true;}for(int k=0;k<n;k++){for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];emit(\"Compute reachability\",\"via\",k);}for(int i=0;i<n;i++)if(!reach[0][i])return false;return true;",
+  "optimal": "if(edges.length!=n-1)return false;int[] parent=new int[n],size=new int[n];for(int i=0;i<n;i++){parent[i]=i;size[i]=1;}for(int[] edge:edges){int a=find(parent,edge[0]),b=find(parent,edge[1]);emit(\"An edge within one component would close a cycle\",\"edge\",edge,\"roots\",new int[]{a,b});if(a==b)return false;if(size[a]<size[b]){int t=a;a=b;b=t;}parent[b]=a;size[a]+=size[b];}return true;",
+  "reasoning": [
+    "A graph on n vertices with n−1 edges is a tree exactly when it is connected; the baseline computes reachability.",
+    "DSU rejects an edge joining two vertices already in the same component.",
+    "With n−1 successful unions, all vertices are connected automatically. The rejected edge is also the core signal in redundant-connection problems, although this lab returns a boolean."
+  ],
+  "complexity": [
+    "O(V³+E), O(V²)",
+    "O(V+E α(V)), O(V)"
+  ],
+  "tests": [
+    {
+      "label": "Tree",
+      "args": "4,new int[][]{{0,1},{1,2},{1,3}}",
+      "expected": "true"
+    },
+    {
+      "label": "Cycle plus isolated",
+      "args": "4,new int[][]{{0,1},{1,2},{2,0}}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--graph-valid-tree",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4,new int[][]{{0,1},{1,2},{1,3}}"
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 0
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 1
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 2
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4,new int[][]{{0,1},{1,2},{2,0}}"
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 0
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 1
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 2
+            }
+          },
+          {
+            "note": "Compute reachability",
+            "state": {
+              "via": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4,new int[][]{{0,1},{1,2},{1,3}}"
+            }
+          },
+          {
+            "note": "An edge within one component would close a cycle",
+            "state": {
+              "edge": [
+                0,
+                1
+              ],
+              "roots": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "note": "An edge within one component would close a cycle",
+            "state": {
+              "edge": [
+                1,
+                2
+              ],
+              "roots": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "An edge within one component would close a cycle",
+            "state": {
+              "edge": [
+                1,
+                3
+              ],
+              "roots": [
+                0,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4,new int[][]{{0,1},{1,2},{2,0}}"
+            }
+          },
+          {
+            "note": "An edge within one component would close a cycle",
+            "state": {
+              "edge": [
+                0,
+                1
+              ],
+              "roots": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "note": "An edge within one component would close a cycle",
+            "state": {
+              "edge": [
+                1,
+                2
+              ],
+              "roots": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "An edge within one component would close a cycle",
+            "state": {
+              "edge": [
+                2,
+                0
+              ],
+              "roots": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static boolean solve(int n,int[][] edges) {\n  if(edges.length!=n-1)return false;\n  boolean[][] reach=new boolean[n][n];\n  for(int i=0;i<n;i++)reach[i][i]=true;\n  for(int[] edge:edges) {\n    reach[edge[0]][edge[1]]=true;\n    reach[edge[1]][edge[0]]=true;\n  }\n  for(int k=0;k<n;k++) {\n    for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];\n    emit(\"Compute reachability\",\"via\",k);\n  }\n  for(int i=0;i<n;i++)if(!reach[0][i])return false;\n  return true;\n}\n",
+    "optimal": "static boolean solve(int n,int[][] edges) {\n  if(edges.length!=n-1)return false;\n  int[] parent=new int[n],size=new int[n];\n  for(int i=0;i<n;i++) {\n    parent[i]=i;\n    size[i]=1;\n  }\n  for(int[] edge:edges) {\n    int a=find(parent,edge[0]),b=find(parent,edge[1]);\n    emit(\"An edge within one component would close a cycle\",\"edge\",edge,\"roots\",new int[]{a,b});\n    if(a==b)return false;\n    if(size[a]<size[b]) {\n      int t=a;\n      a=b;\n      b=t;\n    }\n    parent[b]=a;\n    size[a]+=size[b];\n  }\n  return true;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static boolean solve(int n,int[][] edges) {\n    if(edges.length!=n-1)return false;\n    boolean[][] reach=new boolean[n][n];\n    for(int i=0;i<n;i++)reach[i][i]=true;\n    for(int[] edge:edges) {\n      reach[edge[0]][edge[1]]=true;\n      reach[edge[1]][edge[0]]=true;\n    }\n    for(int k=0;k<n;k++) {\n      for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];\n      emit(\"Compute reachability\",\"via\",k);\n    }\n    for(int i=0;i<n;i++)if(!reach[0][i])return false;\n    return true;\n  }\n  static int find(int[] parent,int x) {\n    while(parent[x]!=x) {\n      parent[x]=parent[parent[x]];\n      x=parent[x];\n    }\n    return x;\n  }\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"4,new int[][]{{0,1},{1,2},{1,3}}\");\n    Object result0=solve(4,new int[][]{{0,1},{1,2},{1,3}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static boolean solve(int n,int[][] edges) {\n    if(edges.length!=n-1)return false;\n    int[] parent=new int[n],size=new int[n];\n    for(int i=0;i<n;i++) {\n      parent[i]=i;\n      size[i]=1;\n    }\n    for(int[] edge:edges) {\n      int a=find(parent,edge[0]),b=find(parent,edge[1]);\n      emit(\"An edge within one component would close a cycle\",\"edge\",edge,\"roots\",new int[]{a,b});\n      if(a==b)return false;\n      if(size[a]<size[b]) {\n        int t=a;\n        a=b;\n        b=t;\n      }\n      parent[b]=a;\n      size[a]+=size[b];\n    }\n    return true;\n  }\n  static int find(int[] parent,int x) {\n    while(parent[x]!=x) {\n      parent[x]=parent[parent[x]];\n      x=parent[x];\n    }\n    return x;\n  }\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"4,new int[][]{{0,1},{1,2},{1,3}}\");\n    Object result0=solve(4,new int[][]{{0,1},{1,2},{1,3}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

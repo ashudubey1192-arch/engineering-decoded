@@ -1286,6 +1286,12 @@ export const patternCourses = {
             "slug": "problems--sliding-window-maximum",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Rotting Oranges",
+            "slug": "problems--rotting-oranges",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1312,6 +1318,12 @@ export const patternCourses = {
       {
         "title": "Sliding Window Maximum",
         "slug": "problems--sliding-window-maximum",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Rotting Oranges",
+        "slug": "problems--rotting-oranges",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -1422,6 +1434,42 @@ export const patternCourses = {
             "slug": "problems--unique-paths",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Number of Islands",
+            "slug": "problems--number-islands",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "01 Matrix: Distance to Nearest Zero",
+            "slug": "problems--nearest-zero",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Spiral Matrix",
+            "slug": "problems--spiral-matrix",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Rotate Image",
+            "slug": "problems--rotate-image",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Search 2D Matrix",
+            "slug": "problems--search-matrix",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Flood Fill",
+            "slug": "problems--flood-fill",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1442,6 +1490,42 @@ export const patternCourses = {
       {
         "title": "Unique Paths",
         "slug": "problems--unique-paths",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Number of Islands",
+        "slug": "problems--number-islands",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "01 Matrix: Distance to Nearest Zero",
+        "slug": "problems--nearest-zero",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Spiral Matrix",
+        "slug": "problems--spiral-matrix",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Rotate Image",
+        "slug": "problems--rotate-image",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Search 2D Matrix",
+        "slug": "problems--search-matrix",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Flood Fill",
+        "slug": "problems--flood-fill",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -1979,6 +2063,18 @@ export const patternCourses = {
             "slug": "problems--strongly-connected",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Number of Islands",
+            "slug": "problems--number-islands",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Flood Fill",
+            "slug": "problems--flood-fill",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1999,6 +2095,18 @@ export const patternCourses = {
       {
         "title": "Advanced Graphs: Strongly Connected Components",
         "slug": "problems--strongly-connected",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Number of Islands",
+        "slug": "problems--number-islands",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Flood Fill",
+        "slug": "problems--flood-fill",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -2038,6 +2146,18 @@ export const patternCourses = {
             "slug": "problems--shortest-unweighted",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Rotting Oranges",
+            "slug": "problems--rotting-oranges",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "01 Matrix: Distance to Nearest Zero",
+            "slug": "problems--nearest-zero",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -2052,6 +2172,18 @@ export const patternCourses = {
       {
         "title": "Graph BFS: Minimum Steps",
         "slug": "problems--shortest-unweighted",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Rotting Oranges",
+        "slug": "problems--rotting-oranges",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "01 Matrix: Distance to Nearest Zero",
+        "slug": "problems--nearest-zero",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -2144,6 +2276,12 @@ export const patternCourses = {
             "slug": "problems--union-find",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Graph Valid Tree / Redundant Connection Detection",
+            "slug": "problems--graph-valid-tree",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -2158,6 +2296,12 @@ export const patternCourses = {
       {
         "title": "Union Find: Connectivity After Unions",
         "slug": "problems--union-find",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Graph Valid Tree / Redundant Connection Detection",
+        "slug": "problems--graph-valid-tree",
         "sectionSlug": "problems",
         "time": "25 min"
       }

@@ -11,13 +11,15 @@ import { dpProblems } from "../src/data/patternDpProblems.js";
 import { advancedProblems } from "../src/data/patternAdvancedProblems.js";
 import { interviewProblems } from "../src/data/patternInterviewProblems.js";
 import { treeProblems } from "../src/data/patternTreeProblems.js";
+import { gridProblems } from "../src/data/patternGridProblems.js";
 import { patternCurriculum } from "../src/data/patternCurriculum.js";
 import { slug } from "../src/data/patternLessonSchema.js";
 import { javaSource } from "./pattern-java-support.mjs";
+import { formatJava } from "./format-lesson-java.mjs";
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const check=process.argv.includes("--check");
-const lessons=[...linearProblems,...structureProblems,...graphProblems,...dpProblems,...advancedProblems,...interviewProblems,...treeProblems];
+const lessons=[...linearProblems,...structureProblems,...graphProblems,...dpProblems,...advancedProblems,...interviewProblems,...treeProblems,...gridProblems];
 const lessonMap=new Map(lessons.map(p=>[p.id,p]));
 assert.equal(lessonMap.size,lessons.length,"Problem ids must be unique");
 const temp=await mkdtemp(join(tmpdir(),"engineering-patterns-"));
@@ -58,7 +60,8 @@ try{
         totalFrames+=run.frames.length;totalRuns++;
       });
     }
-    await save(`src/data/patterns/generated/${p.id}.json`,JSON.stringify({...p,runs,source:{brute:javaSource(p,"brute"),optimal:javaSource(p,"optimal")}},null,2)+"\n");
+    const code=Object.fromEntries(["brute","optimal"].map(mode=>[mode,formatJava(`static ${p.signature} {\n${p[mode]}\n}`)]));
+    await save(`src/data/patterns/generated/${p.id}.json`,JSON.stringify({...p,runs,code,source:{brute:javaSource(p,"brute"),optimal:javaSource(p,"optimal")}},null,2)+"\n");
   }
   const courses={},groups=new Map();
   const bands=["Foundation","Core interview patterns","Recursion and trees","Graphs","Optimization","Advanced techniques","Senior Java"];

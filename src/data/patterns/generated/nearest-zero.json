@@ -1,0 +1,575 @@
+{
+  "id": "nearest-zero",
+  "title": "01 Matrix: Distance to Nearest Zero",
+  "contract": "For a nonempty rectangular binary matrix containing at least one zero, return each cell's Manhattan distance to its nearest zero.",
+  "signature": "int[][] solve(int[][] grid)",
+  "brute": "int rows=grid.length,cols=grid[0].length;int[][] out=new int[rows][cols];for(int r=0;r<rows;r++)for(int c=0;c<cols;c++){int best=Integer.MAX_VALUE;for(int x=0;x<rows;x++)for(int y=0;y<cols;y++)if(grid[x][y]==0)best=Math.min(best,Math.abs(x-r)+Math.abs(y-c));out[r][c]=best;emit(\"Compare against every zero\",\"cell\",new int[]{r,c},\"distances\",out);}return out;",
+  "optimal": "int rows=grid.length,cols=grid[0].length;int[][] out=new int[rows][cols];Deque<int[]> q=new ArrayDeque<>();for(int r=0;r<rows;r++)for(int c=0;c<cols;c++){out[r][c]=-1;if(grid[r][c]==0){out[r][c]=0;q.add(new int[]{r,c});}}while(!q.isEmpty()){int[] cell=q.remove();for(int[] d:DIRS){int r=cell[0]+d[0],c=cell[1]+d[1];if(r>=0&&r<rows&&c>=0&&c<cols&&out[r][c]<0){out[r][c]=out[cell[0]][cell[1]]+1;q.add(new int[]{r,c});}}emit(\"Propagate shortest distances from all zeroes\",\"cell\",cell,\"distances\",out);}return out;",
+  "reasoning": [
+    "With no obstacles, distance between two cells is Manhattan distance; compare each cell with every zero.",
+    "Start all zeroes at distance zero and expand a single shared BFS frontier.",
+    "The first discovery gives the nearest source distance. A per-cell BFS repeats exploration unnecessarily. If obstacles were introduced, the baseline Manhattan formula would no longer be valid."
+  ],
+  "complexity": [
+    "O((rc)²), O(rc) output",
+    "O(rc), O(rc)"
+  ],
+  "tests": [
+    {
+      "label": "Matrix",
+      "args": "new int[][]{{0,0,0},{0,1,0},{1,1,1}}",
+      "expected": "[[0, 0, 0], [0, 1, 0], [1, 2, 1]]"
+    }
+  ],
+  "slug": "problems--nearest-zero",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,0,0},{0,1,0},{1,1,1}}"
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                0,
+                0
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                0,
+                1
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                0,
+                2
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                1,
+                0
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                1,
+                1
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                1,
+                2
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                2,
+                0
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                2,
+                1
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Compare against every zero",
+            "state": {
+              "cell": [
+                2,
+                2
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[0, 0, 0], [0, 1, 0], [1, 2, 1]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,0,0},{0,1,0},{1,1,1}}"
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                0,
+                0
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  -1,
+                  0
+                ],
+                [
+                  -1,
+                  -1,
+                  -1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                0,
+                1
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  -1,
+                  -1,
+                  -1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                0,
+                2
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  -1,
+                  -1,
+                  -1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                1,
+                0
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  -1,
+                  -1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                1,
+                2
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  -1,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                1,
+                1
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                2,
+                0
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                2,
+                2
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Propagate shortest distances from all zeroes",
+            "state": {
+              "cell": [
+                2,
+                1
+              ],
+              "distances": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[0, 0, 0], [0, 1, 0], [1, 2, 1]]"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static int[][] solve(int[][] grid) {\n  int rows=grid.length,cols=grid[0].length;\n  int[][] out=new int[rows][cols];\n  for(int r=0;r<rows;r++)for(int c=0;c<cols;c++) {\n    int best=Integer.MAX_VALUE;\n    for(int x=0;x<rows;x++)for(int y=0;y<cols;y++)if(grid[x][y]==0)best=Math.min(best,Math.abs(x-r)+Math.abs(y-c));\n    out[r][c]=best;\n    emit(\"Compare against every zero\",\"cell\",new int[]{r,c},\"distances\",out);\n  }\n  return out;\n}\n",
+    "optimal": "static int[][] solve(int[][] grid) {\n  int rows=grid.length,cols=grid[0].length;\n  int[][] out=new int[rows][cols];\n  Deque<int[]> q=new ArrayDeque<>();\n  for(int r=0;r<rows;r++)for(int c=0;c<cols;c++) {\n    out[r][c]=-1;\n    if(grid[r][c]==0) {\n      out[r][c]=0;\n      q.add(new int[]{r,c});\n    }\n  }\n  while(!q.isEmpty()) {\n    int[] cell=q.remove();\n    for(int[] d:DIRS) {\n      int r=cell[0]+d[0],c=cell[1]+d[1];\n      if(r>=0&&r<rows&&c>=0&&c<cols&&out[r][c]<0) {\n        out[r][c]=out[cell[0]][cell[1]]+1;\n        q.add(new int[]{r,c});\n      }\n    }\n    emit(\"Propagate shortest distances from all zeroes\",\"cell\",cell,\"distances\",out);\n  }\n  return out;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static int[][] solve(int[][] grid) {\n    int rows=grid.length,cols=grid[0].length;\n    int[][] out=new int[rows][cols];\n    for(int r=0;r<rows;r++)for(int c=0;c<cols;c++) {\n      int best=Integer.MAX_VALUE;\n      for(int x=0;x<rows;x++)for(int y=0;y<cols;y++)if(grid[x][y]==0)best=Math.min(best,Math.abs(x-r)+Math.abs(y-c));\n      out[r][c]=best;\n      emit(\"Compare against every zero\",\"cell\",new int[]{r,c},\"distances\",out);\n    }\n    return out;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{0,0,0},{0,1,0},{1,1,1}}\");\n    Object result0=solve(new int[][]{{0,0,0},{0,1,0},{1,1,1}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static int[][] solve(int[][] grid) {\n    int rows=grid.length,cols=grid[0].length;\n    int[][] out=new int[rows][cols];\n    Deque<int[]> q=new ArrayDeque<>();\n    for(int r=0;r<rows;r++)for(int c=0;c<cols;c++) {\n      out[r][c]=-1;\n      if(grid[r][c]==0) {\n        out[r][c]=0;\n        q.add(new int[]{r,c});\n      }\n    }\n    while(!q.isEmpty()) {\n      int[] cell=q.remove();\n      for(int[] d:DIRS) {\n        int r=cell[0]+d[0],c=cell[1]+d[1];\n        if(r>=0&&r<rows&&c>=0&&c<cols&&out[r][c]<0) {\n          out[r][c]=out[cell[0]][cell[1]]+1;\n          q.add(new int[]{r,c});\n        }\n      }\n      emit(\"Propagate shortest distances from all zeroes\",\"cell\",cell,\"distances\",out);\n    }\n    return out;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{0,0,0},{0,1,0},{1,1,1}}\");\n    Object result0=solve(new int[][]{{0,0,0},{0,1,0},{1,1,1}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

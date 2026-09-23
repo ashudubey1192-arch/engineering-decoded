@@ -1,0 +1,354 @@
+{
+  "id": "number-islands",
+  "title": "Number of Islands",
+  "contract": "Count four-directionally connected groups of 1 in a nonempty rectangular binary grid.",
+  "signature": "int solve(int[][] grid)",
+  "brute": "int rows=grid.length,cols=grid[0].length;int[] label=new int[rows*cols];Arrays.fill(label,-1);int count=0;for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(grid[r][c]==1){int id=r*cols+c;label[id]=id;count++;for(int[] d:new int[][]{{-1,0},{0,-1}}){int nr=r+d[0],nc=c+d[1];if(nr<0||nc<0||grid[nr][nc]==0)continue;int old=label[nr*cols+nc],next=label[id];if(old!=next){for(int i=0;i<label.length;i++)if(label[i]==old)label[i]=next;count--;}}emit(\"Merge neighboring land labels by scanning all cells\",\"cell\",new int[]{r,c},\"labels\",label,\"islands\",count);}return count;",
+  "optimal": "int rows=grid.length,cols=grid[0].length,count=0;boolean[][] seen=new boolean[rows][cols];for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(grid[r][c]==1&&!seen[r][c]){count++;Deque<int[]> q=new ArrayDeque<>();q.add(new int[]{r,c});seen[r][c]=true;while(!q.isEmpty()){int[] cell=q.remove();for(int[] d:DIRS){int nr=cell[0]+d[0],nc=cell[1]+d[1];if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&grid[nr][nc]==1&&!seen[nr][nc]){seen[nr][nc]=true;q.add(new int[]{nr,nc});}}emit(\"Visit one land component\",\"cell\",cell,\"visited\",seen,\"islands\",count);}}return count;",
+  "reasoning": [
+    "Assign land labels and merge connected labels by scanning the label array, a correct but costly baseline.",
+    "A flood traversal from each unvisited land cell marks one entire island.",
+    "Only horizontal and vertical neighbors connect here. Mark on enqueue to avoid duplicate visits; a separate visited grid keeps the input unchanged."
+  ],
+  "complexity": [
+    "O((rc)²), O(rc)",
+    "O(rc), O(rc)"
+  ],
+  "tests": [
+    {
+      "label": "Islands",
+      "args": "new int[][]{{1,1,0},{0,1,0},{1,0,1}}",
+      "expected": "3"
+    },
+    {
+      "label": "Water",
+      "args": "new int[][]{{0,0}}",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--number-islands",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1,0},{0,1,0},{1,0,1}}"
+            }
+          },
+          {
+            "note": "Merge neighboring land labels by scanning all cells",
+            "state": {
+              "cell": [
+                0,
+                0
+              ],
+              "labels": [
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "islands": 1
+            }
+          },
+          {
+            "note": "Merge neighboring land labels by scanning all cells",
+            "state": {
+              "cell": [
+                0,
+                1
+              ],
+              "labels": [
+                1,
+                1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "islands": 1
+            }
+          },
+          {
+            "note": "Merge neighboring land labels by scanning all cells",
+            "state": {
+              "cell": [
+                1,
+                1
+              ],
+              "labels": [
+                4,
+                4,
+                -1,
+                -1,
+                4,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "islands": 1
+            }
+          },
+          {
+            "note": "Merge neighboring land labels by scanning all cells",
+            "state": {
+              "cell": [
+                2,
+                0
+              ],
+              "labels": [
+                4,
+                4,
+                -1,
+                -1,
+                4,
+                -1,
+                6,
+                -1,
+                -1
+              ],
+              "islands": 2
+            }
+          },
+          {
+            "note": "Merge neighboring land labels by scanning all cells",
+            "state": {
+              "cell": [
+                2,
+                2
+              ],
+              "labels": [
+                4,
+                4,
+                -1,
+                -1,
+                4,
+                -1,
+                6,
+                -1,
+                8
+              ],
+              "islands": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,0}}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1,0},{0,1,0},{1,0,1}}"
+            }
+          },
+          {
+            "note": "Visit one land component",
+            "state": {
+              "cell": [
+                0,
+                0
+              ],
+              "visited": [
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  false,
+                  false,
+                  false
+                ]
+              ],
+              "islands": 1
+            }
+          },
+          {
+            "note": "Visit one land component",
+            "state": {
+              "cell": [
+                0,
+                1
+              ],
+              "visited": [
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  false,
+                  false
+                ]
+              ],
+              "islands": 1
+            }
+          },
+          {
+            "note": "Visit one land component",
+            "state": {
+              "cell": [
+                1,
+                1
+              ],
+              "visited": [
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  false,
+                  false
+                ]
+              ],
+              "islands": 1
+            }
+          },
+          {
+            "note": "Visit one land component",
+            "state": {
+              "cell": [
+                2,
+                0
+              ],
+              "visited": [
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  false,
+                  false
+                ]
+              ],
+              "islands": 2
+            }
+          },
+          {
+            "note": "Visit one land component",
+            "state": {
+              "cell": [
+                2,
+                2
+              ],
+              "visited": [
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  false,
+                  true
+                ]
+              ],
+              "islands": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,0}}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static int solve(int[][] grid) {\n  int rows=grid.length,cols=grid[0].length;\n  int[] label=new int[rows*cols];\n  Arrays.fill(label,-1);\n  int count=0;\n  for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(grid[r][c]==1) {\n    int id=r*cols+c;\n    label[id]=id;\n    count++;\n    for(int[] d:new int[][]{{-1,0},{0,-1}}) {\n      int nr=r+d[0],nc=c+d[1];\n      if(nr<0||nc<0||grid[nr][nc]==0)continue;\n      int old=label[nr*cols+nc],next=label[id];\n      if(old!=next) {\n        for(int i=0;i<label.length;i++)if(label[i]==old)label[i]=next;\n        count--;\n      }\n    }\n    emit(\"Merge neighboring land labels by scanning all cells\",\"cell\",new int[]{r,c},\"labels\",label,\"islands\",count);\n  }\n  return count;\n}\n",
+    "optimal": "static int solve(int[][] grid) {\n  int rows=grid.length,cols=grid[0].length,count=0;\n  boolean[][] seen=new boolean[rows][cols];\n  for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(grid[r][c]==1&&!seen[r][c]) {\n    count++;\n    Deque<int[]> q=new ArrayDeque<>();\n    q.add(new int[]{r,c});\n    seen[r][c]=true;\n    while(!q.isEmpty()) {\n      int[] cell=q.remove();\n      for(int[] d:DIRS) {\n        int nr=cell[0]+d[0],nc=cell[1]+d[1];\n        if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&grid[nr][nc]==1&&!seen[nr][nc]) {\n          seen[nr][nc]=true;\n          q.add(new int[]{nr,nc});\n        }\n      }\n      emit(\"Visit one land component\",\"cell\",cell,\"visited\",seen,\"islands\",count);\n    }\n  }\n  return count;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static int solve(int[][] grid) {\n    int rows=grid.length,cols=grid[0].length;\n    int[] label=new int[rows*cols];\n    Arrays.fill(label,-1);\n    int count=0;\n    for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(grid[r][c]==1) {\n      int id=r*cols+c;\n      label[id]=id;\n      count++;\n      for(int[] d:new int[][]{{-1,0},{0,-1}}) {\n        int nr=r+d[0],nc=c+d[1];\n        if(nr<0||nc<0||grid[nr][nc]==0)continue;\n        int old=label[nr*cols+nc],next=label[id];\n        if(old!=next) {\n          for(int i=0;i<label.length;i++)if(label[i]==old)label[i]=next;\n          count--;\n        }\n      }\n      emit(\"Merge neighboring land labels by scanning all cells\",\"cell\",new int[]{r,c},\"labels\",label,\"islands\",count);\n    }\n    return count;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,1,0},{0,1,0},{1,0,1}}\");\n    Object result0=solve(new int[][]{{1,1,0},{0,1,0},{1,0,1}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static int solve(int[][] grid) {\n    int rows=grid.length,cols=grid[0].length,count=0;\n    boolean[][] seen=new boolean[rows][cols];\n    for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(grid[r][c]==1&&!seen[r][c]) {\n      count++;\n      Deque<int[]> q=new ArrayDeque<>();\n      q.add(new int[]{r,c});\n      seen[r][c]=true;\n      while(!q.isEmpty()) {\n        int[] cell=q.remove();\n        for(int[] d:DIRS) {\n          int nr=cell[0]+d[0],nc=cell[1]+d[1];\n          if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&grid[nr][nc]==1&&!seen[nr][nc]) {\n            seen[nr][nc]=true;\n            q.add(new int[]{nr,nc});\n          }\n        }\n        emit(\"Visit one land component\",\"cell\",cell,\"visited\",seen,\"islands\",count);\n      }\n    }\n    return count;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,1,0},{0,1,0},{1,0,1}}\");\n    Object result0=solve(new int[][]{{1,1,0},{0,1,0},{1,0,1}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

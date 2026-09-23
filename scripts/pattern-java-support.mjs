@@ -1,3 +1,4 @@
+import { formatJava } from "./format-lesson-java.mjs";
 export const support = {
   "list-cycle": `static Node[] cycleList(int[] input,int pos){Node[] nodes=new Node[input.length];for(int i=0;i<input.length;i++)nodes[i]=new Node(input[i]);for(int i=1;i<input.length;i++)nodes[i-1].next=nodes[i];if(pos>=0)nodes[nodes.length-1].next=nodes[pos];return nodes;}`,
   "invert-tree": `static Tree mirrorCopy(Tree node){if(node==null)return null;Tree copy=new Tree(node.value);copy.left=mirrorCopy(node.right);copy.right=mirrorCopy(node.left);emit("Copy a mirrored subtree","root",node.value);return copy;}`,
@@ -51,6 +52,8 @@ export function helpers(id) {
     (["tree-diameter","balanced-tree"].includes(id)?support.height:""),
     (["middle-list","merge-lists","remove-nth-list","list-cycle"].includes(id)?support["reverse-list"]:""),
     (id==="invert-tree"?`static List<Integer> treeValues(Tree root){List<Integer> out=new ArrayList<>();if(root==null)return out;List<Tree> queue=new ArrayList<>();queue.add(root);for(int i=0;i<queue.size();i++){Tree node=queue.get(i);if(node==null){out.add(null);continue;}out.add(node.value);queue.add(node.left);queue.add(node.right);}while(!out.isEmpty()&&out.get(out.size()-1)==null)out.remove(out.size()-1);return out;}`:""),
+    (["number-islands","rotting-oranges","nearest-zero","flood-fill"].includes(id)?"static final int[][] DIRS={{1,0},{-1,0},{0,1},{0,-1}};":""),
+    (id==="graph-valid-tree"?support["union-find"]:""),
     (["connected-components","shortest-unweighted"].includes(id) ? support.graph : ""), support[id] || ""].filter(Boolean).join("\n");
 }
 
@@ -67,5 +70,5 @@ export function javaSource(lesson, mode, className = "Solution", allExamples = f
   const cases = (allExamples ? lesson.tests : lesson.tests.slice(0,1)).map((test,index) =>
     `System.out.println("CASE\\t${index}"); frameCount=0; emit("Input", "arguments", ${JSON.stringify(test.args)}); Object result${index}=solve(${test.args}); emit("Return the answer", "result", result${index}); System.out.println("RESULT\\t"+display(result${index}));`
       .replaceAll('\\t','\t')).join("\n");
-  return `import java.util.*;\n\npublic class ${className} {\n  static ${lesson.signature} {\n${lesson[mode]}\n  }\n${helpers(lesson.id)}\n${runtime}\n  public static void main(String[] args) {\n${cases}\n  }\n}\n`;
+  return formatJava(`import java.util.*;\n\npublic class ${className} {\n  static ${lesson.signature} {\n${lesson[mode]}\n  }\n${helpers(lesson.id)}\n${runtime}\n  public static void main(String[] args) {\n${cases}\n  }\n}\n`);
 }

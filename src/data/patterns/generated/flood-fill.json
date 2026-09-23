@@ -1,0 +1,400 @@
+{
+  "id": "flood-fill",
+  "title": "Flood Fill",
+  "contract": "Recolor the four-connected component containing (sr,sc) from its original color to color; return the modified rectangular image.",
+  "signature": "int[][] solve(int[][] image,int sr,int sc,int color)",
+  "brute": "int old=image[sr][sc];boolean[][] reached=new boolean[image.length][image[0].length];reached[sr][sc]=true;boolean changed=true;while(changed){changed=false;for(int r=0;r<image.length;r++)for(int c=0;c<image[0].length;c++)if(reached[r][c])for(int[] d:DIRS){int nr=r+d[0],nc=c+d[1];if(nr>=0&&nr<image.length&&nc>=0&&nc<image[0].length&&!reached[nr][nc]&&image[nr][nc]==old){reached[nr][nc]=true;changed=true;}}emit(\"Repeat full scans until reachability stops changing\",\"reached\",reached);}for(int r=0;r<image.length;r++)for(int c=0;c<image[0].length;c++)if(reached[r][c])image[r][c]=color;return image;",
+  "optimal": "int old=image[sr][sc];if(old==color)return image;Deque<int[]> q=new ArrayDeque<>();q.add(new int[]{sr,sc});image[sr][sc]=color;while(!q.isEmpty()){int[] cell=q.remove();for(int[] d:DIRS){int r=cell[0]+d[0],c=cell[1]+d[1];if(r>=0&&r<image.length&&c>=0&&c<image[0].length&&image[r][c]==old){image[r][c]=color;q.add(new int[]{r,c});}}emit(\"Recolor on discovery to mark visited\",\"cell\",cell,\"image\",image);}return image;",
+  "reasoning": [
+    "Repeated relaxation discovers all cells reachable through the old color but may scan the grid many times.",
+    "A queue processes each newly discovered cell once, using the new color as its visited mark.",
+    "Return immediately if the new color equals the old one; otherwise recoloring would not distinguish visited cells and could cause repeated traversal."
+  ],
+  "complexity": [
+    "O((rc)²) upper bound, O(rc)",
+    "O(rc), O(rc) queue worst case"
+  ],
+  "tests": [
+    {
+      "label": "Fill",
+      "args": "new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2",
+      "expected": "[[2, 2, 2], [2, 2, 0], [2, 0, 1]]"
+    },
+    {
+      "label": "Same color",
+      "args": "new int[][]{{1,1}},0,0,1",
+      "expected": "[[1, 1]]"
+    }
+  ],
+  "slug": "problems--flood-fill",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2"
+            }
+          },
+          {
+            "note": "Repeat full scans until reachability stops changing",
+            "state": {
+              "reached": [
+                [
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Repeat full scans until reachability stops changing",
+            "state": {
+              "reached": [
+                [
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  false,
+                  false
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Repeat full scans until reachability stops changing",
+            "state": {
+              "reached": [
+                [
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  false,
+                  false
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[2, 2, 2], [2, 2, 0], [2, 0, 1]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1}},0,0,1"
+            }
+          },
+          {
+            "note": "Repeat full scans until reachability stops changing",
+            "state": {
+              "reached": [
+                [
+                  true,
+                  true
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Repeat full scans until reachability stops changing",
+            "state": {
+              "reached": [
+                [
+                  true,
+                  true
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 1]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2"
+            }
+          },
+          {
+            "note": "Recolor on discovery to mark visited",
+            "state": {
+              "cell": [
+                1,
+                1
+              ],
+              "image": [
+                [
+                  1,
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Recolor on discovery to mark visited",
+            "state": {
+              "cell": [
+                0,
+                1
+              ],
+              "image": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Recolor on discovery to mark visited",
+            "state": {
+              "cell": [
+                1,
+                0
+              ],
+              "image": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Recolor on discovery to mark visited",
+            "state": {
+              "cell": [
+                0,
+                2
+              ],
+              "image": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Recolor on discovery to mark visited",
+            "state": {
+              "cell": [
+                0,
+                0
+              ],
+              "image": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Recolor on discovery to mark visited",
+            "state": {
+              "cell": [
+                2,
+                0
+              ],
+              "image": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[2, 2, 2], [2, 2, 0], [2, 0, 1]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1}},0,0,1"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 1]]"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static int[][] solve(int[][] image,int sr,int sc,int color) {\n  int old=image[sr][sc];\n  boolean[][] reached=new boolean[image.length][image[0].length];\n  reached[sr][sc]=true;\n  boolean changed=true;\n  while(changed) {\n    changed=false;\n    for(int r=0;r<image.length;r++)for(int c=0;c<image[0].length;c++)if(reached[r][c])for(int[] d:DIRS) {\n      int nr=r+d[0],nc=c+d[1];\n      if(nr>=0&&nr<image.length&&nc>=0&&nc<image[0].length&&!reached[nr][nc]&&image[nr][nc]==old) {\n        reached[nr][nc]=true;\n        changed=true;\n      }\n    }\n    emit(\"Repeat full scans until reachability stops changing\",\"reached\",reached);\n  }\n  for(int r=0;r<image.length;r++)for(int c=0;c<image[0].length;c++)if(reached[r][c])image[r][c]=color;\n  return image;\n}\n",
+    "optimal": "static int[][] solve(int[][] image,int sr,int sc,int color) {\n  int old=image[sr][sc];\n  if(old==color)return image;\n  Deque<int[]> q=new ArrayDeque<>();\n  q.add(new int[]{sr,sc});\n  image[sr][sc]=color;\n  while(!q.isEmpty()) {\n    int[] cell=q.remove();\n    for(int[] d:DIRS) {\n      int r=cell[0]+d[0],c=cell[1]+d[1];\n      if(r>=0&&r<image.length&&c>=0&&c<image[0].length&&image[r][c]==old) {\n        image[r][c]=color;\n        q.add(new int[]{r,c});\n      }\n    }\n    emit(\"Recolor on discovery to mark visited\",\"cell\",cell,\"image\",image);\n  }\n  return image;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static int[][] solve(int[][] image,int sr,int sc,int color) {\n    int old=image[sr][sc];\n    boolean[][] reached=new boolean[image.length][image[0].length];\n    reached[sr][sc]=true;\n    boolean changed=true;\n    while(changed) {\n      changed=false;\n      for(int r=0;r<image.length;r++)for(int c=0;c<image[0].length;c++)if(reached[r][c])for(int[] d:DIRS) {\n        int nr=r+d[0],nc=c+d[1];\n        if(nr>=0&&nr<image.length&&nc>=0&&nc<image[0].length&&!reached[nr][nc]&&image[nr][nc]==old) {\n          reached[nr][nc]=true;\n          changed=true;\n        }\n      }\n      emit(\"Repeat full scans until reachability stops changing\",\"reached\",reached);\n    }\n    for(int r=0;r<image.length;r++)for(int c=0;c<image[0].length;c++)if(reached[r][c])image[r][c]=color;\n    return image;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2\");\n    Object result0=solve(new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2);\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static int[][] solve(int[][] image,int sr,int sc,int color) {\n    int old=image[sr][sc];\n    if(old==color)return image;\n    Deque<int[]> q=new ArrayDeque<>();\n    q.add(new int[]{sr,sc});\n    image[sr][sc]=color;\n    while(!q.isEmpty()) {\n      int[] cell=q.remove();\n      for(int[] d:DIRS) {\n        int r=cell[0]+d[0],c=cell[1]+d[1];\n        if(r>=0&&r<image.length&&c>=0&&c<image[0].length&&image[r][c]==old) {\n          image[r][c]=color;\n          q.add(new int[]{r,c});\n        }\n      }\n      emit(\"Recolor on discovery to mark visited\",\"cell\",cell,\"image\",image);\n    }\n    return image;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2\");\n    Object result0=solve(new int[][]{{1,1,1},{1,1,0},{1,0,1}},1,1,2);\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

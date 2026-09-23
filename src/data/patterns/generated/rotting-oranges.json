@@ -1,0 +1,316 @@
+{
+  "id": "rotting-oranges",
+  "title": "Rotting Oranges",
+  "contract": "Grid values: 0 empty, 1 fresh, 2 rotten. Every minute rot spreads to four-directional fresh neighbors. Return minutes until no fresh oranges remain, or −1.",
+  "signature": "int solve(int[][] grid)",
+  "brute": "int minutes=0;while(true){List<int[]> change=new ArrayList<>();int fresh=0;for(int r=0;r<grid.length;r++)for(int c=0;c<grid[0].length;c++)if(grid[r][c]==1){fresh++;for(int[] d:DIRS){int nr=r+d[0],nc=c+d[1];if(nr>=0&&nr<grid.length&&nc>=0&&nc<grid[0].length&&grid[nr][nc]==2){change.add(new int[]{r,c});break;}}}if(fresh==0)return minutes;if(change.isEmpty())return -1;for(int[] cell:change)grid[cell[0]][cell[1]]=2;minutes++;emit(\"Apply all changes simultaneously after scanning\",\"minute\",minutes,\"grid\",grid);}",
+  "optimal": "Deque<int[]> q=new ArrayDeque<>();int fresh=0;for(int r=0;r<grid.length;r++)for(int c=0;c<grid[0].length;c++){if(grid[r][c]==2)q.add(new int[]{r,c});else if(grid[r][c]==1)fresh++;}int minutes=0;while(fresh>0&&!q.isEmpty()){int size=q.size();for(int i=0;i<size;i++){int[] cell=q.remove();for(int[] d:DIRS){int r=cell[0]+d[0],c=cell[1]+d[1];if(r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&grid[r][c]==1){grid[r][c]=2;fresh--;q.add(new int[]{r,c});}}}minutes++;emit(\"Expand all sources one layer\",\"minute\",minutes,\"fresh\",fresh,\"grid\",grid);}return fresh==0?minutes:-1;",
+  "reasoning": [
+    "Repeated whole-grid scans simulate simultaneous time steps, collecting changes before applying them.",
+    "Multi-source BFS starts all rotten cells together and visits each newly rotten cell once.",
+    "Process exactly the current queue size per minute. Empty cells block spread, and fresh cells left after the frontier empties are unreachable."
+  ],
+  "complexity": [
+    "O((rc)²) worst, O(rc)",
+    "O(rc), O(rc)"
+  ],
+  "tests": [
+    {
+      "label": "Spread",
+      "args": "new int[][]{{2,1,1},{1,1,0},{0,1,1}}",
+      "expected": "4"
+    },
+    {
+      "label": "Blocked",
+      "args": "new int[][]{{2,0,1}}",
+      "expected": "-1"
+    }
+  ],
+  "slug": "problems--rotting-oranges",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{2,1,1},{1,1,0},{0,1,1}}"
+            }
+          },
+          {
+            "note": "Apply all changes simultaneously after scanning",
+            "state": {
+              "minute": 1,
+              "grid": [
+                [
+                  2,
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Apply all changes simultaneously after scanning",
+            "state": {
+              "minute": 2,
+              "grid": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Apply all changes simultaneously after scanning",
+            "state": {
+              "minute": 3,
+              "grid": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Apply all changes simultaneously after scanning",
+            "state": {
+              "minute": 4,
+              "grid": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  2,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{2,0,1}}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{2,1,1},{1,1,0},{0,1,1}}"
+            }
+          },
+          {
+            "note": "Expand all sources one layer",
+            "state": {
+              "minute": 1,
+              "fresh": 4,
+              "grid": [
+                [
+                  2,
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Expand all sources one layer",
+            "state": {
+              "minute": 2,
+              "fresh": 2,
+              "grid": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Expand all sources one layer",
+            "state": {
+              "minute": 3,
+              "fresh": 1,
+              "grid": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  2,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Expand all sources one layer",
+            "state": {
+              "minute": 4,
+              "fresh": 0,
+              "grid": [
+                [
+                  2,
+                  2,
+                  2
+                ],
+                [
+                  2,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  2,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{2,0,1}}"
+            }
+          },
+          {
+            "note": "Expand all sources one layer",
+            "state": {
+              "minute": 1,
+              "fresh": 1,
+              "grid": [
+                [
+                  2,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static int solve(int[][] grid) {\n  int minutes=0;\n  while(true) {\n    List<int[]> change=new ArrayList<>();\n    int fresh=0;\n    for(int r=0;r<grid.length;r++)for(int c=0;c<grid[0].length;c++)if(grid[r][c]==1) {\n      fresh++;\n      for(int[] d:DIRS) {\n        int nr=r+d[0],nc=c+d[1];\n        if(nr>=0&&nr<grid.length&&nc>=0&&nc<grid[0].length&&grid[nr][nc]==2) {\n          change.add(new int[]{r,c});\n          break;\n        }\n      }\n    }\n    if(fresh==0)return minutes;\n    if(change.isEmpty())return -1;\n    for(int[] cell:change)grid[cell[0]][cell[1]]=2;\n    minutes++;\n    emit(\"Apply all changes simultaneously after scanning\",\"minute\",minutes,\"grid\",grid);\n  }\n}\n",
+    "optimal": "static int solve(int[][] grid) {\n  Deque<int[]> q=new ArrayDeque<>();\n  int fresh=0;\n  for(int r=0;r<grid.length;r++)for(int c=0;c<grid[0].length;c++) {\n    if(grid[r][c]==2)q.add(new int[]{r,c});\n    else if(grid[r][c]==1)fresh++;\n  }\n  int minutes=0;\n  while(fresh>0&&!q.isEmpty()) {\n    int size=q.size();\n    for(int i=0;i<size;i++) {\n      int[] cell=q.remove();\n      for(int[] d:DIRS) {\n        int r=cell[0]+d[0],c=cell[1]+d[1];\n        if(r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&grid[r][c]==1) {\n          grid[r][c]=2;\n          fresh--;\n          q.add(new int[]{r,c});\n        }\n      }\n    }\n    minutes++;\n    emit(\"Expand all sources one layer\",\"minute\",minutes,\"fresh\",fresh,\"grid\",grid);\n  }\n  return fresh==0?minutes:-1;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static int solve(int[][] grid) {\n    int minutes=0;\n    while(true) {\n      List<int[]> change=new ArrayList<>();\n      int fresh=0;\n      for(int r=0;r<grid.length;r++)for(int c=0;c<grid[0].length;c++)if(grid[r][c]==1) {\n        fresh++;\n        for(int[] d:DIRS) {\n          int nr=r+d[0],nc=c+d[1];\n          if(nr>=0&&nr<grid.length&&nc>=0&&nc<grid[0].length&&grid[nr][nc]==2) {\n            change.add(new int[]{r,c});\n            break;\n          }\n        }\n      }\n      if(fresh==0)return minutes;\n      if(change.isEmpty())return -1;\n      for(int[] cell:change)grid[cell[0]][cell[1]]=2;\n      minutes++;\n      emit(\"Apply all changes simultaneously after scanning\",\"minute\",minutes,\"grid\",grid);\n    }\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{2,1,1},{1,1,0},{0,1,1}}\");\n    Object result0=solve(new int[][]{{2,1,1},{1,1,0},{0,1,1}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static int solve(int[][] grid) {\n    Deque<int[]> q=new ArrayDeque<>();\n    int fresh=0;\n    for(int r=0;r<grid.length;r++)for(int c=0;c<grid[0].length;c++) {\n      if(grid[r][c]==2)q.add(new int[]{r,c});\n      else if(grid[r][c]==1)fresh++;\n    }\n    int minutes=0;\n    while(fresh>0&&!q.isEmpty()) {\n      int size=q.size();\n      for(int i=0;i<size;i++) {\n        int[] cell=q.remove();\n        for(int[] d:DIRS) {\n          int r=cell[0]+d[0],c=cell[1]+d[1];\n          if(r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&grid[r][c]==1) {\n            grid[r][c]=2;\n            fresh--;\n            q.add(new int[]{r,c});\n          }\n        }\n      }\n      minutes++;\n      emit(\"Expand all sources one layer\",\"minute\",minutes,\"fresh\",fresh,\"grid\",grid);\n    }\n    return fresh==0?minutes:-1;\n  }\n  static final int[][] DIRS= {\n    {\n      1,0\n    }, {\n      -1,0\n    }, {\n      0,1\n    }, {\n      0,-1\n    }\n  };\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{2,1,1},{1,1,0},{0,1,1}}\");\n    Object result0=solve(new int[][]{{2,1,1},{1,1,0},{0,1,1}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

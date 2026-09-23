@@ -1,0 +1,261 @@
+{
+  "id": "spiral-matrix",
+  "title": "Spiral Matrix",
+  "contract": "Return a nonempty rectangular matrix in clockwise spiral order starting at the top-left.",
+  "signature": "List<Integer> solve(int[][] grid)",
+  "brute": "int rows=grid.length,cols=grid[0].length;boolean[][] seen=new boolean[rows][cols];int[][] directions={{0,1},{1,0},{0,-1},{-1,0}};int r=0,c=0,d=0;List<Integer> out=new ArrayList<>();for(int i=0;i<rows*cols;i++){out.add(grid[r][c]);seen[r][c]=true;int nr=r+directions[d][0],nc=c+directions[d][1];if(nr<0||nr>=rows||nc<0||nc>=cols||seen[nr][nc])d=(d+1)%4;r+=directions[d][0];c+=directions[d][1];emit(\"Walk and turn at a visited cell or boundary\",\"output\",out);}return out;",
+  "optimal": "int top=0,bottom=grid.length-1,left=0,right=grid[0].length-1;List<Integer> out=new ArrayList<>();while(top<=bottom&&left<=right){for(int c=left;c<=right;c++)out.add(grid[top][c]);top++;for(int r=top;r<=bottom;r++)out.add(grid[r][right]);right--;if(top<=bottom){for(int c=right;c>=left;c--)out.add(grid[bottom][c]);bottom--;}if(left<=right){for(int r=bottom;r>=top;r--)out.add(grid[r][left]);left++;}emit(\"Peel one boundary layer\",\"remaining bounds\",new int[]{top,bottom,left,right},\"output\",out);}return out;",
+  "reasoning": [
+    "Simulate a moving cursor with a visited matrix to decide when to turn.",
+    "Maintain the four boundaries of the unvisited rectangle and peel one side at a time.",
+    "Recheck the row/column bounds before traversing the bottom and left sides, preventing duplicates in a single remaining row or column. The optimization saves visited storage, not traversal time."
+  ],
+  "complexity": [
+    "O(rc), O(rc) auxiliary",
+    "O(rc), O(1) auxiliary excluding output"
+  ],
+  "tests": [
+    {
+      "label": "Rectangle",
+      "args": "new int[][]{{1,2,3},{4,5,6}}",
+      "expected": "[1, 2, 3, 6, 5, 4]"
+    },
+    {
+      "label": "Single column",
+      "args": "new int[][]{{1},{2},{3}}",
+      "expected": "[1, 2, 3]"
+    }
+  ],
+  "slug": "problems--spiral-matrix",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,2,3},{4,5,6}}"
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2,
+                3,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2,
+                3,
+                6,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2,
+                3,
+                6,
+                5,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                3,
+                6,
+                5,
+                4
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 3, 6, 5, 4]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1},{2},{3}}"
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Walk and turn at a visited cell or boundary",
+            "state": {
+              "output": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 3]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,2,3},{4,5,6}}"
+            }
+          },
+          {
+            "note": "Peel one boundary layer",
+            "state": {
+              "remaining bounds": [
+                1,
+                0,
+                1,
+                1
+              ],
+              "output": [
+                1,
+                2,
+                3,
+                6,
+                5,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                3,
+                6,
+                5,
+                4
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 3, 6, 5, 4]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1},{2},{3}}"
+            }
+          },
+          {
+            "note": "Peel one boundary layer",
+            "state": {
+              "remaining bounds": [
+                1,
+                1,
+                0,
+                -1
+              ],
+              "output": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 3]"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static List<Integer> solve(int[][] grid) {\n  int rows=grid.length,cols=grid[0].length;\n  boolean[][] seen=new boolean[rows][cols];\n  int[][] directions= {\n    {\n      0,1\n    }, {\n      1,0\n    }, {\n      0,-1\n    }, {\n      -1,0\n    }\n  };\n  int r=0,c=0,d=0;\n  List<Integer> out=new ArrayList<>();\n  for(int i=0;i<rows*cols;i++) {\n    out.add(grid[r][c]);\n    seen[r][c]=true;\n    int nr=r+directions[d][0],nc=c+directions[d][1];\n    if(nr<0||nr>=rows||nc<0||nc>=cols||seen[nr][nc])d=(d+1)%4;\n    r+=directions[d][0];\n    c+=directions[d][1];\n    emit(\"Walk and turn at a visited cell or boundary\",\"output\",out);\n  }\n  return out;\n}\n",
+    "optimal": "static List<Integer> solve(int[][] grid) {\n  int top=0,bottom=grid.length-1,left=0,right=grid[0].length-1;\n  List<Integer> out=new ArrayList<>();\n  while(top<=bottom&&left<=right) {\n    for(int c=left;c<=right;c++)out.add(grid[top][c]);\n    top++;\n    for(int r=top;r<=bottom;r++)out.add(grid[r][right]);\n    right--;\n    if(top<=bottom) {\n      for(int c=right;c>=left;c--)out.add(grid[bottom][c]);\n      bottom--;\n    }\n    if(left<=right) {\n      for(int r=bottom;r>=top;r--)out.add(grid[r][left]);\n      left++;\n    }\n    emit(\"Peel one boundary layer\",\"remaining bounds\",new int[]{top,bottom,left,right},\"output\",out);\n  }\n  return out;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static List<Integer> solve(int[][] grid) {\n    int rows=grid.length,cols=grid[0].length;\n    boolean[][] seen=new boolean[rows][cols];\n    int[][] directions= {\n      {\n        0,1\n      }, {\n        1,0\n      }, {\n        0,-1\n      }, {\n        -1,0\n      }\n    };\n    int r=0,c=0,d=0;\n    List<Integer> out=new ArrayList<>();\n    for(int i=0;i<rows*cols;i++) {\n      out.add(grid[r][c]);\n      seen[r][c]=true;\n      int nr=r+directions[d][0],nc=c+directions[d][1];\n      if(nr<0||nr>=rows||nc<0||nc>=cols||seen[nr][nc])d=(d+1)%4;\n      r+=directions[d][0];\n      c+=directions[d][1];\n      emit(\"Walk and turn at a visited cell or boundary\",\"output\",out);\n    }\n    return out;\n  }\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,2,3},{4,5,6}}\");\n    Object result0=solve(new int[][]{{1,2,3},{4,5,6}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static List<Integer> solve(int[][] grid) {\n    int top=0,bottom=grid.length-1,left=0,right=grid[0].length-1;\n    List<Integer> out=new ArrayList<>();\n    while(top<=bottom&&left<=right) {\n      for(int c=left;c<=right;c++)out.add(grid[top][c]);\n      top++;\n      for(int r=top;r<=bottom;r++)out.add(grid[r][right]);\n      right--;\n      if(top<=bottom) {\n        for(int c=right;c>=left;c--)out.add(grid[bottom][c]);\n        bottom--;\n      }\n      if(left<=right) {\n        for(int r=bottom;r>=top;r--)out.add(grid[r][left]);\n        left++;\n      }\n      emit(\"Peel one boundary layer\",\"remaining bounds\",new int[]{top,bottom,left,right},\"output\",out);\n    }\n    return out;\n  }\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,2,3},{4,5,6}}\");\n    Object result0=solve(new int[][]{{1,2,3},{4,5,6}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

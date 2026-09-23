@@ -1,0 +1,295 @@
+{
+  "id": "rotate-image",
+  "title": "Rotate Image",
+  "contract": "Rotate an n×n matrix clockwise by 90 degrees.",
+  "signature": "int[][] solve(int[][] a)",
+  "brute": "int n=a.length;int[][] out=new int[n][n];for(int r=0;r<n;r++)for(int c=0;c<n;c++){out[c][n-1-r]=a[r][c];emit(\"Map a cell to its rotated coordinates\",\"source\",new int[]{r,c},\"output\",out);}return out;",
+  "optimal": "int n=a.length;for(int r=0;r<n;r++)for(int c=r+1;c<n;c++){int t=a[r][c];a[r][c]=a[c][r];a[c][r]=t;}emit(\"Transpose across the main diagonal\",\"matrix\",a);for(int[] row:a){for(int l=0,r=n-1;l<r;l++,r--){int t=row[l];row[l]=row[r];row[r]=t;}emit(\"Reverse each transposed row\",\"matrix\",a);}return a;",
+  "reasoning": [
+    "Map each original (r,c) to (c,n−1−r) in a new matrix.",
+    "Clockwise rotation equals transpose followed by reversing each row.",
+    "Swap only above the diagonal while transposing, otherwise each pair is swapped twice. In-place rotation requires a square matrix; rectangular rotation needs different dimensions."
+  ],
+  "complexity": [
+    "O(n²), O(n²) auxiliary",
+    "O(n²), O(1) auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Square",
+      "args": "new int[][]{{1,2},{3,4}}",
+      "expected": "[[3, 1], [4, 2]]"
+    },
+    {
+      "label": "One",
+      "args": "new int[][]{{7}}",
+      "expected": "[[7]]"
+    }
+  ],
+  "slug": "problems--rotate-image",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,2},{3,4}}"
+            }
+          },
+          {
+            "note": "Map a cell to its rotated coordinates",
+            "state": {
+              "source": [
+                0,
+                0
+              ],
+              "output": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Map a cell to its rotated coordinates",
+            "state": {
+              "source": [
+                0,
+                1
+              ],
+              "output": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Map a cell to its rotated coordinates",
+            "state": {
+              "source": [
+                1,
+                0
+              ],
+              "output": [
+                [
+                  3,
+                  1
+                ],
+                [
+                  0,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Map a cell to its rotated coordinates",
+            "state": {
+              "source": [
+                1,
+                1
+              ],
+              "output": [
+                [
+                  3,
+                  1
+                ],
+                [
+                  4,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  3,
+                  1
+                ],
+                [
+                  4,
+                  2
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[3, 1], [4, 2]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{7}}"
+            }
+          },
+          {
+            "note": "Map a cell to its rotated coordinates",
+            "state": {
+              "source": [
+                0,
+                0
+              ],
+              "output": [
+                [
+                  7
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  7
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[7]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,2},{3,4}}"
+            }
+          },
+          {
+            "note": "Transpose across the main diagonal",
+            "state": {
+              "matrix": [
+                [
+                  1,
+                  3
+                ],
+                [
+                  2,
+                  4
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Reverse each transposed row",
+            "state": {
+              "matrix": [
+                [
+                  3,
+                  1
+                ],
+                [
+                  2,
+                  4
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Reverse each transposed row",
+            "state": {
+              "matrix": [
+                [
+                  3,
+                  1
+                ],
+                [
+                  4,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  3,
+                  1
+                ],
+                [
+                  4,
+                  2
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[3, 1], [4, 2]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{7}}"
+            }
+          },
+          {
+            "note": "Transpose across the main diagonal",
+            "state": {
+              "matrix": [
+                [
+                  7
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Reverse each transposed row",
+            "state": {
+              "matrix": [
+                [
+                  7
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  7
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[7]]"
+      }
+    ]
+  },
+  "code": {
+    "brute": "static int[][] solve(int[][] a) {\n  int n=a.length;\n  int[][] out=new int[n][n];\n  for(int r=0;r<n;r++)for(int c=0;c<n;c++) {\n    out[c][n-1-r]=a[r][c];\n    emit(\"Map a cell to its rotated coordinates\",\"source\",new int[]{r,c},\"output\",out);\n  }\n  return out;\n}\n",
+    "optimal": "static int[][] solve(int[][] a) {\n  int n=a.length;\n  for(int r=0;r<n;r++)for(int c=r+1;c<n;c++) {\n    int t=a[r][c];\n    a[r][c]=a[c][r];\n    a[c][r]=t;\n  }\n  emit(\"Transpose across the main diagonal\",\"matrix\",a);\n  for(int[] row:a) {\n    for(int l=0,r=n-1;l<r;l++,r--) {\n      int t=row[l];\n      row[l]=row[r];\n      row[r]=t;\n    }\n    emit(\"Reverse each transposed row\",\"matrix\",a);\n  }\n  return a;\n}\n"
+  },
+  "source": {
+    "brute": "import java.util.*;\npublic class Solution {\n  static int[][] solve(int[][] a) {\n    int n=a.length;\n    int[][] out=new int[n][n];\n    for(int r=0;r<n;r++)for(int c=0;c<n;c++) {\n      out[c][n-1-r]=a[r][c];\n      emit(\"Map a cell to its rotated coordinates\",\"source\",new int[]{r,c},\"output\",out);\n    }\n    return out;\n  }\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,2},{3,4}}\");\n    Object result0=solve(new int[][]{{1,2},{3,4}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\npublic class Solution {\n  static int[][] solve(int[][] a) {\n    int n=a.length;\n    for(int r=0;r<n;r++)for(int c=r+1;c<n;c++) {\n      int t=a[r][c];\n      a[r][c]=a[c][r];\n      a[c][r]=t;\n    }\n    emit(\"Transpose across the main diagonal\",\"matrix\",a);\n    for(int[] row:a) {\n      for(int l=0,r=n-1;l<r;l++,r--) {\n        int t=row[l];\n        row[l]=row[r];\n        row[r]=t;\n      }\n      emit(\"Reverse each transposed row\",\"matrix\",a);\n    }\n    return a;\n  }\n  static int frameCount=0;\n  static final int FRAME_LIMIT=12000;\n  static String quote(String value) {\n    StringBuilder out=new StringBuilder(\"\\\"\");\n    for(char c:value.toCharArray()) {\n      switch(c) {\n        case '\"':out.append(\"\\\\\\\"\");\n        break;\n        case '\\\\':out.append(\"\\\\\\\\\");\n        break;\n        case '\\n':out.append(\"\\\\n\");\n        break;\n        case '\\r':out.append(\"\\\\r\");\n        break;\n        case '\\t':out.append(\"\\\\t\");\n        break;\n        default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));\n        else out.append(c);\n      }\n    }\n    return out.append('\"').toString();\n  }\n  static String json(Object value) {\n    if(value==null)return \"null\";\n    if(value instanceof Number||value instanceof Boolean)return value.toString();\n    if(value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Collection<?> values) {\n      List<String> parts=new ArrayList<>();\n      for(Object v:values)parts.add(json(v));\n      return \"[\"+String.join(\",\",parts)+\"]\";\n    }\n    if(value instanceof Map<?,?> values) {\n      List<String> parts=new ArrayList<>();\n      for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));\n      return \"{\"+String.join(\",\",parts)+\"}\";\n    }\n    return quote(value.toString());\n  }\n  static String display(Object value) {\n    if(value!=null&&value.getClass().isArray()) {\n      List<String> parts=new ArrayList<>();\n      for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));\n      return \"[\"+String.join(\", \",parts)+\"]\";\n    }\n    return String.valueOf(value);\n  }\n  static void emit(String note,Object... pairs) {\n    if(++frameCount>FRAME_LIMIT)return;\n    Map<String,Object> state=new LinkedHashMap<>();\n    for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);\n    System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");\n  }\n  public static void main(String[] args) {\n    System.out.println(\"CASE\t0\");\n    frameCount=0;\n    emit(\"Input\", \"arguments\", \"new int[][]{{1,2},{3,4}}\");\n    Object result0=solve(new int[][]{{1,2},{3,4}});\n    emit(\"Return the answer\", \"result\", result0);\n    System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}
