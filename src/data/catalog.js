@@ -65,6 +65,20 @@ export const modules = [
     ],
   ),
   makeModule(
+    "ai",
+    "AI, ML and Data Science",
+    "AI",
+    "#22c55e",
+    "Build intelligent products with data and language models.",
+    [
+      {
+        name: "Foundations",
+        tracks: tracks("Machine Learning, Deep Learning, Data Science, Python"),
+      },
+      { name: "Generative AI", tracks: tracks("LLMs, Prompt Engineering, RAG, AI Agents") },
+    ],
+  ),
+  makeModule(
     "backend",
     "Backend Engineering",
     "BE",
@@ -122,20 +136,6 @@ export const modules = [
         name: "Patterns",
         tracks: tracks("Pub Sub, Dead Letter Queue, Idempotency, Outbox Pattern"),
       },
-    ],
-  ),
-  makeModule(
-    "ai",
-    "AI, ML and Data Science",
-    "AI",
-    "#22c55e",
-    "Build intelligent products with data and language models.",
-    [
-      {
-        name: "Foundations",
-        tracks: tracks("Machine Learning, Deep Learning, Data Science, Python"),
-      },
-      { name: "Generative AI", tracks: tracks("LLMs, Prompt Engineering, RAG, AI Agents") },
     ],
   ),
   makeModule(
