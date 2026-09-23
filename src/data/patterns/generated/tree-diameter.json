@@ -1,0 +1,218 @@
+{
+  "id": "tree-diameter",
+  "title": "Diameter of Binary Tree",
+  "contract": "Return the number of edges in the longest simple path; an empty tree has diameter 0.",
+  "signature": "int solve(Integer[] input)",
+  "brute": "return diameterSlow(tree(input));",
+  "optimal": "int[] best={0};diameterHeight(tree(input),best);return best[0];",
+  "reasoning": [
+    "At every node, recompute left and right subtree heights and compare their sum with child diameters.",
+    "Postorder can return a height to the parent while updating the best diameter seen anywhere.",
+    "A path through a node uses leftHeight+rightHeight edges when height counts nodes. Return only one branch upward because a path cannot fork when extended through its parent."
+  ],
+  "complexity": [
+    "O(n²) worst, O(h)",
+    "O(n), O(h)"
+  ],
+  "tests": [
+    {
+      "label": "Tree",
+      "args": "new Integer[]{1,2,3,4,5}",
+      "expected": "3"
+    },
+    {
+      "label": "Single",
+      "args": "new Integer[]{1}",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--tree-diameter",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2,3,4,5}"
+            }
+          },
+          {
+            "note": "Recompute heights through a node",
+            "state": {
+              "node": 1,
+              "through": 3
+            }
+          },
+          {
+            "note": "Recompute heights through a node",
+            "state": {
+              "node": 2,
+              "through": 2
+            }
+          },
+          {
+            "note": "Recompute heights through a node",
+            "state": {
+              "node": 4,
+              "through": 0
+            }
+          },
+          {
+            "note": "Recompute heights through a node",
+            "state": {
+              "node": 5,
+              "through": 0
+            }
+          },
+          {
+            "note": "Recompute heights through a node",
+            "state": {
+              "node": 3,
+              "through": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1}"
+            }
+          },
+          {
+            "note": "Recompute heights through a node",
+            "state": {
+              "node": 1,
+              "through": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2,3,4,5}"
+            }
+          },
+          {
+            "note": "Return height while updating diameter",
+            "state": {
+              "node": 4,
+              "child heights": [
+                0,
+                0
+              ],
+              "diameter": 0
+            }
+          },
+          {
+            "note": "Return height while updating diameter",
+            "state": {
+              "node": 5,
+              "child heights": [
+                0,
+                0
+              ],
+              "diameter": 0
+            }
+          },
+          {
+            "note": "Return height while updating diameter",
+            "state": {
+              "node": 2,
+              "child heights": [
+                1,
+                1
+              ],
+              "diameter": 2
+            }
+          },
+          {
+            "note": "Return height while updating diameter",
+            "state": {
+              "node": 3,
+              "child heights": [
+                0,
+                0
+              ],
+              "diameter": 2
+            }
+          },
+          {
+            "note": "Return height while updating diameter",
+            "state": {
+              "node": 1,
+              "child heights": [
+                2,
+                1
+              ],
+              "diameter": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1}"
+            }
+          },
+          {
+            "note": "Return height while updating diameter",
+            "state": {
+              "node": 1,
+              "child heights": [
+                0,
+                0
+              ],
+              "diameter": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(Integer[] input) {\nreturn diameterSlow(tree(input));\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic int height(Tree node){return node==null?0:1+Math.max(height(node.left),height(node.right));}\nstatic int diameterSlow(Tree node){if(node==null)return 0;int through=height(node.left)+height(node.right);emit(\"Recompute heights through a node\",\"node\",node.value,\"through\",through);return Math.max(through,Math.max(diameterSlow(node.left),diameterSlow(node.right)));}\nstatic int diameterHeight(Tree node,int[] best){if(node==null)return 0;int left=diameterHeight(node.left,best),right=diameterHeight(node.right,best);best[0]=Math.max(best[0],left+right);emit(\"Return height while updating diameter\",\"node\",node.value,\"child heights\",new int[]{left,right},\"diameter\",best[0]);return 1+Math.max(left,right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{1,2,3,4,5}\"); Object result0=solve(new Integer[]{1,2,3,4,5}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(Integer[] input) {\nint[] best={0};diameterHeight(tree(input),best);return best[0];\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic int height(Tree node){return node==null?0:1+Math.max(height(node.left),height(node.right));}\nstatic int diameterSlow(Tree node){if(node==null)return 0;int through=height(node.left)+height(node.right);emit(\"Recompute heights through a node\",\"node\",node.value,\"through\",through);return Math.max(through,Math.max(diameterSlow(node.left),diameterSlow(node.right)));}\nstatic int diameterHeight(Tree node,int[] best){if(node==null)return 0;int left=diameterHeight(node.left,best),right=diameterHeight(node.right,best);best[0]=Math.max(best[0],left+right);emit(\"Return height while updating diameter\",\"node\",node.value,\"child heights\",new int[]{left,right},\"diameter\",best[0]);return 1+Math.max(left,right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{1,2,3,4,5}\"); Object result0=solve(new Integer[]{1,2,3,4,5}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "id": "kth-smallest-bst",
+  "title": "Kth Smallest Element in a BST",
+  "contract": "For a valid strict BST and 1 ≤ k ≤ node count, return the kth smallest value.",
+  "signature": "int solve(Integer[] input,int k)",
+  "brute": "List<Integer> all=new ArrayList<>();collect(tree(input),all);Collections.sort(all);emit(\"Collect and sort all values\",\"values\",all);return all.get(k-1);",
+  "optimal": "Tree node=tree(input);Deque<Tree> stack=new ArrayDeque<>();while(node!=null||!stack.isEmpty()){while(node!=null){stack.push(node);node=node.left;}node=stack.pop();emit(\"Inorder visits the next smallest value\",\"value\",node.value,\"remaining rank\",k);if(--k==0)return node.value;node=node.right;}throw new IllegalArgumentException(\"Invalid rank\");",
+  "reasoning": [
+    "Sorting collected values ignores the ordering already encoded by the BST.",
+    "Inorder traversal yields increasing values; stop when k nodes have been popped.",
+    "This saves work for a small k. Repeated rank queries under updates may justify storing subtree sizes in a balanced order-statistic tree."
+  ],
+  "complexity": [
+    "O(n log n), O(n)",
+    "O(h+k), O(h) traversal auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Rank",
+      "args": "new Integer[]{3,1,4,null,2},1",
+      "expected": "1"
+    },
+    {
+      "label": "Last",
+      "args": "new Integer[]{2,1,3},3",
+      "expected": "3"
+    }
+  ],
+  "slug": "problems--kth-smallest-bst",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{3,1,4,null,2},1"
+            }
+          },
+          {
+            "note": "Collect and sort all values",
+            "state": {
+              "values": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{2,1,3},3"
+            }
+          },
+          {
+            "note": "Collect and sort all values",
+            "state": {
+              "values": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{3,1,4,null,2},1"
+            }
+          },
+          {
+            "note": "Inorder visits the next smallest value",
+            "state": {
+              "value": 1,
+              "remaining rank": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{2,1,3},3"
+            }
+          },
+          {
+            "note": "Inorder visits the next smallest value",
+            "state": {
+              "value": 1,
+              "remaining rank": 3
+            }
+          },
+          {
+            "note": "Inorder visits the next smallest value",
+            "state": {
+              "value": 2,
+              "remaining rank": 2
+            }
+          },
+          {
+            "note": "Inorder visits the next smallest value",
+            "state": {
+              "value": 3,
+              "remaining rank": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(Integer[] input,int k) {\nList<Integer> all=new ArrayList<>();collect(tree(input),all);Collections.sort(all);emit(\"Collect and sort all values\",\"values\",all);return all.get(k-1);\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic void collect(Tree node,List<Integer> values){if(node==null)return;values.add(node.value);collect(node.left,values);collect(node.right,values);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{3,1,4,null,2},1\"); Object result0=solve(new Integer[]{3,1,4,null,2},1); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(Integer[] input,int k) {\nTree node=tree(input);Deque<Tree> stack=new ArrayDeque<>();while(node!=null||!stack.isEmpty()){while(node!=null){stack.push(node);node=node.left;}node=stack.pop();emit(\"Inorder visits the next smallest value\",\"value\",node.value,\"remaining rank\",k);if(--k==0)return node.value;node=node.right;}throw new IllegalArgumentException(\"Invalid rank\");\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic void collect(Tree node,List<Integer> values){if(node==null)return;values.add(node.value);collect(node.left,values);collect(node.right,values);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{3,1,4,null,2},1\"); Object result0=solve(new Integer[]{3,1,4,null,2},1); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

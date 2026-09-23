@@ -1,0 +1,273 @@
+{
+  "id": "invert-tree",
+  "title": "Invert Binary Tree",
+  "contract": "Mirror a level-order binary tree by swapping left and right at every node. Return trimmed level-order values including internal nulls.",
+  "signature": "List<Integer> solve(Integer[] input)",
+  "brute": "Tree root=tree(input);return treeValues(mirrorCopy(root));",
+  "optimal": "Tree root=tree(input);if(root==null)return new ArrayList<>();Deque<Tree> q=new ArrayDeque<>();q.add(root);while(!q.isEmpty()){Tree node=q.remove(),temp=node.left;node.left=node.right;node.right=temp;if(node.left!=null)q.add(node.left);if(node.right!=null)q.add(node.right);emit(\"Swap both child links\",\"node\",node.value,\"tree\",treeValues(root));}return treeValues(root);",
+  "reasoning": [
+    "Build a separate mirrored copy, recursively placing the original right subtree on the new left.",
+    "Swapping child pointers at each existing node produces the same shape without allocating a second tree.",
+    "Both visit every node. The iterative in-place version uses frontier space; input construction and returned serialization are excluded from auxiliary-space comparisons."
+  ],
+  "complexity": [
+    "O(n), O(n) extra tree plus O(h) stack",
+    "O(n), O(w) traversal space"
+  ],
+  "tests": [
+    {
+      "label": "Balanced",
+      "args": "new Integer[]{4,2,7,1,3,6,9}",
+      "expected": "[4, 7, 2, 9, 6, 3, 1]"
+    },
+    {
+      "label": "Empty",
+      "args": "new Integer[]{}",
+      "expected": "[]"
+    }
+  ],
+  "slug": "problems--invert-tree",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{4,2,7,1,3,6,9}"
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 9
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 6
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 7
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 3
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 1
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 2
+            }
+          },
+          {
+            "note": "Copy a mirrored subtree",
+            "state": {
+              "root": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[4, 7, 2, 9, 6, 3, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{4,2,7,1,3,6,9}"
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 4,
+              "tree": [
+                4,
+                7,
+                2,
+                6,
+                9,
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 7,
+              "tree": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 2,
+              "tree": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 9,
+              "tree": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 6,
+              "tree": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 3,
+              "tree": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Swap both child links",
+            "state": {
+              "node": 1,
+              "tree": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                4,
+                7,
+                2,
+                9,
+                6,
+                3,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[4, 7, 2, 9, 6, 3, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<Integer> solve(Integer[] input) {\nTree root=tree(input);return treeValues(mirrorCopy(root));\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic List<Integer> treeValues(Tree root){List<Integer> out=new ArrayList<>();if(root==null)return out;List<Tree> queue=new ArrayList<>();queue.add(root);for(int i=0;i<queue.size();i++){Tree node=queue.get(i);if(node==null){out.add(null);continue;}out.add(node.value);queue.add(node.left);queue.add(node.right);}while(!out.isEmpty()&&out.get(out.size()-1)==null)out.remove(out.size()-1);return out;}\nstatic Tree mirrorCopy(Tree node){if(node==null)return null;Tree copy=new Tree(node.value);copy.left=mirrorCopy(node.right);copy.right=mirrorCopy(node.left);emit(\"Copy a mirrored subtree\",\"root\",node.value);return copy;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{4,2,7,1,3,6,9}\"); Object result0=solve(new Integer[]{4,2,7,1,3,6,9}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<Integer> solve(Integer[] input) {\nTree root=tree(input);if(root==null)return new ArrayList<>();Deque<Tree> q=new ArrayDeque<>();q.add(root);while(!q.isEmpty()){Tree node=q.remove(),temp=node.left;node.left=node.right;node.right=temp;if(node.left!=null)q.add(node.left);if(node.right!=null)q.add(node.right);emit(\"Swap both child links\",\"node\",node.value,\"tree\",treeValues(root));}return treeValues(root);\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic List<Integer> treeValues(Tree root){List<Integer> out=new ArrayList<>();if(root==null)return out;List<Tree> queue=new ArrayList<>();queue.add(root);for(int i=0;i<queue.size();i++){Tree node=queue.get(i);if(node==null){out.add(null);continue;}out.add(node.value);queue.add(node.left);queue.add(node.right);}while(!out.isEmpty()&&out.get(out.size()-1)==null)out.remove(out.size()-1);return out;}\nstatic Tree mirrorCopy(Tree node){if(node==null)return null;Tree copy=new Tree(node.value);copy.left=mirrorCopy(node.right);copy.right=mirrorCopy(node.left);emit(\"Copy a mirrored subtree\",\"root\",node.value);return copy;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{4,2,7,1,3,6,9}\"); Object result0=solve(new Integer[]{4,2,7,1,3,6,9}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "id": "middle-list",
+  "title": "Middle of Linked List",
+  "contract": "Return the second middle value for an even-length nonempty list.",
+  "signature": "int solve(int[] input)",
+  "brute": "Node head=list(input);int size=0;for(Node n=head;n!=null;n=n.next)size++;Node node=head;for(int i=0;i<size/2;i++){node=node.next;emit(\"Walk to the counted middle\",\"index\",i+1);}return node.value;",
+  "optimal": "Node slow=list(input),fast=slow;while(fast!=null&&fast.next!=null){slow=slow.next;fast=fast.next.next;emit(\"Fast moves twice as far\",\"slow value\",slow.value,\"fast value\",fast==null?null:fast.value);}return slow.value;",
+  "reasoning": [
+    "Count nodes, then walk halfway in a second traversal.",
+    "When fast has moved 2k links, slow has moved k links. Exhausting fast places slow at the second middle.",
+    "Both approaches are linear and constant auxiliary space; the improvement is a single traversal. List construction from the demo array is excluded from traversal-space analysis."
+  ],
+  "complexity": [
+    "O(n), O(1) traversal space",
+    "O(n), O(1) traversal space; one pass"
+  ],
+  "tests": [
+    {
+      "label": "Even",
+      "args": "new int[]{1,2,3,4}",
+      "expected": "3"
+    },
+    {
+      "label": "Odd",
+      "args": "new int[]{1,2,3}",
+      "expected": "2"
+    }
+  ],
+  "slug": "problems--middle-list",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,4}"
+            }
+          },
+          {
+            "note": "Walk to the counted middle",
+            "state": {
+              "index": 1
+            }
+          },
+          {
+            "note": "Walk to the counted middle",
+            "state": {
+              "index": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Walk to the counted middle",
+            "state": {
+              "index": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,4}"
+            }
+          },
+          {
+            "note": "Fast moves twice as far",
+            "state": {
+              "slow value": 2,
+              "fast value": 3
+            }
+          },
+          {
+            "note": "Fast moves twice as far",
+            "state": {
+              "slow value": 3,
+              "fast value": null
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Fast moves twice as far",
+            "state": {
+              "slow value": 2,
+              "fast value": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] input) {\nNode head=list(input);int size=0;for(Node n=head;n!=null;n=n.next)size++;Node node=head;for(int i=0;i<size/2;i++){node=node.next;emit(\"Walk to the counted middle\",\"index\",i+1);}return node.value;\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,4}\"); Object result0=solve(new int[]{1,2,3,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] input) {\nNode slow=list(input),fast=slow;while(fast!=null&&fast.next!=null){slow=slow.next;fast=fast.next.next;emit(\"Fast moves twice as far\",\"slow value\",slow.value,\"fast value\",fast==null?null:fast.value);}return slow.value;\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,4}\"); Object result0=solve(new int[]{1,2,3,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

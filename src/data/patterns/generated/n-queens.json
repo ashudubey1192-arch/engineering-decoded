@@ -1,0 +1,385 @@
+{
+  "id": "n-queens",
+  "title": "N Queens",
+  "contract": "Count arrangements of n queens on an n×n board with no shared row, column, or diagonal; 0 ≤ n ≤ 10.",
+  "signature": "long solve(int n)",
+  "brute": "return queensSlow(new int[n],0);",
+  "optimal": "return queensFast(n,0,new boolean[n],new boolean[Math.max(1,2*n)],new boolean[Math.max(1,2*n)],new ArrayList<>());",
+  "reasoning": [
+    "Place one queen in each row in every possible column, then reject complete boards with conflicts.",
+    "Track occupied columns and both diagonal identifiers to reject a conflicting placement before descending.",
+    "For row r and column c, diagonals are r+c and r−c+n. Undo all three occupancy flags when backtracking. Counting requires much less output storage than listing boards."
+  ],
+  "complexity": [
+    "O(n²·nⁿ), O(n)",
+    "O(n·n!) upper bound with pruning, O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Four queens",
+      "args": "4",
+      "expected": "2"
+    },
+    {
+      "label": "No arrangement",
+      "args": "3",
+      "expected": "0"
+    },
+    {
+      "label": "Empty board",
+      "args": "0",
+      "expected": "1"
+    }
+  ],
+  "slug": "problems--n-queens",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4"
+            }
+          },
+          {
+            "note": "Accept a complete board",
+            "state": {
+              "columns": [
+                1,
+                3,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Accept a complete board",
+            "state": {
+              "columns": [
+                2,
+                0,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0"
+            }
+          },
+          {
+            "note": "Accept a complete board",
+            "state": {
+              "columns": []
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4"
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": []
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                0,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                0,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                1,
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                1,
+                3,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                2,
+                0,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                2,
+                0,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                3,
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3"
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": []
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": [
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0"
+            }
+          },
+          {
+            "note": "Extend a conflict-free board",
+            "state": {
+              "columns": []
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int n) {\nreturn queensSlow(new int[n],0);\n  }\nstatic long queensSlow(int[] columns,int row){if(row==columns.length){for(int i=0;i<columns.length;i++)for(int j=0;j<i;j++)if(columns[i]==columns[j]||Math.abs(columns[i]-columns[j])==i-j)return 0;emit(\"Accept a complete board\",\"columns\",columns);return 1;}long count=0;for(int col=0;col<columns.length;col++){columns[row]=col;count+=queensSlow(columns,row+1);}return count;}\nstatic long queensFast(int n,int row,boolean[] cols,boolean[] down,boolean[] up,List<Integer> path){emit(\"Extend a conflict-free board\",\"columns\",path);if(row==n)return 1;long count=0;for(int col=0;col<n;col++){int d=row+col,u=row-col+n;if(cols[col]||down[d]||up[u])continue;cols[col]=down[d]=up[u]=true;path.add(col);count+=queensFast(n,row+1,cols,down,up,path);path.remove(path.size()-1);cols[col]=down[d]=up[u]=false;}return count;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"4\"); Object result0=solve(4); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int n) {\nreturn queensFast(n,0,new boolean[n],new boolean[Math.max(1,2*n)],new boolean[Math.max(1,2*n)],new ArrayList<>());\n  }\nstatic long queensSlow(int[] columns,int row){if(row==columns.length){for(int i=0;i<columns.length;i++)for(int j=0;j<i;j++)if(columns[i]==columns[j]||Math.abs(columns[i]-columns[j])==i-j)return 0;emit(\"Accept a complete board\",\"columns\",columns);return 1;}long count=0;for(int col=0;col<columns.length;col++){columns[row]=col;count+=queensSlow(columns,row+1);}return count;}\nstatic long queensFast(int n,int row,boolean[] cols,boolean[] down,boolean[] up,List<Integer> path){emit(\"Extend a conflict-free board\",\"columns\",path);if(row==n)return 1;long count=0;for(int col=0;col<n;col++){int d=row+col,u=row-col+n;if(cols[col]||down[d]||up[u])continue;cols[col]=down[d]=up[u]=true;path.add(col);count+=queensFast(n,row+1,cols,down,up,path);path.remove(path.size()-1);cols[col]=down[d]=up[u]=false;}return count;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"4\"); Object result0=solve(4); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

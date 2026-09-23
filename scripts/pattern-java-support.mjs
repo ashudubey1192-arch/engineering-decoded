@@ -1,4 +1,19 @@
 export const support = {
+  "list-cycle": `static Node[] cycleList(int[] input,int pos){Node[] nodes=new Node[input.length];for(int i=0;i<input.length;i++)nodes[i]=new Node(input[i]);for(int i=1;i<input.length;i++)nodes[i-1].next=nodes[i];if(pos>=0)nodes[nodes.length-1].next=nodes[pos];return nodes;}`,
+  "invert-tree": `static Tree mirrorCopy(Tree node){if(node==null)return null;Tree copy=new Tree(node.value);copy.left=mirrorCopy(node.right);copy.right=mirrorCopy(node.left);emit("Copy a mirrored subtree","root",node.value);return copy;}`,
+  "same-tree": `static void serializeInto(Tree node,StringBuilder out){if(node==null){out.append("#,");return;}out.append(node.value).append(',');serializeInto(node.left,out);serializeInto(node.right,out);}
+static String serialize(Tree node){StringBuilder out=new StringBuilder();serializeInto(node,out);return out.toString();}
+static boolean equalTrees(Tree a,Tree b){emit("Compare corresponding roots","left",a==null?null:a.value,"right",b==null?null:b.value);if(a==null||b==null)return a==b;return a.value==b.value&&equalTrees(a.left,b.left)&&equalTrees(a.right,b.right);}`,
+  height: `static int height(Tree node){return node==null?0:1+Math.max(height(node.left),height(node.right));}`,
+  "tree-diameter": `static int diameterSlow(Tree node){if(node==null)return 0;int through=height(node.left)+height(node.right);emit("Recompute heights through a node","node",node.value,"through",through);return Math.max(through,Math.max(diameterSlow(node.left),diameterSlow(node.right)));}
+static int diameterHeight(Tree node,int[] best){if(node==null)return 0;int left=diameterHeight(node.left,best),right=diameterHeight(node.right,best);best[0]=Math.max(best[0],left+right);emit("Return height while updating diameter","node",node.value,"child heights",new int[]{left,right},"diameter",best[0]);return 1+Math.max(left,right);}`,
+  "balanced-tree": `static boolean balancedSlow(Tree node){if(node==null)return true;int left=height(node.left),right=height(node.right);emit("Check child heights","node",node.value,"heights",new int[]{left,right});return Math.abs(left-right)<=1&&balancedSlow(node.left)&&balancedSlow(node.right);}
+static int balancedHeight(Tree node){if(node==null)return 0;int left=balancedHeight(node.left);if(left<0)return -1;int right=balancedHeight(node.right);emit("Propagate height or imbalance","node",node.value,"heights",new int[]{left,right});if(right<0||Math.abs(left-right)>1)return -1;return 1+Math.max(left,right);}`,
+  "kth-smallest-bst": `static void collect(Tree node,List<Integer> values){if(node==null)return;values.add(node.value);collect(node.left,values);collect(node.right,values);}`,
+  "permutations": `static void permutationSlow(int[] a,int[] indices,int depth,List<String> out){if(depth==a.length){boolean[] used=new boolean[a.length];int[] values=new int[a.length];for(int i=0;i<a.length;i++){if(used[indices[i]])return;used[indices[i]]=true;values[i]=a[indices[i]];}out.add(Arrays.toString(values));emit("Accept a complete permutation","values",values);return;}for(int i=0;i<a.length;i++){indices[depth]=i;permutationSlow(a,indices,depth+1,out);}}
+static void permutationFast(int[] a,boolean[] used,List<Integer> path,List<String> out){emit("Expand a prefix with distinct indices","path",path);if(path.size()==a.length){out.add(path.toString());return;}for(int i=0;i<a.length;i++)if(!used[i]){used[i]=true;path.add(a[i]);permutationFast(a,used,path,out);path.remove(path.size()-1);used[i]=false;}}`,
+  "n-queens": `static long queensSlow(int[] columns,int row){if(row==columns.length){for(int i=0;i<columns.length;i++)for(int j=0;j<i;j++)if(columns[i]==columns[j]||Math.abs(columns[i]-columns[j])==i-j)return 0;emit("Accept a complete board","columns",columns);return 1;}long count=0;for(int col=0;col<columns.length;col++){columns[row]=col;count+=queensSlow(columns,row+1);}return count;}
+static long queensFast(int n,int row,boolean[] cols,boolean[] down,boolean[] up,List<Integer> path){emit("Extend a conflict-free board","columns",path);if(row==n)return 1;long count=0;for(int col=0;col<n;col++){int d=row+col,u=row-col+n;if(cols[col]||down[d]||up[u])continue;cols[col]=down[d]=up[u]=true;path.add(col);count+=queensFast(n,row+1,cols,down,up,path);path.remove(path.size()-1);cols[col]=down[d]=up[u]=false;}return count;}`,
   "rotate-array": `static void reverse(int[] a,int l,int r){while(l<r){int t=a[l];a[l++]=a[r];a[r--]=t;}}`,
   "group-anagrams": `static boolean sameLetters(String a,String b){if(a.length()!=b.length())return false;int[] counts=new int[26];for(char c:a.toCharArray())counts[c-'a']++;for(char c:b.toCharArray())counts[c-'a']--;for(int count:counts)if(count!=0)return false;return true;}
 static List<String> groupOutput(Collection<List<String>> groups){List<String> out=new ArrayList<>();for(List<String> group:groups){Collections.sort(group);out.add(group.toString());}Collections.sort(out);return out;}`,
@@ -32,7 +47,10 @@ static long stock(int[] p,int fee,int i,boolean holding){emit("Branch on buy/sel
 };
 
 export function helpers(id) {
-  return [(["maximum-depth","validate-bst"].includes(id) ? support.tree : ""),
+  return [(["maximum-depth","validate-bst","invert-tree","same-tree","tree-diameter","balanced-tree","kth-smallest-bst"].includes(id) ? support.tree : ""),
+    (["tree-diameter","balanced-tree"].includes(id)?support.height:""),
+    (["middle-list","merge-lists","remove-nth-list","list-cycle"].includes(id)?support["reverse-list"]:""),
+    (id==="invert-tree"?`static List<Integer> treeValues(Tree root){List<Integer> out=new ArrayList<>();if(root==null)return out;List<Tree> queue=new ArrayList<>();queue.add(root);for(int i=0;i<queue.size();i++){Tree node=queue.get(i);if(node==null){out.add(null);continue;}out.add(node.value);queue.add(node.left);queue.add(node.right);}while(!out.isEmpty()&&out.get(out.size()-1)==null)out.remove(out.size()-1);return out;}`:""),
     (["connected-components","shortest-unweighted"].includes(id) ? support.graph : ""), support[id] || ""].filter(Boolean).join("\n");
 }
 

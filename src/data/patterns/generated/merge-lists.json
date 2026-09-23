@@ -1,0 +1,213 @@
+{
+  "id": "merge-lists",
+  "title": "Merge Two Sorted Lists",
+  "contract": "Merge two nondecreasing linked lists and return their sorted values.",
+  "signature": "int[] solve(int[] a,int[] b)",
+  "brute": "int[] out=new int[a.length+b.length];System.arraycopy(a,0,out,0,a.length);System.arraycopy(b,0,out,a.length,b.length);Arrays.sort(out);emit(\"Collect all values and sort\",\"values\",out);return out;",
+  "optimal": "Node left=list(a),right=list(b),dummy=new Node(0),tail=dummy;while(left!=null&&right!=null){if(left.value<=right.value){tail.next=left;left=left.next;}else{tail.next=right;right=right.next;}tail=tail.next;emit(\"Append the smaller head\",\"chosen\",tail.value,\"left\",values(left),\"right\",values(right));}tail.next=left!=null?left:right;return values(dummy.next);",
+  "reasoning": [
+    "Collect and sort values without using the fact that each list is already sorted.",
+    "The next global minimum must be one of the two heads. A dummy node handles the initial append uniformly.",
+    "Append the untouched suffix once a list empties. The merge rewires existing nodes in constant auxiliary space; demo input and output conversions allocate arrays/nodes."
+  ],
+  "complexity": [
+    "O((n+m) log(n+m)), O(n+m)",
+    "O(n+m), O(1) merge auxiliary excluding conversion"
+  ],
+  "tests": [
+    {
+      "label": "Sorted lists",
+      "args": "new int[]{1,2,4},new int[]{1,3,4}",
+      "expected": "[1, 1, 2, 3, 4, 4]"
+    },
+    {
+      "label": "Empty side",
+      "args": "new int[]{},new int[]{0}",
+      "expected": "[0]"
+    }
+  ],
+  "slug": "problems--merge-lists",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,4},new int[]{1,3,4}"
+            }
+          },
+          {
+            "note": "Collect all values and sort",
+            "state": {
+              "values": [
+                1,
+                1,
+                2,
+                3,
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                1,
+                2,
+                3,
+                4,
+                4
+              ]
+            }
+          }
+        ],
+        "result": "[1, 1, 2, 3, 4, 4]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{},new int[]{0}"
+            }
+          },
+          {
+            "note": "Collect all values and sort",
+            "state": {
+              "values": [
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0
+              ]
+            }
+          }
+        ],
+        "result": "[0]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,4},new int[]{1,3,4}"
+            }
+          },
+          {
+            "note": "Append the smaller head",
+            "state": {
+              "chosen": 1,
+              "left": [
+                2,
+                4
+              ],
+              "right": [
+                1,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Append the smaller head",
+            "state": {
+              "chosen": 1,
+              "left": [
+                2,
+                4
+              ],
+              "right": [
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Append the smaller head",
+            "state": {
+              "chosen": 2,
+              "left": [
+                4
+              ],
+              "right": [
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Append the smaller head",
+            "state": {
+              "chosen": 3,
+              "left": [
+                4
+              ],
+              "right": [
+                4
+              ]
+            }
+          },
+          {
+            "note": "Append the smaller head",
+            "state": {
+              "chosen": 4,
+              "left": [],
+              "right": [
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                1,
+                2,
+                3,
+                4,
+                4
+              ]
+            }
+          }
+        ],
+        "result": "[1, 1, 2, 3, 4, 4]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{},new int[]{0}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0
+              ]
+            }
+          }
+        ],
+        "result": "[0]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a,int[] b) {\nint[] out=new int[a.length+b.length];System.arraycopy(a,0,out,0,a.length);System.arraycopy(b,0,out,a.length,b.length);Arrays.sort(out);emit(\"Collect all values and sort\",\"values\",out);return out;\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,4},new int[]{1,3,4}\"); Object result0=solve(new int[]{1,2,4},new int[]{1,3,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a,int[] b) {\nNode left=list(a),right=list(b),dummy=new Node(0),tail=dummy;while(left!=null&&right!=null){if(left.value<=right.value){tail.next=left;left=left.next;}else{tail.next=right;right=right.next;}tail=tail.next;emit(\"Append the smaller head\",\"chosen\",tail.value,\"left\",values(left),\"right\",values(right));}tail.next=left!=null?left:right;return values(dummy.next);\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,4},new int[]{1,3,4}\"); Object result0=solve(new int[]{1,2,4},new int[]{1,3,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

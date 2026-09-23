@@ -1,0 +1,153 @@
+{
+  "id": "remove-nth-list",
+  "title": "Remove Nth Node From End",
+  "contract": "Delete the nth node from the end of a nonempty list, where 1 ≤ n ≤ length; return remaining values.",
+  "signature": "int[] solve(int[] input,int n)",
+  "brute": "Node dummy=new Node(0);dummy.next=list(input);int size=input.length;Node previous=dummy;for(int i=0;i<size-n;i++)previous=previous.next;emit(\"Locate predecessor using the length\",\"removed\",previous.next.value);previous.next=previous.next.next;return values(dummy.next);",
+  "optimal": "Node dummy=new Node(0);dummy.next=list(input);Node fast=dummy,slow=dummy;for(int i=0;i<n;i++)fast=fast.next;while(fast.next!=null){fast=fast.next;slow=slow.next;emit(\"Maintain an n-node gap\",\"slow\",slow.value,\"fast\",fast.value);}slow.next=slow.next.next;return values(dummy.next);",
+  "reasoning": [
+    "Use the known length to locate the predecessor of the deletion position.",
+    "Start two pointers at a dummy node and advance fast n steps before moving both.",
+    "Stop when fast is the last node; slow then precedes the target. The dummy handles removal of the head without a separate branch. Both are linear; the gap method works without a precomputed length."
+  ],
+  "complexity": [
+    "O(n), O(1) traversal auxiliary",
+    "O(n), O(1) traversal auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Middle deletion",
+      "args": "new int[]{1,2,3,4,5},2",
+      "expected": "[1, 2, 3, 5]"
+    },
+    {
+      "label": "Head deletion",
+      "args": "new int[]{1},1",
+      "expected": "[]"
+    }
+  ],
+  "slug": "problems--remove-nth-list",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,4,5},2"
+            }
+          },
+          {
+            "note": "Locate predecessor using the length",
+            "state": {
+              "removed": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                3,
+                5
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 3, 5]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1},1"
+            }
+          },
+          {
+            "note": "Locate predecessor using the length",
+            "state": {
+              "removed": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,4,5},2"
+            }
+          },
+          {
+            "note": "Maintain an n-node gap",
+            "state": {
+              "slow": 1,
+              "fast": 3
+            }
+          },
+          {
+            "note": "Maintain an n-node gap",
+            "state": {
+              "slow": 2,
+              "fast": 4
+            }
+          },
+          {
+            "note": "Maintain an n-node gap",
+            "state": {
+              "slow": 3,
+              "fast": 5
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                3,
+                5
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 3, 5]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1},1"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] input,int n) {\nNode dummy=new Node(0);dummy.next=list(input);int size=input.length;Node previous=dummy;for(int i=0;i<size-n;i++)previous=previous.next;emit(\"Locate predecessor using the length\",\"removed\",previous.next.value);previous.next=previous.next.next;return values(dummy.next);\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,4,5},2\"); Object result0=solve(new int[]{1,2,3,4,5},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] input,int n) {\nNode dummy=new Node(0);dummy.next=list(input);Node fast=dummy,slow=dummy;for(int i=0;i<n;i++)fast=fast.next;while(fast.next!=null){fast=fast.next;slow=slow.next;emit(\"Maintain an n-node gap\",\"slow\",slow.value,\"fast\",fast.value);}slow.next=slow.next.next;return values(dummy.next);\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,4,5},2\"); Object result0=solve(new int[]{1,2,3,4,5},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

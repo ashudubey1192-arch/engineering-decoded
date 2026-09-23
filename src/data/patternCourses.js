@@ -1043,6 +1043,30 @@ export const patternCourses = {
             "slug": "problems--reverse-list",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Middle of Linked List",
+            "slug": "problems--middle-list",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Merge Two Sorted Lists",
+            "slug": "problems--merge-lists",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Remove Nth Node From End",
+            "slug": "problems--remove-nth-list",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Linked List Cycle II",
+            "slug": "problems--list-cycle",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1057,6 +1081,30 @@ export const patternCourses = {
       {
         "title": "Reverse Linked List",
         "slug": "problems--reverse-list",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Middle of Linked List",
+        "slug": "problems--middle-list",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Merge Two Sorted Lists",
+        "slug": "problems--merge-lists",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Remove Nth Node From End",
+        "slug": "problems--remove-nth-list",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Linked List Cycle II",
+        "slug": "problems--list-cycle",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -1534,6 +1582,18 @@ export const patternCourses = {
             "slug": "problems--word-break",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Permutations",
+            "slug": "problems--permutations",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "N Queens",
+            "slug": "problems--n-queens",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1554,6 +1614,18 @@ export const patternCourses = {
       {
         "title": "Word Break",
         "slug": "problems--word-break",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Permutations",
+        "slug": "problems--permutations",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "N Queens",
+        "slug": "problems--n-queens",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -1599,6 +1671,30 @@ export const patternCourses = {
             "slug": "problems--validate-bst",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Invert Binary Tree",
+            "slug": "problems--invert-tree",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Same Tree",
+            "slug": "problems--same-tree",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Diameter of Binary Tree",
+            "slug": "problems--tree-diameter",
+            "sectionSlug": "problems",
+            "time": "25 min"
+          },
+          {
+            "title": "Balanced Binary Tree",
+            "slug": "problems--balanced-tree",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1619,6 +1715,30 @@ export const patternCourses = {
       {
         "title": "Validate Binary Search Tree",
         "slug": "problems--validate-bst",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Invert Binary Tree",
+        "slug": "problems--invert-tree",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Same Tree",
+        "slug": "problems--same-tree",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Diameter of Binary Tree",
+        "slug": "problems--tree-diameter",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Balanced Binary Tree",
+        "slug": "problems--balanced-tree",
         "sectionSlug": "problems",
         "time": "25 min"
       }
@@ -1664,6 +1784,12 @@ export const patternCourses = {
             "slug": "problems--lower-bound",
             "sectionSlug": "problems",
             "time": "25 min"
+          },
+          {
+            "title": "Kth Smallest Element in a BST",
+            "slug": "problems--kth-smallest-bst",
+            "sectionSlug": "problems",
+            "time": "25 min"
           }
         ]
       }
@@ -1684,6 +1810,12 @@ export const patternCourses = {
       {
         "title": "Binary Search: First Occurrence / Lower Bound",
         "slug": "problems--lower-bound",
+        "sectionSlug": "problems",
+        "time": "25 min"
+      },
+      {
+        "title": "Kth Smallest Element in a BST",
+        "slug": "problems--kth-smallest-bst",
         "sectionSlug": "problems",
         "time": "25 min"
       }

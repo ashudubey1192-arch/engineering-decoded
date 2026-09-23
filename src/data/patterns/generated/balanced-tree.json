@@ -1,0 +1,250 @@
+{
+  "id": "balanced-tree",
+  "title": "Balanced Binary Tree",
+  "contract": "A tree is height-balanced if every node's child heights differ by at most one.",
+  "signature": "boolean solve(Integer[] input)",
+  "brute": "return balancedSlow(tree(input));",
+  "optimal": "return balancedHeight(tree(input))>=0;",
+  "reasoning": [
+    "Recompute subtree heights at each node and recursively check both children.",
+    "Return either the subtree height or a sentinel meaning already unbalanced.",
+    "Propagate failure immediately; this prevents ancestors from recomputing failed subtree work. Checking only the root's height difference is insufficient."
+  ],
+  "complexity": [
+    "O(n²) upper bound, O(h)",
+    "O(n), O(h)"
+  ],
+  "tests": [
+    {
+      "label": "Balanced",
+      "args": "new Integer[]{3,9,20,null,null,15,7}",
+      "expected": "true"
+    },
+    {
+      "label": "Chain",
+      "args": "new Integer[]{1,2,null,3}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--balanced-tree",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{3,9,20,null,null,15,7}"
+            }
+          },
+          {
+            "note": "Check child heights",
+            "state": {
+              "node": 3,
+              "heights": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Check child heights",
+            "state": {
+              "node": 9,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Check child heights",
+            "state": {
+              "node": 20,
+              "heights": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Check child heights",
+            "state": {
+              "node": 15,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Check child heights",
+            "state": {
+              "node": 7,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2,null,3}"
+            }
+          },
+          {
+            "note": "Check child heights",
+            "state": {
+              "node": 1,
+              "heights": [
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{3,9,20,null,null,15,7}"
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 9,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 15,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 7,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 20,
+              "heights": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 3,
+              "heights": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2,null,3}"
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 3,
+              "heights": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 2,
+              "heights": [
+                1,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Propagate height or imbalance",
+            "state": {
+              "node": 1,
+              "heights": [
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(Integer[] input) {\nreturn balancedSlow(tree(input));\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic int height(Tree node){return node==null?0:1+Math.max(height(node.left),height(node.right));}\nstatic boolean balancedSlow(Tree node){if(node==null)return true;int left=height(node.left),right=height(node.right);emit(\"Check child heights\",\"node\",node.value,\"heights\",new int[]{left,right});return Math.abs(left-right)<=1&&balancedSlow(node.left)&&balancedSlow(node.right);}\nstatic int balancedHeight(Tree node){if(node==null)return 0;int left=balancedHeight(node.left);if(left<0)return -1;int right=balancedHeight(node.right);emit(\"Propagate height or imbalance\",\"node\",node.value,\"heights\",new int[]{left,right});if(right<0||Math.abs(left-right)>1)return -1;return 1+Math.max(left,right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{3,9,20,null,null,15,7}\"); Object result0=solve(new Integer[]{3,9,20,null,null,15,7}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(Integer[] input) {\nreturn balancedHeight(tree(input))>=0;\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic int height(Tree node){return node==null?0:1+Math.max(height(node.left),height(node.right));}\nstatic boolean balancedSlow(Tree node){if(node==null)return true;int left=height(node.left),right=height(node.right);emit(\"Check child heights\",\"node\",node.value,\"heights\",new int[]{left,right});return Math.abs(left-right)<=1&&balancedSlow(node.left)&&balancedSlow(node.right);}\nstatic int balancedHeight(Tree node){if(node==null)return 0;int left=balancedHeight(node.left);if(left<0)return -1;int right=balancedHeight(node.right);emit(\"Propagate height or imbalance\",\"node\",node.value,\"heights\",new int[]{left,right});if(right<0||Math.abs(left-right)>1)return -1;return 1+Math.max(left,right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{3,9,20,null,null,15,7}\"); Object result0=solve(new Integer[]{3,9,20,null,null,15,7}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

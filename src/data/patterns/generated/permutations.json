@@ -1,0 +1,289 @@
+{
+  "id": "permutations",
+  "title": "Permutations",
+  "contract": "Return all permutations of distinct integers as sorted textual arrays. Input length ≤ 8 for examples.",
+  "signature": "List<String> solve(int[] a)",
+  "brute": "List<String> out=new ArrayList<>();permutationSlow(a,new int[a.length],0,out);Collections.sort(out);return out;",
+  "optimal": "List<String> out=new ArrayList<>();permutationFast(a,new boolean[a.length],new ArrayList<>(),out);Collections.sort(out);return out;",
+  "reasoning": [
+    "Generate length-n choices from all n indices, then reject candidates that repeat an index.",
+    "Track used indices while building the path so invalid prefixes are never expanded.",
+    "There are n! valid outputs, so pruning cannot eliminate factorial output cost. Undo both path addition and the used flag. Duplicate input values require an additional same-depth duplicate rule."
+  ],
+  "complexity": [
+    "O(n·nⁿ + output sorting), O(n) recursion excluding output",
+    "O(n·n! + output sorting), O(n) recursion excluding output"
+  ],
+  "tests": [
+    {
+      "label": "Three values",
+      "args": "new int[]{1,2,3}",
+      "expected": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]"
+    }
+  ],
+  "slug": "problems--permutations",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Accept a complete permutation",
+            "state": {
+              "values": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Accept a complete permutation",
+            "state": {
+              "values": [
+                1,
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Accept a complete permutation",
+            "state": {
+              "values": [
+                2,
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Accept a complete permutation",
+            "state": {
+              "values": [
+                2,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Accept a complete permutation",
+            "state": {
+              "values": [
+                3,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Accept a complete permutation",
+            "state": {
+              "values": [
+                3,
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[1, 2, 3]",
+                "[1, 3, 2]",
+                "[2, 1, 3]",
+                "[2, 3, 1]",
+                "[3, 1, 2]",
+                "[3, 2, 1]"
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": []
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                1,
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                2,
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                2,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                3
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                3,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Expand a prefix with distinct indices",
+            "state": {
+              "path": [
+                3,
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[1, 2, 3]",
+                "[1, 3, 2]",
+                "[2, 1, 3]",
+                "[2, 3, 1]",
+                "[3, 1, 2]",
+                "[3, 2, 1]"
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<String> solve(int[] a) {\nList<String> out=new ArrayList<>();permutationSlow(a,new int[a.length],0,out);Collections.sort(out);return out;\n  }\nstatic void permutationSlow(int[] a,int[] indices,int depth,List<String> out){if(depth==a.length){boolean[] used=new boolean[a.length];int[] values=new int[a.length];for(int i=0;i<a.length;i++){if(used[indices[i]])return;used[indices[i]]=true;values[i]=a[indices[i]];}out.add(Arrays.toString(values));emit(\"Accept a complete permutation\",\"values\",values);return;}for(int i=0;i<a.length;i++){indices[depth]=i;permutationSlow(a,indices,depth+1,out);}}\nstatic void permutationFast(int[] a,boolean[] used,List<Integer> path,List<String> out){emit(\"Expand a prefix with distinct indices\",\"path\",path);if(path.size()==a.length){out.add(path.toString());return;}for(int i=0;i<a.length;i++)if(!used[i]){used[i]=true;path.add(a[i]);permutationFast(a,used,path,out);path.remove(path.size()-1);used[i]=false;}}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3}\"); Object result0=solve(new int[]{1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<String> solve(int[] a) {\nList<String> out=new ArrayList<>();permutationFast(a,new boolean[a.length],new ArrayList<>(),out);Collections.sort(out);return out;\n  }\nstatic void permutationSlow(int[] a,int[] indices,int depth,List<String> out){if(depth==a.length){boolean[] used=new boolean[a.length];int[] values=new int[a.length];for(int i=0;i<a.length;i++){if(used[indices[i]])return;used[indices[i]]=true;values[i]=a[indices[i]];}out.add(Arrays.toString(values));emit(\"Accept a complete permutation\",\"values\",values);return;}for(int i=0;i<a.length;i++){indices[depth]=i;permutationSlow(a,indices,depth+1,out);}}\nstatic void permutationFast(int[] a,boolean[] used,List<Integer> path,List<String> out){emit(\"Expand a prefix with distinct indices\",\"path\",path);if(path.size()==a.length){out.add(path.toString());return;}for(int i=0;i<a.length;i++)if(!used[i]){used[i]=true;path.add(a[i]);permutationFast(a,used,path,out);path.remove(path.size()-1);used[i]=false;}}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3}\"); Object result0=solve(new int[]{1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

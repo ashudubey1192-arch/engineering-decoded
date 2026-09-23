@@ -10,13 +10,14 @@ import { graphProblems } from "../src/data/patternGraphProblems.js";
 import { dpProblems } from "../src/data/patternDpProblems.js";
 import { advancedProblems } from "../src/data/patternAdvancedProblems.js";
 import { interviewProblems } from "../src/data/patternInterviewProblems.js";
+import { treeProblems } from "../src/data/patternTreeProblems.js";
 import { patternCurriculum } from "../src/data/patternCurriculum.js";
 import { slug } from "../src/data/patternLessonSchema.js";
 import { javaSource } from "./pattern-java-support.mjs";
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const check=process.argv.includes("--check");
-const lessons=[...linearProblems,...structureProblems,...graphProblems,...dpProblems,...advancedProblems,...interviewProblems];
+const lessons=[...linearProblems,...structureProblems,...graphProblems,...dpProblems,...advancedProblems,...interviewProblems,...treeProblems];
 const lessonMap=new Map(lessons.map(p=>[p.id,p]));
 assert.equal(lessonMap.size,lessons.length,"Problem ids must be unique");
 const temp=await mkdtemp(join(tmpdir(),"engineering-patterns-"));

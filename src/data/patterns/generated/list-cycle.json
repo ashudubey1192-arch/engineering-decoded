@@ -1,0 +1,186 @@
+{
+  "id": "list-cycle",
+  "title": "Linked List Cycle II",
+  "contract": "Build a list whose tail points to input index pos, or no cycle for pos=−1. Return the cycle entry index, or −1.",
+  "signature": "int solve(int[] input,int pos)",
+  "brute": "Node[] nodes=cycleList(input,pos);Node head=nodes.length==0?null:nodes[0];Set<Node> seen=new HashSet<>();for(Node node=head;node!=null;node=node.next){emit(\"Record a node identity\",\"value\",node.value);if(!seen.add(node)){for(int i=0;i<nodes.length;i++)if(nodes[i]==node)return i;}}return -1;",
+  "optimal": "Node[] nodes=cycleList(input,pos);Node head=nodes.length==0?null:nodes[0],slow=head,fast=head;while(fast!=null&&fast.next!=null){slow=slow.next;fast=fast.next.next;emit(\"Search for a meeting\",\"slow value\",slow.value,\"fast value\",fast==null?null:fast.value);if(slow==fast){slow=head;while(slow!=fast){slow=slow.next;fast=fast.next;emit(\"Locate the entry\",\"value\",slow.value);}for(int i=0;i<nodes.length;i++)if(nodes[i]==slow)return i;}}return -1;",
+  "reasoning": [
+    "A repeated node identity, not a repeated value, proves a cycle.",
+    "Within a cycle, a two-speed pair eventually meets. Resetting one pointer to the head makes equal-speed movement meet at the entry.",
+    "Check fast and fast.next before dereferencing. Entry-index lookup and graph construction are demo conversions; Floyd's traversal itself uses constant auxiliary space."
+  ],
+  "complexity": [
+    "O(n), O(n) traversal space",
+    "O(n), O(1) traversal auxiliary excluding input conversion"
+  ],
+  "tests": [
+    {
+      "label": "Cycle",
+      "args": "new int[]{3,2,0,-4},1",
+      "expected": "1"
+    },
+    {
+      "label": "Acyclic",
+      "args": "new int[]{1,1},-1",
+      "expected": "-1"
+    }
+  ],
+  "slug": "problems--list-cycle",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,2,0,-4},1"
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": 3
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": 2
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": 0
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": -4
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,1},-1"
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": 1
+            }
+          },
+          {
+            "note": "Record a node identity",
+            "state": {
+              "value": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,2,0,-4},1"
+            }
+          },
+          {
+            "note": "Search for a meeting",
+            "state": {
+              "slow value": 2,
+              "fast value": 0
+            }
+          },
+          {
+            "note": "Search for a meeting",
+            "state": {
+              "slow value": 0,
+              "fast value": 2
+            }
+          },
+          {
+            "note": "Search for a meeting",
+            "state": {
+              "slow value": -4,
+              "fast value": -4
+            }
+          },
+          {
+            "note": "Locate the entry",
+            "state": {
+              "value": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,1},-1"
+            }
+          },
+          {
+            "note": "Search for a meeting",
+            "state": {
+              "slow value": 1,
+              "fast value": null
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] input,int pos) {\nNode[] nodes=cycleList(input,pos);Node head=nodes.length==0?null:nodes[0];Set<Node> seen=new HashSet<>();for(Node node=head;node!=null;node=node.next){emit(\"Record a node identity\",\"value\",node.value);if(!seen.add(node)){for(int i=0;i<nodes.length;i++)if(nodes[i]==node)return i;}}return -1;\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\nstatic Node[] cycleList(int[] input,int pos){Node[] nodes=new Node[input.length];for(int i=0;i<input.length;i++)nodes[i]=new Node(input[i]);for(int i=1;i<input.length;i++)nodes[i-1].next=nodes[i];if(pos>=0)nodes[nodes.length-1].next=nodes[pos];return nodes;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{3,2,0,-4},1\"); Object result0=solve(new int[]{3,2,0,-4},1); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] input,int pos) {\nNode[] nodes=cycleList(input,pos);Node head=nodes.length==0?null:nodes[0],slow=head,fast=head;while(fast!=null&&fast.next!=null){slow=slow.next;fast=fast.next.next;emit(\"Search for a meeting\",\"slow value\",slow.value,\"fast value\",fast==null?null:fast.value);if(slow==fast){slow=head;while(slow!=fast){slow=slow.next;fast=fast.next;emit(\"Locate the entry\",\"value\",slow.value);}for(int i=0;i<nodes.length;i++)if(nodes[i]==slow)return i;}}return -1;\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\nstatic Node[] cycleList(int[] input,int pos){Node[] nodes=new Node[input.length];for(int i=0;i<input.length;i++)nodes[i]=new Node(input[i]);for(int i=1;i<input.length;i++)nodes[i-1].next=nodes[i];if(pos>=0)nodes[nodes.length-1].next=nodes[pos];return nodes;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{3,2,0,-4},1\"); Object result0=solve(new int[]{3,2,0,-4},1); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

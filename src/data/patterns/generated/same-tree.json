@@ -1,0 +1,187 @@
+{
+  "id": "same-tree",
+  "title": "Same Tree",
+  "contract": "Decide whether two level-order binary trees have identical shape and values.",
+  "signature": "boolean solve(Integer[] a,Integer[] b)",
+  "brute": "String left=serialize(tree(a)),right=serialize(tree(b));emit(\"Compare shape-preserving serializations\",\"left\",left,\"right\",right);return left.equals(right);",
+  "optimal": "return equalTrees(tree(a),tree(b));",
+  "reasoning": [
+    "Serialize values and explicit null markers so shape differences remain visible.",
+    "Two subtrees are equal when both are null, or their roots and corresponding children are equal.",
+    "The recursive comparison can stop at the first mismatch and avoid full serialized copies. Value traversal without null markers cannot distinguish all shapes."
+  ],
+  "complexity": [
+    "O(n+m) serialization output with builder, O(n+m)",
+    "O(min(n,m)) visited nodes before termination, O(h) stack"
+  ],
+  "tests": [
+    {
+      "label": "Equal",
+      "args": "new Integer[]{1,2,3},new Integer[]{1,2,3}",
+      "expected": "true"
+    },
+    {
+      "label": "Different shape",
+      "args": "new Integer[]{1,2},new Integer[]{1,null,2}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--same-tree",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2,3},new Integer[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Compare shape-preserving serializations",
+            "state": {
+              "left": "1,2,#,#,3,#,#,",
+              "right": "1,2,#,#,3,#,#,"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2},new Integer[]{1,null,2}"
+            }
+          },
+          {
+            "note": "Compare shape-preserving serializations",
+            "state": {
+              "left": "1,2,#,#,#,",
+              "right": "1,#,2,#,#,"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2,3},new Integer[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": 1,
+              "right": 1
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": 2,
+              "right": 2
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": null,
+              "right": null
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": null,
+              "right": null
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": 3,
+              "right": 3
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": null,
+              "right": null
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": null,
+              "right": null
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{1,2},new Integer[]{1,null,2}"
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": 1,
+              "right": 1
+            }
+          },
+          {
+            "note": "Compare corresponding roots",
+            "state": {
+              "left": 2,
+              "right": null
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(Integer[] a,Integer[] b) {\nString left=serialize(tree(a)),right=serialize(tree(b));emit(\"Compare shape-preserving serializations\",\"left\",left,\"right\",right);return left.equals(right);\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic void serializeInto(Tree node,StringBuilder out){if(node==null){out.append(\"#,\");return;}out.append(node.value).append(',');serializeInto(node.left,out);serializeInto(node.right,out);}\nstatic String serialize(Tree node){StringBuilder out=new StringBuilder();serializeInto(node,out);return out.toString();}\nstatic boolean equalTrees(Tree a,Tree b){emit(\"Compare corresponding roots\",\"left\",a==null?null:a.value,\"right\",b==null?null:b.value);if(a==null||b==null)return a==b;return a.value==b.value&&equalTrees(a.left,b.left)&&equalTrees(a.right,b.right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{1,2,3},new Integer[]{1,2,3}\"); Object result0=solve(new Integer[]{1,2,3},new Integer[]{1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(Integer[] a,Integer[] b) {\nreturn equalTrees(tree(a),tree(b));\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic void serializeInto(Tree node,StringBuilder out){if(node==null){out.append(\"#,\");return;}out.append(node.value).append(',');serializeInto(node.left,out);serializeInto(node.right,out);}\nstatic String serialize(Tree node){StringBuilder out=new StringBuilder();serializeInto(node,out);return out.toString();}\nstatic boolean equalTrees(Tree a,Tree b){emit(\"Compare corresponding roots\",\"left\",a==null?null:a.value,\"right\",b==null?null:b.value);if(a==null||b==null)return a==b;return a.value==b.value&&equalTrees(a.left,b.left)&&equalTrees(a.right,b.right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{1,2,3},new Integer[]{1,2,3}\"); Object result0=solve(new Integer[]{1,2,3},new Integer[]{1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}
