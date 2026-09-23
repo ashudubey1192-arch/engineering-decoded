@@ -19,102 +19,6 @@ const makeModule = (id, name, icon, accent, description, groups) => ({
 });
 
 export const modules = [
-  
-  makeModule(
-    "architecture",
-    "System Design and Architecture",
-    "SD",
-    "#22c55e",
-    "Reason about scale, reliability, boundaries, and trade-offs.",
-    [
-      {
-        name: "System design",
-        tracks: tracks("System Design Fundamentals, High Level Design, Low Level Design"),
-      },
-      {
-        name: "Architecture",
-        tracks: tracks(
-          "Microservices, API Design, Clean Code, Clean Architecture, Design Patterns, DDD",
-        ),
-      },
-    ],
-  ),
-  makeModule(
-    "frontend",
-    "Frontend Engineering",
-    "FE",
-    "#22c55e",
-    "Create accessible, fast, production-ready interfaces.",
-    [
-      { name: "Core web", tracks: tracks("HTML, CSS, JavaScript, TypeScript") },
-      { name: "Frameworks", tracks: tracks("React, Angular, Vue, Next.js") },
-      { name: "UI and tooling", tracks: tracks("Tailwind CSS, Material UI, Redux, Vite") },
-    ],
-  ),
-  makeModule(
-    "backend",
-    "Backend Engineering",
-    "BE",
-    "#22c55e",
-    "Design APIs, services, security, and business systems.",
-    [
-      { name: "Languages", tracks: tracks("Java, Python, Node.js, Go") },
-      { name: "Frameworks", tracks: tracks("Spring Boot, Express.js, FastAPI, Django") },
-      { name: "API engineering", tracks: tracks("REST API, GraphQL, Authentication, OAuth") },
-    ],
-  ),
-  makeModule(
-    "mobile",
-    "Mobile App Development",
-    "MA",
-    "#22c55e",
-    "Build mobile experiences for Android and iOS.",
-    [{ name: "Mobile frameworks and stacks", tracks: mobileCourses }],
-  ),
-  makeModule(
-    "desktop",
-    "Desktop App Development",
-    "DA",
-    "#22c55e",
-    "Build desktop applications for Windows, Linux, and macOS.",
-    [{ name: "Desktop frameworks and stacks", tracks: desktopCourses }],
-  ),
-  makeModule(
-    "databases",
-    "Database Engineering",
-    "DB",
-    "#22c55e",
-    "Model, query, scale, and operate reliable data systems.",
-    [
-      { name: "RDBMS", tracks: tracks("SQL, PostgreSQL, MySQL, Oracle, Transactions") },
-      { name: "NoSQL Databases", tracks: tracks("MongoDB, Cassandra, Redis, InfluxDB") },
-      {
-        name: "Hybrid Databases",
-        tracks: tracks(
-          "Hybrid Database Fundamentals, Distributed SQL, Multi-model Databases, HTAP Databases",
-        ),
-      },
-      {
-        name: "Vector Databases",
-        tracks: tracks("Vector Database Fundamentals, Pinecone, Milvus, Weaviate, Chroma"),
-      },
-      { name: "Scaling", tracks: tracks("Indexing, Replication, Sharding, Partitioning") },
-    ],
-  ),
-  makeModule(
-    "messaging",
-    "Messaging and Event Streaming",
-    "MQ",
-    "#22c55e",
-    "Build asynchronous systems with queues, streams, and events.",
-    [
-      { name: "Platforms", tracks: tracks("Kafka, RabbitMQ, Solace, Event Streaming") },
-      {
-        name: "Patterns",
-        tracks: tracks("Pub Sub, Dead Letter Queue, Idempotency, Outbox Pattern"),
-      },
-    ],
-  ),
   makeModule(
     "dsa",
     "Data Structures and Algorithms",
@@ -147,23 +51,83 @@ export const modules = [
     ],
   ),
   makeModule(
-    "devops",
-    "DevOps and Platform Engineering",
-    "DO",
+    "architecture",
+    "System Design and Architecture",
+    "SD",
     "#22c55e",
-    "Automate delivery, infrastructure, and operations.",
+    "Reason about scale, reliability, boundaries, and trade-offs.",
     [
-      { name: "Containers", tracks: tracks("Docker, Kubernetes, Helm, OpenShift") },
-      { name: "Delivery", tracks: tracks("Terraform, Jenkins, GitHub Actions, Ansible") },
+      {
+        name: "System design",
+        tracks: tracks("System Design Fundamentals, High Level Design, Low Level Design"),
+      },
+      {
+        name: "Architecture",
+        tracks: tracks(
+          "Microservices, API Design, Clean Code, Clean Architecture, Design Patterns, DDD",
+        ),
+      },
     ],
   ),
   makeModule(
-    "cloud",
-    "Cloud Engineering",
-    "CL",
+    "backend",
+    "Backend Engineering",
+    "BE",
     "#22c55e",
-    "Architect secure and scalable cloud services.",
-    [{ name: "Platforms", tracks: tracks("AWS, Azure, Google Cloud, Serverless") }],
+    "Design APIs, services, security, and business systems.",
+    [
+      { name: "Languages", tracks: tracks("Java, Python, Node.js, Go") },
+      { name: "Frameworks", tracks: tracks("Spring Boot, Express.js, FastAPI, Django") },
+      { name: "API engineering", tracks: tracks("REST API, GraphQL, Authentication, OAuth") },
+    ],
+  ),
+  makeModule(
+    "databases",
+    "Database Engineering",
+    "DB",
+    "#22c55e",
+    "Model, query, scale, and operate reliable data systems.",
+    [
+      { name: "RDBMS", tracks: tracks("SQL, PostgreSQL, MySQL, Oracle, Transactions") },
+      { name: "NoSQL Databases", tracks: tracks("MongoDB, Cassandra, Redis, InfluxDB") },
+      {
+        name: "Hybrid Databases",
+        tracks: tracks(
+          "Hybrid Database Fundamentals, Distributed SQL, Multi-model Databases, HTAP Databases",
+        ),
+      },
+      {
+        name: "Vector Databases",
+        tracks: tracks("Vector Database Fundamentals, Pinecone, Milvus, Weaviate, Chroma"),
+      },
+      { name: "Scaling", tracks: tracks("Indexing, Replication, Sharding, Partitioning") },
+    ],
+  ),
+  makeModule(
+    "frontend",
+    "Frontend Engineering",
+    "FE",
+    "#22c55e",
+    "Create accessible, fast, production-ready interfaces.",
+    [
+      { name: "Core web", tracks: tracks("HTML, CSS, JavaScript, TypeScript") },
+      { name: "Frameworks", tracks: tracks("React, Angular, Vue, Next.js") },
+      { name: "UI and tooling", tracks: tracks("Tailwind CSS, Material UI, Redux, Vite") },
+    ],
+  ),
+  makeModule(
+    "messaging",
+    "Messaging and Event Streaming",
+    "MQ",
+    "#22c55e",
+    "Build asynchronous systems with queues, streams, and events.",
+    [
+      { name: "Platforms", tracks: tracks("Kafka, RabbitMQ, Solace, Event Streaming") },
+      {
+        name: "Patterns",
+        tracks: tracks("Pub Sub, Dead Letter Queue, Idempotency, Outbox Pattern"),
+      },
+    ],
   ),
   makeModule(
     "ai",
@@ -177,6 +141,96 @@ export const modules = [
         tracks: tracks("Machine Learning, Deep Learning, Data Science, Python"),
       },
       { name: "Generative AI", tracks: tracks("LLMs, Prompt Engineering, RAG, AI Agents") },
+    ],
+  ),
+  makeModule(
+    "cloud",
+    "Cloud Engineering",
+    "CL",
+    "#22c55e",
+    "Architect secure and scalable cloud services.",
+    [{ name: "Platforms", tracks: tracks("AWS, Azure, Google Cloud, Serverless") }],
+  ),
+  makeModule(
+    "devops",
+    "DevOps and Platform Engineering",
+    "DO",
+    "#22c55e",
+    "Automate delivery, infrastructure, and operations.",
+    [
+      { name: "Containers", tracks: tracks("Docker, Kubernetes, Helm, OpenShift") },
+      { name: "Delivery", tracks: tracks("Terraform, Jenkins, GitHub Actions, Ansible") },
+    ],
+  ),
+  makeModule(
+    "backend-tooling",
+    "Backend Tools and Libraries",
+    "BT",
+    "#22c55e",
+    "Use essential backend libraries for persistence, APIs, caching, and builds.",
+    [
+      { name: "Persistence and APIs", tracks: tracks("Hibernate, JPA, Swagger, OpenAPI") },
+      { name: "Backend → Caching", tracks: [...tracks("Caffeine, Guava Cache"), backendToolingOutlines.springCache] },
+      { name: "Infrastructure → Distributed Cache", tracks: [backendToolingOutlines.redis, backendToolingOutlines.memcached] },
+      { name: "Database", tracks: [backendToolingOutlines.postgresql] },
+      { name: "Build tools", tracks: tracks("Maven, Gradle") },
+    ],
+  ),
+  makeModule(
+    "frontend-tooling",
+    "Frontend Tools and Libraries",
+    "FT",
+    "#22c55e",
+    "Master the build tools, package managers, and libraries used by frontend teams.",
+    [
+      { name: "Package and build", tracks: tracks("npm, yarn, pnpm, Webpack") },
+      { name: "Quality and UI", tracks: tracks("Vite, Babel, Storybook, ESLint") },
+    ],
+  ),
+  makeModule(
+    "testing",
+    "Testing and Quality Engineering",
+    "QA",
+    "#22c55e",
+    "Build confidence with a balanced testing strategy.",
+    [
+      {
+        name: "Testing",
+        tracks: tracks("Unit Testing, Integration Testing, API Testing, Playwright"),
+      },
+    ],
+  ),
+  makeModule(
+    "mobile",
+    "Mobile App Development",
+    "MA",
+    "#22c55e",
+    "Build mobile experiences for Android and iOS.",
+    [{ name: "Mobile frameworks and stacks", tracks: mobileCourses }],
+  ),
+  makeModule(
+    "desktop",
+    "Desktop App Development",
+    "DA",
+    "#22c55e",
+    "Build desktop applications for Windows, Linux, and macOS.",
+    [{ name: "Desktop frameworks and stacks", tracks: desktopCourses }],
+  ),
+  makeModule(
+    "developer-tools",
+    "Developer Productivity Tools",
+    "DT",
+    "#22c55e",
+    "Configure an efficient daily development environment and workflow.",
+    [
+      {
+        name: "Editors and source control",
+        tracks: tracks("IntelliJ IDEA, VS Code, Eclipse, Git"),
+      },
+      {
+        name: "Platforms and assistants",
+        tracks: tracks("GitHub, GitLab, Browser DevTools, AI Coding Tools"),
+      },
     ],
   ),
   makeModule(
@@ -215,48 +269,6 @@ export const modules = [
     ],
   ),
   makeModule(
-    "frontend-tooling",
-    "Frontend Tools and Libraries",
-    "FT",
-    "#22c55e",
-    "Master the build tools, package managers, and libraries used by frontend teams.",
-    [
-      { name: "Package and build", tracks: tracks("npm, yarn, pnpm, Webpack") },
-      { name: "Quality and UI", tracks: tracks("Vite, Babel, Storybook, ESLint") },
-    ],
-  ),
-  makeModule(
-    "backend-tooling",
-    "Backend Tools and Libraries",
-    "BT",
-    "#22c55e",
-    "Use essential backend libraries for persistence, APIs, caching, and builds.",
-    [
-      { name: "Persistence and APIs", tracks: tracks("Hibernate, JPA, Swagger, OpenAPI") },
-      { name: "Backend → Caching", tracks: [...tracks("Caffeine, Guava Cache"), backendToolingOutlines.springCache] },
-      { name: "Infrastructure → Distributed Cache", tracks: [backendToolingOutlines.redis, backendToolingOutlines.memcached] },
-      { name: "Database", tracks: [backendToolingOutlines.postgresql] },
-      { name: "Build tools", tracks: tracks("Maven, Gradle") },
-    ],
-  ),
-  makeModule(
-    "developer-tools",
-    "Developer Productivity Tools",
-    "DT",
-    "#22c55e",
-    "Configure an efficient daily development environment and workflow.",
-    [
-      {
-        name: "Editors and source control",
-        tracks: tracks("IntelliJ IDEA, VS Code, Eclipse, Git"),
-      },
-      {
-        name: "Platforms and assistants",
-        tracks: tracks("GitHub, GitLab, Browser DevTools, AI Coding Tools"),
-      },
-    ],
-  ),
-  makeModule(
     "misc-tools",
     "Collaboration and Miscellaneous Tools",
     "MT",
@@ -267,19 +279,6 @@ export const modules = [
       {
         name: "Utilities",
         tracks: tracks("Postman, PowerShell, Shell Scripting, Microsoft Office"),
-      },
-    ],
-  ),
-  makeModule(
-    "testing",
-    "Testing and Quality Engineering",
-    "QA",
-    "#22c55e",
-    "Build confidence with a balanced testing strategy.",
-    [
-      {
-        name: "Testing",
-        tracks: tracks("Unit Testing, Integration Testing, API Testing, Playwright"),
       },
     ],
   ),
@@ -367,6 +366,20 @@ export const modules = [
     ],
   ),
   makeModule(
+    "wellbeing",
+    "Developer Wellbeing",
+    "WB",
+    "#22c55e",
+    "Build sustainable habits for energy, mobility, focus, and long-term health.",
+    [
+      { name: "Movement", tracks: tracks("Home Workout, Bodyweight Workout, Stretching, Yoga") },
+      {
+        name: "Mind and nutrition",
+        tracks: tracks("Pranayama, Meditation, Nutrition, Healthy Developer Habits"),
+      },
+    ],
+  ),
+  makeModule(
     "marketing",
     "Digital Marketing and SEO",
     "DM",
@@ -386,20 +399,6 @@ export const modules = [
     "#22c55e",
     "Create engaging technical videos and tutorials.",
     [{ name: "Tools", tracks: tracks("DaVinci Resolve, Premiere Pro, CapCut, YouTube Strategy") }],
-  ),
-  makeModule(
-    "wellbeing",
-    "Developer Wellbeing",
-    "WB",
-    "#22c55e",
-    "Build sustainable habits for energy, mobility, focus, and long-term health.",
-    [
-      { name: "Movement", tracks: tracks("Home Workout, Bodyweight Workout, Stretching, Yoga") },
-      {
-        name: "Mind and nutrition",
-        tracks: tracks("Pranayama, Meditation, Nutrition, Healthy Developer Habits"),
-      },
-    ],
   ),
 ];
 
