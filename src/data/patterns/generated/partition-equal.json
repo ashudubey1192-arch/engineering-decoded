@@ -1,0 +1,355 @@
+{
+  "id": "partition-equal",
+  "title": "Partition Equal Subset Sum",
+  "contract": "For nonnegative values with bounded total sum, decide whether all values can be split into two subsets of equal sum; empty subsets are allowed.",
+  "signature": "boolean solve(int[] a)",
+  "brute": "int total=Arrays.stream(a).sum();if((total&1)!=0)return false;return subsetSum(a,0,total/2);",
+  "optimal": "int total=Arrays.stream(a).sum();if((total&1)!=0)return false;int target=total/2;boolean[] dp=new boolean[target+1];dp[0]=true;for(int x:a){for(int sum=target;sum>=x;sum--)dp[sum]|=dp[sum-x];emit(\"Use each item at most once\",\"value\",x,\"reachable sums\",dp);}return dp[target];",
+  "reasoning": [
+    "An equal partition exists exactly when one subset sums to half the total; an odd total is impossible.",
+    "A boolean knapsack table records attainable sums using processed elements.",
+    "Iterate sums downward to prevent taking the same element twice. The table is pseudo-polynomial, so a huge numeric total requires a different strategy such as meet in the middle."
+  ],
+  "complexity": [
+    "O(2ⁿ), O(n)",
+    "O(nS), O(S), S half the total"
+  ],
+  "tests": [
+    {
+      "label": "Equal",
+      "args": "new int[]{1,5,11,5}",
+      "expected": "true"
+    },
+    {
+      "label": "Impossible",
+      "args": "new int[]{1,2,5}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--partition-equal",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,5,11,5}"
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 0,
+              "remaining": 11
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 1,
+              "remaining": 11
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 2,
+              "remaining": 11
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 3,
+              "remaining": 11
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 4,
+              "remaining": 11
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 4,
+              "remaining": 6
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 3,
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,5}"
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 0,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 1,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 2,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 3,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 2,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 3,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 1,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 2,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 3,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 2,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Take or skip toward the target",
+            "state": {
+              "index": 3,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,5,11,5}"
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 1,
+              "reachable sums": [
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 5,
+              "reachable sums": [
+                true,
+                true,
+                false,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 11,
+              "reachable sums": [
+                true,
+                true,
+                false,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 5,
+              "reachable sums": [
+                true,
+                true,
+                false,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,5}"
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 1,
+              "reachable sums": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 2,
+              "reachable sums": [
+                true,
+                true,
+                true,
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Use each item at most once",
+            "state": {
+              "value": 5,
+              "reachable sums": [
+                true,
+                true,
+                true,
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(int[] a) {\nint total=Arrays.stream(a).sum();if((total&1)!=0)return false;return subsetSum(a,0,total/2);\n  }\nstatic boolean subsetSum(int[] a,int i,int target){emit(\"Take or skip toward the target\",\"index\",i,\"remaining\",target);if(target==0)return true;if(i==a.length)return false;return subsetSum(a,i+1,target)||(a[i]<=target&&subsetSum(a,i+1,target-a[i]));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,5,11,5}\"); Object result0=solve(new int[]{1,5,11,5}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(int[] a) {\nint total=Arrays.stream(a).sum();if((total&1)!=0)return false;int target=total/2;boolean[] dp=new boolean[target+1];dp[0]=true;for(int x:a){for(int sum=target;sum>=x;sum--)dp[sum]|=dp[sum-x];emit(\"Use each item at most once\",\"value\",x,\"reachable sums\",dp);}return dp[target];\n  }\nstatic boolean subsetSum(int[] a,int i,int target){emit(\"Take or skip toward the target\",\"index\",i,\"remaining\",target);if(target==0)return true;if(i==a.length)return false;return subsetSum(a,i+1,target)||(a[i]<=target&&subsetSum(a,i+1,target-a[i]));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,5,11,5}\"); Object result0=solve(new int[]{1,5,11,5}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

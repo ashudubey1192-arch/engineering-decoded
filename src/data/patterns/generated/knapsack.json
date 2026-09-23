@@ -1,0 +1,343 @@
+{
+  "id": "knapsack",
+  "title": "0/1 Knapsack",
+  "contract": "Each item has positive weight and nonnegative value. Choose each at most once; total weight must not exceed capacity.",
+  "signature": "long solve(int[] weights,int[] values,int capacity)",
+  "brute": "return sack(weights,values,0,capacity);",
+  "optimal": "long[] dp=new long[capacity+1];for(int i=0;i<weights.length;i++){for(int c=capacity;c>=weights[i];c--){dp[c]=Math.max(dp[c],dp[c-weights[i]]+values[i]);emit(\"Update capacity downward so this item is used once\",\"item\",i,\"capacity\",c,\"best values\",dp);}}return dp[capacity];",
+  "reasoning": [
+    "Enumerate take/skip decisions and reject taking an item heavier than the remaining capacity.",
+    "dp[c] is the best value using processed items and at most capacity c.",
+    "Descending capacity preserves the previous item row. Ascending capacity would allow reusing the current item and solve unbounded knapsack instead."
+  ],
+  "complexity": [
+    "O(2ⁿ), O(n)",
+    "O(nC), O(C); pseudo-polynomial in capacity"
+  ],
+  "tests": [
+    {
+      "label": "Items",
+      "args": "new int[]{2,3,4},new int[]{4,5,7},5",
+      "expected": "9"
+    },
+    {
+      "label": "No capacity",
+      "args": "new int[]{1},new int[]{5},0",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--knapsack",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,3,4},new int[]{4,5,7},5"
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 0,
+              "capacity": 5
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 1,
+              "capacity": 5
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 2,
+              "capacity": 5
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 3,
+              "capacity": 5
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 3,
+              "capacity": 1
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 2,
+              "capacity": 2
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 3,
+              "capacity": 2
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 1,
+              "capacity": 3
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 2,
+              "capacity": 3
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 3,
+              "capacity": 3
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 2,
+              "capacity": 0
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 3,
+              "capacity": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 9
+            }
+          }
+        ],
+        "result": "9"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1},new int[]{5},0"
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 0,
+              "capacity": 0
+            }
+          },
+          {
+            "note": "Take or skip an item",
+            "state": {
+              "item": 1,
+              "capacity": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,3,4},new int[]{4,5,7},5"
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 0,
+              "capacity": 5,
+              "best values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 0,
+              "capacity": 4,
+              "best values": [
+                0,
+                0,
+                0,
+                0,
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 0,
+              "capacity": 3,
+              "best values": [
+                0,
+                0,
+                0,
+                4,
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 0,
+              "capacity": 2,
+              "best values": [
+                0,
+                0,
+                4,
+                4,
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 1,
+              "capacity": 5,
+              "best values": [
+                0,
+                0,
+                4,
+                4,
+                4,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 1,
+              "capacity": 4,
+              "best values": [
+                0,
+                0,
+                4,
+                4,
+                5,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 1,
+              "capacity": 3,
+              "best values": [
+                0,
+                0,
+                4,
+                5,
+                5,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 2,
+              "capacity": 5,
+              "best values": [
+                0,
+                0,
+                4,
+                5,
+                5,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Update capacity downward so this item is used once",
+            "state": {
+              "item": 2,
+              "capacity": 4,
+              "best values": [
+                0,
+                0,
+                4,
+                5,
+                7,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 9
+            }
+          }
+        ],
+        "result": "9"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1},new int[]{5},0"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] weights,int[] values,int capacity) {\nreturn sack(weights,values,0,capacity);\n  }\nstatic long sack(int[] w,int[] v,int i,int c){emit(\"Take or skip an item\",\"item\",i,\"capacity\",c);if(i==w.length)return 0;long best=sack(w,v,i+1,c);if(w[i]<=c)best=Math.max(best,v[i]+sack(w,v,i+1,c-w[i]));return best;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,3,4},new int[]{4,5,7},5\"); Object result0=solve(new int[]{2,3,4},new int[]{4,5,7},5); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] weights,int[] values,int capacity) {\nlong[] dp=new long[capacity+1];for(int i=0;i<weights.length;i++){for(int c=capacity;c>=weights[i];c--){dp[c]=Math.max(dp[c],dp[c-weights[i]]+values[i]);emit(\"Update capacity downward so this item is used once\",\"item\",i,\"capacity\",c,\"best values\",dp);}}return dp[capacity];\n  }\nstatic long sack(int[] w,int[] v,int i,int c){emit(\"Take or skip an item\",\"item\",i,\"capacity\",c);if(i==w.length)return 0;long best=sack(w,v,i+1,c);if(w[i]<=c)best=Math.max(best,v[i]+sack(w,v,i+1,c-w[i]));return best;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,3,4},new int[]{4,5,7},5\"); Object result0=solve(new int[]{2,3,4},new int[]{4,5,7},5); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

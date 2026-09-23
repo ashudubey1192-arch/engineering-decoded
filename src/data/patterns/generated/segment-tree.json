@@ -1,0 +1,241 @@
+{
+  "id": "segment-tree",
+  "title": "Segment Tree: Range Sum with Point Updates",
+  "contract": "Operations [0,index,value] assign a value; [1,left,right] query an inclusive range sum. Return query answers; array is nonempty.",
+  "signature": "List<Long> solve(int[] a,int[][] ops)",
+  "brute": "long[] values=new long[a.length];for(int i=0;i<a.length;i++)values[i]=a[i];List<Long> out=new ArrayList<>();for(int[] op:ops){if(op[0]==0)values[op[1]]=op[2];else{long sum=0;for(int i=op[1];i<=op[2];i++)sum+=values[i];out.add(sum);}emit(\"Scan each queried range\",\"operation\",op,\"values\",values,\"answers\",out);}return out;",
+  "optimal": "int n=a.length;long[] tree=new long[2*n];for(int i=0;i<n;i++)tree[n+i]=a[i];for(int i=n-1;i>0;i--)tree[i]=tree[2*i]+tree[2*i+1];List<Long> out=new ArrayList<>();for(int[] op:ops){if(op[0]==0){int i=n+op[1];tree[i]=op[2];while(i>1){i/=2;tree[i]=tree[2*i]+tree[2*i+1];}}else{int l=n+op[1],r=n+op[2]+1;long sum=0;while(l<r){if((l&1)==1)sum+=tree[l++];if((r&1)==1)sum+=tree[--r];l/=2;r/=2;}out.add(sum);}emit(\"Update ancestors or combine disjoint covering segments\",\"operation\",op,\"tree\",tree,\"answers\",out);}return out;",
+  "reasoning": [
+    "Direct point assignment is cheap, but every range query scans the covered values.",
+    "Store leaves in the second half and parent sums above them. Each parent summarizes a disjoint segment.",
+    "Use a half-open query [left,right+1): odd boundary nodes are consumed before moving to parents. Range updates require a separate lazy-propagation design; this lab implements point assignment."
+  ],
+  "complexity": [
+    "O(n+qn), O(n)",
+    "O(n+q log n), O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Update then query",
+      "args": "new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}",
+      "expected": "[9, 8, 2]"
+    }
+  ],
+  "slug": "problems--segment-tree",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}"
+            }
+          },
+          {
+            "note": "Scan each queried range",
+            "state": {
+              "operation": [
+                1,
+                0,
+                2
+              ],
+              "values": [
+                1,
+                3,
+                5
+              ],
+              "answers": [
+                9
+              ]
+            }
+          },
+          {
+            "note": "Scan each queried range",
+            "state": {
+              "operation": [
+                0,
+                1,
+                2
+              ],
+              "values": [
+                1,
+                2,
+                5
+              ],
+              "answers": [
+                9
+              ]
+            }
+          },
+          {
+            "note": "Scan each queried range",
+            "state": {
+              "operation": [
+                1,
+                0,
+                2
+              ],
+              "values": [
+                1,
+                2,
+                5
+              ],
+              "answers": [
+                9,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Scan each queried range",
+            "state": {
+              "operation": [
+                1,
+                1,
+                1
+              ],
+              "values": [
+                1,
+                2,
+                5
+              ],
+              "answers": [
+                9,
+                8,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                9,
+                8,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[9, 8, 2]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}"
+            }
+          },
+          {
+            "note": "Update ancestors or combine disjoint covering segments",
+            "state": {
+              "operation": [
+                1,
+                0,
+                2
+              ],
+              "tree": [
+                0,
+                9,
+                8,
+                1,
+                3,
+                5
+              ],
+              "answers": [
+                9
+              ]
+            }
+          },
+          {
+            "note": "Update ancestors or combine disjoint covering segments",
+            "state": {
+              "operation": [
+                0,
+                1,
+                2
+              ],
+              "tree": [
+                0,
+                8,
+                7,
+                1,
+                2,
+                5
+              ],
+              "answers": [
+                9
+              ]
+            }
+          },
+          {
+            "note": "Update ancestors or combine disjoint covering segments",
+            "state": {
+              "operation": [
+                1,
+                0,
+                2
+              ],
+              "tree": [
+                0,
+                8,
+                7,
+                1,
+                2,
+                5
+              ],
+              "answers": [
+                9,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Update ancestors or combine disjoint covering segments",
+            "state": {
+              "operation": [
+                1,
+                1,
+                1
+              ],
+              "tree": [
+                0,
+                8,
+                7,
+                1,
+                2,
+                5
+              ],
+              "answers": [
+                9,
+                8,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                9,
+                8,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[9, 8, 2]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<Long> solve(int[] a,int[][] ops) {\nlong[] values=new long[a.length];for(int i=0;i<a.length;i++)values[i]=a[i];List<Long> out=new ArrayList<>();for(int[] op:ops){if(op[0]==0)values[op[1]]=op[2];else{long sum=0;for(int i=op[1];i<=op[2];i++)sum+=values[i];out.add(sum);}emit(\"Scan each queried range\",\"operation\",op,\"values\",values,\"answers\",out);}return out;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}\"); Object result0=solve(new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<Long> solve(int[] a,int[][] ops) {\nint n=a.length;long[] tree=new long[2*n];for(int i=0;i<n;i++)tree[n+i]=a[i];for(int i=n-1;i>0;i--)tree[i]=tree[2*i]+tree[2*i+1];List<Long> out=new ArrayList<>();for(int[] op:ops){if(op[0]==0){int i=n+op[1];tree[i]=op[2];while(i>1){i/=2;tree[i]=tree[2*i]+tree[2*i+1];}}else{int l=n+op[1],r=n+op[2]+1;long sum=0;while(l<r){if((l&1)==1)sum+=tree[l++];if((r&1)==1)sum+=tree[--r];l/=2;r/=2;}out.add(sum);}emit(\"Update ancestors or combine disjoint covering segments\",\"operation\",op,\"tree\",tree,\"answers\",out);}return out;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}\"); Object result0=solve(new int[]{1,3,5},new int[][]{{1,0,2},{0,1,2},{1,0,2},{1,1,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

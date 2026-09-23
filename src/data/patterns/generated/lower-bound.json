@@ -1,0 +1,221 @@
+{
+  "id": "lower-bound",
+  "title": "Binary Search: First Occurrence / Lower Bound",
+  "contract": "Given a sorted array, return the first index with value ≥ target, or n if none exists.",
+  "signature": "int solve(int[] a,int target)",
+  "brute": "for(int i=0;i<a.length;i++){emit(\"Scan to the first qualifying value\",\"index\",i,\"value\",a[i]);if(a[i]>=target)return i;}return a.length;",
+  "optimal": "int lo=0,hi=a.length;while(lo<hi){int mid=lo+(hi-lo)/2;emit(\"Maintain a half-open candidate range\",\"bounds\",new int[]{lo,mid,hi},\"value\",a[mid]);if(a[mid]<target)lo=mid+1;else hi=mid;}return lo;",
+  "reasoning": [
+    "A left-to-right scan directly implements the first-qualifying-index definition.",
+    "Maintain [lo,hi): all values before lo are too small; all at or after hi qualify.",
+    "On equality retain mid by moving hi. This gives the first duplicate and an insertion position without a separate postprocessing scan."
+  ],
+  "complexity": [
+    "O(n), O(1)",
+    "O(log n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Duplicates",
+      "args": "new int[]{1,2,2,2,5},2",
+      "expected": "1"
+    },
+    {
+      "label": "After end",
+      "args": "new int[]{1,2},9",
+      "expected": "2"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{},3",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--lower-bound",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,2,2,5},2"
+            }
+          },
+          {
+            "note": "Scan to the first qualifying value",
+            "state": {
+              "index": 0,
+              "value": 1
+            }
+          },
+          {
+            "note": "Scan to the first qualifying value",
+            "state": {
+              "index": 1,
+              "value": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2},9"
+            }
+          },
+          {
+            "note": "Scan to the first qualifying value",
+            "state": {
+              "index": 0,
+              "value": 1
+            }
+          },
+          {
+            "note": "Scan to the first qualifying value",
+            "state": {
+              "index": 1,
+              "value": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{},3"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,2,2,5},2"
+            }
+          },
+          {
+            "note": "Maintain a half-open candidate range",
+            "state": {
+              "bounds": [
+                0,
+                2,
+                5
+              ],
+              "value": 2
+            }
+          },
+          {
+            "note": "Maintain a half-open candidate range",
+            "state": {
+              "bounds": [
+                0,
+                1,
+                2
+              ],
+              "value": 2
+            }
+          },
+          {
+            "note": "Maintain a half-open candidate range",
+            "state": {
+              "bounds": [
+                0,
+                0,
+                1
+              ],
+              "value": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2},9"
+            }
+          },
+          {
+            "note": "Maintain a half-open candidate range",
+            "state": {
+              "bounds": [
+                0,
+                1,
+                2
+              ],
+              "value": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{},3"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a,int target) {\nfor(int i=0;i<a.length;i++){emit(\"Scan to the first qualifying value\",\"index\",i,\"value\",a[i]);if(a[i]>=target)return i;}return a.length;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,2,2,5},2\"); Object result0=solve(new int[]{1,2,2,2,5},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a,int target) {\nint lo=0,hi=a.length;while(lo<hi){int mid=lo+(hi-lo)/2;emit(\"Maintain a half-open candidate range\",\"bounds\",new int[]{lo,mid,hi},\"value\",a[mid]);if(a[mid]<target)lo=mid+1;else hi=mid;}return lo;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,2,2,5},2\"); Object result0=solve(new int[]{1,2,2,2,5},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

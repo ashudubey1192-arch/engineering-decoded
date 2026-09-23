@@ -1,0 +1,230 @@
+{
+  "id": "jump-game",
+  "title": "Jump Game",
+  "contract": "Nonnegative entries give maximum forward jump length. Decide whether the final position is reachable; input is nonempty.",
+  "signature": "boolean solve(int[] a)",
+  "brute": "return jump(a,0);",
+  "optimal": "long farthest=0;for(int i=0;i<a.length;i++){if(i>farthest)return false;farthest=Math.max(farthest,(long)i+a[i]);emit(\"Extend the reachable prefix\",\"index\",i,\"farthest\",farthest);if(farthest>=a.length-1)return true;}return true;",
+  "reasoning": [
+    "Try every legal next jump recursively; many paths revisit the same position.",
+    "If every index up to farthest is reachable, scanning any index in that prefix can only extend reachability.",
+    "An index beyond farthest exposes an uncrossable gap. This greedy proof relies on being able to choose any jump up to the maximum, not exactly the stated jump."
+  ],
+  "complexity": [
+    "O(2ⁿ) upper bound, O(n) stack",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Reachable",
+      "args": "new int[]{2,3,1,1,4}",
+      "expected": "true"
+    },
+    {
+      "label": "Blocked",
+      "args": "new int[]{3,2,1,0,4}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--jump-game",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,3,1,1,4}"
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 0
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 1
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 2
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,2,1,0,4}"
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 0
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 1
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 2
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 2
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Explore jumps from this position",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,3,1,1,4}"
+            }
+          },
+          {
+            "note": "Extend the reachable prefix",
+            "state": {
+              "index": 0,
+              "farthest": 2
+            }
+          },
+          {
+            "note": "Extend the reachable prefix",
+            "state": {
+              "index": 1,
+              "farthest": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,2,1,0,4}"
+            }
+          },
+          {
+            "note": "Extend the reachable prefix",
+            "state": {
+              "index": 0,
+              "farthest": 3
+            }
+          },
+          {
+            "note": "Extend the reachable prefix",
+            "state": {
+              "index": 1,
+              "farthest": 3
+            }
+          },
+          {
+            "note": "Extend the reachable prefix",
+            "state": {
+              "index": 2,
+              "farthest": 3
+            }
+          },
+          {
+            "note": "Extend the reachable prefix",
+            "state": {
+              "index": 3,
+              "farthest": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(int[] a) {\nreturn jump(a,0);\n  }\nstatic boolean jump(int[] a,int i){emit(\"Explore jumps from this position\",\"index\",i);if(i>=a.length-1)return true;for(int next=i+1;next<a.length&&next<=(long)i+a[i];next++)if(jump(a,next))return true;return false;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,3,1,1,4}\"); Object result0=solve(new int[]{2,3,1,1,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(int[] a) {\nlong farthest=0;for(int i=0;i<a.length;i++){if(i>farthest)return false;farthest=Math.max(farthest,(long)i+a[i]);emit(\"Extend the reachable prefix\",\"index\",i,\"farthest\",farthest);if(farthest>=a.length-1)return true;}return true;\n  }\nstatic boolean jump(int[] a,int i){emit(\"Explore jumps from this position\",\"index\",i);if(i>=a.length-1)return true;for(int next=i+1;next<a.length&&next<=(long)i+a[i];next++)if(jump(a,next))return true;return false;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,3,1,1,4}\"); Object result0=solve(new int[]{2,3,1,1,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

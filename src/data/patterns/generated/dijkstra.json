@@ -1,0 +1,203 @@
+{
+  "id": "dijkstra",
+  "title": "Shortest Paths: Dijkstra vs Repeated Relaxation",
+  "contract": "Directed nonnegative integer weights, source 0. Return distances, using −1 for unreachable vertices. Weights and finite path sums fit long.",
+  "signature": "long[] solve(int n,int[][] edges)",
+  "brute": "long[] d=new long[n];Arrays.fill(d,INF);d[0]=0;for(int pass=1;pass<n;pass++){boolean changed=false;for(int[] edge:edges){int u=edge[0],v=edge[1];if(d[u]!=INF&&d[u]+edge[2]<d[v]){d[v]=d[u]+edge[2];changed=true;emit(\"Relax an edge\",\"edge\",edge,\"distances\",clean(d));}}if(!changed)break;}return clean(d);",
+  "optimal": "List<List<int[]>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] edge:edges)g.get(edge[0]).add(new int[]{edge[1],edge[2]});long[] d=new long[n];Arrays.fill(d,INF);d[0]=0;PriorityQueue<long[]> q=new PriorityQueue<>(Comparator.comparingLong(x->x[1]));q.add(new long[]{0,0});while(!q.isEmpty()){long[] item=q.remove();int u=(int)item[0];if(item[1]!=d[u])continue;for(int[] edge:g.get(u))if(d[u]+edge[1]<d[edge[0]]){d[edge[0]]=d[u]+edge[1];q.add(new long[]{edge[0],d[edge[0]]});}emit(\"Finalize the nearest unsettled distance\",\"vertex\",u,\"distances\",clean(d));}return clean(d);",
+  "reasoning": [
+    "Bellman–Ford repeatedly relaxes every edge and is a useful baseline, including for negative edges without reachable negative cycles.",
+    "With nonnegative weights, the smallest queued tentative distance cannot later improve through a farther vertex.",
+    "Java's PriorityQueue has no decrease-key here: insert improvements and skip stale entries. This lazy variant may hold O(E) entries; never use it with negative edges."
+  ],
+  "complexity": [
+    "O(VE), O(V)",
+    "O(V+E log(E+1)), O(V+E) with lazy heap"
+  ],
+  "tests": [
+    {
+      "label": "Weighted",
+      "args": "5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}",
+      "expected": "[0, 3, 1, 4, -1]"
+    }
+  ],
+  "slug": "problems--dijkstra",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}"
+            }
+          },
+          {
+            "note": "Relax an edge",
+            "state": {
+              "edge": [
+                0,
+                1,
+                4
+              ],
+              "distances": [
+                0,
+                4,
+                -1,
+                -1,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Relax an edge",
+            "state": {
+              "edge": [
+                0,
+                2,
+                1
+              ],
+              "distances": [
+                0,
+                4,
+                1,
+                -1,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Relax an edge",
+            "state": {
+              "edge": [
+                2,
+                1,
+                2
+              ],
+              "distances": [
+                0,
+                3,
+                1,
+                -1,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Relax an edge",
+            "state": {
+              "edge": [
+                1,
+                3,
+                1
+              ],
+              "distances": [
+                0,
+                3,
+                1,
+                4,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                3,
+                1,
+                4,
+                -1
+              ]
+            }
+          }
+        ],
+        "result": "[0, 3, 1, 4, -1]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}"
+            }
+          },
+          {
+            "note": "Finalize the nearest unsettled distance",
+            "state": {
+              "vertex": 0,
+              "distances": [
+                0,
+                4,
+                1,
+                -1,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Finalize the nearest unsettled distance",
+            "state": {
+              "vertex": 2,
+              "distances": [
+                0,
+                3,
+                1,
+                6,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Finalize the nearest unsettled distance",
+            "state": {
+              "vertex": 1,
+              "distances": [
+                0,
+                3,
+                1,
+                4,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Finalize the nearest unsettled distance",
+            "state": {
+              "vertex": 3,
+              "distances": [
+                0,
+                3,
+                1,
+                4,
+                -1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                3,
+                1,
+                4,
+                -1
+              ]
+            }
+          }
+        ],
+        "result": "[0, 3, 1, 4, -1]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long[] solve(int n,int[][] edges) {\nlong[] d=new long[n];Arrays.fill(d,INF);d[0]=0;for(int pass=1;pass<n;pass++){boolean changed=false;for(int[] edge:edges){int u=edge[0],v=edge[1];if(d[u]!=INF&&d[u]+edge[2]<d[v]){d[v]=d[u]+edge[2];changed=true;emit(\"Relax an edge\",\"edge\",edge,\"distances\",clean(d));}}if(!changed)break;}return clean(d);\n  }\nstatic final long INF=Long.MAX_VALUE/4;\nstatic long[] clean(long[] d){long[] out=d.clone();for(int i=0;i<out.length;i++)if(out[i]==INF)out[i]=-1;return out;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}\"); Object result0=solve(5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long[] solve(int n,int[][] edges) {\nList<List<int[]>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] edge:edges)g.get(edge[0]).add(new int[]{edge[1],edge[2]});long[] d=new long[n];Arrays.fill(d,INF);d[0]=0;PriorityQueue<long[]> q=new PriorityQueue<>(Comparator.comparingLong(x->x[1]));q.add(new long[]{0,0});while(!q.isEmpty()){long[] item=q.remove();int u=(int)item[0];if(item[1]!=d[u])continue;for(int[] edge:g.get(u))if(d[u]+edge[1]<d[edge[0]]){d[edge[0]]=d[u]+edge[1];q.add(new long[]{edge[0],d[edge[0]]});}emit(\"Finalize the nearest unsettled distance\",\"vertex\",u,\"distances\",clean(d));}return clean(d);\n  }\nstatic final long INF=Long.MAX_VALUE/4;\nstatic long[] clean(long[] d){long[] out=d.clone();for(int i=0;i<out.length;i++)if(out[i]==INF)out[i]=-1;return out;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}\"); Object result0=solve(5,new int[][]{{0,1,4},{0,2,1},{2,1,2},{1,3,1},{2,3,5}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

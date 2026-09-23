@@ -1,0 +1,181 @@
+{
+  "id": "collection-membership",
+  "title": "Java Collections: Deduplicate in Encounter Order",
+  "contract": "Return unique integers in order of first appearance. Compare ArrayList membership with LinkedHashSet.",
+  "signature": "List<Integer> solve(int[] a)",
+  "brute": "List<Integer> out=new ArrayList<>();for(int x:a){if(!out.contains(x))out.add(x);emit(\"Linear membership scan\",\"value\",x,\"unique\",out);}return out;",
+  "optimal": "Set<Integer> seen=new LinkedHashSet<>();for(int x:a){seen.add(x);emit(\"Hash membership with encounter ordering\",\"value\",x,\"unique\",seen);}return new ArrayList<>(seen);",
+  "reasoning": [
+    "ArrayList offers indexed storage, but contains scans existing values.",
+    "LinkedHashSet combines hash membership with insertion order; HashSet alone does not promise that order.",
+    "Choose by required operations, ordering, and equality semantics. Mutable keys whose hashCode changes break lookup assumptions. These collections do not provide automatic thread safety."
+  ],
+  "complexity": [
+    "O(n²), O(n)",
+    "O(n) expected, O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Duplicates",
+      "args": "new int[]{4,1,4,2,1}",
+      "expected": "[4, 1, 2]"
+    }
+  ],
+  "slug": "problems--collection-membership",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{4,1,4,2,1}"
+            }
+          },
+          {
+            "note": "Linear membership scan",
+            "state": {
+              "value": 4,
+              "unique": [
+                4
+              ]
+            }
+          },
+          {
+            "note": "Linear membership scan",
+            "state": {
+              "value": 1,
+              "unique": [
+                4,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Linear membership scan",
+            "state": {
+              "value": 4,
+              "unique": [
+                4,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Linear membership scan",
+            "state": {
+              "value": 2,
+              "unique": [
+                4,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Linear membership scan",
+            "state": {
+              "value": 1,
+              "unique": [
+                4,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                4,
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[4, 1, 2]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{4,1,4,2,1}"
+            }
+          },
+          {
+            "note": "Hash membership with encounter ordering",
+            "state": {
+              "value": 4,
+              "unique": [
+                4
+              ]
+            }
+          },
+          {
+            "note": "Hash membership with encounter ordering",
+            "state": {
+              "value": 1,
+              "unique": [
+                4,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Hash membership with encounter ordering",
+            "state": {
+              "value": 4,
+              "unique": [
+                4,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Hash membership with encounter ordering",
+            "state": {
+              "value": 2,
+              "unique": [
+                4,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Hash membership with encounter ordering",
+            "state": {
+              "value": 1,
+              "unique": [
+                4,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                4,
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[4, 1, 2]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<Integer> solve(int[] a) {\nList<Integer> out=new ArrayList<>();for(int x:a){if(!out.contains(x))out.add(x);emit(\"Linear membership scan\",\"value\",x,\"unique\",out);}return out;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{4,1,4,2,1}\"); Object result0=solve(new int[]{4,1,4,2,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<Integer> solve(int[] a) {\nSet<Integer> seen=new LinkedHashSet<>();for(int x:a){seen.add(x);emit(\"Hash membership with encounter ordering\",\"value\",x,\"unique\",seen);}return new ArrayList<>(seen);\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{4,1,4,2,1}\"); Object result0=solve(new int[]{4,1,4,2,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

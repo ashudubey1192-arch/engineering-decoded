@@ -1,0 +1,234 @@
+{
+  "id": "climbing-stairs",
+  "title": "Climbing Stairs",
+  "contract": "Count ways to climb n steps using moves of one or two steps, with 0 ≤ n ≤ 45. There is one way to climb zero steps: do nothing.",
+  "signature": "long solve(int n)",
+  "brute": "emit(\"Choose the final step size\",\"remaining\",n);if(n<=1)return 1;return solve(n-1)+solve(n-2);",
+  "optimal": "long previous=1,current=1;for(int i=2;i<=n;i++){long next=previous+current;previous=current;current=next;emit(\"Combine the two possible predecessor heights\",\"height\",i,\"ways\",current);}return current;",
+  "reasoning": [
+    "Every valid path ends with a one-step or two-step move.",
+    "The two predecessor heights partition all paths without overlap, giving ways[n]=ways[n−1]+ways[n−2].",
+    "Use ways[0]=1 for the empty path. This convention differs from Fibonacci's F(0)=0 even though the recurrences look alike."
+  ],
+  "complexity": [
+    "O(φⁿ), O(n)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Five steps",
+      "args": "5",
+      "expected": "8"
+    },
+    {
+      "label": "Zero steps",
+      "args": "0",
+      "expected": "1"
+    }
+  ],
+  "slug": "problems--climbing-stairs",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5"
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 5
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 8
+            }
+          }
+        ],
+        "result": "8"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0"
+            }
+          },
+          {
+            "note": "Choose the final step size",
+            "state": {
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5"
+            }
+          },
+          {
+            "note": "Combine the two possible predecessor heights",
+            "state": {
+              "height": 2,
+              "ways": 2
+            }
+          },
+          {
+            "note": "Combine the two possible predecessor heights",
+            "state": {
+              "height": 3,
+              "ways": 3
+            }
+          },
+          {
+            "note": "Combine the two possible predecessor heights",
+            "state": {
+              "height": 4,
+              "ways": 5
+            }
+          },
+          {
+            "note": "Combine the two possible predecessor heights",
+            "state": {
+              "height": 5,
+              "ways": 8
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 8
+            }
+          }
+        ],
+        "result": "8"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int n) {\nemit(\"Choose the final step size\",\"remaining\",n);if(n<=1)return 1;return solve(n-1)+solve(n-2);\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5\"); Object result0=solve(5); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int n) {\nlong previous=1,current=1;for(int i=2;i<=n;i++){long next=previous+current;previous=current;current=next;emit(\"Combine the two possible predecessor heights\",\"height\",i,\"ways\",current);}return current;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5\"); Object result0=solve(5); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

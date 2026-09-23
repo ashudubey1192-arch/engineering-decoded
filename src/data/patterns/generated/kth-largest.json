@@ -1,0 +1,226 @@
+{
+  "id": "kth-largest",
+  "title": "Kth Largest Element",
+  "contract": "Return the kth largest value including duplicates, with 1 ≤ k ≤ n. Compare repeated maximum extraction with a size-k heap.",
+  "signature": "int solve(int[] a,int k)",
+  "brute": "boolean[] used=new boolean[a.length];int value=0;for(int t=0;t<k;t++){int best=-1;for(int i=0;i<a.length;i++)if(!used[i]&&(best<0||a[i]>a[best]))best=i;used[best]=true;value=a[best];emit(\"Select the next largest unused value\",\"rank\",t+1,\"value\",value);}return value;",
+  "optimal": "PriorityQueue<Integer> heap=new PriorityQueue<>();for(int x:a){heap.add(x);if(heap.size()>k)heap.remove();emit(\"Keep only the k largest values seen\",\"value\",x,\"heap\",heap);}return heap.element();",
+  "reasoning": [
+    "Repeatedly select an unused maximum; keeping a boolean array handles duplicate values correctly.",
+    "A min heap of size k retains the k largest values in the processed prefix.",
+    "The heap root is the smallest retained value, hence the kth largest. This is a streaming solution; randomized quickselect can improve expected batch time to linear."
+  ],
+  "complexity": [
+    "O(nk), O(n)",
+    "O(n log(k+1)), O(k); streaming approach"
+  ],
+  "tests": [
+    {
+      "label": "Standard",
+      "args": "new int[]{3,2,1,5,6,4},2",
+      "expected": "5"
+    },
+    {
+      "label": "Duplicates",
+      "args": "new int[]{3,3,2},2",
+      "expected": "3"
+    }
+  ],
+  "slug": "problems--kth-largest",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,2,1,5,6,4},2"
+            }
+          },
+          {
+            "note": "Select the next largest unused value",
+            "state": {
+              "rank": 1,
+              "value": 6
+            }
+          },
+          {
+            "note": "Select the next largest unused value",
+            "state": {
+              "rank": 2,
+              "value": 5
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 5
+            }
+          }
+        ],
+        "result": "5"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,3,2},2"
+            }
+          },
+          {
+            "note": "Select the next largest unused value",
+            "state": {
+              "rank": 1,
+              "value": 3
+            }
+          },
+          {
+            "note": "Select the next largest unused value",
+            "state": {
+              "rank": 2,
+              "value": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,2,1,5,6,4},2"
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 3,
+              "heap": [
+                3
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 2,
+              "heap": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 1,
+              "heap": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 5,
+              "heap": [
+                3,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 6,
+              "heap": [
+                5,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 4,
+              "heap": [
+                5,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 5
+            }
+          }
+        ],
+        "result": "5"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,3,2},2"
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 3,
+              "heap": [
+                3
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 3,
+              "heap": [
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Keep only the k largest values seen",
+            "state": {
+              "value": 2,
+              "heap": [
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a,int k) {\nboolean[] used=new boolean[a.length];int value=0;for(int t=0;t<k;t++){int best=-1;for(int i=0;i<a.length;i++)if(!used[i]&&(best<0||a[i]>a[best]))best=i;used[best]=true;value=a[best];emit(\"Select the next largest unused value\",\"rank\",t+1,\"value\",value);}return value;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{3,2,1,5,6,4},2\"); Object result0=solve(new int[]{3,2,1,5,6,4},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a,int k) {\nPriorityQueue<Integer> heap=new PriorityQueue<>();for(int x:a){heap.add(x);if(heap.size()>k)heap.remove();emit(\"Keep only the k largest values seen\",\"value\",x,\"heap\",heap);}return heap.element();\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{3,2,1,5,6,4},2\"); Object result0=solve(new int[]{3,2,1,5,6,4},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "id": "maximum-depth",
+  "title": "Maximum Depth of a Binary Tree",
+  "contract": "Build a binary tree from a level-order array using null for absent nodes. Return the number of nodes on the longest root-to-leaf path.",
+  "signature": "int solve(Integer[] input)",
+  "brute": "Tree root=tree(input);if(root==null)return 0;List<List<Tree>> paths=new ArrayList<>();Deque<List<Tree>> pending=new ArrayDeque<>();pending.push(new ArrayList<>(List.of(root)));while(!pending.isEmpty()){List<Tree> path=pending.pop();Tree last=path.get(path.size()-1);paths.add(path);for(Tree child:new Tree[]{last.left,last.right})if(child!=null){List<Tree> next=new ArrayList<>(path);next.add(child);pending.push(next);}emit(\"Copy each root-to-node path\",\"path length\",path.size());}return paths.stream().mapToInt(List::size).max().orElse(0);",
+  "optimal": "Tree root=tree(input);if(root==null)return 0;Deque<Tree> q=new ArrayDeque<>();q.add(root);int depth=0;while(!q.isEmpty()){int size=q.size();for(int i=0;i<size;i++){Tree node=q.remove();if(node.left!=null)q.add(node.left);if(node.right!=null)q.add(node.right);}depth++;emit(\"Finish exactly one level\",\"depth\",depth,\"next level size\",q.size());}return depth;",
+  "reasoning": [
+    "Store complete root-to-node paths and take the longest; copying paths wastes work on skewed trees.",
+    "Level-order traversal processes a fixed queue size before incrementing depth.",
+    "The queue contains only the frontier. A recursive alternative returns 1 + max(leftHeight,rightHeight) with O(h) call-stack space."
+  ],
+  "complexity": [
+    "O(nh), O(nh)",
+    "O(n), O(w) traversal space; w widest level"
+  ],
+  "tests": [
+    {
+      "label": "Three levels",
+      "args": "new Integer[]{3,9,20,null,null,15,7}",
+      "expected": "3"
+    },
+    {
+      "label": "Empty",
+      "args": "new Integer[]{}",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--maximum-depth",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{3,9,20,null,null,15,7}"
+            }
+          },
+          {
+            "note": "Copy each root-to-node path",
+            "state": {
+              "path length": 1
+            }
+          },
+          {
+            "note": "Copy each root-to-node path",
+            "state": {
+              "path length": 2
+            }
+          },
+          {
+            "note": "Copy each root-to-node path",
+            "state": {
+              "path length": 3
+            }
+          },
+          {
+            "note": "Copy each root-to-node path",
+            "state": {
+              "path length": 3
+            }
+          },
+          {
+            "note": "Copy each root-to-node path",
+            "state": {
+              "path length": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{3,9,20,null,null,15,7}"
+            }
+          },
+          {
+            "note": "Finish exactly one level",
+            "state": {
+              "depth": 1,
+              "next level size": 2
+            }
+          },
+          {
+            "note": "Finish exactly one level",
+            "state": {
+              "depth": 2,
+              "next level size": 2
+            }
+          },
+          {
+            "note": "Finish exactly one level",
+            "state": {
+              "depth": 3,
+              "next level size": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(Integer[] input) {\nTree root=tree(input);if(root==null)return 0;List<List<Tree>> paths=new ArrayList<>();Deque<List<Tree>> pending=new ArrayDeque<>();pending.push(new ArrayList<>(List.of(root)));while(!pending.isEmpty()){List<Tree> path=pending.pop();Tree last=path.get(path.size()-1);paths.add(path);for(Tree child:new Tree[]{last.left,last.right})if(child!=null){List<Tree> next=new ArrayList<>(path);next.add(child);pending.push(next);}emit(\"Copy each root-to-node path\",\"path length\",path.size());}return paths.stream().mapToInt(List::size).max().orElse(0);\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{3,9,20,null,null,15,7}\"); Object result0=solve(new Integer[]{3,9,20,null,null,15,7}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(Integer[] input) {\nTree root=tree(input);if(root==null)return 0;Deque<Tree> q=new ArrayDeque<>();q.add(root);int depth=0;while(!q.isEmpty()){int size=q.size();for(int i=0;i<size;i++){Tree node=q.remove();if(node.left!=null)q.add(node.left);if(node.right!=null)q.add(node.right);}depth++;emit(\"Finish exactly one level\",\"depth\",depth,\"next level size\",q.size());}return depth;\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{3,9,20,null,null,15,7}\"); Object result0=solve(new Integer[]{3,9,20,null,null,15,7}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

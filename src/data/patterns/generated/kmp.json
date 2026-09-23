@@ -1,0 +1,400 @@
+{
+  "id": "kmp",
+  "title": "Advanced Strings: KMP Pattern Matching",
+  "contract": "Return the first match index of pattern in text, or −1. An empty pattern matches at 0.",
+  "signature": "int solve(String text,String pattern)",
+  "brute": "for(int start=0;start+pattern.length()<=text.length();start++){int j=0;while(j<pattern.length()&&text.charAt(start+j)==pattern.charAt(j))j++;emit(\"Try a possible starting position\",\"start\",start,\"matched\",j);if(j==pattern.length())return start;}return -1;",
+  "optimal": "if(pattern.isEmpty())return 0;int[] lps=new int[pattern.length()];for(int i=1,len=0;i<pattern.length();){if(pattern.charAt(i)==pattern.charAt(len))lps[i++]=++len;else if(len>0)len=lps[len-1];else lps[i++]=0;emit(\"Build longest proper prefix/suffix lengths\",\"lps\",lps);}\nfor(int i=0,j=0;i<text.length();){if(text.charAt(i)==pattern.charAt(j)){i++;j++;if(j==pattern.length())return i-j;}else if(j>0)j=lps[j-1];else i++;emit(\"Reuse a matched border instead of restarting text\",\"text index\",i,\"matched prefix\",j);}return -1;",
+  "reasoning": [
+    "At every possible start, compare characters until a mismatch or complete match.",
+    "The LPS table records the longest proper prefix also ending at each pattern position.",
+    "After a mismatch, fall back to a known matching border without moving the text pointer backward. Border lengths amortize the fallback work to linear time."
+  ],
+  "complexity": [
+    "O(nm), O(1)",
+    "O(n+m), O(m)"
+  ],
+  "tests": [
+    {
+      "label": "Repeated border",
+      "args": "\"abababac\",\"ababac\"",
+      "expected": "2"
+    },
+    {
+      "label": "Absent",
+      "args": "\"hello\",\"xyz\"",
+      "expected": "-1"
+    },
+    {
+      "label": "Empty pattern",
+      "args": "\"abc\",\"\"",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--kmp",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abababac\",\"ababac\""
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 0,
+              "matched": 5
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 1,
+              "matched": 0
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 2,
+              "matched": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"hello\",\"xyz\""
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 0,
+              "matched": 0
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 1,
+              "matched": 0
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 2,
+              "matched": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abc\",\"\""
+            }
+          },
+          {
+            "note": "Try a possible starting position",
+            "state": {
+              "start": 0,
+              "matched": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abababac\",\"ababac\""
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                1,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                1,
+                2,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                1,
+                2,
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                1,
+                2,
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                1,
+                2,
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                1,
+                2,
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 1,
+              "matched prefix": 1
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 2,
+              "matched prefix": 2
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 3,
+              "matched prefix": 3
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 4,
+              "matched prefix": 4
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 5,
+              "matched prefix": 5
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 5,
+              "matched prefix": 3
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 6,
+              "matched prefix": 4
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 7,
+              "matched prefix": 5
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"hello\",\"xyz\""
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Build longest proper prefix/suffix lengths",
+            "state": {
+              "lps": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 1,
+              "matched prefix": 0
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 2,
+              "matched prefix": 0
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 3,
+              "matched prefix": 0
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 4,
+              "matched prefix": 0
+            }
+          },
+          {
+            "note": "Reuse a matched border instead of restarting text",
+            "state": {
+              "text index": 5,
+              "matched prefix": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abc\",\"\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(String text,String pattern) {\nfor(int start=0;start+pattern.length()<=text.length();start++){int j=0;while(j<pattern.length()&&text.charAt(start+j)==pattern.charAt(j))j++;emit(\"Try a possible starting position\",\"start\",start,\"matched\",j);if(j==pattern.length())return start;}return -1;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"abababac\\\",\\\"ababac\\\"\"); Object result0=solve(\"abababac\",\"ababac\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(String text,String pattern) {\nif(pattern.isEmpty())return 0;int[] lps=new int[pattern.length()];for(int i=1,len=0;i<pattern.length();){if(pattern.charAt(i)==pattern.charAt(len))lps[i++]=++len;else if(len>0)len=lps[len-1];else lps[i++]=0;emit(\"Build longest proper prefix/suffix lengths\",\"lps\",lps);}\nfor(int i=0,j=0;i<text.length();){if(text.charAt(i)==pattern.charAt(j)){i++;j++;if(j==pattern.length())return i-j;}else if(j>0)j=lps[j-1];else i++;emit(\"Reuse a matched border instead of restarting text\",\"text index\",i,\"matched prefix\",j);}return -1;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"abababac\\\",\\\"ababac\\\"\"); Object result0=solve(\"abababac\",\"ababac\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

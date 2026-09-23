@@ -1,0 +1,862 @@
+{
+  "id": "minimum-window",
+  "title": "Minimum Window Substring",
+  "contract": "Return the shortest substring of s containing every lowercase character of t with its multiplicity; choose the leftmost on ties. Empty t returns empty.",
+  "signature": "String solve(String s,String t)",
+  "brute": "if(t.isEmpty())return \"\";int[] need=new int[26];for(char c:t.toCharArray())need[c-'a']++;int start=0,best=Integer.MAX_VALUE;for(int l=0;l<s.length();l++){int[] count=new int[26];for(int r=l;r<s.length();r++){count[s.charAt(r)-'a']++;boolean valid=true;for(int i=0;i<26;i++)if(count[i]<need[i])valid=false;if(valid){if(r-l+1<best){best=r-l+1;start=l;}break;}emit(\"Extend until all required counts are covered\",\"range\",new int[]{l,r});}}return best==Integer.MAX_VALUE?\"\":s.substring(start,start+best);",
+  "optimal": "if(t.isEmpty())return \"\";int[] need=new int[26];for(char c:t.toCharArray())need[c-'a']++;int missing=t.length(),l=0,start=0,best=Integer.MAX_VALUE;for(int r=0;r<s.length();r++){if(need[s.charAt(r)-'a']-->0)missing--;while(missing==0){if(r-l+1<best){best=r-l+1;start=l;}emit(\"Shrink a covering window\",\"range\",new int[]{l,r},\"best length\",best);if(++need[s.charAt(l++)-'a']>0)missing++;}}return best==Integer.MAX_VALUE?\"\":s.substring(start,start+best);",
+  "reasoning": [
+    "Try every start and extend until all target counts are satisfied.",
+    "A deficit array tracks still-needed multiplicities; missing counts required characters, including repeats.",
+    "Once valid, shrink from the left while recording answers. Negative deficits represent surplus characters. Incrementing a deficit above zero means a required character was lost."
+  ],
+  "complexity": [
+    "O(26n² + m), O(26)",
+    "O(n+m), O(26)"
+  ],
+  "tests": [
+    {
+      "label": "Cover",
+      "args": "\"adobecodebanc\",\"abc\"",
+      "expected": "banc"
+    },
+    {
+      "label": "Multiplicity",
+      "args": "\"aa\",\"aa\"",
+      "expected": "aa"
+    },
+    {
+      "label": "Absent",
+      "args": "\"a\",\"aa\"",
+      "expected": ""
+    }
+  ],
+  "slug": "problems--minimum-window",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"adobecodebanc\",\"abc\""
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                2,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                3,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                4,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                4,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                4,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                4,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                5,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                5,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                5,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                5,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                5,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                6,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                6,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                6,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                6,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                6,
+                10
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                6,
+                11
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                7,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                7,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                7,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                7,
+                10
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                7,
+                11
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                8,
+                8
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                8,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                8,
+                10
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                8,
+                11
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                9,
+                9
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                9,
+                10
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                9,
+                11
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                10,
+                10
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                10,
+                11
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                10,
+                12
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                11,
+                11
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                11,
+                12
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                12,
+                12
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "banc"
+            }
+          }
+        ],
+        "result": "banc"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"aa\",\"aa\""
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "aa"
+            }
+          }
+        ],
+        "result": "aa"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"a\",\"aa\""
+            }
+          },
+          {
+            "note": "Extend until all required counts are covered",
+            "state": {
+              "range": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": ""
+            }
+          }
+        ],
+        "result": ""
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"adobecodebanc\",\"abc\""
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                0,
+                5
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                1,
+                10
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                2,
+                10
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                3,
+                10
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                4,
+                10
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                5,
+                10
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                6,
+                12
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                7,
+                12
+              ],
+              "best length": 6
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                8,
+                12
+              ],
+              "best length": 5
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                9,
+                12
+              ],
+              "best length": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "banc"
+            }
+          }
+        ],
+        "result": "banc"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"aa\",\"aa\""
+            }
+          },
+          {
+            "note": "Shrink a covering window",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best length": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "aa"
+            }
+          }
+        ],
+        "result": "aa"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"a\",\"aa\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": ""
+            }
+          }
+        ],
+        "result": ""
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static String solve(String s,String t) {\nif(t.isEmpty())return \"\";int[] need=new int[26];for(char c:t.toCharArray())need[c-'a']++;int start=0,best=Integer.MAX_VALUE;for(int l=0;l<s.length();l++){int[] count=new int[26];for(int r=l;r<s.length();r++){count[s.charAt(r)-'a']++;boolean valid=true;for(int i=0;i<26;i++)if(count[i]<need[i])valid=false;if(valid){if(r-l+1<best){best=r-l+1;start=l;}break;}emit(\"Extend until all required counts are covered\",\"range\",new int[]{l,r});}}return best==Integer.MAX_VALUE?\"\":s.substring(start,start+best);\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"adobecodebanc\\\",\\\"abc\\\"\"); Object result0=solve(\"adobecodebanc\",\"abc\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static String solve(String s,String t) {\nif(t.isEmpty())return \"\";int[] need=new int[26];for(char c:t.toCharArray())need[c-'a']++;int missing=t.length(),l=0,start=0,best=Integer.MAX_VALUE;for(int r=0;r<s.length();r++){if(need[s.charAt(r)-'a']-->0)missing--;while(missing==0){if(r-l+1<best){best=r-l+1;start=l;}emit(\"Shrink a covering window\",\"range\",new int[]{l,r},\"best length\",best);if(++need[s.charAt(l++)-'a']>0)missing++;}}return best==Integer.MAX_VALUE?\"\":s.substring(start,start+best);\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"adobecodebanc\\\",\\\"abc\\\"\"); Object result0=solve(\"adobecodebanc\",\"abc\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

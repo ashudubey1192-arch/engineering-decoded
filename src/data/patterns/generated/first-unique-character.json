@@ -1,0 +1,261 @@
+{
+  "id": "first-unique-character",
+  "title": "First Unique Character",
+  "contract": "Return the index of the first character appearing once in a lowercase string, or −1.",
+  "signature": "int solve(String s)",
+  "brute": "for(int i=0;i<s.length();i++){int count=0;for(int j=0;j<s.length();j++)if(s.charAt(i)==s.charAt(j))count++;emit(\"Count one character across the string\",\"index\",i,\"count\",count);if(count==1)return i;}return -1;",
+  "optimal": "int[] count=new int[26];for(char c:s.toCharArray())count[c-'a']++;for(int i=0;i<s.length();i++){emit(\"Find the first frequency-one position\",\"index\",i,\"count\",count[s.charAt(i)-'a']);if(count[s.charAt(i)-'a']==1)return i;}return -1;",
+  "reasoning": [
+    "Count a candidate throughout the string before deciding whether it is unique.",
+    "Build all counts once, then make a second ordered pass.",
+    "The second pass must follow input order, not hash iteration order, because the required result is the earliest index."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n), O(26)"
+  ],
+  "tests": [
+    {
+      "label": "First",
+      "args": "\"leetcode\"",
+      "expected": "0"
+    },
+    {
+      "label": "Later",
+      "args": "\"loveleetcode\"",
+      "expected": "2"
+    },
+    {
+      "label": "None",
+      "args": "\"aabb\"",
+      "expected": "-1"
+    }
+  ],
+  "slug": "problems--first-unique-character",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"leetcode\""
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 0,
+              "count": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"loveleetcode\""
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 0,
+              "count": 2
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 1,
+              "count": 2
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 2,
+              "count": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"aabb\""
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 0,
+              "count": 2
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 1,
+              "count": 2
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 2,
+              "count": 2
+            }
+          },
+          {
+            "note": "Count one character across the string",
+            "state": {
+              "index": 3,
+              "count": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"leetcode\""
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 0,
+              "count": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"loveleetcode\""
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 0,
+              "count": 2
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 1,
+              "count": 2
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 2,
+              "count": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"aabb\""
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 0,
+              "count": 2
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 1,
+              "count": 2
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 2,
+              "count": 2
+            }
+          },
+          {
+            "note": "Find the first frequency-one position",
+            "state": {
+              "index": 3,
+              "count": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(String s) {\nfor(int i=0;i<s.length();i++){int count=0;for(int j=0;j<s.length();j++)if(s.charAt(i)==s.charAt(j))count++;emit(\"Count one character across the string\",\"index\",i,\"count\",count);if(count==1)return i;}return -1;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"leetcode\\\"\"); Object result0=solve(\"leetcode\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(String s) {\nint[] count=new int[26];for(char c:s.toCharArray())count[c-'a']++;for(int i=0;i<s.length();i++){emit(\"Find the first frequency-one position\",\"index\",i,\"count\",count[s.charAt(i)-'a']);if(count[s.charAt(i)-'a']==1)return i;}return -1;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"leetcode\\\"\"); Object result0=solve(\"leetcode\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

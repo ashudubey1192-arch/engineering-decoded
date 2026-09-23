@@ -1,0 +1,191 @@
+{
+  "id": "concurrent-counter",
+  "title": "Concurrency: Correct Shared Counter",
+  "contract": "Two worker threads each increment a shared counter times times; times ≥ 0. Return the exact total after joining. Compare monitor locking and AtomicInteger; never use a racy counter as a valid baseline.",
+  "signature": "int solve(int times)",
+  "brute": "int[] counter={0};Object lock=new Object();Runnable work=()->{for(int i=0;i<times;i++)synchronized(lock){counter[0]++;}};Thread a=new Thread(work),b=new Thread(work);a.start();b.start();join(a);join(b);emit(\"Both workers joined; every increment held the monitor\",\"increments per worker\",times,\"counter\",counter[0]);return counter[0];",
+  "optimal": "java.util.concurrent.atomic.AtomicInteger counter=new java.util.concurrent.atomic.AtomicInteger();Runnable work=()->{for(int i=0;i<times;i++)counter.incrementAndGet();};Thread a=new Thread(work),b=new Thread(work);a.start();b.start();join(a);join(b);emit(\"Both workers joined; atomic read-modify-write preserves updates\",\"increments per worker\",times,\"counter\",counter.get());return counter.get();",
+  "reasoning": [
+    "A synchronized monitor makes the read-modify-write operation indivisible and establishes visibility between critical sections.",
+    "AtomicInteger supplies an atomic increment for this single-variable invariant, avoiding an explicit monitor in the application code.",
+    "Both approaches are correct; neither is universally faster. This animation records deterministic before/after checkpoints, not a fabricated thread schedule. Joining is essential before reading the final count; volatile alone does not make ++ atomic."
+  ],
+  "complexity": [
+    "O(t) increments excluding scheduling/contention, O(1) shared data",
+    "O(t) increment calls; retry cost depends on contention, O(1) shared data"
+  ],
+  "tests": [
+    {
+      "label": "Small run",
+      "args": "4",
+      "expected": "8"
+    },
+    {
+      "label": "No work",
+      "args": "0",
+      "expected": "0"
+    },
+    {
+      "label": "Contention check",
+      "args": "1000",
+      "expected": "2000"
+    }
+  ],
+  "slug": "problems--concurrent-counter",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4"
+            }
+          },
+          {
+            "note": "Both workers joined; every increment held the monitor",
+            "state": {
+              "increments per worker": 4,
+              "counter": 8
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 8
+            }
+          }
+        ],
+        "result": "8"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0"
+            }
+          },
+          {
+            "note": "Both workers joined; every increment held the monitor",
+            "state": {
+              "increments per worker": 0,
+              "counter": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "1000"
+            }
+          },
+          {
+            "note": "Both workers joined; every increment held the monitor",
+            "state": {
+              "increments per worker": 1000,
+              "counter": 2000
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2000
+            }
+          }
+        ],
+        "result": "2000"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "4"
+            }
+          },
+          {
+            "note": "Both workers joined; atomic read-modify-write preserves updates",
+            "state": {
+              "increments per worker": 4,
+              "counter": 8
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 8
+            }
+          }
+        ],
+        "result": "8"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0"
+            }
+          },
+          {
+            "note": "Both workers joined; atomic read-modify-write preserves updates",
+            "state": {
+              "increments per worker": 0,
+              "counter": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "1000"
+            }
+          },
+          {
+            "note": "Both workers joined; atomic read-modify-write preserves updates",
+            "state": {
+              "increments per worker": 1000,
+              "counter": 2000
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2000
+            }
+          }
+        ],
+        "result": "2000"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int times) {\nint[] counter={0};Object lock=new Object();Runnable work=()->{for(int i=0;i<times;i++)synchronized(lock){counter[0]++;}};Thread a=new Thread(work),b=new Thread(work);a.start();b.start();join(a);join(b);emit(\"Both workers joined; every increment held the monitor\",\"increments per worker\",times,\"counter\",counter[0]);return counter[0];\n  }\nstatic void join(Thread thread){try{thread.join();}catch(InterruptedException e){Thread.currentThread().interrupt();throw new IllegalStateException(\"Interrupted before completion\",e);}}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"4\"); Object result0=solve(4); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int times) {\njava.util.concurrent.atomic.AtomicInteger counter=new java.util.concurrent.atomic.AtomicInteger();Runnable work=()->{for(int i=0;i<times;i++)counter.incrementAndGet();};Thread a=new Thread(work),b=new Thread(work);a.start();b.start();join(a);join(b);emit(\"Both workers joined; atomic read-modify-write preserves updates\",\"increments per worker\",times,\"counter\",counter.get());return counter.get();\n  }\nstatic void join(Thread thread){try{thread.join();}catch(InterruptedException e){Thread.currentThread().interrupt();throw new IllegalStateException(\"Interrupted before completion\",e);}}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"4\"); Object result0=solve(4); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

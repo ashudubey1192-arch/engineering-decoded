@@ -1,0 +1,231 @@
+{
+  "id": "subsets",
+  "title": "Subsets: Choose, Explore, Undo",
+  "contract": "Return every subset of distinct input integers. Sort the textual subsets for a deterministic output; input length ≤ 15 for interactive examples.",
+  "signature": "List<String> solve(int[] a)",
+  "brute": "List<String> out=new ArrayList<>();for(int mask=0;mask<(1<<a.length);mask++){List<Integer> subset=new ArrayList<>();for(int i=0;i<a.length;i++)if((mask&(1<<i))!=0)subset.add(a[i]);out.add(subset.toString());emit(\"Decode one subset mask\",\"mask\",mask,\"subset\",subset);}Collections.sort(out);return out;",
+  "optimal": "List<String> out=new ArrayList<>();subsets(a,0,new ArrayList<>(),out);Collections.sort(out);return out;",
+  "reasoning": [
+    "Enumerating masks is a direct exhaustive baseline with one inclusion bit per value.",
+    "Backtracking maintains a path, recursively includes or excludes a value, and undoes the inclusion before returning.",
+    "There are 2ⁿ outputs, so no algorithm can avoid exponential output work. Both methods are output-sensitive; the comparison illustrates control flow, not a false polynomial optimization. Final textual sorting adds O(2ⁿ log(2ⁿ)) comparisons."
+  ],
+  "complexity": [
+    "O(n²2ⁿ) upper bound including output sorting, O(n2ⁿ)",
+    "O(n²2ⁿ) upper bound including output sorting, O(n) recursion excluding output"
+  ],
+  "tests": [
+    {
+      "label": "Two values",
+      "args": "new int[]{1,2}",
+      "expected": "[[1, 2], [1], [2], []]"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{}",
+      "expected": "[[]]"
+    }
+  ],
+  "slug": "problems--subsets",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2}"
+            }
+          },
+          {
+            "note": "Decode one subset mask",
+            "state": {
+              "mask": 0,
+              "subset": []
+            }
+          },
+          {
+            "note": "Decode one subset mask",
+            "state": {
+              "mask": 1,
+              "subset": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Decode one subset mask",
+            "state": {
+              "mask": 2,
+              "subset": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Decode one subset mask",
+            "state": {
+              "mask": 3,
+              "subset": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[1, 2]",
+                "[1]",
+                "[2]",
+                "[]"
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 2], [1], [2], []]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Decode one subset mask",
+            "state": {
+              "mask": 0,
+              "subset": []
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[]"
+              ]
+            }
+          }
+        ],
+        "result": "[[]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2}"
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 0,
+              "path": []
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 1,
+              "path": []
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 2,
+              "path": []
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 2,
+              "path": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 1,
+              "path": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 2,
+              "path": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 2,
+              "path": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[1, 2]",
+                "[1]",
+                "[2]",
+                "[]"
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 2], [1], [2], []]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Choose/explore/undo state",
+            "state": {
+              "index": 0,
+              "path": []
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[]"
+              ]
+            }
+          }
+        ],
+        "result": "[[]]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<String> solve(int[] a) {\nList<String> out=new ArrayList<>();for(int mask=0;mask<(1<<a.length);mask++){List<Integer> subset=new ArrayList<>();for(int i=0;i<a.length;i++)if((mask&(1<<i))!=0)subset.add(a[i]);out.add(subset.toString());emit(\"Decode one subset mask\",\"mask\",mask,\"subset\",subset);}Collections.sort(out);return out;\n  }\nstatic void subsets(int[] a,int i,List<Integer> path,List<String> out){emit(\"Choose/explore/undo state\",\"index\",i,\"path\",path);if(i==a.length){out.add(path.toString());return;}subsets(a,i+1,path,out);path.add(a[i]);subsets(a,i+1,path,out);path.remove(path.size()-1);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2}\"); Object result0=solve(new int[]{1,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<String> solve(int[] a) {\nList<String> out=new ArrayList<>();subsets(a,0,new ArrayList<>(),out);Collections.sort(out);return out;\n  }\nstatic void subsets(int[] a,int i,List<Integer> path,List<String> out){emit(\"Choose/explore/undo state\",\"index\",i,\"path\",path);if(i==a.length){out.add(path.toString());return;}subsets(a,i+1,path,out);path.add(a[i]);subsets(a,i+1,path,out);path.remove(path.size()-1);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2}\"); Object result0=solve(new int[]{1,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

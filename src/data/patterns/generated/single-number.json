@@ -1,0 +1,180 @@
+{
+  "id": "single-number",
+  "title": "Single Number / XOR Cancellation",
+  "contract": "Every integer appears exactly twice except one appearing once. Return that unique integer; input is nonempty.",
+  "signature": "int solve(int[] a)",
+  "brute": "for(int x:a){int count=0;for(int y:a)if(x==y)count++;emit(\"Count one candidate\",\"value\",x,\"occurrences\",count);if(count==1)return x;}throw new IllegalArgumentException(\"Contract violated\");",
+  "optimal": "int value=0;for(int x:a){value^=x;emit(\"Equal pairs cancel under XOR\",\"value\",x,\"accumulator\",value);}return value;",
+  "reasoning": [
+    "Count each candidate and stop when its frequency is one.",
+    "XOR is associative and commutative, x XOR x = 0, and x XOR 0 = x.",
+    "All duplicated values cancel, leaving the unique value. The frequency contract is essential: this does not solve arbitrary odd-frequency cases with several unique values."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Pairs",
+      "args": "new int[]{4,1,2,1,2}",
+      "expected": "4"
+    },
+    {
+      "label": "Negative",
+      "args": "new int[]{-1,2,2}",
+      "expected": "-1"
+    }
+  ],
+  "slug": "problems--single-number",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{4,1,2,1,2}"
+            }
+          },
+          {
+            "note": "Count one candidate",
+            "state": {
+              "value": 4,
+              "occurrences": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-1,2,2}"
+            }
+          },
+          {
+            "note": "Count one candidate",
+            "state": {
+              "value": -1,
+              "occurrences": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{4,1,2,1,2}"
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 4,
+              "accumulator": 4
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 1,
+              "accumulator": 5
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 2,
+              "accumulator": 7
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 1,
+              "accumulator": 6
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 2,
+              "accumulator": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-1,2,2}"
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": -1,
+              "accumulator": -1
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 2,
+              "accumulator": -3
+            }
+          },
+          {
+            "note": "Equal pairs cancel under XOR",
+            "state": {
+              "value": 2,
+              "accumulator": -1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a) {\nfor(int x:a){int count=0;for(int y:a)if(x==y)count++;emit(\"Count one candidate\",\"value\",x,\"occurrences\",count);if(count==1)return x;}throw new IllegalArgumentException(\"Contract violated\");\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{4,1,2,1,2}\"); Object result0=solve(new int[]{4,1,2,1,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a) {\nint value=0;for(int x:a){value^=x;emit(\"Equal pairs cancel under XOR\",\"value\",x,\"accumulator\",value);}return value;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{4,1,2,1,2}\"); Object result0=solve(new int[]{4,1,2,1,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

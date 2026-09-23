@@ -1,0 +1,692 @@
+{
+  "id": "longest-common-subsequence",
+  "title": "Longest Common Subsequence",
+  "contract": "Return the length of the longest sequence appearing in the same order in both strings; characters need not be contiguous.",
+  "signature": "int solve(String a,String b)",
+  "brute": "return lcs(a,b,0,0);",
+  "optimal": "int[] previous=new int[b.length()+1];for(int i=1;i<=a.length();i++){int[] current=new int[b.length()+1];for(int j=1;j<=b.length();j++)current[j]=a.charAt(i-1)==b.charAt(j-1)?previous[j-1]+1:Math.max(previous[j],current[j-1]);previous=current;emit(\"Finish one prefix row\",\"prefix\",a.substring(0,i),\"row\",previous);}return previous[b.length()];",
+  "reasoning": [
+    "When characters differ, recursively skip one from either string; matching characters can extend a common subsequence.",
+    "dp[i][j] refers to prefixes of lengths i and j, with empty-prefix base values zero.",
+    "Keep the previous row and current left value. A longest common substring uses a different recurrence that resets mismatches to zero."
+  ],
+  "complexity": [
+    "O(2^(m+n)) upper bound, O(m+n)",
+    "O(mn), O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Subsequence",
+      "args": "\"abcde\",\"ace\"",
+      "expected": "3"
+    },
+    {
+      "label": "No match",
+      "args": "\"abc\",\"xyz\"",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--longest-common-subsequence",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abcde\",\"ace\""
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                4,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                5,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                4,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                5,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abc\",\"xyz\""
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare suffixes",
+            "state": {
+              "indices": [
+                0,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abcde\",\"ace\""
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "a",
+              "row": [
+                0,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "ab",
+              "row": [
+                0,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "abc",
+              "row": [
+                0,
+                1,
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "abcd",
+              "row": [
+                0,
+                1,
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "abcde",
+              "row": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abc\",\"xyz\""
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "a",
+              "row": [
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "ab",
+              "row": [
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Finish one prefix row",
+            "state": {
+              "prefix": "abc",
+              "row": [
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(String a,String b) {\nreturn lcs(a,b,0,0);\n  }\nstatic int lcs(String a,String b,int i,int j){emit(\"Compare suffixes\",\"indices\",new int[]{i,j});if(i==a.length()||j==b.length())return 0;if(a.charAt(i)==b.charAt(j))return 1+lcs(a,b,i+1,j+1);return Math.max(lcs(a,b,i+1,j),lcs(a,b,i,j+1));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"abcde\\\",\\\"ace\\\"\"); Object result0=solve(\"abcde\",\"ace\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(String a,String b) {\nint[] previous=new int[b.length()+1];for(int i=1;i<=a.length();i++){int[] current=new int[b.length()+1];for(int j=1;j<=b.length();j++)current[j]=a.charAt(i-1)==b.charAt(j-1)?previous[j-1]+1:Math.max(previous[j],current[j-1]);previous=current;emit(\"Finish one prefix row\",\"prefix\",a.substring(0,i),\"row\",previous);}return previous[b.length()];\n  }\nstatic int lcs(String a,String b,int i,int j){emit(\"Compare suffixes\",\"indices\",new int[]{i,j});if(i==a.length()||j==b.length())return 0;if(a.charAt(i)==b.charAt(j))return 1+lcs(a,b,i+1,j+1);return Math.max(lcs(a,b,i+1,j),lcs(a,b,i,j+1));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"abcde\\\",\\\"ace\\\"\"); Object result0=solve(\"abcde\",\"ace\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

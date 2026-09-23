@@ -1,6 +1,6 @@
 import { modules } from "./catalog.js";
 
-const completedModules = new Set(["architecture", "frontend", "backend", "databases", "messaging", "dsa"]);
+const completedModules = new Set(["architecture", "frontend", "backend", "databases", "messaging", "dsa", "coding-patterns", "social-media"]);
 const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 const section = (slug, title, lessons) => ({

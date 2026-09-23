@@ -1,0 +1,203 @@
+{
+  "id": "union-find",
+  "title": "Union Find: Connectivity After Unions",
+  "contract": "Return the number of components after all undirected union operations on n vertices.",
+  "signature": "int solve(int n,int[][] edges)",
+  "brute": "int[] label=new int[n];for(int i=0;i<n;i++)label[i]=i;int count=n;for(int[] edge:edges){int old=label[edge[1]],next=label[edge[0]];if(old!=next){for(int i=0;i<n;i++)if(label[i]==old)label[i]=next;count--;}emit(\"Relabel an entire component\",\"labels\",label,\"components\",count);}return count;",
+  "optimal": "int[] parent=new int[n],size=new int[n];for(int i=0;i<n;i++){parent[i]=i;size[i]=1;}int count=n;for(int[] edge:edges){int a=find(parent,edge[0]),b=find(parent,edge[1]);if(a!=b){if(size[a]<size[b]){int t=a;a=b;b=t;}parent[b]=a;size[a]+=size[b];count--;}emit(\"Attach the smaller root and compress search paths\",\"parents\",parent,\"sizes\",size,\"components\",count);}return count;",
+  "reasoning": [
+    "Quick-find labels make queries easy but a union may rewrite every vertex label.",
+    "Parent trees identify representatives; attach the smaller component to the larger to prevent tall trees.",
+    "Path compression during find flattens visited chains. Decrement components only when roots differ, so duplicate edges do not change the count."
+  ],
+  "complexity": [
+    "O(V+EV), O(V)",
+    "O(V+E α(V)) amortized, O(V)"
+  ],
+  "tests": [
+    {
+      "label": "Merges",
+      "args": "5,new int[][]{{0,1},{1,2},{3,4},{0,2}}",
+      "expected": "2"
+    }
+  ],
+  "slug": "problems--union-find",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1},{1,2},{3,4},{0,2}}"
+            }
+          },
+          {
+            "note": "Relabel an entire component",
+            "state": {
+              "labels": [
+                0,
+                0,
+                2,
+                3,
+                4
+              ],
+              "components": 4
+            }
+          },
+          {
+            "note": "Relabel an entire component",
+            "state": {
+              "labels": [
+                0,
+                0,
+                0,
+                3,
+                4
+              ],
+              "components": 3
+            }
+          },
+          {
+            "note": "Relabel an entire component",
+            "state": {
+              "labels": [
+                0,
+                0,
+                0,
+                3,
+                3
+              ],
+              "components": 2
+            }
+          },
+          {
+            "note": "Relabel an entire component",
+            "state": {
+              "labels": [
+                0,
+                0,
+                0,
+                3,
+                3
+              ],
+              "components": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1},{1,2},{3,4},{0,2}}"
+            }
+          },
+          {
+            "note": "Attach the smaller root and compress search paths",
+            "state": {
+              "parents": [
+                0,
+                0,
+                2,
+                3,
+                4
+              ],
+              "sizes": [
+                2,
+                1,
+                1,
+                1,
+                1
+              ],
+              "components": 4
+            }
+          },
+          {
+            "note": "Attach the smaller root and compress search paths",
+            "state": {
+              "parents": [
+                0,
+                0,
+                0,
+                3,
+                4
+              ],
+              "sizes": [
+                3,
+                1,
+                1,
+                1,
+                1
+              ],
+              "components": 3
+            }
+          },
+          {
+            "note": "Attach the smaller root and compress search paths",
+            "state": {
+              "parents": [
+                0,
+                0,
+                0,
+                3,
+                3
+              ],
+              "sizes": [
+                3,
+                1,
+                1,
+                2,
+                1
+              ],
+              "components": 2
+            }
+          },
+          {
+            "note": "Attach the smaller root and compress search paths",
+            "state": {
+              "parents": [
+                0,
+                0,
+                0,
+                3,
+                3
+              ],
+              "sizes": [
+                3,
+                1,
+                1,
+                2,
+                1
+              ],
+              "components": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int n,int[][] edges) {\nint[] label=new int[n];for(int i=0;i<n;i++)label[i]=i;int count=n;for(int[] edge:edges){int old=label[edge[1]],next=label[edge[0]];if(old!=next){for(int i=0;i<n;i++)if(label[i]==old)label[i]=next;count--;}emit(\"Relabel an entire component\",\"labels\",label,\"components\",count);}return count;\n  }\nstatic int find(int[] parent,int x){while(parent[x]!=x){parent[x]=parent[parent[x]];x=parent[x];}return x;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1},{1,2},{3,4},{0,2}}\"); Object result0=solve(5,new int[][]{{0,1},{1,2},{3,4},{0,2}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int n,int[][] edges) {\nint[] parent=new int[n],size=new int[n];for(int i=0;i<n;i++){parent[i]=i;size[i]=1;}int count=n;for(int[] edge:edges){int a=find(parent,edge[0]),b=find(parent,edge[1]);if(a!=b){if(size[a]<size[b]){int t=a;a=b;b=t;}parent[b]=a;size[a]+=size[b];count--;}emit(\"Attach the smaller root and compress search paths\",\"parents\",parent,\"sizes\",size,\"components\",count);}return count;\n  }\nstatic int find(int[] parent,int x){while(parent[x]!=x){parent[x]=parent[parent[x]];x=parent[x];}return x;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1},{1,2},{3,4},{0,2}}\"); Object result0=solve(5,new int[][]{{0,1},{1,2},{3,4},{0,2}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

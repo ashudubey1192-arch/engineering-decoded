@@ -1,0 +1,380 @@
+{
+  "id": "unique-paths",
+  "title": "Unique Paths",
+  "contract": "Count paths through an rows × cols grid moving only right or down. Both dimensions are positive and the result fits long.",
+  "signature": "long solve(int rows,int cols)",
+  "brute": "emit(\"Solve a smaller rectangle\",\"dimensions\",new int[]{rows,cols});if(rows==1||cols==1)return 1;return solve(rows-1,cols)+solve(rows,cols-1);",
+  "optimal": "long[] dp=new long[cols];Arrays.fill(dp,1);for(int r=1;r<rows;r++)for(int c=1;c<cols;c++){dp[c]+=dp[c-1];emit(\"Paths from above plus paths from the left\",\"cell\",new int[]{r,c},\"row\",dp);}return dp[cols-1];",
+  "reasoning": [
+    "The final move into a cell comes from above or the left; recursive branching enumerates these choices repeatedly.",
+    "The top row and leftmost column each have exactly one path.",
+    "In a rolling row, dp[c] still stores the value from above while dp[c−1] already stores the current-row left value. Left-to-right iteration is essential."
+  ],
+  "complexity": [
+    "O(2^(r+c)) upper bound, O(r+c)",
+    "O(rc), O(c)"
+  ],
+  "tests": [
+    {
+      "label": "Rectangle",
+      "args": "3,4",
+      "expected": "10"
+    },
+    {
+      "label": "One row",
+      "args": "1,5",
+      "expected": "1"
+    }
+  ],
+  "slug": "problems--unique-paths",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,4"
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 10
+            }
+          }
+        ],
+        "result": "10"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "1,5"
+            }
+          },
+          {
+            "note": "Solve a smaller rectangle",
+            "state": {
+              "dimensions": [
+                1,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,4"
+            }
+          },
+          {
+            "note": "Paths from above plus paths from the left",
+            "state": {
+              "cell": [
+                1,
+                1
+              ],
+              "row": [
+                1,
+                2,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Paths from above plus paths from the left",
+            "state": {
+              "cell": [
+                1,
+                2
+              ],
+              "row": [
+                1,
+                2,
+                3,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Paths from above plus paths from the left",
+            "state": {
+              "cell": [
+                1,
+                3
+              ],
+              "row": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Paths from above plus paths from the left",
+            "state": {
+              "cell": [
+                2,
+                1
+              ],
+              "row": [
+                1,
+                3,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Paths from above plus paths from the left",
+            "state": {
+              "cell": [
+                2,
+                2
+              ],
+              "row": [
+                1,
+                3,
+                6,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Paths from above plus paths from the left",
+            "state": {
+              "cell": [
+                2,
+                3
+              ],
+              "row": [
+                1,
+                3,
+                6,
+                10
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 10
+            }
+          }
+        ],
+        "result": "10"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "1,5"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int rows,int cols) {\nemit(\"Solve a smaller rectangle\",\"dimensions\",new int[]{rows,cols});if(rows==1||cols==1)return 1;return solve(rows-1,cols)+solve(rows,cols-1);\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"3,4\"); Object result0=solve(3,4); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int rows,int cols) {\nlong[] dp=new long[cols];Arrays.fill(dp,1);for(int r=1;r<rows;r++)for(int c=1;c<cols;c++){dp[c]+=dp[c-1];emit(\"Paths from above plus paths from the left\",\"cell\",new int[]{r,c},\"row\",dp);}return dp[cols-1];\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"3,4\"); Object result0=solve(3,4); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

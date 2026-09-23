@@ -1,0 +1,272 @@
+{
+  "id": "contains-duplicate",
+  "title": "Contains Duplicate",
+  "contract": "Return true if any integer appears at least twice.",
+  "signature": "boolean solve(int[] a)",
+  "brute": "for(int i=0;i<a.length;i++)for(int j=0;j<i;j++){emit(\"Compare two positions\",\"indices\",new int[]{j,i},\"values\",new int[]{a[j],a[i]});if(a[i]==a[j])return true;}return false;",
+  "optimal": "Set<Integer> seen=new HashSet<>();for(int x:a){boolean added=seen.add(x);emit(\"Insert only if absent\",\"value\",x,\"seen\",seen);if(!added)return true;}return false;",
+  "reasoning": [
+    "Every duplicate supplies a pair of equal values at different indices.",
+    "A set compresses all earlier comparisons into one membership operation.",
+    "Hash lookup is expected constant time. Sorting gives an alternative O(n log n) approach when ordered data is useful later."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n) expected, O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Duplicate",
+      "args": "new int[]{1,2,3,1}",
+      "expected": "true"
+    },
+    {
+      "label": "Unique",
+      "args": "new int[]{1,2,3}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--contains-duplicate",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,1}"
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                0,
+                1
+              ],
+              "values": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                0,
+                2
+              ],
+              "values": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                1,
+                2
+              ],
+              "values": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                0,
+                3
+              ],
+              "values": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                0,
+                1
+              ],
+              "values": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                0,
+                2
+              ],
+              "values": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Compare two positions",
+            "state": {
+              "indices": [
+                1,
+                2
+              ],
+              "values": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,1}"
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 1,
+              "seen": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 2,
+              "seen": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 3,
+              "seen": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 1,
+              "seen": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 1,
+              "seen": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 2,
+              "seen": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Insert only if absent",
+            "state": {
+              "value": 3,
+              "seen": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(int[] a) {\nfor(int i=0;i<a.length;i++)for(int j=0;j<i;j++){emit(\"Compare two positions\",\"indices\",new int[]{j,i},\"values\",new int[]{a[j],a[i]});if(a[i]==a[j])return true;}return false;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,1}\"); Object result0=solve(new int[]{1,2,3,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(int[] a) {\nSet<Integer> seen=new HashSet<>();for(int x:a){boolean added=seen.add(x);emit(\"Insert only if absent\",\"value\",x,\"seen\",seen);if(!added)return true;}return false;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,1}\"); Object result0=solve(new int[]{1,2,3,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

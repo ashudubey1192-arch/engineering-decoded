@@ -1,0 +1,544 @@
+{
+  "id": "daily-temperatures",
+  "title": "Daily Temperatures / Next Greater Element",
+  "contract": "For each temperature, return days until a strictly warmer day, or 0 if none follows.",
+  "signature": "int[] solve(int[] a)",
+  "brute": "int[] out=new int[a.length];for(int i=0;i<a.length;i++)for(int j=i+1;j<a.length;j++){emit(\"Search for a warmer day\",\"indices\",new int[]{i,j},\"temperatures\",a);if(a[j]>a[i]){out[i]=j-i;break;}}return out;",
+  "optimal": "int[] out=new int[a.length];Deque<Integer> stack=new ArrayDeque<>();for(int i=0;i<a.length;i++){while(!stack.isEmpty()&&a[i]>a[stack.peek()]){int j=stack.pop();out[j]=i-j;emit(\"Resolve an earlier colder day\",\"day\",j,\"wait\",out[j],\"output\",out);}stack.push(i);emit(\"Store an unresolved index\",\"stack\",stack);}return out;",
+  "reasoning": [
+    "Search forward from every day until the first strictly greater temperature.",
+    "Keep unresolved indices in a stack whose temperatures are nonincreasing.",
+    "Each index is pushed and popped at most once, so the nested while loop is linear overall. Equal temperatures must not resolve each other."
+  ],
+  "complexity": [
+    "O(n²), O(n) output",
+    "O(n), O(n) auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Week",
+      "args": "new int[]{73,74,75,71,69,72,76,73}",
+      "expected": "[1, 1, 4, 2, 1, 1, 0, 0]"
+    },
+    {
+      "label": "Equal",
+      "args": "new int[]{5,5}",
+      "expected": "[0, 0]"
+    }
+  ],
+  "slug": "problems--daily-temperatures",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{73,74,75,71,69,72,76,73}"
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                0,
+                1
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                1,
+                2
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                2,
+                3
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                2,
+                4
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                2,
+                5
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                2,
+                6
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                3,
+                4
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                3,
+                5
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                4,
+                5
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                5,
+                6
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                6,
+                7
+              ],
+              "temperatures": [
+                73,
+                74,
+                75,
+                71,
+                69,
+                72,
+                76,
+                73
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                1,
+                4,
+                2,
+                1,
+                1,
+                0,
+                0
+              ]
+            }
+          }
+        ],
+        "result": "[1, 1, 4, 2, 1, 1, 0, 0]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{5,5}"
+            }
+          },
+          {
+            "note": "Search for a warmer day",
+            "state": {
+              "indices": [
+                0,
+                1
+              ],
+              "temperatures": [
+                5,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                0
+              ]
+            }
+          }
+        ],
+        "result": "[0, 0]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{73,74,75,71,69,72,76,73}"
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                0
+              ]
+            }
+          },
+          {
+            "note": "Resolve an earlier colder day",
+            "state": {
+              "day": 0,
+              "wait": 1,
+              "output": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Resolve an earlier colder day",
+            "state": {
+              "day": 1,
+              "wait": 1,
+              "output": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                4,
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Resolve an earlier colder day",
+            "state": {
+              "day": 4,
+              "wait": 1,
+              "output": [
+                1,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Resolve an earlier colder day",
+            "state": {
+              "day": 3,
+              "wait": 2,
+              "output": [
+                1,
+                1,
+                0,
+                2,
+                1,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                5,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Resolve an earlier colder day",
+            "state": {
+              "day": 5,
+              "wait": 1,
+              "output": [
+                1,
+                1,
+                0,
+                2,
+                1,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Resolve an earlier colder day",
+            "state": {
+              "day": 2,
+              "wait": 4,
+              "output": [
+                1,
+                1,
+                4,
+                2,
+                1,
+                1,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                6
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                7,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                1,
+                4,
+                2,
+                1,
+                1,
+                0,
+                0
+              ]
+            }
+          }
+        ],
+        "result": "[1, 1, 4, 2, 1, 1, 0, 0]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{5,5}"
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                0
+              ]
+            }
+          },
+          {
+            "note": "Store an unresolved index",
+            "state": {
+              "stack": [
+                1,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                0
+              ]
+            }
+          }
+        ],
+        "result": "[0, 0]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a) {\nint[] out=new int[a.length];for(int i=0;i<a.length;i++)for(int j=i+1;j<a.length;j++){emit(\"Search for a warmer day\",\"indices\",new int[]{i,j},\"temperatures\",a);if(a[j]>a[i]){out[i]=j-i;break;}}return out;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{73,74,75,71,69,72,76,73}\"); Object result0=solve(new int[]{73,74,75,71,69,72,76,73}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a) {\nint[] out=new int[a.length];Deque<Integer> stack=new ArrayDeque<>();for(int i=0;i<a.length;i++){while(!stack.isEmpty()&&a[i]>a[stack.peek()]){int j=stack.pop();out[j]=i-j;emit(\"Resolve an earlier colder day\",\"day\",j,\"wait\",out[j],\"output\",out);}stack.push(i);emit(\"Store an unresolved index\",\"stack\",stack);}return out;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{73,74,75,71,69,72,76,73}\"); Object result0=solve(new int[]{73,74,75,71,69,72,76,73}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

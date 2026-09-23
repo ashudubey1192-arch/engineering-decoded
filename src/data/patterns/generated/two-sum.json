@@ -1,0 +1,231 @@
+{
+  "id": "two-sum",
+  "title": "Two Sum",
+  "contract": "Return the two indices whose values sum to target, or [-1,-1]. Return the first pair discovered by increasing right index; never reuse an index.",
+  "signature": "int[] solve(int[] a, int target)",
+  "brute": "for (int j=0;j<a.length;j++) for(int i=0;i<j;i++) {\n  emit(\"Test a pair\", \"indices\", new int[]{i,j}, \"sum\", (long)a[i]+a[j]);\n  if((long)a[i]+a[j]==target) return new int[]{i,j};\n}\nreturn new int[]{-1,-1};",
+  "optimal": "Map<Long,Integer> seen=new HashMap<>();\nfor(int j=0;j<a.length;j++) {\n  long need=(long)target-a[j];\n  emit(\"Look for complement before inserting\", \"index\", j, \"need\", need, \"seen\", seen);\n  if(seen.containsKey(need)) return new int[]{seen.get(need),j};\n  seen.putIfAbsent((long)a[j],j);\n}\nreturn new int[]{-1,-1};",
+  "reasoning": [
+    "Enumerate earlier indices for each right index so the baseline has a precise tie rule.",
+    "Only earlier values belong in the map. Looking up before inserting prevents pairing a value with itself.",
+    "A successful complement is sufficient because need + current = target. Widen arithmetic to long before subtraction."
+  ],
+  "complexity": [
+    "O(n²), O(1) auxiliary",
+    "O(n) expected, O(n) auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Standard",
+      "args": "new int[]{2,7,11,15},9",
+      "expected": "[0, 1]"
+    },
+    {
+      "label": "Equal values",
+      "args": "new int[]{3,3},6",
+      "expected": "[0, 1]"
+    },
+    {
+      "label": "No solution",
+      "args": "new int[]{1},2",
+      "expected": "[-1, -1]"
+    }
+  ],
+  "slug": "problems--two-sum",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,7,11,15},9"
+            }
+          },
+          {
+            "note": "Test a pair",
+            "state": {
+              "indices": [
+                0,
+                1
+              ],
+              "sum": 9
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[0, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,3},6"
+            }
+          },
+          {
+            "note": "Test a pair",
+            "state": {
+              "indices": [
+                0,
+                1
+              ],
+              "sum": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[0, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1},2"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                -1,
+                -1
+              ]
+            }
+          }
+        ],
+        "result": "[-1, -1]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,7,11,15},9"
+            }
+          },
+          {
+            "note": "Look for complement before inserting",
+            "state": {
+              "index": 0,
+              "need": 7,
+              "seen": {}
+            }
+          },
+          {
+            "note": "Look for complement before inserting",
+            "state": {
+              "index": 1,
+              "need": 2,
+              "seen": {
+                "2": 0
+              }
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[0, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,3},6"
+            }
+          },
+          {
+            "note": "Look for complement before inserting",
+            "state": {
+              "index": 0,
+              "need": 3,
+              "seen": {}
+            }
+          },
+          {
+            "note": "Look for complement before inserting",
+            "state": {
+              "index": 1,
+              "need": 3,
+              "seen": {
+                "3": 0
+              }
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[0, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1},2"
+            }
+          },
+          {
+            "note": "Look for complement before inserting",
+            "state": {
+              "index": 0,
+              "need": 1,
+              "seen": {}
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                -1,
+                -1
+              ]
+            }
+          }
+        ],
+        "result": "[-1, -1]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a, int target) {\nfor (int j=0;j<a.length;j++) for(int i=0;i<j;i++) {\n  emit(\"Test a pair\", \"indices\", new int[]{i,j}, \"sum\", (long)a[i]+a[j]);\n  if((long)a[i]+a[j]==target) return new int[]{i,j};\n}\nreturn new int[]{-1,-1};\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,7,11,15},9\"); Object result0=solve(new int[]{2,7,11,15},9); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a, int target) {\nMap<Long,Integer> seen=new HashMap<>();\nfor(int j=0;j<a.length;j++) {\n  long need=(long)target-a[j];\n  emit(\"Look for complement before inserting\", \"index\", j, \"need\", need, \"seen\", seen);\n  if(seen.containsKey(need)) return new int[]{seen.get(need),j};\n  seen.putIfAbsent((long)a[j],j);\n}\nreturn new int[]{-1,-1};\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,7,11,15},9\"); Object result0=solve(new int[]{2,7,11,15},9); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

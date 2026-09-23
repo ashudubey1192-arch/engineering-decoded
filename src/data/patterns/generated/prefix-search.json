@@ -1,0 +1,183 @@
+{
+  "id": "prefix-search",
+  "title": "Implement Trie / Prefix Search",
+  "contract": "For each prefix query, report whether any lowercase dictionary word starts with it. Empty prefix matches only a nonempty dictionary.",
+  "signature": "List<Boolean> solve(String[] words,String[] queries)",
+  "brute": "List<Boolean> out=new ArrayList<>();for(String query:queries){boolean found=false;for(String word:words){emit(\"Compare prefix against a dictionary word\",\"query\",query,\"word\",word);if(word.startsWith(query)){found=true;break;}}out.add(found);}return out;",
+  "optimal": "Trie root=new Trie();for(String word:words){Trie node=root;for(char c:word.toCharArray()){int i=c-'a';if(node.children[i]==null)node.children[i]=new Trie();node=node.children[i];}node.word=true;emit(\"Insert one shared-prefix path\",\"word\",word);}\nList<Boolean> out=new ArrayList<>();for(String query:queries){Trie node=root;for(char c:query.toCharArray()){node=node.children[c-'a'];emit(\"Follow a character edge\",\"query\",query,\"character\",c);if(node==null)break;}out.add(words.length>0&&node!=null);}return out;",
+  "reasoning": [
+    "Scan every dictionary word for each query.",
+    "A trie shares common prefixes; insert creates missing character edges and marks complete words.",
+    "For startsWith, arriving at any node is enough. Exact search additionally requires the word marker. The 26-way representation assumes lowercase English characters."
+  ],
+  "complexity": [
+    "O(qmL), O(1) auxiliary excluding output",
+    "O(total characters + query characters), O(total characters) nodes"
+  ],
+  "tests": [
+    {
+      "label": "Dictionary",
+      "args": "new String[]{\"apple\",\"app\",\"bat\"},new String[]{\"ap\",\"app\",\"cat\",\"\"}",
+      "expected": "[true, true, false, true]"
+    }
+  ],
+  "slug": "problems--prefix-search",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new String[]{\"apple\",\"app\",\"bat\"},new String[]{\"ap\",\"app\",\"cat\",\"\"}"
+            }
+          },
+          {
+            "note": "Compare prefix against a dictionary word",
+            "state": {
+              "query": "ap",
+              "word": "apple"
+            }
+          },
+          {
+            "note": "Compare prefix against a dictionary word",
+            "state": {
+              "query": "app",
+              "word": "apple"
+            }
+          },
+          {
+            "note": "Compare prefix against a dictionary word",
+            "state": {
+              "query": "cat",
+              "word": "apple"
+            }
+          },
+          {
+            "note": "Compare prefix against a dictionary word",
+            "state": {
+              "query": "cat",
+              "word": "app"
+            }
+          },
+          {
+            "note": "Compare prefix against a dictionary word",
+            "state": {
+              "query": "cat",
+              "word": "bat"
+            }
+          },
+          {
+            "note": "Compare prefix against a dictionary word",
+            "state": {
+              "query": "",
+              "word": "apple"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                true,
+                true,
+                false,
+                true
+              ]
+            }
+          }
+        ],
+        "result": "[true, true, false, true]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new String[]{\"apple\",\"app\",\"bat\"},new String[]{\"ap\",\"app\",\"cat\",\"\"}"
+            }
+          },
+          {
+            "note": "Insert one shared-prefix path",
+            "state": {
+              "word": "apple"
+            }
+          },
+          {
+            "note": "Insert one shared-prefix path",
+            "state": {
+              "word": "app"
+            }
+          },
+          {
+            "note": "Insert one shared-prefix path",
+            "state": {
+              "word": "bat"
+            }
+          },
+          {
+            "note": "Follow a character edge",
+            "state": {
+              "query": "ap",
+              "character": "a"
+            }
+          },
+          {
+            "note": "Follow a character edge",
+            "state": {
+              "query": "ap",
+              "character": "p"
+            }
+          },
+          {
+            "note": "Follow a character edge",
+            "state": {
+              "query": "app",
+              "character": "a"
+            }
+          },
+          {
+            "note": "Follow a character edge",
+            "state": {
+              "query": "app",
+              "character": "p"
+            }
+          },
+          {
+            "note": "Follow a character edge",
+            "state": {
+              "query": "app",
+              "character": "p"
+            }
+          },
+          {
+            "note": "Follow a character edge",
+            "state": {
+              "query": "cat",
+              "character": "c"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                true,
+                true,
+                false,
+                true
+              ]
+            }
+          }
+        ],
+        "result": "[true, true, false, true]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<Boolean> solve(String[] words,String[] queries) {\nList<Boolean> out=new ArrayList<>();for(String query:queries){boolean found=false;for(String word:words){emit(\"Compare prefix against a dictionary word\",\"query\",query,\"word\",word);if(word.startsWith(query)){found=true;break;}}out.add(found);}return out;\n  }\nstatic class Trie { Trie[] children=new Trie[26]; boolean word; }\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new String[]{\\\"apple\\\",\\\"app\\\",\\\"bat\\\"},new String[]{\\\"ap\\\",\\\"app\\\",\\\"cat\\\",\\\"\\\"}\"); Object result0=solve(new String[]{\"apple\",\"app\",\"bat\"},new String[]{\"ap\",\"app\",\"cat\",\"\"}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<Boolean> solve(String[] words,String[] queries) {\nTrie root=new Trie();for(String word:words){Trie node=root;for(char c:word.toCharArray()){int i=c-'a';if(node.children[i]==null)node.children[i]=new Trie();node=node.children[i];}node.word=true;emit(\"Insert one shared-prefix path\",\"word\",word);}\nList<Boolean> out=new ArrayList<>();for(String query:queries){Trie node=root;for(char c:query.toCharArray()){node=node.children[c-'a'];emit(\"Follow a character edge\",\"query\",query,\"character\",c);if(node==null)break;}out.add(words.length>0&&node!=null);}return out;\n  }\nstatic class Trie { Trie[] children=new Trie[26]; boolean word; }\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new String[]{\\\"apple\\\",\\\"app\\\",\\\"bat\\\"},new String[]{\\\"ap\\\",\\\"app\\\",\\\"cat\\\",\\\"\\\"}\"); Object result0=solve(new String[]{\"apple\",\"app\",\"bat\"},new String[]{\"ap\",\"app\",\"cat\",\"\"}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "id": "valid-palindrome",
+  "title": "Valid Palindrome",
+  "contract": "Compare ASCII letters and digits, ignoring ASCII case and other characters. The empty filtered string is a palindrome.",
+  "signature": "boolean solve(String s)",
+  "brute": "String clean=s.toLowerCase(Locale.ROOT).replaceAll(\"[^a-z0-9]\", \"\");\nString reversed=new StringBuilder(clean).reverse().toString();emit(\"Compare normalized copies\",\"forward\",clean,\"reverse\",reversed);\nreturn clean.equals(reversed);",
+  "optimal": "int l=0,r=s.length()-1;\nwhile(l<r){\n while(l<r && !ascii(s.charAt(l))) l++;\n while(l<r && !ascii(s.charAt(r))) r--;\n emit(\"Compare the next significant characters\",\"pointers\",new int[]{l,r},\"text\",s);\n if(Character.toLowerCase(s.charAt(l))!=Character.toLowerCase(s.charAt(r)))return false;\n l++;r--;\n}\nreturn true;",
+  "reasoning": [
+    "Normalize and reverse to obtain a simple linear-space baseline; no slower brute force is needed.",
+    "Skip punctuation from both ends, then compare one significant pair.",
+    "All pairs outside the pointers have already matched. This implementation deliberately specifies ASCII rather than claiming Unicode grapheme support."
+  ],
+  "complexity": [
+    "O(n), O(n)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Phrase",
+      "args": "\"A man, a plan, a canal: Panama\"",
+      "expected": "true"
+    },
+    {
+      "label": "Mismatch",
+      "args": "\"race a car\"",
+      "expected": "false"
+    },
+    {
+      "label": "Empty",
+      "args": "\"\"",
+      "expected": "true"
+    }
+  ],
+  "slug": "problems--valid-palindrome",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"A man, a plan, a canal: Panama\""
+            }
+          },
+          {
+            "note": "Compare normalized copies",
+            "state": {
+              "forward": "amanaplanacanalpanama",
+              "reverse": "amanaplanacanalpanama"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"race a car\""
+            }
+          },
+          {
+            "note": "Compare normalized copies",
+            "state": {
+              "forward": "raceacar",
+              "reverse": "racaecar"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"\""
+            }
+          },
+          {
+            "note": "Compare normalized copies",
+            "state": {
+              "forward": "",
+              "reverse": ""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"A man, a plan, a canal: Panama\""
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                0,
+                29
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                2,
+                28
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                3,
+                27
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                4,
+                26
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                7,
+                25
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                9,
+                24
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                10,
+                21
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                11,
+                20
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                12,
+                19
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                15,
+                18
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                17,
+                17
+              ],
+              "text": "A man, a plan, a canal: Panama"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"race a car\""
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                0,
+                9
+              ],
+              "text": "race a car"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                1,
+                8
+              ],
+              "text": "race a car"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                2,
+                7
+              ],
+              "text": "race a car"
+            }
+          },
+          {
+            "note": "Compare the next significant characters",
+            "state": {
+              "pointers": [
+                3,
+                5
+              ],
+              "text": "race a car"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s) {\nString clean=s.toLowerCase(Locale.ROOT).replaceAll(\"[^a-z0-9]\", \"\");\nString reversed=new StringBuilder(clean).reverse().toString();emit(\"Compare normalized copies\",\"forward\",clean,\"reverse\",reversed);\nreturn clean.equals(reversed);\n  }\nstatic boolean ascii(char c) { return c>='a'&&c<='z'||c>='A'&&c<='Z'||c>='0'&&c<='9'; }\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"A man, a plan, a canal: Panama\\\"\"); Object result0=solve(\"A man, a plan, a canal: Panama\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s) {\nint l=0,r=s.length()-1;\nwhile(l<r){\n while(l<r && !ascii(s.charAt(l))) l++;\n while(l<r && !ascii(s.charAt(r))) r--;\n emit(\"Compare the next significant characters\",\"pointers\",new int[]{l,r},\"text\",s);\n if(Character.toLowerCase(s.charAt(l))!=Character.toLowerCase(s.charAt(r)))return false;\n l++;r--;\n}\nreturn true;\n  }\nstatic boolean ascii(char c) { return c>='a'&&c<='z'||c>='A'&&c<='Z'||c>='0'&&c<='9'; }\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"A man, a plan, a canal: Panama\\\"\"); Object result0=solve(\"A man, a plan, a canal: Panama\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

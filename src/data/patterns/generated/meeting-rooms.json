@@ -1,0 +1,260 @@
+{
+  "id": "meeting-rooms",
+  "title": "Meeting Rooms II / Sweep Line",
+  "contract": "Return peak concurrent meetings for half-open intervals [start,end), with start < end. An end at t frees a room before a start at t.",
+  "signature": "int solve(int[][] intervals)",
+  "brute": "int best=0;for(int[] event:intervals){int active=0;for(int[] x:intervals)if(x[0]<=event[0]&&event[0]<x[1])active++;best=Math.max(best,active);emit(\"Count active meetings at each start\",\"time\",event[0],\"active\",active,\"best\",best);}return best;",
+  "optimal": "List<int[]> events=new ArrayList<>();for(int[] x:intervals){events.add(new int[]{x[0],1});events.add(new int[]{x[1],-1});}events.sort(Comparator.<int[]>comparingInt(x->x[0]).thenComparingInt(x->x[1]));int active=0,best=0;for(int[] x:events){active+=x[1];best=Math.max(best,active);emit(\"Process end events before starts at equal time\",\"event\",x,\"active\",active,\"best\",best);}return best;",
+  "reasoning": [
+    "Concurrency can increase only at a start, so scan all intervals at every start.",
+    "Convert each interval into a +1 start and −1 end event, sort, and accumulate active meetings.",
+    "Tie order matters: ends precede starts under half-open semantics. The largest active count is both a lower bound and sufficient number of rooms."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n log n), O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Overlap",
+      "args": "new int[][]{{0,30},{5,10},{15,20}}",
+      "expected": "2"
+    },
+    {
+      "label": "Touching",
+      "args": "new int[][]{{0,5},{5,10}}",
+      "expected": "1"
+    }
+  ],
+  "slug": "problems--meeting-rooms",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,30},{5,10},{15,20}}"
+            }
+          },
+          {
+            "note": "Count active meetings at each start",
+            "state": {
+              "time": 0,
+              "active": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Count active meetings at each start",
+            "state": {
+              "time": 5,
+              "active": 2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Count active meetings at each start",
+            "state": {
+              "time": 15,
+              "active": 2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,5},{5,10}}"
+            }
+          },
+          {
+            "note": "Count active meetings at each start",
+            "state": {
+              "time": 0,
+              "active": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Count active meetings at each start",
+            "state": {
+              "time": 5,
+              "active": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,30},{5,10},{15,20}}"
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                0,
+                1
+              ],
+              "active": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                5,
+                1
+              ],
+              "active": 2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                10,
+                -1
+              ],
+              "active": 1,
+              "best": 2
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                15,
+                1
+              ],
+              "active": 2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                20,
+                -1
+              ],
+              "active": 1,
+              "best": 2
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                30,
+                -1
+              ],
+              "active": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,5},{5,10}}"
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                0,
+                1
+              ],
+              "active": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                5,
+                -1
+              ],
+              "active": 0,
+              "best": 1
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                5,
+                1
+              ],
+              "active": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Process end events before starts at equal time",
+            "state": {
+              "event": [
+                10,
+                -1
+              ],
+              "active": 0,
+              "best": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[][] intervals) {\nint best=0;for(int[] event:intervals){int active=0;for(int[] x:intervals)if(x[0]<=event[0]&&event[0]<x[1])active++;best=Math.max(best,active);emit(\"Count active meetings at each start\",\"time\",event[0],\"active\",active,\"best\",best);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[][]{{0,30},{5,10},{15,20}}\"); Object result0=solve(new int[][]{{0,30},{5,10},{15,20}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[][] intervals) {\nList<int[]> events=new ArrayList<>();for(int[] x:intervals){events.add(new int[]{x[0],1});events.add(new int[]{x[1],-1});}events.sort(Comparator.<int[]>comparingInt(x->x[0]).thenComparingInt(x->x[1]));int active=0,best=0;for(int[] x:events){active+=x[1];best=Math.max(best,active);emit(\"Process end events before starts at equal time\",\"event\",x,\"active\",active,\"best\",best);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[][]{{0,30},{5,10},{15,20}}\"); Object result0=solve(new int[][]{{0,30},{5,10},{15,20}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

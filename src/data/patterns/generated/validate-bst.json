@@ -1,0 +1,247 @@
+{
+  "id": "validate-bst",
+  "title": "Validate Binary Search Tree",
+  "contract": "Use strict BST ordering: every left descendant < node < every right descendant; duplicates are invalid.",
+  "signature": "boolean solve(Integer[] input)",
+  "brute": "Tree root=tree(input);return checkSlow(root);",
+  "optimal": "Tree root=tree(input);Deque<Tree> stack=new ArrayDeque<>();Tree node=root;Long previous=null;while(node!=null||!stack.isEmpty()){while(node!=null){stack.push(node);node=node.left;}node=stack.pop();emit(\"Inorder values must be strictly increasing\",\"value\",node.value,\"previous\",previous);if(previous!=null&&node.value<=previous)return false;previous=(long)node.value;node=node.right;}return true;",
+  "reasoning": [
+    "The baseline checks every descendant against each ancestor, then recursively validates each subtree.",
+    "Inorder traversal of a valid strict BST is strictly increasing.",
+    "Keep the previous value, not a magic minimum sentinel, so Integer.MIN_VALUE is accepted as a real first value. Checking only immediate children misses ancestor violations."
+  ],
+  "complexity": [
+    "O(n²) worst, O(h)",
+    "O(n), O(h) traversal space"
+  ],
+  "tests": [
+    {
+      "label": "Valid",
+      "args": "new Integer[]{2,1,3}",
+      "expected": "true"
+    },
+    {
+      "label": "Ancestor violation",
+      "args": "new Integer[]{5,1,7,null,null,4,8}",
+      "expected": "false"
+    },
+    {
+      "label": "Duplicate",
+      "args": "new Integer[]{2,2,3}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--validate-bst",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{2,1,3}"
+            }
+          },
+          {
+            "note": "Check an ancestor bound",
+            "state": {
+              "descendant": 1,
+              "ancestor": 2
+            }
+          },
+          {
+            "note": "Check an ancestor bound",
+            "state": {
+              "descendant": 3,
+              "ancestor": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{5,1,7,null,null,4,8}"
+            }
+          },
+          {
+            "note": "Check an ancestor bound",
+            "state": {
+              "descendant": 1,
+              "ancestor": 5
+            }
+          },
+          {
+            "note": "Check an ancestor bound",
+            "state": {
+              "descendant": 7,
+              "ancestor": 5
+            }
+          },
+          {
+            "note": "Check an ancestor bound",
+            "state": {
+              "descendant": 4,
+              "ancestor": 5
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{2,2,3}"
+            }
+          },
+          {
+            "note": "Check an ancestor bound",
+            "state": {
+              "descendant": 2,
+              "ancestor": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{2,1,3}"
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 1,
+              "previous": null
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 2,
+              "previous": 1
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 3,
+              "previous": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{5,1,7,null,null,4,8}"
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 1,
+              "previous": null
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 5,
+              "previous": 1
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 4,
+              "previous": 5
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new Integer[]{2,2,3}"
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 2,
+              "previous": null
+            }
+          },
+          {
+            "note": "Inorder values must be strictly increasing",
+            "state": {
+              "value": 2,
+              "previous": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(Integer[] input) {\nTree root=tree(input);return checkSlow(root);\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic boolean all(Tree node,int value,boolean left){if(node==null)return true;emit(\"Check an ancestor bound\",\"descendant\",node.value,\"ancestor\",value);if(left?node.value>=value:node.value<=value)return false;return all(node.left,value,left)&&all(node.right,value,left);}\nstatic boolean checkSlow(Tree node){return node==null||all(node.left,node.value,true)&&all(node.right,node.value,false)&&checkSlow(node.left)&&checkSlow(node.right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{2,1,3}\"); Object result0=solve(new Integer[]{2,1,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(Integer[] input) {\nTree root=tree(input);Deque<Tree> stack=new ArrayDeque<>();Tree node=root;Long previous=null;while(node!=null||!stack.isEmpty()){while(node!=null){stack.push(node);node=node.left;}node=stack.pop();emit(\"Inorder values must be strictly increasing\",\"value\",node.value,\"previous\",previous);if(previous!=null&&node.value<=previous)return false;previous=(long)node.value;node=node.right;}return true;\n  }\nstatic class Tree { int value; Tree left,right; Tree(int value){this.value=value;} }\nstatic Tree tree(Integer[] input){if(input.length==0||input[0]==null)return null;Tree root=new Tree(input[0]);Deque<Tree> q=new ArrayDeque<>();q.add(root);int i=1;while(!q.isEmpty()&&i<input.length){Tree node=q.remove();if(input[i]!=null){node.left=new Tree(input[i]);q.add(node.left);}i++;if(i<input.length&&input[i]!=null){node.right=new Tree(input[i]);q.add(node.right);}i++;}return root;}\nstatic boolean all(Tree node,int value,boolean left){if(node==null)return true;emit(\"Check an ancestor bound\",\"descendant\",node.value,\"ancestor\",value);if(left?node.value>=value:node.value<=value)return false;return all(node.left,value,left)&&all(node.right,value,left);}\nstatic boolean checkSlow(Tree node){return node==null||all(node.left,node.value,true)&&all(node.right,node.value,false)&&checkSlow(node.left)&&checkSlow(node.right);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new Integer[]{2,1,3}\"); Object result0=solve(new Integer[]{2,1,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

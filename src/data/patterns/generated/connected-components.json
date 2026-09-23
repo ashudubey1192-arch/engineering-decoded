@@ -1,0 +1,264 @@
+{
+  "id": "connected-components",
+  "title": "Graph DFS: Number of Provinces",
+  "contract": "Count connected components among n vertices with undirected edges, including isolated vertices.",
+  "signature": "int solve(int n,int[][] edges)",
+  "brute": "boolean[][] reach=new boolean[n][n];for(int i=0;i<n;i++)reach[i][i]=true;for(int[] e:edges){reach[e[0]][e[1]]=true;reach[e[1]][e[0]]=true;}for(int k=0;k<n;k++){for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];emit(\"Allow one more intermediate vertex\",\"via\",k);}boolean[] used=new boolean[n];int count=0;for(int i=0;i<n;i++)if(!used[i]){count++;for(int j=0;j<n;j++)if(reach[i][j])used[j]=true;}return count;",
+  "optimal": "List<List<Integer>> graph=graph(n,edges);boolean[] seen=new boolean[n];int count=0;for(int start=0;start<n;start++)if(!seen[start]){count++;Deque<Integer> stack=new ArrayDeque<>();stack.push(start);seen[start]=true;while(!stack.isEmpty()){int u=stack.pop();for(int v:graph.get(u))if(!seen[v]){seen[v]=true;stack.push(v);}emit(\"Explore the current component\",\"vertex\",u,\"component count\",count,\"visited\",seen);}}return count;",
+  "reasoning": [
+    "Transitive closure computes all reachability before counting equivalence classes, doing more work than necessary.",
+    "Each DFS started at an unvisited vertex discovers exactly one component.",
+    "Mark when pushing, not when popping, to avoid duplicate stack entries. Iterate all vertices so isolated components are counted."
+  ],
+  "complexity": [
+    "O(V³+E), O(V²)",
+    "O(V+E), O(V+E) including adjacency"
+  ],
+  "tests": [
+    {
+      "label": "Disconnected",
+      "args": "5,new int[][]{{0,1},{1,2},{3,4}}",
+      "expected": "2"
+    },
+    {
+      "label": "Isolated",
+      "args": "3,new int[][]{}",
+      "expected": "3"
+    }
+  ],
+  "slug": "problems--connected-components",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1},{1,2},{3,4}}"
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 0
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 1
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 2
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 3
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,new int[][]{}"
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 0
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 1
+            }
+          },
+          {
+            "note": "Allow one more intermediate vertex",
+            "state": {
+              "via": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1},{1,2},{3,4}}"
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 0,
+              "component count": 1,
+              "visited": [
+                true,
+                true,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 1,
+              "component count": 1,
+              "visited": [
+                true,
+                true,
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 2,
+              "component count": 1,
+              "visited": [
+                true,
+                true,
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 3,
+              "component count": 2,
+              "visited": [
+                true,
+                true,
+                true,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 4,
+              "component count": 2,
+              "visited": [
+                true,
+                true,
+                true,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,new int[][]{}"
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 0,
+              "component count": 1,
+              "visited": [
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 1,
+              "component count": 2,
+              "visited": [
+                true,
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Explore the current component",
+            "state": {
+              "vertex": 2,
+              "component count": 3,
+              "visited": [
+                true,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int n,int[][] edges) {\nboolean[][] reach=new boolean[n][n];for(int i=0;i<n;i++)reach[i][i]=true;for(int[] e:edges){reach[e[0]][e[1]]=true;reach[e[1]][e[0]]=true;}for(int k=0;k<n;k++){for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];emit(\"Allow one more intermediate vertex\",\"via\",k);}boolean[] used=new boolean[n];int count=0;for(int i=0;i<n;i++)if(!used[i]){count++;for(int j=0;j<n;j++)if(reach[i][j])used[j]=true;}return count;\n  }\nstatic List<List<Integer>> graph(int n,int[][] edges){List<List<Integer>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] e:edges){g.get(e[0]).add(e[1]);g.get(e[1]).add(e[0]);}return g;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1},{1,2},{3,4}}\"); Object result0=solve(5,new int[][]{{0,1},{1,2},{3,4}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int n,int[][] edges) {\nList<List<Integer>> graph=graph(n,edges);boolean[] seen=new boolean[n];int count=0;for(int start=0;start<n;start++)if(!seen[start]){count++;Deque<Integer> stack=new ArrayDeque<>();stack.push(start);seen[start]=true;while(!stack.isEmpty()){int u=stack.pop();for(int v:graph.get(u))if(!seen[v]){seen[v]=true;stack.push(v);}emit(\"Explore the current component\",\"vertex\",u,\"component count\",count,\"visited\",seen);}}return count;\n  }\nstatic List<List<Integer>> graph(int n,int[][] edges){List<List<Integer>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] e:edges){g.get(e[0]).add(e[1]);g.get(e[1]).add(e[0]);}return g;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1},{1,2},{3,4}}\"); Object result0=solve(5,new int[][]{{0,1},{1,2},{3,4}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

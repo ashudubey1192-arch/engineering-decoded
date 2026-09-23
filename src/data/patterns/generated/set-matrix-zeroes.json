@@ -1,0 +1,256 @@
+{
+  "id": "set-matrix-zeroes",
+  "title": "Set Matrix Zeroes",
+  "contract": "For a nonempty rectangular matrix, zero every row and column containing an original zero.",
+  "signature": "int[][] solve(int[][] a)",
+  "brute": "int rows=a.length,cols=a[0].length;int[][] copy=new int[rows][];for(int r=0;r<rows;r++)copy[r]=a[r].clone();for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(copy[r][c]==0){for(int j=0;j<cols;j++)a[r][j]=0;for(int i=0;i<rows;i++)a[i][c]=0;emit(\"Zero the original zero's row and column\",\"matrix\",a);}return a;",
+  "optimal": "int rows=a.length,cols=a[0].length;boolean row=false,col=false;for(int c=0;c<cols;c++)row|=a[0][c]==0;for(int r=0;r<rows;r++)col|=a[r][0]==0;\nfor(int r=1;r<rows;r++)for(int c=1;c<cols;c++)if(a[r][c]==0){a[r][0]=0;a[0][c]=0;emit(\"Record markers in the border\",\"matrix\",a);}\nfor(int r=1;r<rows;r++)for(int c=1;c<cols;c++)if(a[r][0]==0||a[0][c]==0)a[r][c]=0;\nif(row)Arrays.fill(a[0],0);if(col)for(int[] line:a)line[0]=0;emit(\"Apply markers, then finish borders\",\"matrix\",a);return a;",
+  "reasoning": [
+    "Preserve an original copy so newly written zeroes do not trigger extra erasures.",
+    "Reuse the first row and column as marker arrays and separately remember whether those borders originally contained zeroes.",
+    "Apply interior markers before changing the borders. This ordering preserves information while using only two boolean flags."
+  ],
+  "complexity": [
+    "O(rc(r+c)) worst, O(rc)",
+    "O(rc), O(1) auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Center zero",
+      "args": "new int[][]{{1,1,1},{1,0,1},{1,1,1}}",
+      "expected": "[[1, 0, 1], [0, 0, 0], [1, 0, 1]]"
+    },
+    {
+      "label": "Border",
+      "args": "new int[][]{{0,1},{2,3}}",
+      "expected": "[[0, 0], [0, 3]]"
+    }
+  ],
+  "slug": "problems--set-matrix-zeroes",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1,1},{1,0,1},{1,1,1}}"
+            }
+          },
+          {
+            "note": "Zero the original zero's row and column",
+            "state": {
+              "matrix": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 0, 1], [0, 0, 0], [1, 0, 1]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,1},{2,3}}"
+            }
+          },
+          {
+            "note": "Zero the original zero's row and column",
+            "state": {
+              "matrix": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  3
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[0, 0], [0, 3]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{1,1,1},{1,0,1},{1,1,1}}"
+            }
+          },
+          {
+            "note": "Record markers in the border",
+            "state": {
+              "matrix": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  1,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Apply markers, then finish borders",
+            "state": {
+              "matrix": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[1, 0, 1], [0, 0, 0], [1, 0, 1]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{0,1},{2,3}}"
+            }
+          },
+          {
+            "note": "Apply markers, then finish borders",
+            "state": {
+              "matrix": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  3
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[0, 0], [0, 3]]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[][] solve(int[][] a) {\nint rows=a.length,cols=a[0].length;int[][] copy=new int[rows][];for(int r=0;r<rows;r++)copy[r]=a[r].clone();for(int r=0;r<rows;r++)for(int c=0;c<cols;c++)if(copy[r][c]==0){for(int j=0;j<cols;j++)a[r][j]=0;for(int i=0;i<rows;i++)a[i][c]=0;emit(\"Zero the original zero's row and column\",\"matrix\",a);}return a;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[][]{{1,1,1},{1,0,1},{1,1,1}}\"); Object result0=solve(new int[][]{{1,1,1},{1,0,1},{1,1,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[][] solve(int[][] a) {\nint rows=a.length,cols=a[0].length;boolean row=false,col=false;for(int c=0;c<cols;c++)row|=a[0][c]==0;for(int r=0;r<rows;r++)col|=a[r][0]==0;\nfor(int r=1;r<rows;r++)for(int c=1;c<cols;c++)if(a[r][c]==0){a[r][0]=0;a[0][c]=0;emit(\"Record markers in the border\",\"matrix\",a);}\nfor(int r=1;r<rows;r++)for(int c=1;c<cols;c++)if(a[r][0]==0||a[0][c]==0)a[r][c]=0;\nif(row)Arrays.fill(a[0],0);if(col)for(int[] line:a)line[0]=0;emit(\"Apply markers, then finish borders\",\"matrix\",a);return a;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[][]{{1,1,1},{1,0,1},{1,1,1}}\"); Object result0=solve(new int[][]{{1,1,1},{1,0,1},{1,1,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

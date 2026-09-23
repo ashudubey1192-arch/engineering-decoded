@@ -1,0 +1,513 @@
+{
+  "id": "valid-anagram",
+  "title": "Valid Anagram",
+  "contract": "Decide whether two lowercase English strings have the same character multiset.",
+  "signature": "boolean solve(String s, String t)",
+  "brute": "if(s.length()!=t.length())return false;\nboolean[] used=new boolean[t.length()];\nfor(char c:s.toCharArray()){int j=0;while(j<t.length()&&(used[j]||t.charAt(j)!=c))j++;emit(\"Find an unused matching character\",\"character\",c,\"match\",j);if(j==t.length())return false;used[j]=true;}\nreturn true;",
+  "optimal": "if(s.length()!=t.length())return false;\nint[] count=new int[26];for(char c:s.toCharArray())count[c-'a']++;\nfor(char c:t.toCharArray()){count[c-'a']--;emit(\"Consume a character from the inventory\",\"character\",c,\"counts\",count);if(count[c-'a']<0)return false;}\nreturn true;",
+  "reasoning": [
+    "Matching each character to one unused occurrence establishes multiplicity but repeatedly searches the target.",
+    "Build an inventory of the source, then consume it with the target.",
+    "Equal lengths and no over-consumed bucket imply all buckets finish at zero. A set alone loses duplicate counts."
+  ],
+  "complexity": [
+    "O(n²), O(n)",
+    "O(n), O(1) for 26 letters"
+  ],
+  "tests": [
+    {
+      "label": "Anagram",
+      "args": "\"anagram\",\"nagaram\"",
+      "expected": "true"
+    },
+    {
+      "label": "Multiplicity",
+      "args": "\"aab\",\"abb\"",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--valid-anagram",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"anagram\",\"nagaram\""
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "a",
+              "match": 1
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "n",
+              "match": 0
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "a",
+              "match": 3
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "g",
+              "match": 2
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "r",
+              "match": 4
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "a",
+              "match": 5
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "m",
+              "match": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"aab\",\"abb\""
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "a",
+              "match": 0
+            }
+          },
+          {
+            "note": "Find an unused matching character",
+            "state": {
+              "character": "a",
+              "match": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"anagram\",\"nagaram\""
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "n",
+              "counts": [
+                3,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "a",
+              "counts": [
+                2,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "g",
+              "counts": [
+                2,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "a",
+              "counts": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "r",
+              "counts": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "a",
+              "counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "m",
+              "counts": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"aab\",\"abb\""
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "a",
+              "counts": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "b",
+              "counts": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Consume a character from the inventory",
+            "state": {
+              "character": "b",
+              "counts": [
+                1,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s, String t) {\nif(s.length()!=t.length())return false;\nboolean[] used=new boolean[t.length()];\nfor(char c:s.toCharArray()){int j=0;while(j<t.length()&&(used[j]||t.charAt(j)!=c))j++;emit(\"Find an unused matching character\",\"character\",c,\"match\",j);if(j==t.length())return false;used[j]=true;}\nreturn true;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"anagram\\\",\\\"nagaram\\\"\"); Object result0=solve(\"anagram\",\"nagaram\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s, String t) {\nif(s.length()!=t.length())return false;\nint[] count=new int[26];for(char c:s.toCharArray())count[c-'a']++;\nfor(char c:t.toCharArray()){count[c-'a']--;emit(\"Consume a character from the inventory\",\"character\",c,\"counts\",count);if(count[c-'a']<0)return false;}\nreturn true;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"anagram\\\",\\\"nagaram\\\"\"); Object result0=solve(\"anagram\",\"nagaram\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

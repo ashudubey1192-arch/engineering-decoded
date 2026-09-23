@@ -1,0 +1,351 @@
+{
+  "id": "sort-array",
+  "title": "Sort an Array: Bubble Sort to Merge Sort",
+  "contract": "Return integers sorted in ascending order, retaining duplicates.",
+  "signature": "int[] solve(int[] a)",
+  "brute": "for(int end=a.length-1;end>0;end--){boolean changed=false;for(int i=0;i<end;i++)if(a[i]>a[i+1]){int t=a[i];a[i]=a[i+1];a[i+1]=t;changed=true;emit(\"Swap an inverted adjacent pair\",\"array\",a,\"indices\",new int[]{i,i+1});}if(!changed)break;}return a;",
+  "optimal": "int n=a.length;int[] temp=new int[n];for(int width=1;width<n;width*=2){for(int l=0;l<n;l+=2*width){int mid=Math.min(l+width,n),r=Math.min(l+2*width,n),i=l,j=mid,k=l;while(i<mid||j<r)temp[k++]=(j>=r||(i<mid&&a[i]<=a[j]))?a[i++]:a[j++];for(k=l;k<r;k++)a[k]=temp[k];emit(\"Merge two sorted runs\",\"array\",a,\"bounds\",new int[]{l,mid,r});}if(width>n/2)break;}return a;",
+  "reasoning": [
+    "Bubble sort removes adjacent inversions; the largest remaining value reaches the end after each pass.",
+    "Merge sort begins with sorted singleton runs and repeatedly merges neighboring runs.",
+    "During merge, take the smallest available head; choosing the left on equality preserves stability. Each pass is linear and there are logarithmically many passes."
+  ],
+  "complexity": [
+    "O(n²) worst, O(1)",
+    "O(n log n), O(n); comparison-model worst-case optimal"
+  ],
+  "tests": [
+    {
+      "label": "Unsorted",
+      "args": "new int[]{5,1,4,2,8,2}",
+      "expected": "[1, 2, 2, 4, 5, 8]"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{}",
+      "expected": "[]"
+    }
+  ],
+  "slug": "problems--sort-array",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{5,1,4,2,8,2}"
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                5,
+                4,
+                2,
+                8,
+                2
+              ],
+              "indices": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                4,
+                5,
+                2,
+                8,
+                2
+              ],
+              "indices": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                4,
+                2,
+                5,
+                8,
+                2
+              ],
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                4,
+                2,
+                5,
+                2,
+                8
+              ],
+              "indices": [
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                2,
+                4,
+                5,
+                2,
+                8
+              ],
+              "indices": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                2,
+                4,
+                2,
+                5,
+                8
+              ],
+              "indices": [
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Swap an inverted adjacent pair",
+            "state": {
+              "array": [
+                1,
+                2,
+                2,
+                4,
+                5,
+                8
+              ],
+              "indices": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                2,
+                4,
+                5,
+                8
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 2, 4, 5, 8]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{5,1,4,2,8,2}"
+            }
+          },
+          {
+            "note": "Merge two sorted runs",
+            "state": {
+              "array": [
+                1,
+                5,
+                4,
+                2,
+                8,
+                2
+              ],
+              "bounds": [
+                0,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Merge two sorted runs",
+            "state": {
+              "array": [
+                1,
+                5,
+                2,
+                4,
+                8,
+                2
+              ],
+              "bounds": [
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Merge two sorted runs",
+            "state": {
+              "array": [
+                1,
+                5,
+                2,
+                4,
+                2,
+                8
+              ],
+              "bounds": [
+                4,
+                5,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Merge two sorted runs",
+            "state": {
+              "array": [
+                1,
+                2,
+                4,
+                5,
+                2,
+                8
+              ],
+              "bounds": [
+                0,
+                2,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Merge two sorted runs",
+            "state": {
+              "array": [
+                1,
+                2,
+                4,
+                5,
+                2,
+                8
+              ],
+              "bounds": [
+                4,
+                6,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Merge two sorted runs",
+            "state": {
+              "array": [
+                1,
+                2,
+                2,
+                4,
+                5,
+                8
+              ],
+              "bounds": [
+                0,
+                4,
+                6
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2,
+                2,
+                4,
+                5,
+                8
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2, 2, 4, 5, 8]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a) {\nfor(int end=a.length-1;end>0;end--){boolean changed=false;for(int i=0;i<end;i++)if(a[i]>a[i+1]){int t=a[i];a[i]=a[i+1];a[i+1]=t;changed=true;emit(\"Swap an inverted adjacent pair\",\"array\",a,\"indices\",new int[]{i,i+1});}if(!changed)break;}return a;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{5,1,4,2,8,2}\"); Object result0=solve(new int[]{5,1,4,2,8,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a) {\nint n=a.length;int[] temp=new int[n];for(int width=1;width<n;width*=2){for(int l=0;l<n;l+=2*width){int mid=Math.min(l+width,n),r=Math.min(l+2*width,n),i=l,j=mid,k=l;while(i<mid||j<r)temp[k++]=(j>=r||(i<mid&&a[i]<=a[j]))?a[i++]:a[j++];for(k=l;k<r;k++)a[k]=temp[k];emit(\"Merge two sorted runs\",\"array\",a,\"bounds\",new int[]{l,mid,r});}if(width>n/2)break;}return a;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{5,1,4,2,8,2}\"); Object result0=solve(new int[]{5,1,4,2,8,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

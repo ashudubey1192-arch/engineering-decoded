@@ -1,0 +1,7 @@
+import { socialMediaCourses } from "../../data/socialMediaCourses";
+import "../coding-patterns/PatternLessonArticle.css";
+export default function SocialLessonArticle({courseSlug,lessonSlug}){
+  const course=socialMediaCourses[courseSlug];
+  const lesson=course.articles.find(a=>a.slug===lessonSlug);
+  return <div className="patternArticle"><section id="overview"><p className="patternEyebrow">{course.name} / PRACTICAL WORKFLOW</p><p className="lead">{lesson.goal}</p><p>{course.description}</p></section><section id="concepts"><h2>Step-by-step workflow</h2><ol className="patternReasoning">{lesson.steps.map(step=><li key={step}>{step}</li>)}</ol></section><section id="example"><h2>Worked example</h2><div className="patternContract">{lesson.example}</div><p>Adapt this example to a real project you can discuss publicly. Draft it first, check the intended audience and access, and review it from the recipient's perspective.</p></section><section id="mistakes"><h2>Common mistakes</h2><p>Avoid vague claims, unexplained acronyms, and messages without a next step. Keep private details out of public examples and make links understandable without extra context.</p></section><section id="check"><h2>Practice and review</h2><p>Create your own version of the example, then review it against this question: {lesson.check}</p><details><summary>Completion criteria</summary><p>The intended audience, purpose, supporting context, and next action are clear. A second reader should understand the artifact without asking you to narrate it.</p></details></section></div>;
+}

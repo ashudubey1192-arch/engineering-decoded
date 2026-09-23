@@ -1,0 +1,765 @@
+{
+  "id": "maximum-subarray",
+  "title": "Maximum Subarray",
+  "contract": "Return the maximum sum of a nonempty contiguous subarray. Input is nonempty; sums use long.",
+  "signature": "long solve(int[] a)",
+  "brute": "long best=Long.MIN_VALUE;\nfor(int i=0;i<a.length;i++) { long sum=0; for(int j=i;j<a.length;j++) {\n  sum+=a[j];best=Math.max(best,sum);emit(\"Extend a candidate interval\", \"range\",new int[]{i,j},\"sum\",sum,\"best\",best);\n}}\nreturn best;",
+  "optimal": "long ending=a[0],best=a[0];emit(\"Initialize a nonempty subarray\", \"ending\",ending,\"best\",best);\nfor(int i=1;i<a.length;i++) {\n  ending=Math.max(a[i],ending+a[i]);best=Math.max(best,ending);\n  emit(\"Restart here or extend the previous best ending here\", \"index\",i,\"ending\",ending,\"best\",best);\n}\nreturn best;",
+  "reasoning": [
+    "Enumerate starts and incrementally extend each end; a third summation loop is unnecessary.",
+    "Any best subarray ending at i either begins at i or extends the best subarray ending at i−1.",
+    "Track a separate global maximum. Initializing to zero would incorrectly choose an empty interval for all-negative input."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Mixed",
+      "args": "new int[]{-2,1,-3,4,-1,2,1,-5,4}",
+      "expected": "6"
+    },
+    {
+      "label": "Negative",
+      "args": "new int[]{-4,-2,-8}",
+      "expected": "-2"
+    }
+  ],
+  "slug": "problems--maximum-subarray",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-2,1,-3,4,-1,2,1,-5,4}"
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "sum": -2,
+              "best": -2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "sum": -1,
+              "best": -1
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "sum": -4,
+              "best": -1
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "sum": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                4
+              ],
+              "sum": -1,
+              "best": 0
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                5
+              ],
+              "sum": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                6
+              ],
+              "sum": 2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                7
+              ],
+              "sum": -3,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                8
+              ],
+              "sum": 1,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "sum": 1,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "sum": -2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "sum": 2,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                4
+              ],
+              "sum": 1,
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                5
+              ],
+              "sum": 3,
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                6
+              ],
+              "sum": 4,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                7
+              ],
+              "sum": -1,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                8
+              ],
+              "sum": 3,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "sum": -3,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "sum": 1,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                4
+              ],
+              "sum": 0,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                5
+              ],
+              "sum": 2,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                6
+              ],
+              "sum": 3,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                7
+              ],
+              "sum": -2,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                8
+              ],
+              "sum": 2,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "sum": 4,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                3,
+                4
+              ],
+              "sum": 3,
+              "best": 4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                3,
+                5
+              ],
+              "sum": 5,
+              "best": 5
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                3,
+                6
+              ],
+              "sum": 6,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                3,
+                7
+              ],
+              "sum": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                3,
+                8
+              ],
+              "sum": 5,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                4,
+                4
+              ],
+              "sum": -1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                4,
+                5
+              ],
+              "sum": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                4,
+                6
+              ],
+              "sum": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                4,
+                7
+              ],
+              "sum": -3,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                4,
+                8
+              ],
+              "sum": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                5,
+                5
+              ],
+              "sum": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                5,
+                6
+              ],
+              "sum": 3,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                5,
+                7
+              ],
+              "sum": -2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                5,
+                8
+              ],
+              "sum": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                6,
+                6
+              ],
+              "sum": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                6,
+                7
+              ],
+              "sum": -4,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                6,
+                8
+              ],
+              "sum": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                7,
+                7
+              ],
+              "sum": -5,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                7,
+                8
+              ],
+              "sum": -1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                8,
+                8
+              ],
+              "sum": 4,
+              "best": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-4,-2,-8}"
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "sum": -4,
+              "best": -4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "sum": -6,
+              "best": -4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "sum": -14,
+              "best": -4
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "sum": -2,
+              "best": -2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "sum": -10,
+              "best": -2
+            }
+          },
+          {
+            "note": "Extend a candidate interval",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "sum": -8,
+              "best": -2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -2
+            }
+          }
+        ],
+        "result": "-2"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-2,1,-3,4,-1,2,1,-5,4}"
+            }
+          },
+          {
+            "note": "Initialize a nonempty subarray",
+            "state": {
+              "ending": -2,
+              "best": -2
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 1,
+              "ending": 1,
+              "best": 1
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 2,
+              "ending": -2,
+              "best": 1
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 3,
+              "ending": 4,
+              "best": 4
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 4,
+              "ending": 3,
+              "best": 4
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 5,
+              "ending": 5,
+              "best": 5
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 6,
+              "ending": 6,
+              "best": 6
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 7,
+              "ending": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 8,
+              "ending": 5,
+              "best": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-4,-2,-8}"
+            }
+          },
+          {
+            "note": "Initialize a nonempty subarray",
+            "state": {
+              "ending": -4,
+              "best": -4
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 1,
+              "ending": -2,
+              "best": -2
+            }
+          },
+          {
+            "note": "Restart here or extend the previous best ending here",
+            "state": {
+              "index": 2,
+              "ending": -8,
+              "best": -2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -2
+            }
+          }
+        ],
+        "result": "-2"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nlong best=Long.MIN_VALUE;\nfor(int i=0;i<a.length;i++) { long sum=0; for(int j=i;j<a.length;j++) {\n  sum+=a[j];best=Math.max(best,sum);emit(\"Extend a candidate interval\", \"range\",new int[]{i,j},\"sum\",sum,\"best\",best);\n}}\nreturn best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{-2,1,-3,4,-1,2,1,-5,4}\"); Object result0=solve(new int[]{-2,1,-3,4,-1,2,1,-5,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nlong ending=a[0],best=a[0];emit(\"Initialize a nonempty subarray\", \"ending\",ending,\"best\",best);\nfor(int i=1;i<a.length;i++) {\n  ending=Math.max(a[i],ending+a[i]);best=Math.max(best,ending);\n  emit(\"Restart here or extend the previous best ending here\", \"index\",i,\"ending\",ending,\"best\",best);\n}\nreturn best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{-2,1,-3,4,-1,2,1,-5,4}\"); Object result0=solve(new int[]{-2,1,-3,4,-1,2,1,-5,4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

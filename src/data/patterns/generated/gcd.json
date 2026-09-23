@@ -1,0 +1,228 @@
+{
+  "id": "gcd",
+  "title": "GCD: Euclid's Algorithm",
+  "contract": "Return the nonnegative greatest common divisor for nonnegative a and b, not both zero.",
+  "signature": "long solve(long a,long b)",
+  "brute": "if(a==0)return b;if(b==0)return a;for(long d=Math.min(a,b);d>=1;d--){emit(\"Try a common divisor\",\"candidate\",d);if(a%d==0&&b%d==0)return d;}return 1;",
+  "optimal": "while(b!=0){long remainder=a%b;emit(\"Replace the pair with divisor and remainder\",\"pair\",new long[]{a,b},\"remainder\",remainder);a=b;b=remainder;}return a;",
+  "reasoning": [
+    "Test candidates descending until one divides both numbers.",
+    "A number divides both a and b exactly when it divides b and a mod b, so the set of common divisors is unchanged.",
+    "Remainders strictly decrease until zero. Compute LCM as (a/gcd)*b with an overflow check rather than multiplying first."
+  ],
+  "complexity": [
+    "O(min(a,b)), O(1)",
+    "O(log(min(a,b)+1)), O(1) arithmetic operations"
+  ],
+  "tests": [
+    {
+      "label": "Composite",
+      "args": "48,18",
+      "expected": "6"
+    },
+    {
+      "label": "Zero",
+      "args": "0,9",
+      "expected": "9"
+    }
+  ],
+  "slug": "problems--gcd",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "48,18"
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 18
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 17
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 16
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 15
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 14
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 13
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 12
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 11
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 10
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 9
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 8
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 7
+            }
+          },
+          {
+            "note": "Try a common divisor",
+            "state": {
+              "candidate": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0,9"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 9
+            }
+          }
+        ],
+        "result": "9"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "48,18"
+            }
+          },
+          {
+            "note": "Replace the pair with divisor and remainder",
+            "state": {
+              "pair": [
+                48,
+                18
+              ],
+              "remainder": 12
+            }
+          },
+          {
+            "note": "Replace the pair with divisor and remainder",
+            "state": {
+              "pair": [
+                18,
+                12
+              ],
+              "remainder": 6
+            }
+          },
+          {
+            "note": "Replace the pair with divisor and remainder",
+            "state": {
+              "pair": [
+                12,
+                6
+              ],
+              "remainder": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "0,9"
+            }
+          },
+          {
+            "note": "Replace the pair with divisor and remainder",
+            "state": {
+              "pair": [
+                0,
+                9
+              ],
+              "remainder": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 9
+            }
+          }
+        ],
+        "result": "9"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(long a,long b) {\nif(a==0)return b;if(b==0)return a;for(long d=Math.min(a,b);d>=1;d--){emit(\"Try a common divisor\",\"candidate\",d);if(a%d==0&&b%d==0)return d;}return 1;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"48,18\"); Object result0=solve(48,18); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(long a,long b) {\nwhile(b!=0){long remainder=a%b;emit(\"Replace the pair with divisor and remainder\",\"pair\",new long[]{a,b},\"remainder\",remainder);a=b;b=remainder;}return a;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"48,18\"); Object result0=solve(48,18); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

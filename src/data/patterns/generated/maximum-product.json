@@ -1,0 +1,278 @@
+{
+  "id": "maximum-product",
+  "title": "Maximum Product Subarray",
+  "contract": "Return the largest product of a nonempty contiguous subarray. Input is nonempty and every subarray product fits long.",
+  "signature": "long solve(int[] a)",
+  "brute": "long best=Long.MIN_VALUE;for(int l=0;l<a.length;l++){long product=1;for(int r=l;r<a.length;r++){product*=a[r];best=Math.max(best,product);emit(\"Extend a candidate product\",\"range\",new int[]{l,r},\"product\",product,\"best\",best);}}return best;",
+  "optimal": "long high=a[0],low=a[0],best=a[0];for(int i=1;i<a.length;i++){long x=a[i],aHigh=high*x,aLow=low*x;high=Math.max(x,Math.max(aHigh,aLow));low=Math.min(x,Math.min(aHigh,aLow));best=Math.max(best,high);emit(\"Track both signs because a negative reverses order\",\"index\",i,\"maximum ending\",high,\"minimum ending\",low,\"best\",best);}return best;",
+  "reasoning": [
+    "Enumerate subarrays and extend their products incrementally.",
+    "A negative current value can turn the smallest previous product into the largest current product.",
+    "Track both extrema ending here and compute both new values from the old pair. A zero naturally restarts candidates; initializing the answer to zero fails for a single negative input."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Negative pair",
+      "args": "new int[]{-2,3,-4}",
+      "expected": "24"
+    },
+    {
+      "label": "Zero",
+      "args": "new int[]{-2,0,-1}",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--maximum-product",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-2,3,-4}"
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "product": -2,
+              "best": -2
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "product": -6,
+              "best": -2
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "product": 24,
+              "best": 24
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "product": 3,
+              "best": 24
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "product": -12,
+              "best": 24
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "product": -4,
+              "best": 24
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 24
+            }
+          }
+        ],
+        "result": "24"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-2,0,-1}"
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "product": -2,
+              "best": -2
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "product": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "product": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "product": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "product": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Extend a candidate product",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "product": -1,
+              "best": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-2,3,-4}"
+            }
+          },
+          {
+            "note": "Track both signs because a negative reverses order",
+            "state": {
+              "index": 1,
+              "maximum ending": 3,
+              "minimum ending": -6,
+              "best": 3
+            }
+          },
+          {
+            "note": "Track both signs because a negative reverses order",
+            "state": {
+              "index": 2,
+              "maximum ending": 24,
+              "minimum ending": -12,
+              "best": 24
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 24
+            }
+          }
+        ],
+        "result": "24"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{-2,0,-1}"
+            }
+          },
+          {
+            "note": "Track both signs because a negative reverses order",
+            "state": {
+              "index": 1,
+              "maximum ending": 0,
+              "minimum ending": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Track both signs because a negative reverses order",
+            "state": {
+              "index": 2,
+              "maximum ending": 0,
+              "minimum ending": -1,
+              "best": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nlong best=Long.MIN_VALUE;for(int l=0;l<a.length;l++){long product=1;for(int r=l;r<a.length;r++){product*=a[r];best=Math.max(best,product);emit(\"Extend a candidate product\",\"range\",new int[]{l,r},\"product\",product,\"best\",best);}}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{-2,3,-4}\"); Object result0=solve(new int[]{-2,3,-4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nlong high=a[0],low=a[0],best=a[0];for(int i=1;i<a.length;i++){long x=a[i],aHigh=high*x,aLow=low*x;high=Math.max(x,Math.max(aHigh,aLow));low=Math.min(x,Math.min(aHigh,aLow));best=Math.max(best,high);emit(\"Track both signs because a negative reverses order\",\"index\",i,\"maximum ending\",high,\"minimum ending\",low,\"best\",best);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{-2,3,-4}\"); Object result0=solve(new int[]{-2,3,-4}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

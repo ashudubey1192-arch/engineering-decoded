@@ -1,0 +1,306 @@
+{
+  "id": "frequency-counting",
+  "title": "Frequency counting",
+  "contract": "Count every distinct integer, retaining first-seen key order. Empty input produces an empty map.",
+  "signature": "Map<Integer,Integer> solve(int[] a)",
+  "brute": "Map<Integer,Integer> counts = new LinkedHashMap<>();\nfor (int x : a) {\n  if (counts.containsKey(x)) continue;\n  int count = 0;\n  for (int y : a) { if (x == y) count++; emit(\"Compare with candidate \" + x, \"value\", y, \"count\", count); }\n  counts.put(x, count);\n}\nreturn counts;",
+  "optimal": "Map<Integer,Integer> counts = new LinkedHashMap<>();\nfor (int x : a) {\n  counts.put(x, counts.getOrDefault(x, 0) + 1);\n  emit(\"Increment exactly one bucket\", \"value\", x, \"counts\", counts);\n}\nreturn counts;",
+  "reasoning": [
+    "Repeated scans count a candidate correctly, but revisit the same input for each distinct value.",
+    "A map stores work already done: after processing i values, each bucket equals its count in that prefix.",
+    "Increment the current bucket once. LinkedHashMap preserves encounter order; an array of counters works only for a bounded value domain."
+  ],
+  "complexity": [
+    "O(n²), O(d) output",
+    "O(n) expected, O(d) space; d distinct values"
+  ],
+  "tests": [
+    {
+      "label": "Repeated values",
+      "args": "new int[]{2,1,2,3,1,2}",
+      "expected": "{2=3, 1=2, 3=1}"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{}",
+      "expected": "{}"
+    }
+  ],
+  "slug": "problems--frequency-counting",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,1,2,3,1,2}"
+            }
+          },
+          {
+            "note": "Compare with candidate 2",
+            "state": {
+              "value": 2,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 2",
+            "state": {
+              "value": 1,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 2",
+            "state": {
+              "value": 2,
+              "count": 2
+            }
+          },
+          {
+            "note": "Compare with candidate 2",
+            "state": {
+              "value": 3,
+              "count": 2
+            }
+          },
+          {
+            "note": "Compare with candidate 2",
+            "state": {
+              "value": 1,
+              "count": 2
+            }
+          },
+          {
+            "note": "Compare with candidate 2",
+            "state": {
+              "value": 2,
+              "count": 3
+            }
+          },
+          {
+            "note": "Compare with candidate 1",
+            "state": {
+              "value": 2,
+              "count": 0
+            }
+          },
+          {
+            "note": "Compare with candidate 1",
+            "state": {
+              "value": 1,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 1",
+            "state": {
+              "value": 2,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 1",
+            "state": {
+              "value": 3,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 1",
+            "state": {
+              "value": 1,
+              "count": 2
+            }
+          },
+          {
+            "note": "Compare with candidate 1",
+            "state": {
+              "value": 2,
+              "count": 2
+            }
+          },
+          {
+            "note": "Compare with candidate 3",
+            "state": {
+              "value": 2,
+              "count": 0
+            }
+          },
+          {
+            "note": "Compare with candidate 3",
+            "state": {
+              "value": 1,
+              "count": 0
+            }
+          },
+          {
+            "note": "Compare with candidate 3",
+            "state": {
+              "value": 2,
+              "count": 0
+            }
+          },
+          {
+            "note": "Compare with candidate 3",
+            "state": {
+              "value": 3,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 3",
+            "state": {
+              "value": 1,
+              "count": 1
+            }
+          },
+          {
+            "note": "Compare with candidate 3",
+            "state": {
+              "value": 2,
+              "count": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": {
+                "1": 2,
+                "2": 3,
+                "3": 1
+              }
+            }
+          }
+        ],
+        "result": "{2=3, 1=2, 3=1}"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": {}
+            }
+          }
+        ],
+        "result": "{}"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,1,2,3,1,2}"
+            }
+          },
+          {
+            "note": "Increment exactly one bucket",
+            "state": {
+              "value": 2,
+              "counts": {
+                "2": 1
+              }
+            }
+          },
+          {
+            "note": "Increment exactly one bucket",
+            "state": {
+              "value": 1,
+              "counts": {
+                "1": 1,
+                "2": 1
+              }
+            }
+          },
+          {
+            "note": "Increment exactly one bucket",
+            "state": {
+              "value": 2,
+              "counts": {
+                "1": 1,
+                "2": 2
+              }
+            }
+          },
+          {
+            "note": "Increment exactly one bucket",
+            "state": {
+              "value": 3,
+              "counts": {
+                "1": 1,
+                "2": 2,
+                "3": 1
+              }
+            }
+          },
+          {
+            "note": "Increment exactly one bucket",
+            "state": {
+              "value": 1,
+              "counts": {
+                "1": 2,
+                "2": 2,
+                "3": 1
+              }
+            }
+          },
+          {
+            "note": "Increment exactly one bucket",
+            "state": {
+              "value": 2,
+              "counts": {
+                "1": 2,
+                "2": 3,
+                "3": 1
+              }
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": {
+                "1": 2,
+                "2": 3,
+                "3": 1
+              }
+            }
+          }
+        ],
+        "result": "{2=3, 1=2, 3=1}"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": {}
+            }
+          }
+        ],
+        "result": "{}"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static Map<Integer,Integer> solve(int[] a) {\nMap<Integer,Integer> counts = new LinkedHashMap<>();\nfor (int x : a) {\n  if (counts.containsKey(x)) continue;\n  int count = 0;\n  for (int y : a) { if (x == y) count++; emit(\"Compare with candidate \" + x, \"value\", y, \"count\", count); }\n  counts.put(x, count);\n}\nreturn counts;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,1,2,3,1,2}\"); Object result0=solve(new int[]{2,1,2,3,1,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static Map<Integer,Integer> solve(int[] a) {\nMap<Integer,Integer> counts = new LinkedHashMap<>();\nfor (int x : a) {\n  counts.put(x, counts.getOrDefault(x, 0) + 1);\n  emit(\"Increment exactly one bucket\", \"value\", x, \"counts\", counts);\n}\nreturn counts;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,1,2,3,1,2}\"); Object result0=solve(new int[]{2,1,2,3,1,2}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

@@ -1,0 +1,364 @@
+{
+  "id": "coin-change-ways",
+  "title": "Coin Change II",
+  "contract": "Count combinations of distinct positive coin denominations making amount ≥ 0. Coins may be reused; ordering coins does not create another combination.",
+  "signature": "long solve(int[] coins,int amount)",
+  "brute": "return coinWays(coins,0,amount);",
+  "optimal": "long[] dp=new long[amount+1];dp[0]=1;for(int coin:coins){for(int value=coin;value<=amount;value++)dp[value]+=dp[value-coin];emit(\"Add combinations using this coin type\",\"coin\",coin,\"ways\",dp);}return dp[amount];",
+  "reasoning": [
+    "Choose how many copies of each denomination to use, then recurse to the next denomination.",
+    "The outer coin loop establishes a canonical order of coin types, avoiding permutation overcounting.",
+    "Ascending amounts permit reuse of the current coin. Reversing the loop nesting instead counts ordered sequences, a different problem."
+  ],
+  "complexity": [
+    "Exponential enumeration, O(m) stack",
+    "O(mA), O(A)"
+  ],
+  "tests": [
+    {
+      "label": "Combinations",
+      "args": "new int[]{1,2,5},5",
+      "expected": "4"
+    },
+    {
+      "label": "Zero",
+      "args": "new int[]{2},0",
+      "expected": "1"
+    }
+  ],
+  "slug": "problems--coin-change-ways",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,5},5"
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 0,
+              "remaining": 5
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 1,
+              "remaining": 5
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 5
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 5
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 1,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 4
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 1,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 3
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 1,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 2
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 1,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 2,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 3,
+              "remaining": 1
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 1,
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2},0"
+            }
+          },
+          {
+            "note": "Choose a count for the next coin type",
+            "state": {
+              "coin index": 0,
+              "remaining": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,5},5"
+            }
+          },
+          {
+            "note": "Add combinations using this coin type",
+            "state": {
+              "coin": 1,
+              "ways": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Add combinations using this coin type",
+            "state": {
+              "coin": 2,
+              "ways": [
+                1,
+                1,
+                2,
+                2,
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Add combinations using this coin type",
+            "state": {
+              "coin": 5,
+              "ways": [
+                1,
+                1,
+                2,
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2},0"
+            }
+          },
+          {
+            "note": "Add combinations using this coin type",
+            "state": {
+              "coin": 2,
+              "ways": [
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] coins,int amount) {\nreturn coinWays(coins,0,amount);\n  }\nstatic long coinWays(int[] coins,int i,int amount){emit(\"Choose a count for the next coin type\",\"coin index\",i,\"remaining\",amount);if(amount==0)return 1;if(i==coins.length)return 0;long total=0;for(int used=0;used<=amount;used+=coins[i])total+=coinWays(coins,i+1,amount-used);return total;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,5},5\"); Object result0=solve(new int[]{1,2,5},5); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] coins,int amount) {\nlong[] dp=new long[amount+1];dp[0]=1;for(int coin:coins){for(int value=coin;value<=amount;value++)dp[value]+=dp[value-coin];emit(\"Add combinations using this coin type\",\"coin\",coin,\"ways\",dp);}return dp[amount];\n  }\nstatic long coinWays(int[] coins,int i,int amount){emit(\"Choose a count for the next coin type\",\"coin index\",i,\"remaining\",amount);if(amount==0)return 1;if(i==coins.length)return 0;long total=0;for(int used=0;used<=amount;used+=coins[i])total+=coinWays(coins,i+1,amount-used);return total;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,5},5\"); Object result0=solve(new int[]{1,2,5},5); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

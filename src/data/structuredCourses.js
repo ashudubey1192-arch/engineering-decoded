@@ -35,6 +35,8 @@ import { databaseCourses } from "./databaseCourses";
 import { messagingCourses } from "./messagingCourses";
 import { remainingCourses } from "./remainingCourses";
 import { dsaCourses } from "./dsaCourses";
+import { patternCourses } from "./patternCourses";
+import { socialMediaCourses } from "./socialMediaCourses";
 
 const courses = {
   ...messagingCourses,
@@ -116,6 +118,8 @@ const courses = {
 
 export const getStructuredCourse = (moduleId, trackSlug) => {
   if (moduleId === "dsa") return dsaCourses[trackSlug] || null;
+  if (moduleId === "coding-patterns") return patternCourses[trackSlug] || null;
+  if (moduleId === "social-media") return socialMediaCourses[trackSlug] || null;
   if (trackSlug) return remainingCourses[`${moduleId}/${trackSlug}`] || courses[trackSlug] || null;
   return courses[moduleId] || null;
 };

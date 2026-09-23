@@ -1,0 +1,183 @@
+{
+  "id": "reverse-list",
+  "title": "Reverse Linked List",
+  "contract": "Build a singly linked list from the input values and return its reversed values. Compare copying values with reversing links.",
+  "signature": "int[] solve(int[] values)",
+  "brute": "Node head=list(values);List<Integer> copy=new ArrayList<>();for(Node n=head;n!=null;n=n.next)copy.add(n.value);int[] out=new int[copy.size()];for(int i=0;i<out.length;i++){out[i]=copy.get(copy.size()-1-i);emit(\"Copy from the back\",\"output\",out);}return out;",
+  "optimal": "Node head=list(values),previous=null;while(head!=null){Node next=head.next;head.next=previous;previous=head;head=next;emit(\"Save next, reverse link, advance\",\"reversed\",values(previous),\"remaining\",values(head));}return values(previous);",
+  "reasoning": [
+    "A value buffer gives a simple baseline but does not reverse the original nodes.",
+    "Before each iteration, previous heads the reversed prefix and head heads the untouched suffix.",
+    "Save next before overwriting the link, then advance both pointers. Input/output conversion is excluded from the in-place auxiliary-space comparison."
+  ],
+  "complexity": [
+    "O(n), O(n) auxiliary",
+    "O(n), O(1) reversal auxiliary"
+  ],
+  "tests": [
+    {
+      "label": "Three nodes",
+      "args": "new int[]{1,2,3}",
+      "expected": "[3, 2, 1]"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{}",
+      "expected": "[]"
+    }
+  ],
+  "slug": "problems--reverse-list",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Copy from the back",
+            "state": {
+              "output": [
+                3,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Copy from the back",
+            "state": {
+              "output": [
+                3,
+                2,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Copy from the back",
+            "state": {
+              "output": [
+                3,
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                3,
+                2,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[3, 2, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3}"
+            }
+          },
+          {
+            "note": "Save next, reverse link, advance",
+            "state": {
+              "reversed": [
+                1
+              ],
+              "remaining": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Save next, reverse link, advance",
+            "state": {
+              "reversed": [
+                2,
+                1
+              ],
+              "remaining": [
+                3
+              ]
+            }
+          },
+          {
+            "note": "Save next, reverse link, advance",
+            "state": {
+              "reversed": [
+                3,
+                2,
+                1
+              ],
+              "remaining": []
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                3,
+                2,
+                1
+              ]
+            }
+          }
+        ],
+        "result": "[3, 2, 1]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] values) {\nNode head=list(values);List<Integer> copy=new ArrayList<>();for(Node n=head;n!=null;n=n.next)copy.add(n.value);int[] out=new int[copy.size()];for(int i=0;i<out.length;i++){out[i]=copy.get(copy.size()-1-i);emit(\"Copy from the back\",\"output\",out);}return out;\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3}\"); Object result0=solve(new int[]{1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] values) {\nNode head=list(values),previous=null;while(head!=null){Node next=head.next;head.next=previous;previous=head;head=next;emit(\"Save next, reverse link, advance\",\"reversed\",values(previous),\"remaining\",values(head));}return values(previous);\n  }\nstatic class Node { int value; Node next; Node(int value){this.value=value;} }\nstatic Node list(int[] values){Node dummy=new Node(0),tail=dummy;for(int x:values){tail.next=new Node(x);tail=tail.next;}return dummy.next;}\nstatic int[] values(Node node){List<Integer> result=new ArrayList<>();for(;node!=null;node=node.next)result.add(node.value);return result.stream().mapToInt(Integer::intValue).toArray();}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3}\"); Object result0=solve(new int[]{1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

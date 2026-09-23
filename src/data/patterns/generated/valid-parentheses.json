@@ -1,0 +1,197 @@
+{
+  "id": "valid-parentheses",
+  "title": "Valid Parentheses",
+  "contract": "The input contains only ()[]{}. Return whether brackets are correctly nested.",
+  "signature": "boolean solve(String s)",
+  "brute": "while(!s.isEmpty()){String next=s.replace(\"()\", \"\").replace(\"[]\", \"\").replace(\"{}\", \"\");emit(\"Remove adjacent matching pairs\",\"remaining\",next);if(next.equals(s))return false;s=next;}return true;",
+  "optimal": "Deque<Character> stack=new ArrayDeque<>();for(char c:s.toCharArray()){if(c=='('||c=='['||c=='{')stack.push(c);else{if(stack.isEmpty())return false;char open=stack.pop();if((c==')'&&open!='(')||(c==']'&&open!='[')||(c=='}'&&open!='{'))return false;}emit(\"Track unmatched opening brackets\",\"character\",c,\"stack\",stack);}return stack.isEmpty();",
+  "reasoning": [
+    "Repeatedly remove innermost pairs; valid nesting eventually reduces to nothing.",
+    "A closing bracket must match the most recent unmatched opener: exactly the LIFO rule.",
+    "Reject empty-stack closes immediately, and require an empty stack after the scan. Counting each bracket type is insufficient to validate nesting."
+  ],
+  "complexity": [
+    "O(n²), O(n)",
+    "O(n), O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Nested",
+      "args": "\"{[()]}\"",
+      "expected": "true"
+    },
+    {
+      "label": "Crossed",
+      "args": "\"([)]\"",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--valid-parentheses",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"{[()]}\""
+            }
+          },
+          {
+            "note": "Remove adjacent matching pairs",
+            "state": {
+              "remaining": ""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"([)]\""
+            }
+          },
+          {
+            "note": "Remove adjacent matching pairs",
+            "state": {
+              "remaining": "([)]"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"{[()]}\""
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "{",
+              "stack": [
+                "{"
+              ]
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "[",
+              "stack": [
+                "[",
+                "{"
+              ]
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "(",
+              "stack": [
+                "(",
+                "[",
+                "{"
+              ]
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": ")",
+              "stack": [
+                "[",
+                "{"
+              ]
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "]",
+              "stack": [
+                "{"
+              ]
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "}",
+              "stack": []
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"([)]\""
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "(",
+              "stack": [
+                "("
+              ]
+            }
+          },
+          {
+            "note": "Track unmatched opening brackets",
+            "state": {
+              "character": "[",
+              "stack": [
+                "[",
+                "("
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s) {\nwhile(!s.isEmpty()){String next=s.replace(\"()\", \"\").replace(\"[]\", \"\").replace(\"{}\", \"\");emit(\"Remove adjacent matching pairs\",\"remaining\",next);if(next.equals(s))return false;s=next;}return true;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"{[()]}\\\"\"); Object result0=solve(\"{[()]}\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s) {\nDeque<Character> stack=new ArrayDeque<>();for(char c:s.toCharArray()){if(c=='('||c=='['||c=='{')stack.push(c);else{if(stack.isEmpty())return false;char open=stack.pop();if((c==')'&&open!='(')||(c==']'&&open!='[')||(c=='}'&&open!='{'))return false;}emit(\"Track unmatched opening brackets\",\"character\",c,\"stack\",stack);}return stack.isEmpty();\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"{[()]}\\\"\"); Object result0=solve(\"{[()]}\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

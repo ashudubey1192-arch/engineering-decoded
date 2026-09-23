@@ -1,0 +1,521 @@
+{
+  "id": "longest-unique-substring",
+  "title": "Longest Substring Without Repeating Characters",
+  "contract": "Return the length of the longest substring without repeated ASCII characters.",
+  "signature": "int solve(String s)",
+  "brute": "int best=0;\nfor(int l=0;l<s.length();l++){Set<Character> seen=new HashSet<>();for(int r=l;r<s.length();r++){if(!seen.add(s.charAt(r)))break;best=Math.max(best,r-l+1);emit(\"Extend while unique\",\"range\",new int[]{l,r},\"best\",best);}}\nreturn best;",
+  "optimal": "int[] last=new int[128];Arrays.fill(last,-1);int l=0,best=0;\nfor(int r=0;r<s.length();r++){l=Math.max(l,last[s.charAt(r)]+1);last[s.charAt(r)]=r;best=Math.max(best,r-l+1);emit(\"Jump the left boundary past the previous occurrence\",\"range\",new int[]{l,r},\"window\",s.substring(l,r+1),\"best\",best);}\nreturn best;",
+  "reasoning": [
+    "Restart a set at every start and stop when uniqueness fails.",
+    "The optimized window is always unique. A repeated character requires moving left beyond its previous occurrence.",
+    "Use max when moving left: an occurrence outside the current window must never move the boundary backward."
+  ],
+  "complexity": [
+    "O(n²) upper bound, O(128)",
+    "O(n), O(128)"
+  ],
+  "tests": [
+    {
+      "label": "Repeated",
+      "args": "\"abcabcbb\"",
+      "expected": "3"
+    },
+    {
+      "label": "Boundary trap",
+      "args": "\"abba\"",
+      "expected": "2"
+    },
+    {
+      "label": "Empty",
+      "args": "\"\"",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--longest-unique-substring",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abcabcbb\""
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": 1
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                2,
+                4
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                3,
+                4
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                3,
+                5
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                4,
+                4
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                4,
+                5
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                5,
+                5
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                5,
+                6
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                6,
+                6
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                7,
+                7
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abba\""
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": 1
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Extend while unique",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abcabcbb\""
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "window": "a",
+              "best": 1
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "window": "ab",
+              "best": 2
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "window": "abc",
+              "best": 3
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "window": "bca",
+              "best": 3
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                2,
+                4
+              ],
+              "window": "cab",
+              "best": 3
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                3,
+                5
+              ],
+              "window": "abc",
+              "best": 3
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                5,
+                6
+              ],
+              "window": "cb",
+              "best": 3
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                7,
+                7
+              ],
+              "window": "b",
+              "best": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"abba\""
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "window": "a",
+              "best": 1
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "window": "ab",
+              "best": 2
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "window": "b",
+              "best": 2
+            }
+          },
+          {
+            "note": "Jump the left boundary past the previous occurrence",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "window": "ba",
+              "best": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(String s) {\nint best=0;\nfor(int l=0;l<s.length();l++){Set<Character> seen=new HashSet<>();for(int r=l;r<s.length();r++){if(!seen.add(s.charAt(r)))break;best=Math.max(best,r-l+1);emit(\"Extend while unique\",\"range\",new int[]{l,r},\"best\",best);}}\nreturn best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"abcabcbb\\\"\"); Object result0=solve(\"abcabcbb\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(String s) {\nint[] last=new int[128];Arrays.fill(last,-1);int l=0,best=0;\nfor(int r=0;r<s.length();r++){l=Math.max(l,last[s.charAt(r)]+1);last[s.charAt(r)]=r;best=Math.max(best,r-l+1);emit(\"Jump the left boundary past the previous occurrence\",\"range\",new int[]{l,r},\"window\",s.substring(l,r+1),\"best\",best);}\nreturn best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"abcabcbb\\\"\"); Object result0=solve(\"abcabcbb\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

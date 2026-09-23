@@ -1,0 +1,398 @@
+{
+  "id": "fruit-baskets",
+  "title": "Fruit Into Baskets / At Most Two Distinct",
+  "contract": "Find the longest contiguous subarray containing at most two distinct integer values.",
+  "signature": "int solve(int[] a)",
+  "brute": "int best=0;for(int l=0;l<a.length;l++){Set<Integer> types=new HashSet<>();for(int r=l;r<a.length;r++){types.add(a[r]);if(types.size()>2)break;best=Math.max(best,r-l+1);emit(\"Try a valid interval\",\"range\",new int[]{l,r},\"best\",best);}}return best;",
+  "optimal": "Map<Integer,Integer> counts=new HashMap<>();int l=0,best=0;for(int r=0;r<a.length;r++){counts.merge(a[r],1,Integer::sum);while(counts.size()>2){int x=a[l++];counts.put(x,counts.get(x)-1);if(counts.get(x)==0)counts.remove(x);}best=Math.max(best,r-l+1);emit(\"Restore at most two live keys\",\"range\",new int[]{l,r},\"counts\",counts,\"best\",best);}return best;",
+  "reasoning": [
+    "Restart the distinct-type set for every starting index.",
+    "Maintain value multiplicities so removing a left item deletes a key only when its last occurrence leaves.",
+    "At most two distinct is monotone under shrinking. A set without counts cannot tell whether another copy of the departing type remains."
+  ],
+  "complexity": [
+    "O(n²), O(1) bounded types",
+    "O(n) expected, O(1) bounded types"
+  ],
+  "tests": [
+    {
+      "label": "Fruits",
+      "args": "new int[]{1,2,1,2,3}",
+      "expected": "4"
+    },
+    {
+      "label": "Single type",
+      "args": "new int[]{3,3,3}",
+      "expected": "3"
+    }
+  ],
+  "slug": "problems--fruit-baskets",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,1,2,3}"
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": 1
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                3,
+                4
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                4,
+                4
+              ],
+              "best": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,3,3}"
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": 1
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best": 2
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Try a valid interval",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,1,2,3}"
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "counts": {
+                "1": 1
+              },
+              "best": 1
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "counts": {
+                "1": 1,
+                "2": 1
+              },
+              "best": 2
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "counts": {
+                "1": 2,
+                "2": 1
+              },
+              "best": 3
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "counts": {
+                "1": 2,
+                "2": 2
+              },
+              "best": 4
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                3,
+                4
+              ],
+              "counts": {
+                "2": 1,
+                "3": 1
+              },
+              "best": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{3,3,3}"
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "counts": {
+                "3": 1
+              },
+              "best": 1
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "counts": {
+                "3": 2
+              },
+              "best": 2
+            }
+          },
+          {
+            "note": "Restore at most two live keys",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "counts": {
+                "3": 3
+              },
+              "best": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a) {\nint best=0;for(int l=0;l<a.length;l++){Set<Integer> types=new HashSet<>();for(int r=l;r<a.length;r++){types.add(a[r]);if(types.size()>2)break;best=Math.max(best,r-l+1);emit(\"Try a valid interval\",\"range\",new int[]{l,r},\"best\",best);}}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,1,2,3}\"); Object result0=solve(new int[]{1,2,1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a) {\nMap<Integer,Integer> counts=new HashMap<>();int l=0,best=0;for(int r=0;r<a.length;r++){counts.merge(a[r],1,Integer::sum);while(counts.size()>2){int x=a[l++];counts.put(x,counts.get(x)-1);if(counts.get(x)==0)counts.remove(x);}best=Math.max(best,r-l+1);emit(\"Restore at most two live keys\",\"range\",new int[]{l,r},\"counts\",counts,\"best\",best);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,1,2,3}\"); Object result0=solve(new int[]{1,2,1,2,3}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

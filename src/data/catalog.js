@@ -2,6 +2,8 @@ import { desktopCourses } from "./desktopCourses";
 import { mobileCourses } from "./mobileCourses";
 import { backendToolingOutlines } from "./backendToolingOutlines";
 import { dsaGroups } from "./dsaCourses";
+import { patternGroups, patternCourses } from "./patternCourses";
+import { socialMediaGroups } from "./socialMediaCourses";
 
 export const slugify = (value) =>
   value
@@ -34,16 +36,7 @@ export const modules = [
     "CP",
     "#22c55e",
     "Recognize reusable patterns and solve coding problems systematically.",
-    [
-      {
-        name: "Core patterns",
-        tracks: tracks("Two Pointers, Sliding Window, Prefix Sum, Recursion"),
-      },
-      {
-        name: "Advanced patterns",
-        tracks: tracks("Divide and Conquer, Bit Manipulation, Concurrency Patterns, OOP Patterns"),
-      },
-    ],
+    patternGroups,
   ),
   makeModule(
     "architecture",
@@ -395,6 +388,14 @@ export const modules = [
     "Create engaging technical videos and tutorials.",
     [{ name: "Tools", tracks: tracks("DaVinci Resolve, Premiere Pro, CapCut, YouTube Strategy") }],
   ),
+  makeModule(
+    "social-media",
+    "Social Media",
+    "SM",
+    "#22c55e",
+    "Build a professional presence, publish useful work, and collaborate across platforms.",
+    socialMediaGroups,
+  ),
 ];
 
 export const articleTemplates = [
@@ -408,7 +409,8 @@ export const articleTemplates = [
 
 export const getModule = (id) => modules.find((module) => module.id === id);
 export const getTrack = (module, slug) =>
-  module?.groups.flatMap((group) => group.tracks).find((track) => track.slug === slug);
+  module?.groups.flatMap((group) => group.tracks).find((track) => track.slug === slug) ||
+  (module?.id === "coding-patterns" && patternCourses[slug] ? {name:patternCourses[slug].name,slug} : undefined);
 export const findTrack = (slug) =>
   modules
     .flatMap((module) =>

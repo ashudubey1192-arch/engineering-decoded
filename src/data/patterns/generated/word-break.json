@@ -1,0 +1,456 @@
+{
+  "id": "word-break",
+  "title": "Word Break",
+  "contract": "Return whether s can be segmented into nonempty dictionary words, which may be reused. Empty s is segmentable.",
+  "signature": "boolean solve(String s,String[] words)",
+  "brute": "return segment(s,0,new HashSet<>(Arrays.asList(words)));",
+  "optimal": "Set<String> dict=new HashSet<>(Arrays.asList(words));boolean[] dp=new boolean[s.length()+1];dp[0]=true;for(int end=1;end<=s.length();end++){for(int start=0;start<end;start++)if(dp[start]&&dict.contains(s.substring(start,end))){dp[end]=true;break;}emit(\"Check a reachable prefix plus one dictionary word\",\"prefix length\",end,\"reachable\",dp);}return dp[s.length()];",
+  "reasoning": [
+    "Try every word-ending boundary recursively; failures may revisit the same suffix repeatedly.",
+    "dp[end] records whether the prefix of that length can be segmented.",
+    "Only extend from reachable prefixes and do not accept an empty dictionary word as progress. Java substring allocation and hashing cost up to O(n), so this direct implementation has cubic worst-case character work."
+  ],
+  "complexity": [
+    "Exponential boundary search, O(n²) live substring/stack upper bound",
+    "O(n³) character work, O(n+dictionary size) retained state"
+  ],
+  "tests": [
+    {
+      "label": "Segment",
+      "args": "\"leetcode\",new String[]{\"leet\",\"code\"}",
+      "expected": "true"
+    },
+    {
+      "label": "Impossible",
+      "args": "\"catsandog\",new String[]{\"cats\",\"dog\",\"sand\",\"and\",\"cat\"}",
+      "expected": "false"
+    }
+  ],
+  "slug": "problems--word-break",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"leetcode\",new String[]{\"leet\",\"code\"}"
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 0
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 4
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 8
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"catsandog\",new String[]{\"cats\",\"dog\",\"sand\",\"and\",\"cat\"}"
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 0
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 3
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 7
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 4
+            }
+          },
+          {
+            "note": "Try a word boundary",
+            "state": {
+              "start": 7
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"leetcode\",new String[]{\"leet\",\"code\"}"
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 1,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 2,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 3,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 4,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 5,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 6,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 7,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 8,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": true
+            }
+          }
+        ],
+        "result": "true"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"catsandog\",new String[]{\"cats\",\"dog\",\"sand\",\"and\",\"cat\"}"
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 1,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 2,
+              "reachable": [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 3,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 4,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 5,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 6,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 7,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 8,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Check a reachable prefix plus one dictionary word",
+            "state": {
+              "prefix length": 9,
+              "reachable": [
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": false
+            }
+          }
+        ],
+        "result": "false"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s,String[] words) {\nreturn segment(s,0,new HashSet<>(Arrays.asList(words)));\n  }\nstatic boolean segment(String s,int start,Set<String> words){emit(\"Try a word boundary\",\"start\",start);if(start==s.length())return true;for(int end=start+1;end<=s.length();end++)if(words.contains(s.substring(start,end))&&segment(s,end,words))return true;return false;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"leetcode\\\",new String[]{\\\"leet\\\",\\\"code\\\"}\"); Object result0=solve(\"leetcode\",new String[]{\"leet\",\"code\"}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static boolean solve(String s,String[] words) {\nSet<String> dict=new HashSet<>(Arrays.asList(words));boolean[] dp=new boolean[s.length()+1];dp[0]=true;for(int end=1;end<=s.length();end++){for(int start=0;start<end;start++)if(dp[start]&&dict.contains(s.substring(start,end))){dp[end]=true;break;}emit(\"Check a reachable prefix plus one dictionary word\",\"prefix length\",end,\"reachable\",dp);}return dp[s.length()];\n  }\nstatic boolean segment(String s,int start,Set<String> words){emit(\"Try a word boundary\",\"start\",start);if(start==s.length())return true;for(int end=start+1;end<=s.length();end++)if(words.contains(s.substring(start,end))&&segment(s,end,words))return true;return false;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"leetcode\\\",new String[]{\\\"leet\\\",\\\"code\\\"}\"); Object result0=solve(\"leetcode\",new String[]{\"leet\",\"code\"}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

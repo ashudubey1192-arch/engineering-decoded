@@ -1,0 +1,519 @@
+{
+  "id": "longest-palindrome",
+  "title": "Longest Palindromic Substring",
+  "contract": "Return the longest palindromic substring, choosing the leftmost on ties. Empty input returns an empty string.",
+  "signature": "String solve(String s)",
+  "brute": "String best=\"\";for(int l=0;l<s.length();l++)for(int r=l;r<s.length();r++){boolean ok=true;for(int i=l,j=r;i<j;i++,j--)if(s.charAt(i)!=s.charAt(j)){ok=false;break;}if(ok&&r-l+1>best.length())best=s.substring(l,r+1);emit(\"Test an interval\",\"range\",new int[]{l,r},\"best\",best);}return best;",
+  "optimal": "int start=0,length=0;for(int center=0;center<s.length();center++)for(int parity=0;parity<2;parity++){int l=center,r=center+parity;while(l>=0&&r<s.length()&&s.charAt(l)==s.charAt(r)){if(r-l+1>length||(r-l+1==length&&l<start)){start=l;length=r-l+1;}emit(\"Expand around an odd or even center\",\"range\",new int[]{l,r},\"best\",s.substring(start,start+length));l--;r++;}}return s.substring(start,start+length);",
+  "reasoning": [
+    "Enumerate each interval and compare mirrored characters.",
+    "Every palindrome has one character center or one gap center. Expand while the two sides match.",
+    "This improves the cubic baseline to quadratic time with constant auxiliary space. Manacher's algorithm can reach linear time; center expansion is the simpler optimized interview solution shown here."
+  ],
+  "complexity": [
+    "O(n³), O(1) auxiliary excluding strings",
+    "O(n²), O(1) auxiliary excluding strings"
+  ],
+  "tests": [
+    {
+      "label": "Odd",
+      "args": "\"babad\"",
+      "expected": "bab"
+    },
+    {
+      "label": "Even",
+      "args": "\"cbbd\"",
+      "expected": "bb"
+    },
+    {
+      "label": "Empty",
+      "args": "\"\"",
+      "expected": ""
+    }
+  ],
+  "slug": "problems--longest-palindrome",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"babad\""
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": "b"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best": "b"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                4
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                4
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                2,
+                4
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                3,
+                4
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                4,
+                4
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "bab"
+            }
+          }
+        ],
+        "result": "bab"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"cbbd\""
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Test an interval",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "bb"
+            }
+          }
+        ],
+        "result": "bb"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": ""
+            }
+          }
+        ],
+        "result": ""
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"babad\""
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": "b"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": "b"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                4,
+                4
+              ],
+              "best": "bab"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "bab"
+            }
+          }
+        ],
+        "result": "bab"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"cbbd\""
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "best": "c"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Expand around an odd or even center",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "best": "bb"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": "bb"
+            }
+          }
+        ],
+        "result": "bb"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "\"\""
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": ""
+            }
+          }
+        ],
+        "result": ""
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static String solve(String s) {\nString best=\"\";for(int l=0;l<s.length();l++)for(int r=l;r<s.length();r++){boolean ok=true;for(int i=l,j=r;i<j;i++,j--)if(s.charAt(i)!=s.charAt(j)){ok=false;break;}if(ok&&r-l+1>best.length())best=s.substring(l,r+1);emit(\"Test an interval\",\"range\",new int[]{l,r},\"best\",best);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"babad\\\"\"); Object result0=solve(\"babad\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static String solve(String s) {\nint start=0,length=0;for(int center=0;center<s.length();center++)for(int parity=0;parity<2;parity++){int l=center,r=center+parity;while(l>=0&&r<s.length()&&s.charAt(l)==s.charAt(r)){if(r-l+1>length||(r-l+1==length&&l<start)){start=l;length=r-l+1;}emit(\"Expand around an odd or even center\",\"range\",new int[]{l,r},\"best\",s.substring(start,start+length));l--;r++;}}return s.substring(start,start+length);\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"\\\"babad\\\"\"); Object result0=solve(\"babad\"); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

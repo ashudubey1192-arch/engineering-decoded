@@ -1,0 +1,184 @@
+{
+  "id": "strongly-connected",
+  "title": "Advanced Graphs: Strongly Connected Components",
+  "contract": "Count strongly connected components in a directed graph. A singleton is a component even without a self-loop.",
+  "signature": "int solve(int n,int[][] edges)",
+  "brute": "boolean[][] reach=new boolean[n][n];for(int i=0;i<n;i++)reach[i][i]=true;for(int[] e:edges)reach[e[0]][e[1]]=true;for(int k=0;k<n;k++){for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];emit(\"Extend directed transitive closure\",\"via\",k);}boolean[] used=new boolean[n];int count=0;for(int i=0;i<n;i++)if(!used[i]){count++;for(int j=0;j<n;j++)if(reach[i][j]&&reach[j][i])used[j]=true;}return count;",
+  "optimal": "List<List<Integer>> g=new ArrayList<>(),reverse=new ArrayList<>();for(int i=0;i<n;i++){g.add(new ArrayList<>());reverse.add(new ArrayList<>());}for(int[] e:edges){g.get(e[0]).add(e[1]);reverse.get(e[1]).add(e[0]);}boolean[] seen=new boolean[n];List<Integer> order=new ArrayList<>();for(int i=0;i<n;i++)if(!seen[i])finish(i,g,seen,order);Arrays.fill(seen,false);int count=0;for(int i=order.size()-1;i>=0;i--){int start=order.get(i);if(seen[start])continue;count++;Deque<Integer> q=new ArrayDeque<>();q.push(start);seen[start]=true;while(!q.isEmpty()){int u=q.pop();for(int v:reverse.get(u))if(!seen[v]){seen[v]=true;q.push(v);}}emit(\"Explore one component on reversed edges\",\"start\",start,\"components\",count,\"visited\",seen);}return count;",
+  "reasoning": [
+    "Mutual reachability defines an SCC, but computing it for all vertex pairs is expensive.",
+    "Kosaraju first records vertices by DFS finishing time, then explores the reversed graph in reverse finishing order.",
+    "This order prevents a second-pass traversal from escaping into an unprocessed component. Recursion in the first pass needs O(V) stack space and may need an explicit stack for very deep graphs."
+  ],
+  "complexity": [
+    "O(V³+E), O(V²)",
+    "O(V+E), O(V+E)"
+  ],
+  "tests": [
+    {
+      "label": "Two cycles",
+      "args": "5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}",
+      "expected": "2"
+    }
+  ],
+  "slug": "problems--strongly-connected",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}"
+            }
+          },
+          {
+            "note": "Extend directed transitive closure",
+            "state": {
+              "via": 0
+            }
+          },
+          {
+            "note": "Extend directed transitive closure",
+            "state": {
+              "via": 1
+            }
+          },
+          {
+            "note": "Extend directed transitive closure",
+            "state": {
+              "via": 2
+            }
+          },
+          {
+            "note": "Extend directed transitive closure",
+            "state": {
+              "via": 3
+            }
+          },
+          {
+            "note": "Extend directed transitive closure",
+            "state": {
+              "via": 4
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}"
+            }
+          },
+          {
+            "note": "Record DFS finishing order",
+            "state": {
+              "vertex": 4,
+              "order": [
+                4
+              ]
+            }
+          },
+          {
+            "note": "Record DFS finishing order",
+            "state": {
+              "vertex": 3,
+              "order": [
+                4,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Record DFS finishing order",
+            "state": {
+              "vertex": 2,
+              "order": [
+                4,
+                3,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Record DFS finishing order",
+            "state": {
+              "vertex": 1,
+              "order": [
+                4,
+                3,
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Record DFS finishing order",
+            "state": {
+              "vertex": 0,
+              "order": [
+                4,
+                3,
+                2,
+                1,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Explore one component on reversed edges",
+            "state": {
+              "start": 0,
+              "components": 1,
+              "visited": [
+                true,
+                true,
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Explore one component on reversed edges",
+            "state": {
+              "start": 3,
+              "components": 2,
+              "visited": [
+                true,
+                true,
+                true,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int n,int[][] edges) {\nboolean[][] reach=new boolean[n][n];for(int i=0;i<n;i++)reach[i][i]=true;for(int[] e:edges)reach[e[0]][e[1]]=true;for(int k=0;k<n;k++){for(int i=0;i<n;i++)for(int j=0;j<n;j++)reach[i][j]|=reach[i][k]&&reach[k][j];emit(\"Extend directed transitive closure\",\"via\",k);}boolean[] used=new boolean[n];int count=0;for(int i=0;i<n;i++)if(!used[i]){count++;for(int j=0;j<n;j++)if(reach[i][j]&&reach[j][i])used[j]=true;}return count;\n  }\nstatic void finish(int u,List<List<Integer>> g,boolean[] seen,List<Integer> order){seen[u]=true;for(int v:g.get(u))if(!seen[v])finish(v,g,seen,order);order.add(u);emit(\"Record DFS finishing order\",\"vertex\",u,\"order\",order);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}\"); Object result0=solve(5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int n,int[][] edges) {\nList<List<Integer>> g=new ArrayList<>(),reverse=new ArrayList<>();for(int i=0;i<n;i++){g.add(new ArrayList<>());reverse.add(new ArrayList<>());}for(int[] e:edges){g.get(e[0]).add(e[1]);reverse.get(e[1]).add(e[0]);}boolean[] seen=new boolean[n];List<Integer> order=new ArrayList<>();for(int i=0;i<n;i++)if(!seen[i])finish(i,g,seen,order);Arrays.fill(seen,false);int count=0;for(int i=order.size()-1;i>=0;i--){int start=order.get(i);if(seen[start])continue;count++;Deque<Integer> q=new ArrayDeque<>();q.push(start);seen[start]=true;while(!q.isEmpty()){int u=q.pop();for(int v:reverse.get(u))if(!seen[v]){seen[v]=true;q.push(v);}}emit(\"Explore one component on reversed edges\",\"start\",start,\"components\",count,\"visited\",seen);}return count;\n  }\nstatic void finish(int u,List<List<Integer>> g,boolean[] seen,List<Integer> order){seen[u]=true;for(int v:g.get(u))if(!seen[v])finish(v,g,seen,order);order.add(u);emit(\"Record DFS finishing order\",\"vertex\",u,\"order\",order);}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}\"); Object result0=solve(5,new int[][]{{0,1},{1,2},{2,0},{2,3},{3,4},{4,3}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

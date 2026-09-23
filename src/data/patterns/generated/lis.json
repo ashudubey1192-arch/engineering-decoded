@@ -1,0 +1,380 @@
+{
+  "id": "lis",
+  "title": "Longest Increasing Subsequence",
+  "contract": "Return the length of a strictly increasing subsequence. Equal values cannot extend it.",
+  "signature": "int solve(int[] a)",
+  "brute": "int[] dp=new int[a.length];Arrays.fill(dp,1);int best=0;for(int i=0;i<a.length;i++){for(int j=0;j<i;j++)if(a[j]<a[i])dp[i]=Math.max(dp[i],dp[j]+1);best=Math.max(best,dp[i]);emit(\"Try every earlier predecessor\",\"index\",i,\"lengths\",dp);}return best;",
+  "optimal": "int[] tails=new int[a.length];int size=0;for(int x:a){int lo=0,hi=size;while(lo<hi){int mid=(lo+hi)/2;if(tails[mid]<x)lo=mid+1;else hi=mid;}tails[lo]=x;if(lo==size)size++;emit(\"Minimize the tail for this subsequence length\",\"value\",x,\"tails\",Arrays.copyOf(tails,size));}return size;",
+  "reasoning": [
+    "Quadratic DP stores the longest increasing subsequence ending at each index.",
+    "tails[len−1] is the smallest possible final value for any increasing subsequence of length len seen so far.",
+    "Lower-bound search replaces the first tail ≥ x; equal values replace instead of extending. The tails array is a length certificate, not necessarily a subsequence from the input."
+  ],
+  "complexity": [
+    "O(n²), O(n)",
+    "O(n log n), O(n)"
+  ],
+  "tests": [
+    {
+      "label": "Mixed",
+      "args": "new int[]{10,9,2,5,3,7,101,18}",
+      "expected": "4"
+    },
+    {
+      "label": "Equal",
+      "args": "new int[]{2,2,2}",
+      "expected": "1"
+    }
+  ],
+  "slug": "problems--lis",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{10,9,2,5,3,7,101,18}"
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 0,
+              "lengths": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 1,
+              "lengths": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 2,
+              "lengths": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 3,
+              "lengths": [
+                1,
+                1,
+                1,
+                2,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 4,
+              "lengths": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 5,
+              "lengths": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 6,
+              "lengths": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 7,
+              "lengths": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,2,2}"
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 0,
+              "lengths": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 1,
+              "lengths": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Try every earlier predecessor",
+            "state": {
+              "index": 2,
+              "lengths": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{10,9,2,5,3,7,101,18}"
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 10,
+              "tails": [
+                10
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 9,
+              "tails": [
+                9
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 2,
+              "tails": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 5,
+              "tails": [
+                2,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 3,
+              "tails": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 7,
+              "tails": [
+                2,
+                3,
+                7
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 101,
+              "tails": [
+                2,
+                3,
+                7,
+                101
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 18,
+              "tails": [
+                2,
+                3,
+                7,
+                18
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 4
+            }
+          }
+        ],
+        "result": "4"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,2,2}"
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 2,
+              "tails": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 2,
+              "tails": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Minimize the tail for this subsequence length",
+            "state": {
+              "value": 2,
+              "tails": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 1
+            }
+          }
+        ],
+        "result": "1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a) {\nint[] dp=new int[a.length];Arrays.fill(dp,1);int best=0;for(int i=0;i<a.length;i++){for(int j=0;j<i;j++)if(a[j]<a[i])dp[i]=Math.max(dp[i],dp[j]+1);best=Math.max(best,dp[i]);emit(\"Try every earlier predecessor\",\"index\",i,\"lengths\",dp);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{10,9,2,5,3,7,101,18}\"); Object result0=solve(new int[]{10,9,2,5,3,7,101,18}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a) {\nint[] tails=new int[a.length];int size=0;for(int x:a){int lo=0,hi=size;while(lo<hi){int mid=(lo+hi)/2;if(tails[mid]<x)lo=mid+1;else hi=mid;}tails[lo]=x;if(lo==size)size++;emit(\"Minimize the tail for this subsequence length\",\"value\",x,\"tails\",Arrays.copyOf(tails,size));}return size;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{10,9,2,5,3,7,101,18}\"); Object result0=solve(new int[]{10,9,2,5,3,7,101,18}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

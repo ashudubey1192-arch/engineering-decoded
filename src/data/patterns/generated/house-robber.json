@@ -1,0 +1,306 @@
+{
+  "id": "house-robber",
+  "title": "House Robber",
+  "contract": "Return the maximum sum of nonadjacent nonnegative house values. Choosing no house is allowed.",
+  "signature": "long solve(int[] a)",
+  "brute": "return rob(a,0);",
+  "optimal": "long previous=0,beforePrevious=0;for(int x:a){long next=Math.max(previous,beforePrevious+x);beforePrevious=previous;previous=next;emit(\"Skip this house or take it after skipping its neighbor\",\"value\",x,\"best\",previous,\"previous state\",beforePrevious);}return previous;",
+  "reasoning": [
+    "At each house, branch into skipping one position or taking its value and skipping its neighbor.",
+    "dp[i] = max(dp[i−1], dp[i−2] + value[i]) captures every valid optimal choice.",
+    "Two previous states suffice. Compute next before updating either state, otherwise the algorithm may accidentally combine adjacent houses."
+  ],
+  "complexity": [
+    "O(2ⁿ) upper bound, O(n)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Street",
+      "args": "new int[]{2,7,9,3,1}",
+      "expected": "12"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{}",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--house-robber",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,7,9,3,1}"
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 0
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 1
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 2
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 4
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 6
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 4
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 6
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 4
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 6
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 2
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 3
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 4
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 6
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 4
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 5
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 12
+            }
+          }
+        ],
+        "result": "12"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Choose whether to rob this house",
+            "state": {
+              "index": 0
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{2,7,9,3,1}"
+            }
+          },
+          {
+            "note": "Skip this house or take it after skipping its neighbor",
+            "state": {
+              "value": 2,
+              "best": 2,
+              "previous state": 0
+            }
+          },
+          {
+            "note": "Skip this house or take it after skipping its neighbor",
+            "state": {
+              "value": 7,
+              "best": 7,
+              "previous state": 2
+            }
+          },
+          {
+            "note": "Skip this house or take it after skipping its neighbor",
+            "state": {
+              "value": 9,
+              "best": 11,
+              "previous state": 7
+            }
+          },
+          {
+            "note": "Skip this house or take it after skipping its neighbor",
+            "state": {
+              "value": 3,
+              "best": 11,
+              "previous state": 11
+            }
+          },
+          {
+            "note": "Skip this house or take it after skipping its neighbor",
+            "state": {
+              "value": 1,
+              "best": 12,
+              "previous state": 11
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 12
+            }
+          }
+        ],
+        "result": "12"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nreturn rob(a,0);\n  }\nstatic long rob(int[] a,int i){emit(\"Choose whether to rob this house\",\"index\",i);if(i>=a.length)return 0;return Math.max(rob(a,i+1),a[i]+rob(a,i+2));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,7,9,3,1}\"); Object result0=solve(new int[]{2,7,9,3,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nlong previous=0,beforePrevious=0;for(int x:a){long next=Math.max(previous,beforePrevious+x);beforePrevious=previous;previous=next;emit(\"Skip this house or take it after skipping its neighbor\",\"value\",x,\"best\",previous,\"previous state\",beforePrevious);}return previous;\n  }\nstatic long rob(int[] a,int i){emit(\"Choose whether to rob this house\",\"index\",i);if(i>=a.length)return 0;return Math.max(rob(a,i+1),a[i]+rob(a,i+2));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{2,7,9,3,1}\"); Object result0=solve(new int[]{2,7,9,3,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

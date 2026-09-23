@@ -1,0 +1,410 @@
+{
+  "id": "trapping-rain-water",
+  "title": "Trapping Rain Water",
+  "contract": "Return total trapped water between nonnegative unit-width bars.",
+  "signature": "long solve(int[] a)",
+  "brute": "long water=0;for(int i=0;i<a.length;i++){int left=0,right=0;for(int j=0;j<=i;j++)left=Math.max(left,a[j]);for(int j=i;j<a.length;j++)right=Math.max(right,a[j]);water+=Math.min(left,right)-a[i];emit(\"Find both boundary maxima for a position\",\"index\",i,\"boundaries\",new int[]{left,right},\"water\",water);}return water;",
+  "optimal": "int l=0,r=a.length-1,left=0,right=0;long water=0;while(l<=r){if(left<=right){left=Math.max(left,a[l]);water+=left-a[l++];}else{right=Math.max(right,a[r]);water+=right-a[r--];}emit(\"Resolve the side with the smaller known boundary\",\"pointers\",new int[]{l,r},\"maxima\",new int[]{left,right},\"water\",water);}return water;",
+  "reasoning": [
+    "For each bar, water depth is min(maxLeft,maxRight) minus its height.",
+    "The side with the smaller known maximum can be finalized: the opposite known boundary is already tall enough.",
+    "Advance only the resolved side and update its maximum before adding water. Unlike container area, trapped water sums contributions at every position."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Basin",
+      "args": "new int[]{0,1,0,2,1,0,1,3,2,1,2,1}",
+      "expected": "6"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{}",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--trapping-rain-water",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{0,1,0,2,1,0,1,3,2,1,2,1}"
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 0,
+              "boundaries": [
+                0,
+                3
+              ],
+              "water": 0
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 1,
+              "boundaries": [
+                1,
+                3
+              ],
+              "water": 0
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 2,
+              "boundaries": [
+                1,
+                3
+              ],
+              "water": 1
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 3,
+              "boundaries": [
+                2,
+                3
+              ],
+              "water": 1
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 4,
+              "boundaries": [
+                2,
+                3
+              ],
+              "water": 2
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 5,
+              "boundaries": [
+                2,
+                3
+              ],
+              "water": 4
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 6,
+              "boundaries": [
+                2,
+                3
+              ],
+              "water": 5
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 7,
+              "boundaries": [
+                3,
+                3
+              ],
+              "water": 5
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 8,
+              "boundaries": [
+                3,
+                2
+              ],
+              "water": 5
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 9,
+              "boundaries": [
+                3,
+                2
+              ],
+              "water": 6
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 10,
+              "boundaries": [
+                3,
+                2
+              ],
+              "water": 6
+            }
+          },
+          {
+            "note": "Find both boundary maxima for a position",
+            "state": {
+              "index": 11,
+              "boundaries": [
+                3,
+                1
+              ],
+              "water": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{0,1,0,2,1,0,1,3,2,1,2,1}"
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                1,
+                11
+              ],
+              "maxima": [
+                0,
+                0
+              ],
+              "water": 0
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                2,
+                11
+              ],
+              "maxima": [
+                1,
+                0
+              ],
+              "water": 0
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                2,
+                10
+              ],
+              "maxima": [
+                1,
+                1
+              ],
+              "water": 0
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                3,
+                10
+              ],
+              "maxima": [
+                1,
+                1
+              ],
+              "water": 1
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                4,
+                10
+              ],
+              "maxima": [
+                2,
+                1
+              ],
+              "water": 1
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                4,
+                9
+              ],
+              "maxima": [
+                2,
+                2
+              ],
+              "water": 1
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                5,
+                9
+              ],
+              "maxima": [
+                2,
+                2
+              ],
+              "water": 2
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                6,
+                9
+              ],
+              "maxima": [
+                2,
+                2
+              ],
+              "water": 4
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                7,
+                9
+              ],
+              "maxima": [
+                2,
+                2
+              ],
+              "water": 5
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                8,
+                9
+              ],
+              "maxima": [
+                3,
+                2
+              ],
+              "water": 5
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                8,
+                8
+              ],
+              "maxima": [
+                3,
+                2
+              ],
+              "water": 6
+            }
+          },
+          {
+            "note": "Resolve the side with the smaller known boundary",
+            "state": {
+              "pointers": [
+                8,
+                7
+              ],
+              "maxima": [
+                3,
+                2
+              ],
+              "water": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{}"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nlong water=0;for(int i=0;i<a.length;i++){int left=0,right=0;for(int j=0;j<=i;j++)left=Math.max(left,a[j]);for(int j=i;j<a.length;j++)right=Math.max(right,a[j]);water+=Math.min(left,right)-a[i];emit(\"Find both boundary maxima for a position\",\"index\",i,\"boundaries\",new int[]{left,right},\"water\",water);}return water;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{0,1,0,2,1,0,1,3,2,1,2,1}\"); Object result0=solve(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] a) {\nint l=0,r=a.length-1,left=0,right=0;long water=0;while(l<=r){if(left<=right){left=Math.max(left,a[l]);water+=left-a[l++];}else{right=Math.max(right,a[r]);water+=right-a[r--];}emit(\"Resolve the side with the smaller known boundary\",\"pointers\",new int[]{l,r},\"maxima\",new int[]{left,right},\"water\",water);}return water;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{0,1,0,2,1,0,1,3,2,1,2,1}\"); Object result0=solve(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

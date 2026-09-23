@@ -1,0 +1,1176 @@
+{
+  "id": "stock-fee",
+  "title": "Stock DP: Unlimited Transactions with a Fee",
+  "contract": "Nonnegative prices and fee. Hold at most one share, pay the fee when selling, and return maximum realized profit.",
+  "signature": "long solve(int[] prices,int fee)",
+  "brute": "return stock(prices,fee,0,false);",
+  "optimal": "long cash=0,hold=-INF;for(int price:prices){long oldCash=cash;cash=Math.max(cash,hold+price-fee);hold=Math.max(hold,oldCash-price);emit(\"Update sell/hold states from the previous day\",\"price\",price,\"cash\",cash,\"hold\",hold);}return cash;",
+  "reasoning": [
+    "Enumerate holding or not holding at each day with buy, sell, or wait actions; ending with a share is invalid.",
+    "cash is best profit with no share and hold is best profit with one share after the day.",
+    "Update from old states to keep transitions consistent. Charge the fee exactly once per transaction. Return cash, since unsold inventory is not realized profit."
+  ],
+  "complexity": [
+    "O(2ⁿ), O(n)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Fee",
+      "args": "new int[]{1,3,2,8,4,9},2",
+      "expected": "8"
+    },
+    {
+      "label": "Falling",
+      "args": "new int[]{5,4,3},1",
+      "expected": "0"
+    }
+  ],
+  "slug": "problems--stock-fee",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,3,2,8,4,9},2"
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 0,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 1,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 1,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 4,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 5,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 6,
+              "holding": false
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 8
+            }
+          }
+        ],
+        "result": "8"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{5,4,3},1"
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 0,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 1,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 1,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 2,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": false
+            }
+          },
+          {
+            "note": "Branch on buy/sell/wait",
+            "state": {
+              "day": 3,
+              "holding": true
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,3,2,8,4,9},2"
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 1,
+              "cash": 0,
+              "hold": -1
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 3,
+              "cash": 0,
+              "hold": -1
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 2,
+              "cash": 0,
+              "hold": -1
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 8,
+              "cash": 5,
+              "hold": -1
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 4,
+              "cash": 5,
+              "hold": 1
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 9,
+              "cash": 8,
+              "hold": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 8
+            }
+          }
+        ],
+        "result": "8"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{5,4,3},1"
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 5,
+              "cash": 0,
+              "hold": -5
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 4,
+              "cash": 0,
+              "hold": -4
+            }
+          },
+          {
+            "note": "Update sell/hold states from the previous day",
+            "state": {
+              "price": 3,
+              "cash": 0,
+              "hold": -3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 0
+            }
+          }
+        ],
+        "result": "0"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] prices,int fee) {\nreturn stock(prices,fee,0,false);\n  }\nstatic final long INF=Long.MAX_VALUE/4;\nstatic long stock(int[] p,int fee,int i,boolean holding){emit(\"Branch on buy/sell/wait\",\"day\",i,\"holding\",holding);if(i==p.length)return holding?-INF:0;long wait=stock(p,fee,i+1,holding);return Math.max(wait,holding?p[i]-fee+stock(p,fee,i+1,false):-p[i]+stock(p,fee,i+1,true));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,3,2,8,4,9},2\"); Object result0=solve(new int[]{1,3,2,8,4,9},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int[] prices,int fee) {\nlong cash=0,hold=-INF;for(int price:prices){long oldCash=cash;cash=Math.max(cash,hold+price-fee);hold=Math.max(hold,oldCash-price);emit(\"Update sell/hold states from the previous day\",\"price\",price,\"cash\",cash,\"hold\",hold);}return cash;\n  }\nstatic final long INF=Long.MAX_VALUE/4;\nstatic long stock(int[] p,int fee,int i,boolean holding){emit(\"Branch on buy/sell/wait\",\"day\",i,\"holding\",holding);if(i==p.length)return holding?-INF:0;long wait=stock(p,fee,i+1,holding);return Math.max(wait,holding?p[i]-fee+stock(p,fee,i+1,false):-p[i]+stock(p,fee,i+1,true));}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,3,2,8,4,9},2\"); Object result0=solve(new int[]{1,3,2,8,4,9},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

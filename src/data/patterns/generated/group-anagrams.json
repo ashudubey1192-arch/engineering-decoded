@@ -1,0 +1,301 @@
+{
+  "id": "group-anagrams",
+  "title": "Group Anagrams",
+  "contract": "Group lowercase words by character multiset; sort each group and sort group strings for deterministic output.",
+  "signature": "List<String> solve(String[] words)",
+  "brute": "List<List<String>> groups=new ArrayList<>();outer:for(String word:words){for(List<String> group:groups)if(sameLetters(word,group.get(0))){group.add(word);emit(\"Compare against existing group representatives\",\"word\",word);continue outer;}groups.add(new ArrayList<>(List.of(word)));}return groupOutput(groups);",
+  "optimal": "Map<String,List<String>> groups=new HashMap<>();for(String word:words){int[] count=new int[26];for(char c:word.toCharArray())count[c-'a']++;String key=Arrays.toString(count);groups.computeIfAbsent(key,k->new ArrayList<>()).add(word);emit(\"Group by an unambiguous frequency signature\",\"word\",word,\"signature\",count);}return groupOutput(groups.values());",
+  "reasoning": [
+    "Compare a word's counts with each group representative until an anagram group is found.",
+    "The full 26-count vector uniquely identifies a lowercase character multiset.",
+    "Serialize with separators so different vectors cannot collide accidentally. Output sorting is for reproducibility, and contributes extra cost separate from grouping."
+  ],
+  "complexity": [
+    "O(n²L + output sorting), O(nL)",
+    "O(nL + output sorting) expected, O(nL)"
+  ],
+  "tests": [
+    {
+      "label": "Words",
+      "args": "new String[]{\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"}",
+      "expected": "[[ate, eat, tea], [bat], [nat, tan]]"
+    }
+  ],
+  "slug": "problems--group-anagrams",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new String[]{\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"}"
+            }
+          },
+          {
+            "note": "Compare against existing group representatives",
+            "state": {
+              "word": "tea"
+            }
+          },
+          {
+            "note": "Compare against existing group representatives",
+            "state": {
+              "word": "ate"
+            }
+          },
+          {
+            "note": "Compare against existing group representatives",
+            "state": {
+              "word": "nat"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[ate, eat, tea]",
+                "[bat]",
+                "[nat, tan]"
+              ]
+            }
+          }
+        ],
+        "result": "[[ate, eat, tea], [bat], [nat, tan]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new String[]{\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"}"
+            }
+          },
+          {
+            "note": "Group by an unambiguous frequency signature",
+            "state": {
+              "word": "eat",
+              "signature": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Group by an unambiguous frequency signature",
+            "state": {
+              "word": "tea",
+              "signature": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Group by an unambiguous frequency signature",
+            "state": {
+              "word": "tan",
+              "signature": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Group by an unambiguous frequency signature",
+            "state": {
+              "word": "ate",
+              "signature": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Group by an unambiguous frequency signature",
+            "state": {
+              "word": "nat",
+              "signature": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Group by an unambiguous frequency signature",
+            "state": {
+              "word": "bat",
+              "signature": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                "[ate, eat, tea]",
+                "[bat]",
+                "[nat, tan]"
+              ]
+            }
+          }
+        ],
+        "result": "[[ate, eat, tea], [bat], [nat, tan]]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<String> solve(String[] words) {\nList<List<String>> groups=new ArrayList<>();outer:for(String word:words){for(List<String> group:groups)if(sameLetters(word,group.get(0))){group.add(word);emit(\"Compare against existing group representatives\",\"word\",word);continue outer;}groups.add(new ArrayList<>(List.of(word)));}return groupOutput(groups);\n  }\nstatic boolean sameLetters(String a,String b){if(a.length()!=b.length())return false;int[] counts=new int[26];for(char c:a.toCharArray())counts[c-'a']++;for(char c:b.toCharArray())counts[c-'a']--;for(int count:counts)if(count!=0)return false;return true;}\nstatic List<String> groupOutput(Collection<List<String>> groups){List<String> out=new ArrayList<>();for(List<String> group:groups){Collections.sort(group);out.add(group.toString());}Collections.sort(out);return out;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new String[]{\\\"eat\\\",\\\"tea\\\",\\\"tan\\\",\\\"ate\\\",\\\"nat\\\",\\\"bat\\\"}\"); Object result0=solve(new String[]{\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<String> solve(String[] words) {\nMap<String,List<String>> groups=new HashMap<>();for(String word:words){int[] count=new int[26];for(char c:word.toCharArray())count[c-'a']++;String key=Arrays.toString(count);groups.computeIfAbsent(key,k->new ArrayList<>()).add(word);emit(\"Group by an unambiguous frequency signature\",\"word\",word,\"signature\",count);}return groupOutput(groups.values());\n  }\nstatic boolean sameLetters(String a,String b){if(a.length()!=b.length())return false;int[] counts=new int[26];for(char c:a.toCharArray())counts[c-'a']++;for(char c:b.toCharArray())counts[c-'a']--;for(int count:counts)if(count!=0)return false;return true;}\nstatic List<String> groupOutput(Collection<List<String>> groups){List<String> out=new ArrayList<>();for(List<String> group:groups){Collections.sort(group);out.add(group.toString());}Collections.sort(out);return out;}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new String[]{\\\"eat\\\",\\\"tea\\\",\\\"tan\\\",\\\"ate\\\",\\\"nat\\\",\\\"bat\\\"}\"); Object result0=solve(new String[]{\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

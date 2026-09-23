@@ -1,0 +1,203 @@
+{
+  "id": "minimum-spanning-tree",
+  "title": "Minimum Spanning Tree: Prim",
+  "contract": "Return minimum total weight connecting every vertex of a connected undirected weighted graph; n ≥ 1. Return −1 when disconnected.",
+  "signature": "long solve(int n,int[][] edges)",
+  "brute": "boolean[] used=new boolean[n];used[0]=true;long total=0;for(int step=1;step<n;step++){int[] best=null;for(int[] edge:edges)if(used[edge[0]]!=used[edge[1]]&&(best==null||edge[2]<best[2]))best=edge;if(best==null)return -1;used[best[0]]=used[best[1]]=true;total+=best[2];emit(\"Scan all edges across the cut\",\"edge\",best,\"total\",total);}return total;",
+  "optimal": "List<List<int[]>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] e:edges){g.get(e[0]).add(new int[]{e[1],e[2]});g.get(e[1]).add(new int[]{e[0],e[2]});}PriorityQueue<int[]> q=new PriorityQueue<>(Comparator.comparingInt(x->x[1]));q.add(new int[]{0,0});boolean[] used=new boolean[n];long total=0;int count=0;while(!q.isEmpty()){int[] edge=q.remove();int u=edge[0];if(used[u])continue;used[u]=true;count++;total+=edge[1];for(int[] next:g.get(u))if(!used[next[0]])q.add(next);emit(\"Choose the cheapest edge leaving the tree\",\"vertex\",u,\"total\",total,\"visited\",used);}return count==n?total:-1;",
+  "reasoning": [
+    "The baseline repeatedly scans all edges to find the cheapest crossing from the current tree to an unvisited vertex.",
+    "The cut property permits adding a minimum crossing edge without excluding every minimum spanning tree.",
+    "A priority queue avoids rescanning all edges. Skip edges to visited vertices and check that all vertices were reached; MST is not the same as shortest-path distance from a source."
+  ],
+  "complexity": [
+    "O(VE), O(V)",
+    "O(V+E log(E+1)), O(V+E)"
+  ],
+  "tests": [
+    {
+      "label": "Triangle",
+      "args": "3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}",
+      "expected": "3"
+    },
+    {
+      "label": "Disconnected",
+      "args": "3,new int[][]{{0,1,1}}",
+      "expected": "-1"
+    }
+  ],
+  "slug": "problems--minimum-spanning-tree",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}"
+            }
+          },
+          {
+            "note": "Scan all edges across the cut",
+            "state": {
+              "edge": [
+                0,
+                2,
+                2
+              ],
+              "total": 2
+            }
+          },
+          {
+            "note": "Scan all edges across the cut",
+            "state": {
+              "edge": [
+                1,
+                2,
+                1
+              ],
+              "total": 3
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,new int[][]{{0,1,1}}"
+            }
+          },
+          {
+            "note": "Scan all edges across the cut",
+            "state": {
+              "edge": [
+                0,
+                1,
+                1
+              ],
+              "total": 1
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}"
+            }
+          },
+          {
+            "note": "Choose the cheapest edge leaving the tree",
+            "state": {
+              "vertex": 0,
+              "total": 0,
+              "visited": [
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Choose the cheapest edge leaving the tree",
+            "state": {
+              "vertex": 2,
+              "total": 2,
+              "visited": [
+                true,
+                false,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Choose the cheapest edge leaving the tree",
+            "state": {
+              "vertex": 1,
+              "total": 3,
+              "visited": [
+                true,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 3
+            }
+          }
+        ],
+        "result": "3"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "3,new int[][]{{0,1,1}}"
+            }
+          },
+          {
+            "note": "Choose the cheapest edge leaving the tree",
+            "state": {
+              "vertex": 0,
+              "total": 0,
+              "visited": [
+                true,
+                false,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Choose the cheapest edge leaving the tree",
+            "state": {
+              "vertex": 1,
+              "total": 1,
+              "visited": [
+                true,
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": -1
+            }
+          }
+        ],
+        "result": "-1"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static long solve(int n,int[][] edges) {\nboolean[] used=new boolean[n];used[0]=true;long total=0;for(int step=1;step<n;step++){int[] best=null;for(int[] edge:edges)if(used[edge[0]]!=used[edge[1]]&&(best==null||edge[2]<best[2]))best=edge;if(best==null)return -1;used[best[0]]=used[best[1]]=true;total+=best[2];emit(\"Scan all edges across the cut\",\"edge\",best,\"total\",total);}return total;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}\"); Object result0=solve(3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static long solve(int n,int[][] edges) {\nList<List<int[]>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] e:edges){g.get(e[0]).add(new int[]{e[1],e[2]});g.get(e[1]).add(new int[]{e[0],e[2]});}PriorityQueue<int[]> q=new PriorityQueue<>(Comparator.comparingInt(x->x[1]));q.add(new int[]{0,0});boolean[] used=new boolean[n];long total=0;int count=0;while(!q.isEmpty()){int[] edge=q.remove();int u=edge[0];if(used[u])continue;used[u]=true;count++;total+=edge[1];for(int[] next:g.get(u))if(!used[next[0]])q.add(next);emit(\"Choose the cheapest edge leaving the tree\",\"vertex\",u,\"total\",total,\"visited\",used);}return count==n?total:-1;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}\"); Object result0=solve(3,new int[][]{{0,1,4},{0,2,2},{1,2,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

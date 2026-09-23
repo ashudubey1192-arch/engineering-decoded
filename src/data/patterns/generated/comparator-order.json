@@ -1,0 +1,257 @@
+{
+  "id": "comparator-order",
+  "title": "Java Comparators: Sort Tasks by Priority",
+  "contract": "Each task is [priority,id]. Sort higher priority first, then lower id; values may span the full int range.",
+  "signature": "int[][] solve(int[][] tasks)",
+  "brute": "for(int i=0;i<tasks.length;i++)for(int j=i+1;j<tasks.length;j++)if(tasks[j][0]>tasks[i][0]||(tasks[j][0]==tasks[i][0]&&tasks[j][1]<tasks[i][1])){int[] t=tasks[i];tasks[i]=tasks[j];tasks[j]=t;emit(\"Select by the two ordering rules\",\"tasks\",tasks);}return tasks;",
+  "optimal": "Comparator<int[]> order=Comparator.<int[]>comparingInt(x->x[0]).reversed().thenComparingInt(x->x[1]);Arrays.sort(tasks,order);for(int i=0;i<tasks.length;i++)emit(\"Read the sorted priority order\",\"position\",i,\"task\",tasks[i]);return tasks;",
+  "reasoning": [
+    "A nested-loop comparison implements the specification directly but needs quadratic comparisons.",
+    "Compose comparator keys so descending priority and ascending id remain independent.",
+    "Use comparingInt or Integer.compare instead of subtraction, which can overflow and violate comparator transitivity. Reversing the whole comparator after thenComparing would reverse the tie rule too."
+  ],
+  "complexity": [
+    "O(n²), O(1) auxiliary",
+    "O(n log n), O(n) sorting workspace"
+  ],
+  "tests": [
+    {
+      "label": "Ties",
+      "args": "new int[][]{{2,5},{1,4},{2,1}}",
+      "expected": "[[2, 1], [2, 5], [1, 4]]"
+    },
+    {
+      "label": "Extreme",
+      "args": "new int[][]{{-2147483648,1},{2147483647,2}}",
+      "expected": "[[2147483647, 2], [-2147483648, 1]]"
+    }
+  ],
+  "slug": "problems--comparator-order",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{2,5},{1,4},{2,1}}"
+            }
+          },
+          {
+            "note": "Select by the two ordering rules",
+            "state": {
+              "tasks": [
+                [
+                  2,
+                  1
+                ],
+                [
+                  1,
+                  4
+                ],
+                [
+                  2,
+                  5
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Select by the two ordering rules",
+            "state": {
+              "tasks": [
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  5
+                ],
+                [
+                  1,
+                  4
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  5
+                ],
+                [
+                  1,
+                  4
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[2, 1], [2, 5], [1, 4]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{-2147483648,1},{2147483647,2}}"
+            }
+          },
+          {
+            "note": "Select by the two ordering rules",
+            "state": {
+              "tasks": [
+                [
+                  2147483647,
+                  2
+                ],
+                [
+                  -2147483648,
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  2147483647,
+                  2
+                ],
+                [
+                  -2147483648,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[2147483647, 2], [-2147483648, 1]]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{2,5},{1,4},{2,1}}"
+            }
+          },
+          {
+            "note": "Read the sorted priority order",
+            "state": {
+              "position": 0,
+              "task": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Read the sorted priority order",
+            "state": {
+              "position": 1,
+              "task": [
+                2,
+                5
+              ]
+            }
+          },
+          {
+            "note": "Read the sorted priority order",
+            "state": {
+              "position": 2,
+              "task": [
+                1,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  5
+                ],
+                [
+                  1,
+                  4
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[2, 1], [2, 5], [1, 4]]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[][]{{-2147483648,1},{2147483647,2}}"
+            }
+          },
+          {
+            "note": "Read the sorted priority order",
+            "state": {
+              "position": 0,
+              "task": [
+                2147483647,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Read the sorted priority order",
+            "state": {
+              "position": 1,
+              "task": [
+                -2147483648,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                [
+                  2147483647,
+                  2
+                ],
+                [
+                  -2147483648,
+                  1
+                ]
+              ]
+            }
+          }
+        ],
+        "result": "[[2147483647, 2], [-2147483648, 1]]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[][] solve(int[][] tasks) {\nfor(int i=0;i<tasks.length;i++)for(int j=i+1;j<tasks.length;j++)if(tasks[j][0]>tasks[i][0]||(tasks[j][0]==tasks[i][0]&&tasks[j][1]<tasks[i][1])){int[] t=tasks[i];tasks[i]=tasks[j];tasks[j]=t;emit(\"Select by the two ordering rules\",\"tasks\",tasks);}return tasks;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[][]{{2,5},{1,4},{2,1}}\"); Object result0=solve(new int[][]{{2,5},{1,4},{2,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[][] solve(int[][] tasks) {\nComparator<int[]> order=Comparator.<int[]>comparingInt(x->x[0]).reversed().thenComparingInt(x->x[1]);Arrays.sort(tasks,order);for(int i=0;i<tasks.length;i++)emit(\"Read the sorted priority order\",\"position\",i,\"task\",tasks[i]);return tasks;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[][]{{2,5},{1,4},{2,1}}\"); Object result0=solve(new int[][]{{2,5},{1,4},{2,1}}); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

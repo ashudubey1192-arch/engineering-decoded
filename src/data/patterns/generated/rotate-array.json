@@ -1,0 +1,254 @@
+{
+  "id": "rotate-array",
+  "title": "Rotate Array",
+  "contract": "Rotate integers right by k ≥ 0 positions. Empty input remains empty.",
+  "signature": "int[] solve(int[] a,int k)",
+  "brute": "if(a.length==0)return a;k%=a.length;for(int turn=0;turn<k;turn++){int last=a[a.length-1];for(int i=a.length-1;i>0;i--)a[i]=a[i-1];a[0]=last;emit(\"Rotate right by one\",\"array\",a);}return a;",
+  "optimal": "int n=a.length;if(n==0)return a;k%=n;reverse(a,0,n-1);emit(\"Reverse the whole array\",\"array\",a);reverse(a,0,k-1);emit(\"Restore order in the new prefix\",\"array\",a);reverse(a,k,n-1);emit(\"Restore order in the new suffix\",\"array\",a);return a;",
+  "reasoning": [
+    "Repeat a one-position rotation k times after reducing k modulo n.",
+    "Write the array as AB where B has k elements. Reversing AB gives reverse(B)reverse(A).",
+    "Reverse the two pieces independently to obtain BA. Check the empty array before applying modulo and allow empty reversal ranges when k=0."
+  ],
+  "complexity": [
+    "O(n(k mod n)), O(1)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Rotate",
+      "args": "new int[]{1,2,3,4,5},2",
+      "expected": "[4, 5, 1, 2, 3]"
+    },
+    {
+      "label": "Full turns",
+      "args": "new int[]{1,2},4",
+      "expected": "[1, 2]"
+    },
+    {
+      "label": "Empty",
+      "args": "new int[]{},3",
+      "expected": "[]"
+    }
+  ],
+  "slug": "problems--rotate-array",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,4,5},2"
+            }
+          },
+          {
+            "note": "Rotate right by one",
+            "state": {
+              "array": [
+                5,
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "note": "Rotate right by one",
+            "state": {
+              "array": [
+                4,
+                5,
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                4,
+                5,
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        ],
+        "result": "[4, 5, 1, 2, 3]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2},4"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{},3"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2,3,4,5},2"
+            }
+          },
+          {
+            "note": "Reverse the whole array",
+            "state": {
+              "array": [
+                5,
+                4,
+                3,
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Restore order in the new prefix",
+            "state": {
+              "array": [
+                4,
+                5,
+                3,
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Restore order in the new suffix",
+            "state": {
+              "array": [
+                4,
+                5,
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                4,
+                5,
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        ],
+        "result": "[4, 5, 1, 2, 3]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,2},4"
+            }
+          },
+          {
+            "note": "Reverse the whole array",
+            "state": {
+              "array": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Restore order in the new prefix",
+            "state": {
+              "array": [
+                2,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Restore order in the new suffix",
+            "state": {
+              "array": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2]"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{},3"
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": []
+            }
+          }
+        ],
+        "result": "[]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a,int k) {\nif(a.length==0)return a;k%=a.length;for(int turn=0;turn<k;turn++){int last=a[a.length-1];for(int i=a.length-1;i>0;i--)a[i]=a[i-1];a[0]=last;emit(\"Rotate right by one\",\"array\",a);}return a;\n  }\nstatic void reverse(int[] a,int l,int r){while(l<r){int t=a[l];a[l++]=a[r];a[r--]=t;}}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,4,5},2\"); Object result0=solve(new int[]{1,2,3,4,5},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int[] solve(int[] a,int k) {\nint n=a.length;if(n==0)return a;k%=n;reverse(a,0,n-1);emit(\"Reverse the whole array\",\"array\",a);reverse(a,0,k-1);emit(\"Restore order in the new prefix\",\"array\",a);reverse(a,k,n-1);emit(\"Restore order in the new suffix\",\"array\",a);return a;\n  }\nstatic void reverse(int[] a,int l,int r){while(l<r){int t=a[l];a[l++]=a[r];a[r--]=t;}}\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,2,3,4,5},2\"); Object result0=solve(new int[]{1,2,3,4,5},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

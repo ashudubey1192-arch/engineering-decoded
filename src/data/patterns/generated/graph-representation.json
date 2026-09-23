@@ -1,0 +1,164 @@
+{
+  "id": "graph-representation",
+  "title": "Graph Fundamentals: Reachable Neighbors",
+  "contract": "Given n vertices and undirected edges, return the sorted neighbors of source. Duplicate edges collapse; vertices are 0 through n−1.",
+  "signature": "List<Integer> solve(int n,int[][] edges,int source)",
+  "brute": "boolean[][] matrix=new boolean[n][n];for(int[] edge:edges){matrix[edge[0]][edge[1]]=true;matrix[edge[1]][edge[0]]=true;emit(\"Fill symmetric adjacency cells\",\"edge\",edge);}List<Integer> out=new ArrayList<>();for(int v=0;v<n;v++)if(matrix[source][v])out.add(v);return out;",
+  "optimal": "List<Set<Integer>> graph=new ArrayList<>();for(int i=0;i<n;i++)graph.add(new TreeSet<>());for(int[] edge:edges){graph.get(edge[0]).add(edge[1]);graph.get(edge[1]).add(edge[0]);emit(\"Store only existing neighbor links\",\"edge\",edge,\"source neighbors\",graph.get(source));}return new ArrayList<>(graph.get(source));",
+  "reasoning": [
+    "An adjacency matrix reserves one boolean for every possible pair, even for a sparse graph.",
+    "Adjacency sets store only present edges; adding both directions represents an undirected graph.",
+    "This sorted-set variant also removes duplicates. Lists offer O(V+E) construction if duplicates and ordering are handled separately; matrices can be preferable for dense graphs or constant-time edge queries."
+  ],
+  "complexity": [
+    "O(V²+E), O(V²)",
+    "O(V+E log V), O(V+E) for sorted sets"
+  ],
+  "tests": [
+    {
+      "label": "Sparse",
+      "args": "5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0",
+      "expected": "[1, 2]"
+    }
+  ],
+  "slug": "problems--graph-representation",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0"
+            }
+          },
+          {
+            "note": "Fill symmetric adjacency cells",
+            "state": {
+              "edge": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Fill symmetric adjacency cells",
+            "state": {
+              "edge": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "note": "Fill symmetric adjacency cells",
+            "state": {
+              "edge": [
+                1,
+                3
+              ]
+            }
+          },
+          {
+            "note": "Fill symmetric adjacency cells",
+            "state": {
+              "edge": [
+                0,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2]"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0"
+            }
+          },
+          {
+            "note": "Store only existing neighbor links",
+            "state": {
+              "edge": [
+                0,
+                2
+              ],
+              "source neighbors": [
+                2
+              ]
+            }
+          },
+          {
+            "note": "Store only existing neighbor links",
+            "state": {
+              "edge": [
+                0,
+                1
+              ],
+              "source neighbors": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Store only existing neighbor links",
+            "state": {
+              "edge": [
+                1,
+                3
+              ],
+              "source neighbors": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Store only existing neighbor links",
+            "state": {
+              "edge": [
+                0,
+                2
+              ],
+              "source neighbors": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "result": "[1, 2]"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static List<Integer> solve(int n,int[][] edges,int source) {\nboolean[][] matrix=new boolean[n][n];for(int[] edge:edges){matrix[edge[0]][edge[1]]=true;matrix[edge[1]][edge[0]]=true;emit(\"Fill symmetric adjacency cells\",\"edge\",edge);}List<Integer> out=new ArrayList<>();for(int v=0;v<n;v++)if(matrix[source][v])out.add(v);return out;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0\"); Object result0=solve(5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static List<Integer> solve(int n,int[][] edges,int source) {\nList<Set<Integer>> graph=new ArrayList<>();for(int i=0;i<n;i++)graph.add(new TreeSet<>());for(int[] edge:edges){graph.get(edge[0]).add(edge[1]);graph.get(edge[1]).add(edge[0]);emit(\"Store only existing neighbor links\",\"edge\",edge,\"source neighbors\",graph.get(source));}return new ArrayList<>(graph.get(source));\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0\"); Object result0=solve(5,new int[][]{{0,2},{0,1},{1,3},{0,2}},0); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}

@@ -1,0 +1,759 @@
+{
+  "id": "max-consecutive-ones",
+  "title": "Maximum Consecutive Ones III",
+  "contract": "In a binary array, flip at most k zeroes. Return the longest resulting consecutive-one window; k ≥ 0.",
+  "signature": "int solve(int[] a,int k)",
+  "brute": "int best=0;for(int l=0;l<a.length;l++){int zeroes=0;for(int r=l;r<a.length;r++){if(a[r]==0)zeroes++;if(zeroes>k)break;best=Math.max(best,r-l+1);emit(\"Test a window within the flip budget\",\"range\",new int[]{l,r},\"zeroes\",zeroes,\"best\",best);}}return best;",
+  "optimal": "int l=0,zeroes=0,best=0;for(int r=0;r<a.length;r++){if(a[r]==0)zeroes++;while(zeroes>k)if(a[l++]==0)zeroes--;best=Math.max(best,r-l+1);emit(\"Shrink until the flip budget is respected\",\"range\",new int[]{l,r},\"zeroes\",zeroes,\"best\",best);}return best;",
+  "reasoning": [
+    "For each start, count zeroes while extending until the flip budget is exceeded.",
+    "The only state needed for validity is the number of zeroes inside the current window.",
+    "Removing left elements cannot increase that count, so the window can be restored with one monotone left pointer. Do not actually mutate the input to simulate flips."
+  ],
+  "complexity": [
+    "O(n²), O(1)",
+    "O(n), O(1)"
+  ],
+  "tests": [
+    {
+      "label": "Budget",
+      "args": "new int[]{1,1,1,0,0,0,1,1,1,1,0},2",
+      "expected": "6"
+    },
+    {
+      "label": "No flips",
+      "args": "new int[]{0,1,1,0},0",
+      "expected": "2"
+    }
+  ],
+  "slug": "problems--max-consecutive-ones",
+  "sectionSlug": "problems",
+  "time": "25 min",
+  "runs": {
+    "brute": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,1,1,0,0,0,1,1,1,1,0},2"
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "zeroes": 0,
+              "best": 1
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "zeroes": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "zeroes": 0,
+              "best": 3
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "zeroes": 1,
+              "best": 4
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                0,
+                4
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "zeroes": 0,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "zeroes": 0,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                1,
+                3
+              ],
+              "zeroes": 1,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                1,
+                4
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "zeroes": 0,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                2,
+                3
+              ],
+              "zeroes": 1,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                2,
+                4
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                3,
+                3
+              ],
+              "zeroes": 1,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                3,
+                4
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                4,
+                4
+              ],
+              "zeroes": 1,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                4,
+                5
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                4,
+                6
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                4,
+                7
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                4,
+                8
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                4,
+                9
+              ],
+              "zeroes": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                5,
+                5
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                5,
+                6
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                5,
+                7
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                5,
+                8
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                5,
+                9
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                5,
+                10
+              ],
+              "zeroes": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                6,
+                6
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                6,
+                7
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                6,
+                8
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                6,
+                9
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                6,
+                10
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                7,
+                7
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                7,
+                8
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                7,
+                9
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                7,
+                10
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                8,
+                8
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                8,
+                9
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                8,
+                10
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                9,
+                9
+              ],
+              "zeroes": 0,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                9,
+                10
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                10,
+                10
+              ],
+              "zeroes": 1,
+              "best": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{0,1,1,0},0"
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "zeroes": 0,
+              "best": 1
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "zeroes": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Test a window within the flip budget",
+            "state": {
+              "range": [
+                2,
+                2
+              ],
+              "zeroes": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ],
+    "optimal": [
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{1,1,1,0,0,0,1,1,1,1,0},2"
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                0,
+                0
+              ],
+              "zeroes": 0,
+              "best": 1
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                0,
+                1
+              ],
+              "zeroes": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                0,
+                2
+              ],
+              "zeroes": 0,
+              "best": 3
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                0,
+                3
+              ],
+              "zeroes": 1,
+              "best": 4
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                0,
+                4
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                4,
+                5
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                4,
+                6
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                4,
+                7
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                4,
+                8
+              ],
+              "zeroes": 2,
+              "best": 5
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                4,
+                9
+              ],
+              "zeroes": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                5,
+                10
+              ],
+              "zeroes": 2,
+              "best": 6
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 6
+            }
+          }
+        ],
+        "result": "6"
+      },
+      {
+        "frames": [
+          {
+            "note": "Input",
+            "state": {
+              "arguments": "new int[]{0,1,1,0},0"
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                1,
+                0
+              ],
+              "zeroes": 0,
+              "best": 0
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                1,
+                1
+              ],
+              "zeroes": 0,
+              "best": 1
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                1,
+                2
+              ],
+              "zeroes": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Shrink until the flip budget is respected",
+            "state": {
+              "range": [
+                4,
+                3
+              ],
+              "zeroes": 0,
+              "best": 2
+            }
+          },
+          {
+            "note": "Return the answer",
+            "state": {
+              "result": 2
+            }
+          }
+        ],
+        "result": "2"
+      }
+    ]
+  },
+  "source": {
+    "brute": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a,int k) {\nint best=0;for(int l=0;l<a.length;l++){int zeroes=0;for(int r=l;r<a.length;r++){if(a[r]==0)zeroes++;if(zeroes>k)break;best=Math.max(best,r-l+1);emit(\"Test a window within the flip budget\",\"range\",new int[]{l,r},\"zeroes\",zeroes,\"best\",best);}}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,1,1,0,0,0,1,1,1,1,0},2\"); Object result0=solve(new int[]{1,1,1,0,0,0,1,1,1,1,0},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n",
+    "optimal": "import java.util.*;\n\npublic class Solution {\n  static int solve(int[] a,int k) {\nint l=0,zeroes=0,best=0;for(int r=0;r<a.length;r++){if(a[r]==0)zeroes++;while(zeroes>k)if(a[l++]==0)zeroes--;best=Math.max(best,r-l+1);emit(\"Shrink until the flip budget is respected\",\"range\",new int[]{l,r},\"zeroes\",zeroes,\"best\",best);}return best;\n  }\n\n\nstatic int frameCount=0;\nstatic final int FRAME_LIMIT=12000;\nstatic String quote(String value){StringBuilder out=new StringBuilder(\"\\\"\");for(char c:value.toCharArray()){switch(c){case '\"':out.append(\"\\\\\\\"\");break;case '\\\\':out.append(\"\\\\\\\\\");break;case '\\n':out.append(\"\\\\n\");break;case '\\r':out.append(\"\\\\r\");break;case '\\t':out.append(\"\\\\t\");break;default:if(c<32)out.append(String.format(\"\\\\u%04x\",(int)c));else out.append(c);}}return out.append('\"').toString();}\nstatic String json(Object value){if(value==null)return \"null\";if(value instanceof Number||value instanceof Boolean)return value.toString();if(value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(json(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Collection<?> values){List<String> parts=new ArrayList<>();for(Object v:values)parts.add(json(v));return \"[\"+String.join(\",\",parts)+\"]\";}if(value instanceof Map<?,?> values){List<String> parts=new ArrayList<>();for(var entry:values.entrySet())parts.add(quote(String.valueOf(entry.getKey()))+\":\"+json(entry.getValue()));return \"{\"+String.join(\",\",parts)+\"}\";}return quote(value.toString());}\nstatic String display(Object value){if(value!=null&&value.getClass().isArray()){List<String> parts=new ArrayList<>();for(int i=0;i<java.lang.reflect.Array.getLength(value);i++)parts.add(display(java.lang.reflect.Array.get(value,i)));return \"[\"+String.join(\", \",parts)+\"]\";}return String.valueOf(value);}\nstatic void emit(String note,Object... pairs){if(++frameCount>FRAME_LIMIT)return;Map<String,Object> state=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)state.put(String.valueOf(pairs[i]),pairs[i+1]);System.out.println(\"FRAME\\t{\\\"note\\\":\"+quote(note)+\",\\\"state\\\":\"+json(state)+\"}\");}\n\n  public static void main(String[] args) {\nSystem.out.println(\"CASE\t0\"); frameCount=0; emit(\"Input\", \"arguments\", \"new int[]{1,1,1,0,0,0,1,1,1,1,0},2\"); Object result0=solve(new int[]{1,1,1,0,0,0,1,1,1,1,0},2); emit(\"Return the answer\", \"result\", result0); System.out.println(\"RESULT\t\"+display(result0));\n  }\n}\n"
+  }
+}
