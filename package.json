@@ -10,6 +10,8 @@
     "lint": "eslint src",
     "check:databases": "node scripts/check-database-courses.mjs",
     "check:dsa": "node scripts/check-dsa-courses.mjs",
+    "generate:java-networks": "node scripts/generate-java-networks.mjs",
+    "check:java-networks": "node scripts/check-java-networks.mjs",
     "check:java-techniques": "node scripts/check-java-techniques.mjs",
     "generate:java-arrays": "node scripts/generate-java-arrays.mjs",
     "check:java-arrays": "node scripts/generate-java-arrays.mjs --check",

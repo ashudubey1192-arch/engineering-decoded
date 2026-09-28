@@ -1,4 +1,5 @@
 import { javaStructureSections } from "./javaStructureLessons.js";
+import { javaNetworkSections } from "./javaNetworkLessons.js";
 
 const section = (slug, title, lessons) => ({
   slug,
@@ -55,6 +56,7 @@ export const javaSections = [
     "Comparable and Comparator",
   ]),
   ...javaStructureSections,
+  ...javaNetworkSections,
   section("errors-and-io", "Exceptions and I/O", [
     "Exception Handling",
     "Custom Exceptions",

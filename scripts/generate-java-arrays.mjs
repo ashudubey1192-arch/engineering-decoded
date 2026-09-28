@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { javaArrayPrograms } from "../src/data/javaArrayPrograms.js";
 import { javaArraySource } from "../src/data/javaArrayRuntime.js";
@@ -70,5 +70,7 @@ try {
   );
 } finally {
   // Only this process's mkdtemp directory is removed; no repository files are touched.
+  assert.equal(dirname(resolve(directory)), resolve(tmpdir()));
+  assert.ok(basename(directory).startsWith("java-array-lessons-"));
   await rm(directory, { recursive: true, force: true });
 }

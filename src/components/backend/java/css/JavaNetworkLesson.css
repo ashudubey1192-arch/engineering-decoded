@@ -1,0 +1,122 @@
+.jnLesson {
+  min-width: 0;
+}
+.jnFigure {
+  margin: 18px 0;
+  color: var(--text);
+}
+.jnFigure svg {
+  display: block;
+  width: 100%;
+  max-height: 270px;
+}
+.jnFigure figcaption {
+  color: var(--muted);
+  font-size: 12px;
+}
+.jnNode {
+  fill: var(--surface-2);
+  stroke: var(--muted);
+}
+.jnNodeActive {
+  fill: var(--accent-green);
+  stroke: var(--accent-green);
+}
+.jnLesson .jnEyebrow {
+  color: var(--accent-green);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+.jnPrerequisites {
+  color: var(--muted);
+  font-size: 14px;
+}
+.jnInvariant,
+.jnWalkthrough {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  background: var(--surface);
+}
+.jnInvariant {
+  border-left: 4px solid var(--accent-green);
+}
+.jnInvariant p {
+  margin-bottom: 0;
+}
+.jnStepHeading,
+.jnControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.jnStepHeading span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.jnLesson pre {
+  max-width: 100%;
+  overflow-x: auto;
+  tab-size: 2;
+  white-space: pre;
+}
+.jnLesson .jnDiagram {
+  color: var(--text);
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  line-height: 1.8;
+  padding: 24px;
+  border-radius: 10px;
+  min-height: 145px;
+}
+.jnControls {
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+.jnControls button {
+  padding: 10px 15px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+.jnControls button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.jnControls button:focus-visible,
+.jnLesson summary:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 4px;
+}
+.jnLesson summary {
+  cursor: pointer;
+  padding: 12px 0;
+  font-weight: 600;
+}
+.jnAnswer {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 18px;
+}
+.jnSource > pre {
+  max-height: 680px;
+}
+@media (max-width: 600px) {
+  .jnInvariant,
+  .jnWalkthrough {
+    padding: 14px;
+  }
+  .jnLesson .jnDiagram {
+    padding: 14px;
+    font-size: 12px;
+  }
+  .jnControls button {
+    font-size: 12px;
+    padding: 10px;
+  }
+}

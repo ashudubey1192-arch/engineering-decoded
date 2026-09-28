@@ -1,5 +1,22 @@
 # Engineering Decoded
 
+## Java trees and networks
+
+The Java course at `/learn/backend/java` includes 24 lessons in three sections:
+trees, graph networks, and Java networking projects. Start at
+`/learn/backend/java/trees-in-java--model`. Each lesson includes a correctness
+invariant, complexity, a three-step visual trace, a complete Java 21 program,
+expected output, edge cases, an interview exercise with a revealed answer, and
+a project application. Selected tree and graph lessons also show SVG node diagrams.
+TCP and HTTP demos use local loopback fixtures; the browser does not execute Java.
+
+Content and code live in `src/data/javaNetworkLessons.js` and
+`src/data/javaNetworkPrograms.js`. Run `npm run generate:java-networks` to create
+the route wrappers. Run `npm run check:java-networks` with a JDK 21+ on PATH to
+render all routes, compile each example against Java 21 APIs, compare output,
+and check algorithm boundary cases. The validator creates temporary source/class
+files and briefly binds loopback ports for the TCP and HTTP examples.
+
 A standard React + Vite + JavaScript project using JSX and plain CSS.
 
 ## Folder structure
