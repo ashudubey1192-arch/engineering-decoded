@@ -10,6 +10,23 @@ import { dsaAlgorithms, runDsaAlgorithm } from "../src/data/dsaAlgorithms.js";
 import { dsaAlgorithmSources } from "../src/data/dsaAlgorithmSources.js";
 
 const plain = (value) => JSON.parse(JSON.stringify(value));
+const foundation = dsaLessons["dsa-foundations"];
+const foundationLessons = foundation.sections.flatMap((section) => section.lessons);
+assert.equal(
+  new Set(foundation.sections.map((section) => section.slug)).size,
+  foundation.sections.length,
+);
+for (const [slug, course] of Object.entries(dsaLessons)) {
+  if (slug === "dsa-foundations") continue;
+  for (const lesson of course.sections.flatMap((section) => section.lessons)) {
+    assert.ok(
+      foundationLessons.some((item) => item.slug === `${slug}-${lesson.slug}`),
+      `Complete foundation course omits ${slug}/${lesson.slug}`,
+    );
+  }
+}
+assert.ok(foundationLessons[0].title.includes("environment setup"));
+assert.ok(foundationLessons.at(-1).title.includes("route-planning"));
 let examples = 0,
   frames = 0,
   aliases = 0;
@@ -101,10 +118,20 @@ for (let trial = 0; trial < 50; trial++) {
     "mergeSort",
     "quickSort",
     "heapSort",
+    "shellSort",
   ]) {
     assert.deepEqual(dsaAlgorithms[algorithm]({ values }), sorted, algorithm);
   }
   const positive = values.map(Math.abs);
+  for (let target = -11; target <= 11; target++) {
+    assert.equal(dsaAlgorithms.jumpSearch({ values: sorted, target }), sorted.indexOf(target));
+  }
+  const shuffled = dsaAlgorithms.fisherYates({ values, seed: trial });
+  assert.deepEqual(
+    [...shuffled].sort((a, b) => a - b),
+    sorted,
+  );
+  assert.deepEqual(dsaAlgorithms.fisherYates({ values, seed: trial }), shuffled);
   for (const algorithm of ["countingSort", "radixSort"])
     assert.deepEqual(
       dsaAlgorithms[algorithm]({ values: positive }),
@@ -296,7 +323,87 @@ assert.deepEqual(dsaAlgorithms.bloom({ values: [1, 4], queries: [1, 2, 9], size:
   true,
 ]);
 
-const server = await createServer({ server: { middlewareMode: true, hmr: false }, appType: "custom" });
+assert.equal(dsaAlgorithms.matrixChain({ dimensions: [10, 30, 5, 60] }), 4500);
+assert.equal(dsaAlgorithms.matrixChain({ dimensions: [3, 7] }), 0);
+assert.throws(() => dsaAlgorithms.matrixChain({ dimensions: [3, 0] }), RangeError);
+const chainReference = (d, i = 0, j = d.length - 2) => {
+  if (i === j) return 0;
+  return Math.min(
+    ...Array.from({ length: j - i }, (_, offset) => {
+      const k = i + offset;
+      return chainReference(d, i, k) + chainReference(d, k + 1, j) + d[i] * d[k + 1] * d[j + 1];
+    }),
+  );
+};
+for (let trial = 0; trial < 30; trial++) {
+  const dimensions = Array.from({ length: 2 + (trial % 5) }, () => 1 + Math.floor(random() * 10));
+  assert.equal(dsaAlgorithms.matrixChain({ dimensions }), chainReference(dimensions));
+  const n = 2 + (trial % 5);
+  const capacity = Array.from({ length: n }, (_, u) =>
+    Array.from({ length: n }, (_, v) => (u === v ? 0 : Math.floor(random() * 4))),
+  );
+  const result = dsaAlgorithms.maxFlow({ capacity, source: 0, sink: n - 1 });
+  // Independently enumerate every source/sink cut on these small graphs.
+  let minCut = Infinity;
+  for (let mask = 0; mask < 2 ** n; mask++) {
+    if (!(mask & 1) || mask & (1 << (n - 1))) continue;
+    let cost = 0;
+    for (let u = 0; u < n; u++)
+      for (let v = 0; v < n; v++) if (mask & (1 << u) && !(mask & (1 << v))) cost += capacity[u][v];
+    minCut = Math.min(minCut, cost);
+  }
+  assert.equal(result.flow, minCut);
+  let certificate = 0;
+  for (const u of result.reachable)
+    for (let v = 0; v < n; v++) if (!result.reachable.includes(v)) certificate += capacity[u][v];
+  assert.equal(certificate, result.flow);
+  const adjacency = capacity.map((row) => row.flatMap((c, v) => (c ? [v] : [])));
+  const components = dsaAlgorithms.stronglyConnected({ adjacency });
+  assert.deepEqual(
+    components.flat().sort((a, b) => a - b),
+    Array.from({ length: n }, (_, i) => i),
+  );
+  const reach = capacity.map((row, u) => row.map((c, v) => u === v || c > 0));
+  for (let k = 0; k < n; k++)
+    for (let u = 0; u < n; u++)
+      for (let v = 0; v < n; v++) reach[u][v] ||= reach[u][k] && reach[k][v];
+  for (let u = 0; u < n; u++)
+    for (let v = 0; v < n; v++)
+      assert.equal(
+        components.some((c) => c.includes(u) && c.includes(v)),
+        reach[u][v] && reach[v][u],
+      );
+  const edges = adjacency.flatMap((neighbors, u) =>
+    neighbors.filter((v) => v > u).map((v) => [u, v]),
+  );
+  const cover = dsaAlgorithms.vertexCover({ edges });
+  assert.ok(edges.every(([u, v]) => cover.includes(u) || cover.includes(v)));
+  let optimum = n;
+  for (let mask = 0; mask < 2 ** n; mask++) {
+    if (edges.every(([u, v]) => mask & (1 << u) || mask & (1 << v)))
+      optimum = Math.min(optimum, mask.toString(2).replaceAll("0", "").length);
+  }
+  assert.ok(cover.length <= 2 * optimum);
+}
+assert.deepEqual(dsaAlgorithms.stronglyConnected({ adjacency: [] }), []);
+assert.deepEqual(dsaAlgorithms.vertexCover({ edges: [] }), []);
+assert.deepEqual(
+  dsaAlgorithms.maxFlow({
+    capacity: [
+      [0, 0],
+      [0, 0],
+    ],
+    source: 0,
+    sink: 1,
+  }),
+  { flow: 0, reachable: [0] },
+);
+assert.throws(() => dsaAlgorithms.maxFlow({ capacity: [[0]], source: 0, sink: 0 }), RangeError);
+
+const server = await createServer({
+  server: { middlewareMode: true, hmr: false },
+  appType: "custom",
+});
 try {
   const { getModule } = await server.ssrLoadModule("/src/data/catalog.js");
   const { getStructuredCourse } = await server.ssrLoadModule("/src/data/structuredCourses.js");

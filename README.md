@@ -81,16 +81,23 @@ the script refuses to overwrite unrecognized authored content.
 
 ## Data Structures and Algorithms
 
-The DSA module has 19 courses and 89 authored lessons, organized into foundations,
-linear structures, trees and networks, and algorithm techniques. Every lesson
+The DSA module has 19 courses and 98 distinct authored lessons. DSA Foundations
+now contains the complete 98-lesson learning path, from environment setup to a
+route-planning capstone. Its URL is `/learn/dsa/dsa-foundations`; the singular
+`/learn/dsa/dsa-foundation` URL is also accepted. The other 18 courses remain
+available as focused topic tracks. Every lesson
 includes an invariant, time/space analysis, a worked input, a JavaScript
 implementation, an interactive visual trace, and a practice question with an
 explanation. Coverage uses the linked TutorialsPoint curriculum as a reference;
 the prose, code, and visualizations are original.
 
 Edit `src/data/dsaLinearLessons.js`, `dsaHierarchyLessons.js`, and
-`dsaAlgorithmLessons.js` for content. The pure implementations in
-`dsaAlgorithms.js` and `dsaAdvancedAlgorithms.js` emit the states rendered by the
+`dsaAlgorithmLessons.js` for content. `dsaFoundationLessons.js` assembles those
+lessons in prerequisite order and adds setup, further searching and sorting,
+connectivity, flow, matrix-chain optimization, approximation, randomization,
+and a capstone. The original four foundation article URLs are preserved.
+The pure implementations in `dsaAlgorithms.js`, `dsaAdvancedAlgorithms.js`,
+and `dsaFoundationAlgorithms.js` emit the states rendered by the
 visual lab. Small fixed inputs keep recursion and trace storage bounded. The
 reader can reverse selected example arrays, step backward/forward, reset, and
 jump to any recorded step. Graphs have text alternatives; wide diagrams and

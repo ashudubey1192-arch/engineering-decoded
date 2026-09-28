@@ -5,6 +5,18 @@ export const dsaCourses = {
     "prerequisites": "Basic variables, loops, functions, and JavaScript arrays.",
     "sections": [
       {
+        "slug": "getting-started",
+        "title": "Getting started",
+        "lessons": [
+          {
+            "title": "Course roadmap, environment setup, and your first trace",
+            "slug": "getting-started--course-roadmap-environment-setup-and-your-first-trace",
+            "sectionSlug": "getting-started",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
         "slug": "reasoning-about-algorithms",
         "title": "Reasoning about algorithms",
         "lessons": [
@@ -33,9 +45,813 @@ export const dsaCourses = {
             "time": "15 min"
           }
         ]
+      },
+      {
+        "slug": "arrays-storage-and-operations",
+        "title": "Arrays: Storage and operations",
+        "lessons": [
+          {
+            "title": "Indexing, traversal, and contiguous storage",
+            "slug": "arrays-storage-and-operations--indexing-traversal-and-contiguous-storage",
+            "sectionSlug": "arrays-storage-and-operations",
+            "time": "15 min"
+          },
+          {
+            "title": "Insertion, deletion, and shifting direction",
+            "slug": "arrays-storage-and-operations--insertion-deletion-and-shifting-direction",
+            "sectionSlug": "arrays-storage-and-operations",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "arrays-useful-array-techniques",
+        "title": "Arrays: Useful array techniques",
+        "lessons": [
+          {
+            "title": "Prefix sums and range queries",
+            "slug": "arrays-useful-array-techniques--prefix-sums-and-range-queries",
+            "sectionSlug": "arrays-useful-array-techniques",
+            "time": "15 min"
+          },
+          {
+            "title": "Two pointers and fixed sliding windows",
+            "slug": "arrays-useful-array-techniques--two-pointers-and-fixed-sliding-windows",
+            "sectionSlug": "arrays-useful-array-techniques",
+            "time": "15 min"
+          },
+          {
+            "title": "Matrices, row-major layout, and transposition",
+            "slug": "arrays-useful-array-techniques--matrices-row-major-layout-and-transposition",
+            "sectionSlug": "arrays-useful-array-techniques",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "linked-lists-links-and-mutation",
+        "title": "Linked Lists: Links and mutation",
+        "lessons": [
+          {
+            "title": "Nodes, traversal, and insertion",
+            "slug": "linked-lists-links-and-mutation--nodes-traversal-and-insertion",
+            "sectionSlug": "linked-lists-links-and-mutation",
+            "time": "15 min"
+          },
+          {
+            "title": "Reversal with three pointers",
+            "slug": "linked-lists-links-and-mutation--reversal-with-three-pointers",
+            "sectionSlug": "linked-lists-links-and-mutation",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "linked-lists-variants-and-applications",
+        "title": "Linked Lists: Variants and applications",
+        "lessons": [
+          {
+            "title": "Doubly linked lists and LRU ordering",
+            "slug": "linked-lists-variants-and-applications--doubly-linked-lists-and-lru-ordering",
+            "sectionSlug": "linked-lists-variants-and-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Circular lists and Floyd cycle detection",
+            "slug": "linked-lists-variants-and-applications--circular-lists-and-floyd-cycle-detection",
+            "sectionSlug": "linked-lists-variants-and-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Merging sorted lists and pointer-safe deletion",
+            "slug": "linked-lists-variants-and-applications--merging-sorted-lists-and-pointer-safe-deletion",
+            "sectionSlug": "linked-lists-variants-and-applications",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "stacks-last-in-first-out",
+        "title": "Stacks: Last-in, first-out",
+        "lessons": [
+          {
+            "title": "Push, pop, peek, and underflow",
+            "slug": "stacks-last-in-first-out--push-pop-peek-and-underflow",
+            "sectionSlug": "stacks-last-in-first-out",
+            "time": "15 min"
+          },
+          {
+            "title": "Balanced brackets and nested structure",
+            "slug": "stacks-last-in-first-out--balanced-brackets-and-nested-structure",
+            "sectionSlug": "stacks-last-in-first-out",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "stacks-stack-applications",
+        "title": "Stacks: Stack applications",
+        "lessons": [
+          {
+            "title": "Postfix expressions and operand order",
+            "slug": "stacks-stack-applications--postfix-expressions-and-operand-order",
+            "sectionSlug": "stacks-stack-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Monotonic stacks and next greater elements",
+            "slug": "stacks-stack-applications--monotonic-stacks-and-next-greater-elements",
+            "sectionSlug": "stacks-stack-applications",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "queues-and-deques-fifo-and-circular-buffers",
+        "title": "Queues and Deques: FIFO and circular buffers",
+        "lessons": [
+          {
+            "title": "Queue contracts and first-in, first-out processing",
+            "slug": "queues-and-deques-fifo-and-circular-buffers--queue-contracts-and-first-in-first-out-processing",
+            "sectionSlug": "queues-and-deques-fifo-and-circular-buffers",
+            "time": "15 min"
+          },
+          {
+            "title": "Circular queues, wraparound, and full versus empty",
+            "slug": "queues-and-deques-fifo-and-circular-buffers--circular-queues-wraparound-and-full-versus-empty",
+            "sectionSlug": "queues-and-deques-fifo-and-circular-buffers",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "queues-and-deques-deque-and-traversal-applications",
+        "title": "Queues and Deques: Deque and traversal applications",
+        "lessons": [
+          {
+            "title": "Deques and sliding-window maxima",
+            "slug": "queues-and-deques-deque-and-traversal-applications--deques-and-sliding-window-maxima",
+            "sectionSlug": "queues-and-deques-deque-and-traversal-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Breadth-first search as queue-driven exploration",
+            "slug": "queues-and-deques-deque-and-traversal-applications--breadth-first-search-as-queue-driven-exploration",
+            "sectionSlug": "queues-and-deques-deque-and-traversal-applications",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "hash-tables-hashing-and-collisions",
+        "title": "Hash Tables: Hashing and collisions",
+        "lessons": [
+          {
+            "title": "Hash functions, equality, and separate chaining",
+            "slug": "hash-tables-hashing-and-collisions--hash-functions-equality-and-separate-chaining",
+            "sectionSlug": "hash-tables-hashing-and-collisions",
+            "time": "15 min"
+          },
+          {
+            "title": "Open addressing and linear probing",
+            "slug": "hash-tables-hashing-and-collisions--open-addressing-and-linear-probing",
+            "sectionSlug": "hash-tables-hashing-and-collisions",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "hash-tables-sizing-and-applications",
+        "title": "Hash Tables: Sizing and applications",
+        "lessons": [
+          {
+            "title": "Load factor, resizing, and amortized cost",
+            "slug": "hash-tables-sizing-and-applications--load-factor-resizing-and-amortized-cost",
+            "sectionSlug": "hash-tables-sizing-and-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Frequency maps, sets, and choosing a structure",
+            "slug": "hash-tables-sizing-and-applications--frequency-maps-sets-and-choosing-a-structure",
+            "sectionSlug": "hash-tables-sizing-and-applications",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "binary-search-search-contracts",
+        "title": "Searching and Binary Search: Search contracts",
+        "lessons": [
+          {
+            "title": "Linear search and choosing a search method",
+            "slug": "binary-search-search-contracts--linear-search-and-choosing-a-search-method",
+            "sectionSlug": "binary-search-search-contracts",
+            "time": "15 min"
+          },
+          {
+            "title": "Binary search with half-open intervals",
+            "slug": "binary-search-search-contracts--binary-search-with-half-open-intervals",
+            "sectionSlug": "binary-search-search-contracts",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "binary-search-boundaries-and-extensions",
+        "title": "Searching and Binary Search: Boundaries and extensions",
+        "lessons": [
+          {
+            "title": "Duplicates, lower bounds, and insertion positions",
+            "slug": "binary-search-boundaries-and-extensions--duplicates-lower-bounds-and-insertion-positions",
+            "sectionSlug": "binary-search-boundaries-and-extensions",
+            "time": "15 min"
+          },
+          {
+            "title": "Monotonic predicates and search-space design",
+            "slug": "binary-search-boundaries-and-extensions--monotonic-predicates-and-search-space-design",
+            "sectionSlug": "binary-search-boundaries-and-extensions",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "sorting-algorithms-elementary-comparison-sorts",
+        "title": "Sorting Algorithms: Elementary comparison sorts",
+        "lessons": [
+          {
+            "title": "Sorting contracts, stability, and bubble sort",
+            "slug": "sorting-algorithms-elementary-comparison-sorts--sorting-contracts-stability-and-bubble-sort",
+            "sectionSlug": "sorting-algorithms-elementary-comparison-sorts",
+            "time": "15 min"
+          },
+          {
+            "title": "Selection sort and minimizing swaps",
+            "slug": "sorting-algorithms-elementary-comparison-sorts--selection-sort-and-minimizing-swaps",
+            "sectionSlug": "sorting-algorithms-elementary-comparison-sorts",
+            "time": "15 min"
+          },
+          {
+            "title": "Insertion sort and nearly sorted input",
+            "slug": "sorting-algorithms-elementary-comparison-sorts--insertion-sort-and-nearly-sorted-input",
+            "sectionSlug": "sorting-algorithms-elementary-comparison-sorts",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "sorting-algorithms-efficient-and-distribution-sorts",
+        "title": "Sorting Algorithms: Efficient and distribution sorts",
+        "lessons": [
+          {
+            "title": "Merge sort and stable divide-and-conquer",
+            "slug": "sorting-algorithms-efficient-and-distribution-sorts--merge-sort-and-stable-divide-and-conquer",
+            "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+            "time": "15 min"
+          },
+          {
+            "title": "Quicksort partitioning and worst-case pivots",
+            "slug": "sorting-algorithms-efficient-and-distribution-sorts--quicksort-partitioning-and-worst-case-pivots",
+            "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+            "time": "15 min"
+          },
+          {
+            "title": "Heap sort and bounded worst-case time",
+            "slug": "sorting-algorithms-efficient-and-distribution-sorts--heap-sort-and-bounded-worst-case-time",
+            "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+            "time": "15 min"
+          },
+          {
+            "title": "Counting and radix sort: exploiting key structure",
+            "slug": "sorting-algorithms-efficient-and-distribution-sorts--counting-and-radix-sort-exploiting-key-structure",
+            "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "recursion-recursive-reasoning",
+        "title": "Recursion: Recursive reasoning",
+        "lessons": [
+          {
+            "title": "Base cases, progress, and stack frames",
+            "slug": "recursion-recursive-reasoning--base-cases-progress-and-stack-frames",
+            "sectionSlug": "recursion-recursive-reasoning",
+            "time": "15 min"
+          },
+          {
+            "title": "Recursion trees and repeated subproblems",
+            "slug": "recursion-recursive-reasoning--recursion-trees-and-repeated-subproblems",
+            "sectionSlug": "recursion-recursive-reasoning",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "recursion-recursive-structures-and-decomposition",
+        "title": "Recursion: Recursive structures and decomposition",
+        "lessons": [
+          {
+            "title": "Tree recursion and postorder results",
+            "slug": "recursion-recursive-structures-and-decomposition--tree-recursion-and-postorder-results",
+            "sectionSlug": "recursion-recursive-structures-and-decomposition",
+            "time": "15 min"
+          },
+          {
+            "title": "Tower of Hanoi and exponential output",
+            "slug": "recursion-recursive-structures-and-decomposition--tower-of-hanoi-and-exponential-output",
+            "sectionSlug": "recursion-recursive-structures-and-decomposition",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "trees-tree-foundations",
+        "title": "Trees: Tree foundations",
+        "lessons": [
+          {
+            "title": "Roots, children, depth, height, and representation",
+            "slug": "trees-tree-foundations--roots-children-depth-height-and-representation",
+            "sectionSlug": "trees-tree-foundations",
+            "time": "15 min"
+          },
+          {
+            "title": "Preorder, inorder, and postorder traversal",
+            "slug": "trees-tree-foundations--preorder-inorder-and-postorder-traversal",
+            "sectionSlug": "trees-tree-foundations",
+            "time": "15 min"
+          },
+          {
+            "title": "BST search, insertion, and deletion",
+            "slug": "trees-tree-foundations--bst-search-insertion-and-deletion",
+            "sectionSlug": "trees-tree-foundations",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "trees-balanced-and-external-memory-trees",
+        "title": "Trees: Balanced and external-memory trees",
+        "lessons": [
+          {
+            "title": "AVL heights and single or double rotations",
+            "slug": "trees-balanced-and-external-memory-trees--avl-heights-and-single-or-double-rotations",
+            "sectionSlug": "trees-balanced-and-external-memory-trees",
+            "time": "15 min"
+          },
+          {
+            "title": "Red-black trees and color invariants",
+            "slug": "trees-balanced-and-external-memory-trees--red-black-trees-and-color-invariants",
+            "sectionSlug": "trees-balanced-and-external-memory-trees",
+            "time": "15 min"
+          },
+          {
+            "title": "B-trees, node splitting, and B+ tree leaves",
+            "slug": "trees-balanced-and-external-memory-trees--b-trees-node-splitting-and-b-tree-leaves",
+            "sectionSlug": "trees-balanced-and-external-memory-trees",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "heaps-and-priority-queues-heap-structure",
+        "title": "Heaps and Priority Queues: Heap structure",
+        "lessons": [
+          {
+            "title": "Complete trees and heap order",
+            "slug": "heaps-and-priority-queues-heap-structure--complete-trees-and-heap-order",
+            "sectionSlug": "heaps-and-priority-queues-heap-structure",
+            "time": "15 min"
+          },
+          {
+            "title": "Sift-down, extraction, and bottom-up heapify",
+            "slug": "heaps-and-priority-queues-heap-structure--sift-down-extraction-and-bottom-up-heapify",
+            "sectionSlug": "heaps-and-priority-queues-heap-structure",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "heaps-and-priority-queues-priority-driven-applications",
+        "title": "Heaps and Priority Queues: Priority-driven applications",
+        "lessons": [
+          {
+            "title": "Priority queues, stable ties, and scheduling",
+            "slug": "heaps-and-priority-queues-priority-driven-applications--priority-queues-stable-ties-and-scheduling",
+            "sectionSlug": "heaps-and-priority-queues-priority-driven-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Top-k selection and heap trade-offs",
+            "slug": "heaps-and-priority-queues-priority-driven-applications--top-k-selection-and-heap-trade-offs",
+            "sectionSlug": "heaps-and-priority-queues-priority-driven-applications",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "graphs-representation-and-traversal",
+        "title": "Graphs: Representation and traversal",
+        "lessons": [
+          {
+            "title": "Vertices, edges, adjacency lists, and matrices",
+            "slug": "graphs-representation-and-traversal--vertices-edges-adjacency-lists-and-matrices",
+            "sectionSlug": "graphs-representation-and-traversal",
+            "time": "15 min"
+          },
+          {
+            "title": "BFS layers and unweighted shortest paths",
+            "slug": "graphs-representation-and-traversal--bfs-layers-and-unweighted-shortest-paths",
+            "sectionSlug": "graphs-representation-and-traversal",
+            "time": "15 min"
+          },
+          {
+            "title": "DFS, recursion stacks, and cycle reasoning",
+            "slug": "graphs-representation-and-traversal--dfs-recursion-stacks-and-cycle-reasoning",
+            "sectionSlug": "graphs-representation-and-traversal",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "graphs-ordering-paths-and-connectivity",
+        "title": "Graphs: Ordering, paths, and connectivity",
+        "lessons": [
+          {
+            "title": "Topological ordering and dependency cycles",
+            "slug": "graphs-ordering-paths-and-connectivity--topological-ordering-and-dependency-cycles",
+            "sectionSlug": "graphs-ordering-paths-and-connectivity",
+            "time": "15 min"
+          },
+          {
+            "title": "Dijkstra and nonnegative weighted shortest paths",
+            "slug": "graphs-ordering-paths-and-connectivity--dijkstra-and-nonnegative-weighted-shortest-paths",
+            "sectionSlug": "graphs-ordering-paths-and-connectivity",
+            "time": "15 min"
+          },
+          {
+            "title": "Bellman-Ford and negative-cycle detection",
+            "slug": "graphs-ordering-paths-and-connectivity--bellman-ford-and-negative-cycle-detection",
+            "sectionSlug": "graphs-ordering-paths-and-connectivity",
+            "time": "15 min"
+          },
+          {
+            "title": "Spanning forests and Kruskal's algorithm",
+            "slug": "graphs-ordering-paths-and-connectivity--spanning-forests-and-kruskal-s-algorithm",
+            "sectionSlug": "graphs-ordering-paths-and-connectivity",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "disjoint-sets-partitioning-into-components",
+        "title": "Disjoint Sets: Partitioning into components",
+        "lessons": [
+          {
+            "title": "Representatives, find, and union",
+            "slug": "disjoint-sets-partitioning-into-components--representatives-find-and-union",
+            "sectionSlug": "disjoint-sets-partitioning-into-components",
+            "time": "15 min"
+          },
+          {
+            "title": "Union by rank and bounded tree growth",
+            "slug": "disjoint-sets-partitioning-into-components--union-by-rank-and-bounded-tree-growth",
+            "sectionSlug": "disjoint-sets-partitioning-into-components",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "disjoint-sets-optimization-and-applications",
+        "title": "Disjoint Sets: Optimization and applications",
+        "lessons": [
+          {
+            "title": "Path compression and amortized analysis",
+            "slug": "disjoint-sets-optimization-and-applications--path-compression-and-amortized-analysis",
+            "sectionSlug": "disjoint-sets-optimization-and-applications",
+            "time": "15 min"
+          },
+          {
+            "title": "Cycle detection, Kruskal, and DSU limitations",
+            "slug": "disjoint-sets-optimization-and-applications--cycle-detection-kruskal-and-dsu-limitations",
+            "sectionSlug": "disjoint-sets-optimization-and-applications",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "divide-and-conquer-divide-solve-combine",
+        "title": "Divide and Conquer: Divide, solve, combine",
+        "lessons": [
+          {
+            "title": "Balanced splitting and recurrence analysis",
+            "slug": "divide-and-conquer-divide-solve-combine--balanced-splitting-and-recurrence-analysis",
+            "sectionSlug": "divide-and-conquer-divide-solve-combine",
+            "time": "15 min"
+          },
+          {
+            "title": "Combining sorted subproblems",
+            "slug": "divide-and-conquer-divide-solve-combine--combining-sorted-subproblems",
+            "sectionSlug": "divide-and-conquer-divide-solve-combine",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "divide-and-conquer-algebra-and-partitioning",
+        "title": "Divide and Conquer: Algebra and partitioning",
+        "lessons": [
+          {
+            "title": "Exponentiation by squaring",
+            "slug": "divide-and-conquer-algebra-and-partitioning--exponentiation-by-squaring",
+            "sectionSlug": "divide-and-conquer-algebra-and-partitioning",
+            "time": "15 min"
+          },
+          {
+            "title": "Partition-based recursion and input sensitivity",
+            "slug": "divide-and-conquer-algebra-and-partitioning--partition-based-recursion-and-input-sensitivity",
+            "sectionSlug": "divide-and-conquer-algebra-and-partitioning",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "greedy-safe-local-choices",
+        "title": "Greedy: Safe local choices",
+        "lessons": [
+          {
+            "title": "Greedy choice and interval scheduling",
+            "slug": "greedy-safe-local-choices--greedy-choice-and-interval-scheduling",
+            "sectionSlug": "greedy-safe-local-choices",
+            "time": "15 min"
+          },
+          {
+            "title": "Fractional knapsack and exchange arguments",
+            "slug": "greedy-safe-local-choices--fractional-knapsack-and-exchange-arguments",
+            "sectionSlug": "greedy-safe-local-choices",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "greedy-graph-choices-and-counterexamples",
+        "title": "Greedy: Graph choices and counterexamples",
+        "lessons": [
+          {
+            "title": "Kruskal, cuts, and minimum connections",
+            "slug": "greedy-graph-choices-and-counterexamples--kruskal-cuts-and-minimum-connections",
+            "sectionSlug": "greedy-graph-choices-and-counterexamples",
+            "time": "15 min"
+          },
+          {
+            "title": "When greedy fails and how to find a counterexample",
+            "slug": "greedy-graph-choices-and-counterexamples--when-greedy-fails-and-how-to-find-a-counterexample",
+            "sectionSlug": "greedy-graph-choices-and-counterexamples",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "dynamic-programming-states-and-dependency-order",
+        "title": "Dynamic Programming: States and dependency order",
+        "lessons": [
+          {
+            "title": "Memoization, tabulation, and state meaning",
+            "slug": "dynamic-programming-states-and-dependency-order--memoization-tabulation-and-state-meaning",
+            "sectionSlug": "dynamic-programming-states-and-dependency-order",
+            "time": "15 min"
+          },
+          {
+            "title": "Minimum coin change and unreachable states",
+            "slug": "dynamic-programming-states-and-dependency-order--minimum-coin-change-and-unreachable-states",
+            "sectionSlug": "dynamic-programming-states-and-dependency-order",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "dynamic-programming-classic-dynamic-programs",
+        "title": "Dynamic Programming: Classic dynamic programs",
+        "lessons": [
+          {
+            "title": "0/1 knapsack and descending capacity updates",
+            "slug": "dynamic-programming-classic-dynamic-programs--0-1-knapsack-and-descending-capacity-updates",
+            "sectionSlug": "dynamic-programming-classic-dynamic-programs",
+            "time": "15 min"
+          },
+          {
+            "title": "Longest common subsequence and two-dimensional state",
+            "slug": "dynamic-programming-classic-dynamic-programs--longest-common-subsequence-and-two-dimensional-state",
+            "sectionSlug": "dynamic-programming-classic-dynamic-programs",
+            "time": "15 min"
+          },
+          {
+            "title": "Floyd-Warshall and allowed intermediate vertices",
+            "slug": "dynamic-programming-classic-dynamic-programs--floyd-warshall-and-allowed-intermediate-vertices",
+            "sectionSlug": "dynamic-programming-classic-dynamic-programs",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "backtracking-search-trees-and-restoration",
+        "title": "Backtracking: Search trees and restoration",
+        "lessons": [
+          {
+            "title": "Choose, explore, undo: enumerating subsets",
+            "slug": "backtracking-search-trees-and-restoration--choose-explore-undo-enumerating-subsets",
+            "sectionSlug": "backtracking-search-trees-and-restoration",
+            "time": "15 min"
+          },
+          {
+            "title": "Permutations and used-state symmetry",
+            "slug": "backtracking-search-trees-and-restoration--permutations-and-used-state-symmetry",
+            "sectionSlug": "backtracking-search-trees-and-restoration",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "backtracking-pruning-and-compact-search",
+        "title": "Backtracking: Pruning and compact search",
+        "lessons": [
+          {
+            "title": "N-Queens and pruning invalid prefixes",
+            "slug": "backtracking-pruning-and-compact-search--n-queens-and-pruning-invalid-prefixes",
+            "sectionSlug": "backtracking-pruning-and-compact-search",
+            "time": "15 min"
+          },
+          {
+            "title": "Bit masks and comparing enumeration strategies",
+            "slug": "backtracking-pruning-and-compact-search--bit-masks-and-comparing-enumeration-strategies",
+            "sectionSlug": "backtracking-pruning-and-compact-search",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "tries-prefix-storage",
+        "title": "Tries: Prefix storage",
+        "lessons": [
+          {
+            "title": "Character paths and end-of-word markers",
+            "slug": "tries-prefix-storage--character-paths-and-end-of-word-markers",
+            "sectionSlug": "tries-prefix-storage",
+            "time": "15 min"
+          },
+          {
+            "title": "Prefix lookup and autocomplete",
+            "slug": "tries-prefix-storage--prefix-lookup-and-autocomplete",
+            "sectionSlug": "tries-prefix-storage",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "tries-variants-and-lifecycle",
+        "title": "Tries: Variants and lifecycle",
+        "lessons": [
+          {
+            "title": "Deletion, pruning, and shared-prefix safety",
+            "slug": "tries-variants-and-lifecycle--deletion-pruning-and-shared-prefix-safety",
+            "sectionSlug": "tries-variants-and-lifecycle",
+            "time": "15 min"
+          },
+          {
+            "title": "Compressed tries and suffix indexing",
+            "slug": "tries-variants-and-lifecycle--compressed-tries-and-suffix-indexing",
+            "sectionSlug": "tries-variants-and-lifecycle",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "advanced-data-structures-range-query-structures",
+        "title": "Advanced Data Structures: Range-query structures",
+        "lessons": [
+          {
+            "title": "Fenwick trees and lowbit intervals",
+            "slug": "advanced-data-structures-range-query-structures--fenwick-trees-and-lowbit-intervals",
+            "sectionSlug": "advanced-data-structures-range-query-structures",
+            "time": "15 min"
+          },
+          {
+            "title": "Segment trees and associative combination",
+            "slug": "advanced-data-structures-range-query-structures--segment-trees-and-associative-combination",
+            "sectionSlug": "advanced-data-structures-range-query-structures",
+            "time": "15 min"
+          },
+          {
+            "title": "Lazy propagation and range-update contracts",
+            "slug": "advanced-data-structures-range-query-structures--lazy-propagation-and-range-update-contracts",
+            "sectionSlug": "advanced-data-structures-range-query-structures",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "advanced-data-structures-randomized-and-compact-structures",
+        "title": "Advanced Data Structures: Randomized and compact structures",
+        "lessons": [
+          {
+            "title": "Skip lists and layered search",
+            "slug": "advanced-data-structures-randomized-and-compact-structures--skip-lists-and-layered-search",
+            "sectionSlug": "advanced-data-structures-randomized-and-compact-structures",
+            "time": "15 min"
+          },
+          {
+            "title": "Treaps and independent random priorities",
+            "slug": "advanced-data-structures-randomized-and-compact-structures--treaps-and-independent-random-priorities",
+            "sectionSlug": "advanced-data-structures-randomized-and-compact-structures",
+            "time": "15 min"
+          },
+          {
+            "title": "Bloom filters and one-sided error",
+            "slug": "advanced-data-structures-randomized-and-compact-structures--bloom-filters-and-one-sided-error",
+            "sectionSlug": "advanced-data-structures-randomized-and-compact-structures",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "further-searching-and-sorting",
+        "title": "Further searching and sorting",
+        "lessons": [
+          {
+            "title": "Jump search and choosing a search strategy",
+            "slug": "further-searching-and-sorting--jump-search-and-choosing-a-search-strategy",
+            "sectionSlug": "further-searching-and-sorting",
+            "time": "15 min"
+          },
+          {
+            "title": "Shell sort and gap-based insertion",
+            "slug": "further-searching-and-sorting--shell-sort-and-gap-based-insertion",
+            "sectionSlug": "further-searching-and-sorting",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "graph-connectivity-and-network-flow",
+        "title": "Graph connectivity and network flow",
+        "lessons": [
+          {
+            "title": "Strongly connected components and condensation graphs",
+            "slug": "graph-connectivity-and-network-flow--strongly-connected-components-and-condensation-graphs",
+            "sectionSlug": "graph-connectivity-and-network-flow",
+            "time": "15 min"
+          },
+          {
+            "title": "Residual networks, augmenting paths, and max-flow min-cut",
+            "slug": "graph-connectivity-and-network-flow--residual-networks-augmenting-paths-and-max-flow-min-cut",
+            "sectionSlug": "graph-connectivity-and-network-flow",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "optimization-approximation-and-randomization",
+        "title": "Optimization, approximation, and randomization",
+        "lessons": [
+          {
+            "title": "Matrix-chain multiplication and interval dynamic programming",
+            "slug": "optimization-approximation-and-randomization--matrix-chain-multiplication-and-interval-dynamic-programming",
+            "sectionSlug": "optimization-approximation-and-randomization",
+            "time": "15 min"
+          },
+          {
+            "title": "Approximation algorithms and a guaranteed vertex cover",
+            "slug": "optimization-approximation-and-randomization--approximation-algorithms-and-a-guaranteed-vertex-cover",
+            "sectionSlug": "optimization-approximation-and-randomization",
+            "time": "15 min"
+          },
+          {
+            "title": "Fisher-Yates shuffle and reasoning about randomness",
+            "slug": "optimization-approximation-and-randomization--fisher-yates-shuffle-and-reasoning-about-randomness",
+            "sectionSlug": "optimization-approximation-and-randomization",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "capstone-and-course-assessment",
+        "title": "Capstone and course assessment",
+        "lessons": [
+          {
+            "title": "Build and review a route-planning service",
+            "slug": "capstone-and-course-assessment--build-and-review-a-route-planning-service",
+            "sectionSlug": "capstone-and-course-assessment",
+            "time": "15 min"
+          }
+        ]
       }
     ],
     "articles": [
+      {
+        "title": "Course roadmap, environment setup, and your first trace",
+        "slug": "getting-started--course-roadmap-environment-setup-and-your-first-trace",
+        "sectionSlug": "getting-started",
+        "time": "15 min"
+      },
       {
         "title": "Data structures, abstract types, and invariants",
         "slug": "reasoning-about-algorithms--data-structures-abstract-types-and-invariants",
@@ -58,6 +874,564 @@ export const dsaCourses = {
         "title": "Space, amortization, and reliable experiments",
         "slug": "reasoning-about-algorithms--space-amortization-and-reliable-experiments",
         "sectionSlug": "reasoning-about-algorithms",
+        "time": "15 min"
+      },
+      {
+        "title": "Indexing, traversal, and contiguous storage",
+        "slug": "arrays-storage-and-operations--indexing-traversal-and-contiguous-storage",
+        "sectionSlug": "arrays-storage-and-operations",
+        "time": "15 min"
+      },
+      {
+        "title": "Insertion, deletion, and shifting direction",
+        "slug": "arrays-storage-and-operations--insertion-deletion-and-shifting-direction",
+        "sectionSlug": "arrays-storage-and-operations",
+        "time": "15 min"
+      },
+      {
+        "title": "Prefix sums and range queries",
+        "slug": "arrays-useful-array-techniques--prefix-sums-and-range-queries",
+        "sectionSlug": "arrays-useful-array-techniques",
+        "time": "15 min"
+      },
+      {
+        "title": "Two pointers and fixed sliding windows",
+        "slug": "arrays-useful-array-techniques--two-pointers-and-fixed-sliding-windows",
+        "sectionSlug": "arrays-useful-array-techniques",
+        "time": "15 min"
+      },
+      {
+        "title": "Matrices, row-major layout, and transposition",
+        "slug": "arrays-useful-array-techniques--matrices-row-major-layout-and-transposition",
+        "sectionSlug": "arrays-useful-array-techniques",
+        "time": "15 min"
+      },
+      {
+        "title": "Nodes, traversal, and insertion",
+        "slug": "linked-lists-links-and-mutation--nodes-traversal-and-insertion",
+        "sectionSlug": "linked-lists-links-and-mutation",
+        "time": "15 min"
+      },
+      {
+        "title": "Reversal with three pointers",
+        "slug": "linked-lists-links-and-mutation--reversal-with-three-pointers",
+        "sectionSlug": "linked-lists-links-and-mutation",
+        "time": "15 min"
+      },
+      {
+        "title": "Doubly linked lists and LRU ordering",
+        "slug": "linked-lists-variants-and-applications--doubly-linked-lists-and-lru-ordering",
+        "sectionSlug": "linked-lists-variants-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Circular lists and Floyd cycle detection",
+        "slug": "linked-lists-variants-and-applications--circular-lists-and-floyd-cycle-detection",
+        "sectionSlug": "linked-lists-variants-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Merging sorted lists and pointer-safe deletion",
+        "slug": "linked-lists-variants-and-applications--merging-sorted-lists-and-pointer-safe-deletion",
+        "sectionSlug": "linked-lists-variants-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Push, pop, peek, and underflow",
+        "slug": "stacks-last-in-first-out--push-pop-peek-and-underflow",
+        "sectionSlug": "stacks-last-in-first-out",
+        "time": "15 min"
+      },
+      {
+        "title": "Balanced brackets and nested structure",
+        "slug": "stacks-last-in-first-out--balanced-brackets-and-nested-structure",
+        "sectionSlug": "stacks-last-in-first-out",
+        "time": "15 min"
+      },
+      {
+        "title": "Postfix expressions and operand order",
+        "slug": "stacks-stack-applications--postfix-expressions-and-operand-order",
+        "sectionSlug": "stacks-stack-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Monotonic stacks and next greater elements",
+        "slug": "stacks-stack-applications--monotonic-stacks-and-next-greater-elements",
+        "sectionSlug": "stacks-stack-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Queue contracts and first-in, first-out processing",
+        "slug": "queues-and-deques-fifo-and-circular-buffers--queue-contracts-and-first-in-first-out-processing",
+        "sectionSlug": "queues-and-deques-fifo-and-circular-buffers",
+        "time": "15 min"
+      },
+      {
+        "title": "Circular queues, wraparound, and full versus empty",
+        "slug": "queues-and-deques-fifo-and-circular-buffers--circular-queues-wraparound-and-full-versus-empty",
+        "sectionSlug": "queues-and-deques-fifo-and-circular-buffers",
+        "time": "15 min"
+      },
+      {
+        "title": "Deques and sliding-window maxima",
+        "slug": "queues-and-deques-deque-and-traversal-applications--deques-and-sliding-window-maxima",
+        "sectionSlug": "queues-and-deques-deque-and-traversal-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Breadth-first search as queue-driven exploration",
+        "slug": "queues-and-deques-deque-and-traversal-applications--breadth-first-search-as-queue-driven-exploration",
+        "sectionSlug": "queues-and-deques-deque-and-traversal-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Hash functions, equality, and separate chaining",
+        "slug": "hash-tables-hashing-and-collisions--hash-functions-equality-and-separate-chaining",
+        "sectionSlug": "hash-tables-hashing-and-collisions",
+        "time": "15 min"
+      },
+      {
+        "title": "Open addressing and linear probing",
+        "slug": "hash-tables-hashing-and-collisions--open-addressing-and-linear-probing",
+        "sectionSlug": "hash-tables-hashing-and-collisions",
+        "time": "15 min"
+      },
+      {
+        "title": "Load factor, resizing, and amortized cost",
+        "slug": "hash-tables-sizing-and-applications--load-factor-resizing-and-amortized-cost",
+        "sectionSlug": "hash-tables-sizing-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Frequency maps, sets, and choosing a structure",
+        "slug": "hash-tables-sizing-and-applications--frequency-maps-sets-and-choosing-a-structure",
+        "sectionSlug": "hash-tables-sizing-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Linear search and choosing a search method",
+        "slug": "binary-search-search-contracts--linear-search-and-choosing-a-search-method",
+        "sectionSlug": "binary-search-search-contracts",
+        "time": "15 min"
+      },
+      {
+        "title": "Binary search with half-open intervals",
+        "slug": "binary-search-search-contracts--binary-search-with-half-open-intervals",
+        "sectionSlug": "binary-search-search-contracts",
+        "time": "15 min"
+      },
+      {
+        "title": "Duplicates, lower bounds, and insertion positions",
+        "slug": "binary-search-boundaries-and-extensions--duplicates-lower-bounds-and-insertion-positions",
+        "sectionSlug": "binary-search-boundaries-and-extensions",
+        "time": "15 min"
+      },
+      {
+        "title": "Monotonic predicates and search-space design",
+        "slug": "binary-search-boundaries-and-extensions--monotonic-predicates-and-search-space-design",
+        "sectionSlug": "binary-search-boundaries-and-extensions",
+        "time": "15 min"
+      },
+      {
+        "title": "Sorting contracts, stability, and bubble sort",
+        "slug": "sorting-algorithms-elementary-comparison-sorts--sorting-contracts-stability-and-bubble-sort",
+        "sectionSlug": "sorting-algorithms-elementary-comparison-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Selection sort and minimizing swaps",
+        "slug": "sorting-algorithms-elementary-comparison-sorts--selection-sort-and-minimizing-swaps",
+        "sectionSlug": "sorting-algorithms-elementary-comparison-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Insertion sort and nearly sorted input",
+        "slug": "sorting-algorithms-elementary-comparison-sorts--insertion-sort-and-nearly-sorted-input",
+        "sectionSlug": "sorting-algorithms-elementary-comparison-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Merge sort and stable divide-and-conquer",
+        "slug": "sorting-algorithms-efficient-and-distribution-sorts--merge-sort-and-stable-divide-and-conquer",
+        "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Quicksort partitioning and worst-case pivots",
+        "slug": "sorting-algorithms-efficient-and-distribution-sorts--quicksort-partitioning-and-worst-case-pivots",
+        "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Heap sort and bounded worst-case time",
+        "slug": "sorting-algorithms-efficient-and-distribution-sorts--heap-sort-and-bounded-worst-case-time",
+        "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Counting and radix sort: exploiting key structure",
+        "slug": "sorting-algorithms-efficient-and-distribution-sorts--counting-and-radix-sort-exploiting-key-structure",
+        "sectionSlug": "sorting-algorithms-efficient-and-distribution-sorts",
+        "time": "15 min"
+      },
+      {
+        "title": "Base cases, progress, and stack frames",
+        "slug": "recursion-recursive-reasoning--base-cases-progress-and-stack-frames",
+        "sectionSlug": "recursion-recursive-reasoning",
+        "time": "15 min"
+      },
+      {
+        "title": "Recursion trees and repeated subproblems",
+        "slug": "recursion-recursive-reasoning--recursion-trees-and-repeated-subproblems",
+        "sectionSlug": "recursion-recursive-reasoning",
+        "time": "15 min"
+      },
+      {
+        "title": "Tree recursion and postorder results",
+        "slug": "recursion-recursive-structures-and-decomposition--tree-recursion-and-postorder-results",
+        "sectionSlug": "recursion-recursive-structures-and-decomposition",
+        "time": "15 min"
+      },
+      {
+        "title": "Tower of Hanoi and exponential output",
+        "slug": "recursion-recursive-structures-and-decomposition--tower-of-hanoi-and-exponential-output",
+        "sectionSlug": "recursion-recursive-structures-and-decomposition",
+        "time": "15 min"
+      },
+      {
+        "title": "Roots, children, depth, height, and representation",
+        "slug": "trees-tree-foundations--roots-children-depth-height-and-representation",
+        "sectionSlug": "trees-tree-foundations",
+        "time": "15 min"
+      },
+      {
+        "title": "Preorder, inorder, and postorder traversal",
+        "slug": "trees-tree-foundations--preorder-inorder-and-postorder-traversal",
+        "sectionSlug": "trees-tree-foundations",
+        "time": "15 min"
+      },
+      {
+        "title": "BST search, insertion, and deletion",
+        "slug": "trees-tree-foundations--bst-search-insertion-and-deletion",
+        "sectionSlug": "trees-tree-foundations",
+        "time": "15 min"
+      },
+      {
+        "title": "AVL heights and single or double rotations",
+        "slug": "trees-balanced-and-external-memory-trees--avl-heights-and-single-or-double-rotations",
+        "sectionSlug": "trees-balanced-and-external-memory-trees",
+        "time": "15 min"
+      },
+      {
+        "title": "Red-black trees and color invariants",
+        "slug": "trees-balanced-and-external-memory-trees--red-black-trees-and-color-invariants",
+        "sectionSlug": "trees-balanced-and-external-memory-trees",
+        "time": "15 min"
+      },
+      {
+        "title": "B-trees, node splitting, and B+ tree leaves",
+        "slug": "trees-balanced-and-external-memory-trees--b-trees-node-splitting-and-b-tree-leaves",
+        "sectionSlug": "trees-balanced-and-external-memory-trees",
+        "time": "15 min"
+      },
+      {
+        "title": "Complete trees and heap order",
+        "slug": "heaps-and-priority-queues-heap-structure--complete-trees-and-heap-order",
+        "sectionSlug": "heaps-and-priority-queues-heap-structure",
+        "time": "15 min"
+      },
+      {
+        "title": "Sift-down, extraction, and bottom-up heapify",
+        "slug": "heaps-and-priority-queues-heap-structure--sift-down-extraction-and-bottom-up-heapify",
+        "sectionSlug": "heaps-and-priority-queues-heap-structure",
+        "time": "15 min"
+      },
+      {
+        "title": "Priority queues, stable ties, and scheduling",
+        "slug": "heaps-and-priority-queues-priority-driven-applications--priority-queues-stable-ties-and-scheduling",
+        "sectionSlug": "heaps-and-priority-queues-priority-driven-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Top-k selection and heap trade-offs",
+        "slug": "heaps-and-priority-queues-priority-driven-applications--top-k-selection-and-heap-trade-offs",
+        "sectionSlug": "heaps-and-priority-queues-priority-driven-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Vertices, edges, adjacency lists, and matrices",
+        "slug": "graphs-representation-and-traversal--vertices-edges-adjacency-lists-and-matrices",
+        "sectionSlug": "graphs-representation-and-traversal",
+        "time": "15 min"
+      },
+      {
+        "title": "BFS layers and unweighted shortest paths",
+        "slug": "graphs-representation-and-traversal--bfs-layers-and-unweighted-shortest-paths",
+        "sectionSlug": "graphs-representation-and-traversal",
+        "time": "15 min"
+      },
+      {
+        "title": "DFS, recursion stacks, and cycle reasoning",
+        "slug": "graphs-representation-and-traversal--dfs-recursion-stacks-and-cycle-reasoning",
+        "sectionSlug": "graphs-representation-and-traversal",
+        "time": "15 min"
+      },
+      {
+        "title": "Topological ordering and dependency cycles",
+        "slug": "graphs-ordering-paths-and-connectivity--topological-ordering-and-dependency-cycles",
+        "sectionSlug": "graphs-ordering-paths-and-connectivity",
+        "time": "15 min"
+      },
+      {
+        "title": "Dijkstra and nonnegative weighted shortest paths",
+        "slug": "graphs-ordering-paths-and-connectivity--dijkstra-and-nonnegative-weighted-shortest-paths",
+        "sectionSlug": "graphs-ordering-paths-and-connectivity",
+        "time": "15 min"
+      },
+      {
+        "title": "Bellman-Ford and negative-cycle detection",
+        "slug": "graphs-ordering-paths-and-connectivity--bellman-ford-and-negative-cycle-detection",
+        "sectionSlug": "graphs-ordering-paths-and-connectivity",
+        "time": "15 min"
+      },
+      {
+        "title": "Spanning forests and Kruskal's algorithm",
+        "slug": "graphs-ordering-paths-and-connectivity--spanning-forests-and-kruskal-s-algorithm",
+        "sectionSlug": "graphs-ordering-paths-and-connectivity",
+        "time": "15 min"
+      },
+      {
+        "title": "Representatives, find, and union",
+        "slug": "disjoint-sets-partitioning-into-components--representatives-find-and-union",
+        "sectionSlug": "disjoint-sets-partitioning-into-components",
+        "time": "15 min"
+      },
+      {
+        "title": "Union by rank and bounded tree growth",
+        "slug": "disjoint-sets-partitioning-into-components--union-by-rank-and-bounded-tree-growth",
+        "sectionSlug": "disjoint-sets-partitioning-into-components",
+        "time": "15 min"
+      },
+      {
+        "title": "Path compression and amortized analysis",
+        "slug": "disjoint-sets-optimization-and-applications--path-compression-and-amortized-analysis",
+        "sectionSlug": "disjoint-sets-optimization-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Cycle detection, Kruskal, and DSU limitations",
+        "slug": "disjoint-sets-optimization-and-applications--cycle-detection-kruskal-and-dsu-limitations",
+        "sectionSlug": "disjoint-sets-optimization-and-applications",
+        "time": "15 min"
+      },
+      {
+        "title": "Balanced splitting and recurrence analysis",
+        "slug": "divide-and-conquer-divide-solve-combine--balanced-splitting-and-recurrence-analysis",
+        "sectionSlug": "divide-and-conquer-divide-solve-combine",
+        "time": "15 min"
+      },
+      {
+        "title": "Combining sorted subproblems",
+        "slug": "divide-and-conquer-divide-solve-combine--combining-sorted-subproblems",
+        "sectionSlug": "divide-and-conquer-divide-solve-combine",
+        "time": "15 min"
+      },
+      {
+        "title": "Exponentiation by squaring",
+        "slug": "divide-and-conquer-algebra-and-partitioning--exponentiation-by-squaring",
+        "sectionSlug": "divide-and-conquer-algebra-and-partitioning",
+        "time": "15 min"
+      },
+      {
+        "title": "Partition-based recursion and input sensitivity",
+        "slug": "divide-and-conquer-algebra-and-partitioning--partition-based-recursion-and-input-sensitivity",
+        "sectionSlug": "divide-and-conquer-algebra-and-partitioning",
+        "time": "15 min"
+      },
+      {
+        "title": "Greedy choice and interval scheduling",
+        "slug": "greedy-safe-local-choices--greedy-choice-and-interval-scheduling",
+        "sectionSlug": "greedy-safe-local-choices",
+        "time": "15 min"
+      },
+      {
+        "title": "Fractional knapsack and exchange arguments",
+        "slug": "greedy-safe-local-choices--fractional-knapsack-and-exchange-arguments",
+        "sectionSlug": "greedy-safe-local-choices",
+        "time": "15 min"
+      },
+      {
+        "title": "Kruskal, cuts, and minimum connections",
+        "slug": "greedy-graph-choices-and-counterexamples--kruskal-cuts-and-minimum-connections",
+        "sectionSlug": "greedy-graph-choices-and-counterexamples",
+        "time": "15 min"
+      },
+      {
+        "title": "When greedy fails and how to find a counterexample",
+        "slug": "greedy-graph-choices-and-counterexamples--when-greedy-fails-and-how-to-find-a-counterexample",
+        "sectionSlug": "greedy-graph-choices-and-counterexamples",
+        "time": "15 min"
+      },
+      {
+        "title": "Memoization, tabulation, and state meaning",
+        "slug": "dynamic-programming-states-and-dependency-order--memoization-tabulation-and-state-meaning",
+        "sectionSlug": "dynamic-programming-states-and-dependency-order",
+        "time": "15 min"
+      },
+      {
+        "title": "Minimum coin change and unreachable states",
+        "slug": "dynamic-programming-states-and-dependency-order--minimum-coin-change-and-unreachable-states",
+        "sectionSlug": "dynamic-programming-states-and-dependency-order",
+        "time": "15 min"
+      },
+      {
+        "title": "0/1 knapsack and descending capacity updates",
+        "slug": "dynamic-programming-classic-dynamic-programs--0-1-knapsack-and-descending-capacity-updates",
+        "sectionSlug": "dynamic-programming-classic-dynamic-programs",
+        "time": "15 min"
+      },
+      {
+        "title": "Longest common subsequence and two-dimensional state",
+        "slug": "dynamic-programming-classic-dynamic-programs--longest-common-subsequence-and-two-dimensional-state",
+        "sectionSlug": "dynamic-programming-classic-dynamic-programs",
+        "time": "15 min"
+      },
+      {
+        "title": "Floyd-Warshall and allowed intermediate vertices",
+        "slug": "dynamic-programming-classic-dynamic-programs--floyd-warshall-and-allowed-intermediate-vertices",
+        "sectionSlug": "dynamic-programming-classic-dynamic-programs",
+        "time": "15 min"
+      },
+      {
+        "title": "Choose, explore, undo: enumerating subsets",
+        "slug": "backtracking-search-trees-and-restoration--choose-explore-undo-enumerating-subsets",
+        "sectionSlug": "backtracking-search-trees-and-restoration",
+        "time": "15 min"
+      },
+      {
+        "title": "Permutations and used-state symmetry",
+        "slug": "backtracking-search-trees-and-restoration--permutations-and-used-state-symmetry",
+        "sectionSlug": "backtracking-search-trees-and-restoration",
+        "time": "15 min"
+      },
+      {
+        "title": "N-Queens and pruning invalid prefixes",
+        "slug": "backtracking-pruning-and-compact-search--n-queens-and-pruning-invalid-prefixes",
+        "sectionSlug": "backtracking-pruning-and-compact-search",
+        "time": "15 min"
+      },
+      {
+        "title": "Bit masks and comparing enumeration strategies",
+        "slug": "backtracking-pruning-and-compact-search--bit-masks-and-comparing-enumeration-strategies",
+        "sectionSlug": "backtracking-pruning-and-compact-search",
+        "time": "15 min"
+      },
+      {
+        "title": "Character paths and end-of-word markers",
+        "slug": "tries-prefix-storage--character-paths-and-end-of-word-markers",
+        "sectionSlug": "tries-prefix-storage",
+        "time": "15 min"
+      },
+      {
+        "title": "Prefix lookup and autocomplete",
+        "slug": "tries-prefix-storage--prefix-lookup-and-autocomplete",
+        "sectionSlug": "tries-prefix-storage",
+        "time": "15 min"
+      },
+      {
+        "title": "Deletion, pruning, and shared-prefix safety",
+        "slug": "tries-variants-and-lifecycle--deletion-pruning-and-shared-prefix-safety",
+        "sectionSlug": "tries-variants-and-lifecycle",
+        "time": "15 min"
+      },
+      {
+        "title": "Compressed tries and suffix indexing",
+        "slug": "tries-variants-and-lifecycle--compressed-tries-and-suffix-indexing",
+        "sectionSlug": "tries-variants-and-lifecycle",
+        "time": "15 min"
+      },
+      {
+        "title": "Fenwick trees and lowbit intervals",
+        "slug": "advanced-data-structures-range-query-structures--fenwick-trees-and-lowbit-intervals",
+        "sectionSlug": "advanced-data-structures-range-query-structures",
+        "time": "15 min"
+      },
+      {
+        "title": "Segment trees and associative combination",
+        "slug": "advanced-data-structures-range-query-structures--segment-trees-and-associative-combination",
+        "sectionSlug": "advanced-data-structures-range-query-structures",
+        "time": "15 min"
+      },
+      {
+        "title": "Lazy propagation and range-update contracts",
+        "slug": "advanced-data-structures-range-query-structures--lazy-propagation-and-range-update-contracts",
+        "sectionSlug": "advanced-data-structures-range-query-structures",
+        "time": "15 min"
+      },
+      {
+        "title": "Skip lists and layered search",
+        "slug": "advanced-data-structures-randomized-and-compact-structures--skip-lists-and-layered-search",
+        "sectionSlug": "advanced-data-structures-randomized-and-compact-structures",
+        "time": "15 min"
+      },
+      {
+        "title": "Treaps and independent random priorities",
+        "slug": "advanced-data-structures-randomized-and-compact-structures--treaps-and-independent-random-priorities",
+        "sectionSlug": "advanced-data-structures-randomized-and-compact-structures",
+        "time": "15 min"
+      },
+      {
+        "title": "Bloom filters and one-sided error",
+        "slug": "advanced-data-structures-randomized-and-compact-structures--bloom-filters-and-one-sided-error",
+        "sectionSlug": "advanced-data-structures-randomized-and-compact-structures",
+        "time": "15 min"
+      },
+      {
+        "title": "Jump search and choosing a search strategy",
+        "slug": "further-searching-and-sorting--jump-search-and-choosing-a-search-strategy",
+        "sectionSlug": "further-searching-and-sorting",
+        "time": "15 min"
+      },
+      {
+        "title": "Shell sort and gap-based insertion",
+        "slug": "further-searching-and-sorting--shell-sort-and-gap-based-insertion",
+        "sectionSlug": "further-searching-and-sorting",
+        "time": "15 min"
+      },
+      {
+        "title": "Strongly connected components and condensation graphs",
+        "slug": "graph-connectivity-and-network-flow--strongly-connected-components-and-condensation-graphs",
+        "sectionSlug": "graph-connectivity-and-network-flow",
+        "time": "15 min"
+      },
+      {
+        "title": "Residual networks, augmenting paths, and max-flow min-cut",
+        "slug": "graph-connectivity-and-network-flow--residual-networks-augmenting-paths-and-max-flow-min-cut",
+        "sectionSlug": "graph-connectivity-and-network-flow",
+        "time": "15 min"
+      },
+      {
+        "title": "Matrix-chain multiplication and interval dynamic programming",
+        "slug": "optimization-approximation-and-randomization--matrix-chain-multiplication-and-interval-dynamic-programming",
+        "sectionSlug": "optimization-approximation-and-randomization",
+        "time": "15 min"
+      },
+      {
+        "title": "Approximation algorithms and a guaranteed vertex cover",
+        "slug": "optimization-approximation-and-randomization--approximation-algorithms-and-a-guaranteed-vertex-cover",
+        "sectionSlug": "optimization-approximation-and-randomization",
+        "time": "15 min"
+      },
+      {
+        "title": "Fisher-Yates shuffle and reasoning about randomness",
+        "slug": "optimization-approximation-and-randomization--fisher-yates-shuffle-and-reasoning-about-randomness",
+        "sectionSlug": "optimization-approximation-and-randomization",
+        "time": "15 min"
+      },
+      {
+        "title": "Build and review a route-planning service",
+        "slug": "capstone-and-course-assessment--build-and-review-a-route-planning-service",
+        "sectionSlug": "capstone-and-course-assessment",
         "time": "15 min"
       }
     ],

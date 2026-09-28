@@ -59,6 +59,10 @@ export default function App() {
   );
 
   const parts = path.split("/").filter(Boolean);
+  // Accept the singular course URL while preserving existing links and progress keys.
+  if (parts[0] === "learn" && parts[1] === "dsa" && parts[2] === "dsa-foundation") {
+    parts[2] = "dsa-foundations";
+  }
   let page;
 
   if (parts.length === 0) {

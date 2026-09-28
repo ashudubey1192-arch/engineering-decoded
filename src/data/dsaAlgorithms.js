@@ -1,4 +1,5 @@
 import { dsaAdvancedAlgorithms } from "./dsaAdvancedAlgorithms.js";
+import { dsaFoundationAlgorithms } from "./dsaFoundationAlgorithms.js";
 // Pure teaching implementations. The optional emit callback records real algorithm
 // states; examples remain executable without the visualizer.
 function linearSearch({ values, target }, emit = () => {}) {
@@ -1171,3 +1172,4 @@ export function runDsaAlgorithm(name, input) {
 }
 
 Object.assign(dsaAlgorithms, dsaAdvancedAlgorithms);
+Object.assign(dsaAlgorithms, dsaFoundationAlgorithms);
