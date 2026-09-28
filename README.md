@@ -81,13 +81,13 @@ the script refuses to overwrite unrecognized authored content.
 
 ## Data Structures and Algorithms
 
-The DSA module has 19 courses and 98 distinct authored lessons. DSA Foundations
-now contains the complete 98-lesson learning path, from environment setup to a
+The DSA module has 19 courses and 129 distinct authored lessons. DSA Foundations
+now contains the complete 129-lesson learning path, from environment setup to a
 route-planning capstone. Its URL is `/learn/dsa/dsa-foundations`; the singular
 `/learn/dsa/dsa-foundation` URL is also accepted. The other 18 courses remain
 available as focused topic tracks. Every lesson
 includes an invariant, time/space analysis, a worked input, a JavaScript
-implementation, an interactive visual trace, and a practice question with an
+implementation (Java for Arrays, JavaScript for the other topics), an interactive visual trace, and a practice question with an
 explanation. Coverage uses the linked TutorialsPoint curriculum as a reference;
 the prose, code, and visualizations are original.
 
@@ -117,3 +117,55 @@ runs the displayed implementations independently, compares randomized examples
 against reference results, checks balanced-tree invariants and failure cases,
 and renders every lesson. Visualization snapshot overhead is excluded from the
 algorithmic complexity discussed in lessons.
+
+### Arrays in Java
+
+`/learn/dsa/arrays` contains 36 Java lessons covering language essentials,
+ownership and copying, standard library contracts, interview patterns, matrix
+operations, and projects using bounded buffers, rolling metrics, range updates,
+and immutable snapshots. The five original array lesson URLs are preserved;
+the complete DSA Foundations course includes the same upgraded material.
+Every lesson has a standalone `ArrayLesson.java` program, step-by-step playback,
+complexity analysis, an invariant, worked practice, boundary cases, and project
+guidance. Programs target Java 17 or later and link to Java SE 21 documentation.
+
+Edit `src/data/javaArrayLessons.js` for teaching material and
+`src/data/javaArrayPrograms.js` for Java methods and executable cases.
+`javaArrayRuntime.js` supplies the standalone program's trace harness.
+The browser replays real Java snapshots from `javaArrayTraces.js`; it does not
+compile Java or execute reader edits. Trace storage is teaching overhead and
+is excluded from the stated algorithm complexities.
+
+With `java` and `javac` on PATH, run:
+
+```bash
+npm run generate:java-arrays
+node scripts/generate-dsa-courses.mjs
+npm run check:java-arrays
+npm run check:dsa
+```
+
+The Java check compiles and runs all 103 authored cases, checks expected results
+and highlighted indices, and verifies that committed traces match the exact
+displayed programs. Generation uses an isolated temporary directory and leaves
+no Java class files in the repository.
+
+## Java linked lists, stacks, queues/deques, and hash tables
+
+The Java course at `/learn/backend/java` includes 18 authored lessons in four
+new sections. Each lesson has a runnable Java 21 example with expected output,
+a manually stepped visual trace, an invariant, complexity analysis, pitfalls,
+project applications, interview exercises, and official Java API references.
+The LRU cache capstone combines hashing and recency ordering.
+
+Content: `src/data/javaStructureLessons.js`. Shared reader:
+`src/components/learning/JavaStructureArticle.jsx`. Article wrappers follow the
+existing course registry and preserve the Java course's earlier routes.
+
+Run `node scripts/check-java-structures.mjs` with Node and a JDK on PATH to check
+all 18 registered routes, server-render their content, compile each Java example,
+and compare its actual output. The default uses `javac --release 21`. If a JDK
+installation cannot read its release signature archive, setting
+`JAVA_STRUCTURE_SOURCE_CHECK=1` uses `--source 21 --target 21` instead; this checks
+language/bytecode compatibility but not the Java 21 API surface. Browser traces
+are explanatory snapshots, not an in-browser Java interpreter.

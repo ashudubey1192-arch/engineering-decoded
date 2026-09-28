@@ -1,5 +1,5 @@
 import DsaLessonArticle from "../../../../../DsaLessonArticle.jsx";
 
 export default function Article() {
-  return <DsaLessonArticle courseSlug="arrays" lessonSlug="useful-array-techniques--prefix-sums-and-range-queries" />;
+  return <DsaLessonArticle courseSlug="arrays" lessonSlug="java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion" />;
 }

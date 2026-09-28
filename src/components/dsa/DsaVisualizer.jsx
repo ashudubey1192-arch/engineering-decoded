@@ -1,5 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { runDsaAlgorithm } from "../../data/dsaAlgorithms.js";
+import { javaArrayTraces } from "../../data/javaArrayTraces.js";
 
 function Cells({
   values = [],
@@ -243,7 +244,11 @@ export default function DsaVisualizer({ lesson }) {
         : lesson.input,
     [lesson.input, variant, canReverse],
   );
-  const run = useMemo(() => runDsaAlgorithm(lesson.algorithm, input), [lesson.algorithm, input]);
+  const run = useMemo(
+    () =>
+      lesson.java ? javaArrayTraces[lesson.java.id] : runDsaAlgorithm(lesson.algorithm, input),
+    [lesson.java, lesson.algorithm, input],
+  );
   const frames = run.frames.length
     ? run.frames
     : [{ values: [], note: "The base case returns without an iteration." }];

@@ -8,6 +8,7 @@ import { dsaLessons } from "../src/data/dsaLessons.js";
 import { dsaCourses } from "../src/data/dsaCourses.js";
 import { dsaAlgorithms, runDsaAlgorithm } from "../src/data/dsaAlgorithms.js";
 import { dsaAlgorithmSources } from "../src/data/dsaAlgorithmSources.js";
+import { javaArrayTraces } from "../src/data/javaArrayTraces.js";
 
 const plain = (value) => JSON.parse(JSON.stringify(value));
 const foundation = dsaLessons["dsa-foundations"];
@@ -60,7 +61,9 @@ for (const [courseSlug, course] of Object.entries(dsaLessons)) {
     );
     assert.notEqual(lesson.complexityTime, lesson.time, `${id}: reading time replaced complexity`);
     const inputBefore = JSON.stringify(lesson.input);
-    const run = runDsaAlgorithm(lesson.algorithm, lesson.input);
+    const run = lesson.java
+      ? javaArrayTraces[lesson.java.id]
+      : runDsaAlgorithm(lesson.algorithm, lesson.input);
     assert.equal(JSON.stringify(lesson.input), inputBefore, `${id}: mutated input`);
     assert.ok(run.frames.length > 0, `${id}: no visual trace`);
     for (const frame of run.frames) {
@@ -74,6 +77,14 @@ for (const [courseSlug, course] of Object.entries(dsaLessons)) {
         }
     }
     // The exact implementation displayed to learners must run independently.
+    if (lesson.java) {
+      assert.equal(run.source, lesson.java.source, `${id}: stale Java trace`);
+      assert.deepEqual(run.result, lesson.java.expected, `${id}: Java output mismatch`);
+      assert.ok(lesson.steps.length >= 3 && lesson.project && lesson.boundaries.length);
+      examples++;
+      frames += run.frames.length;
+      continue;
+    }
     assert.equal(
       dsaAlgorithmSources[lesson.algorithm],
       dsaAlgorithms[lesson.algorithm].toString(),

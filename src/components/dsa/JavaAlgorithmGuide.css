@@ -1,0 +1,82 @@
+.javaAlgorithmGuide {
+  border-top: 2px solid var(--dsa-active);
+  padding-top: 28px;
+  min-width: 0;
+}
+.javaAlgorithmGuide details {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-block: 18px;
+}
+.javaAlgorithmGuide summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.javaTechniquePicker {
+  display: grid;
+  gap: 10px;
+  margin-block: 24px;
+}
+.javaTechniquePicker label {
+  font-weight: 600;
+}
+.javaTechniquePicker select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+}
+.javaTrace {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 20px;
+  margin-block: 24px;
+}
+.javaTrace pre {
+  min-height: 90px;
+  line-height: 1.8;
+}
+.javaAlgorithmGuide pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+}
+.javaTraceControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.javaTraceControls button {
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+.javaTraceControls button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.javaAlgorithmGuide :is(button, select, summary):focus-visible {
+  outline: 2px solid var(--dsa-active);
+  outline-offset: 3px;
+}
+.javaAlgorithmGuide dd {
+  margin: 6px 0 18px;
+}
+@media (max-width: 600px) {
+  .javaTrace {
+    padding: 12px;
+  }
+  .javaTechniquePicker select {
+    font-size: 0.9rem;
+  }
+}

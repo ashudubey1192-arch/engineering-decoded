@@ -274,6 +274,39 @@
 .dsaReference a {
   color: var(--dsa-active);
 }
+.dsaWalkthrough li {
+  margin-block: 10px;
+  line-height: 1.7;
+}
+.dsaCaseTable {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: 20px;
+}
+.dsaCaseTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dsaCaseTable caption {
+  text-align: left;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.dsaCaseTable th,
+.dsaCaseTable td {
+  padding: 12px;
+  border: 1px solid var(--line);
+  text-align: left;
+}
+.dsaCaseTable code {
+  overflow-wrap: anywhere;
+}
+.dsaProject {
+  margin-block: 24px;
+  padding: 18px;
+  border-left: 3px solid var(--dsa-active);
+  background: var(--bg);
+}
 @media (max-width: 600px) {
   .dsaComplexity {
     grid-template-columns: 1fr;

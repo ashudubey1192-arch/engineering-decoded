@@ -47,43 +47,253 @@ export const dsaCourses = {
         ]
       },
       {
-        "slug": "arrays-storage-and-operations",
-        "title": "Arrays: Storage and operations",
+        "slug": "arrays-java-essentials",
+        "title": "Arrays in Java: Java essentials",
         "lessons": [
           {
-            "title": "Indexing, traversal, and contiguous storage",
-            "slug": "arrays-storage-and-operations--indexing-traversal-and-contiguous-storage",
-            "sectionSlug": "arrays-storage-and-operations",
+            "title": "Java array creation, defaults, indexing, and traversal",
+            "slug": "arrays-java-essentials--java-array-creation-defaults-indexing-and-traversal",
+            "sectionSlug": "arrays-java-essentials",
             "time": "15 min"
           },
           {
-            "title": "Insertion, deletion, and shifting direction",
-            "slug": "arrays-storage-and-operations--insertion-deletion-and-shifting-direction",
-            "sectionSlug": "arrays-storage-and-operations",
+            "title": "References, pass-by-value, shallow copies, and jagged arrays",
+            "slug": "arrays-java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+            "sectionSlug": "arrays-java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "Primitive arrays, ArrayList, boxing, and collection conversion",
+            "slug": "arrays-java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+            "sectionSlug": "arrays-java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "Arrays utilities, sorting, equality, and binary-search contracts",
+            "slug": "arrays-java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+            "sectionSlug": "arrays-java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "Overflow, long accumulators, and safe numeric contracts",
+            "slug": "arrays-java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+            "sectionSlug": "arrays-java-essentials",
             "time": "15 min"
           }
         ]
       },
       {
+        "slug": "arrays-storage-and-operations",
+        "title": "Arrays in Java: Storage and operations",
+        "lessons": [
+          {
+            "title": "Indexing, traversal, and contiguous storage",
+            "slug": "arrays-storage-and-operations--indexing-traversal-and-contiguous-storage",
+            "sectionSlug": "arrays-storage-and-operations",
+            "time": "20 min"
+          },
+          {
+            "title": "Insertion, deletion, and shifting direction",
+            "slug": "arrays-storage-and-operations--insertion-deletion-and-shifting-direction",
+            "sectionSlug": "arrays-storage-and-operations",
+            "time": "20 min"
+          }
+        ]
+      },
+      {
         "slug": "arrays-useful-array-techniques",
-        "title": "Arrays: Useful array techniques",
+        "title": "Arrays in Java: Useful array techniques",
         "lessons": [
           {
             "title": "Prefix sums and range queries",
             "slug": "arrays-useful-array-techniques--prefix-sums-and-range-queries",
             "sectionSlug": "arrays-useful-array-techniques",
-            "time": "15 min"
+            "time": "20 min"
           },
           {
             "title": "Two pointers and fixed sliding windows",
             "slug": "arrays-useful-array-techniques--two-pointers-and-fixed-sliding-windows",
             "sectionSlug": "arrays-useful-array-techniques",
-            "time": "15 min"
+            "time": "20 min"
           },
           {
             "title": "Matrices, row-major layout, and transposition",
             "slug": "arrays-useful-array-techniques--matrices-row-major-layout-and-transposition",
             "sectionSlug": "arrays-useful-array-techniques",
+            "time": "20 min"
+          }
+        ]
+      },
+      {
+        "slug": "arrays-interview-patterns",
+        "title": "Arrays in Java: Interview patterns",
+        "lessons": [
+          {
+            "title": "Two Sum with a hash map and original indices",
+            "slug": "arrays-interview-patterns--two-sum-with-a-hash-map-and-original-indices",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Read-write pointers, moving zeros, and deduplication",
+            "slug": "arrays-interview-patterns--read-write-pointers-moving-zeros-and-deduplication",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Array reversal and rotation by three reversals",
+            "slug": "arrays-interview-patterns--array-reversal-and-rotation-by-three-reversals",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Merge sorted arrays into spare capacity",
+            "slug": "arrays-interview-patterns--merge-sorted-arrays-into-spare-capacity",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Lower bounds, duplicate ranges, and binary-search invariants",
+            "slug": "arrays-interview-patterns--lower-bounds-duplicate-ranges-and-binary-search-invariants",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Kadane: maximum subarray and all-negative inputs",
+            "slug": "arrays-interview-patterns--kadane-maximum-subarray-and-all-negative-inputs",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "One-transaction stock profit and prefix minima",
+            "slug": "arrays-interview-patterns--one-transaction-stock-profit-and-prefix-minima",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Boyer-Moore majority vote with verification",
+            "slug": "arrays-interview-patterns--boyer-moore-majority-vote-with-verification",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Product except self without division",
+            "slug": "arrays-interview-patterns--product-except-self-without-division",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Count target-sum subarrays with prefix frequencies",
+            "slug": "arrays-interview-patterns--count-target-sum-subarrays-with-prefix-frequencies",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Variable sliding windows and minimum-length subarrays",
+            "slug": "arrays-interview-patterns--variable-sliding-windows-and-minimum-length-subarrays",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Dutch National Flag and three-way partitioning",
+            "slug": "arrays-interview-patterns--dutch-national-flag-and-three-way-partitioning",
+            "sectionSlug": "arrays-interview-patterns",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "arrays-advanced-interviews",
+        "title": "Arrays in Java: Advanced interviews",
+        "lessons": [
+          {
+            "title": "Three Sum, duplicate elimination, and k-sum reasoning",
+            "slug": "arrays-advanced-interviews--three-sum-duplicate-elimination-and-k-sum-reasoning",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Merging intervals, copies, and comparator safety",
+            "slug": "arrays-advanced-interviews--merging-intervals-copies-and-comparator-safety",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Binary search in a rotated sorted array",
+            "slug": "arrays-advanced-interviews--binary-search-in-a-rotated-sorted-array",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Quickselect, kth elements, and honest worst-case bounds",
+            "slug": "arrays-advanced-interviews--quickselect-kth-elements-and-honest-worst-case-bounds",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Trapping rain water with boundary maxima",
+            "slug": "arrays-advanced-interviews--trapping-rain-water-with-boundary-maxima",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Next permutation and lexicographic ordering",
+            "slug": "arrays-advanced-interviews--next-permutation-and-lexicographic-ordering",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Set matrix zeroes without cascading mutations",
+            "slug": "arrays-advanced-interviews--set-matrix-zeroes-without-cascading-mutations",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Sliding-window maximum with a monotonic deque",
+            "slug": "arrays-advanced-interviews--sliding-window-maximum-with-a-monotonic-deque",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "First missing positive and index placement",
+            "slug": "arrays-advanced-interviews--first-missing-positive-and-index-placement",
+            "sectionSlug": "arrays-advanced-interviews",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "arrays-project-development",
+        "title": "Arrays in Java: Project development",
+        "lessons": [
+          {
+            "title": "Project: a bounded recent-events ring buffer",
+            "slug": "arrays-project-development--project-a-bounded-recent-events-ring-buffer",
+            "sectionSlug": "arrays-project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Project: rolling averages and batch analytics",
+            "slug": "arrays-project-development--project-rolling-averages-and-batch-analytics",
+            "sectionSlug": "arrays-project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Project: difference arrays for batched range updates",
+            "slug": "arrays-project-development--project-difference-arrays-for-batched-range-updates",
+            "sectionSlug": "arrays-project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Project: immutable snapshots and array ownership",
+            "slug": "arrays-project-development--project-immutable-snapshots-and-array-ownership",
+            "sectionSlug": "arrays-project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Interview rehearsal, property tests, and performance review",
+            "slug": "arrays-project-development--interview-rehearsal-property-tests-and-performance-review",
+            "sectionSlug": "arrays-project-development",
             "time": "15 min"
           }
         ]
@@ -877,33 +1087,219 @@ export const dsaCourses = {
         "time": "15 min"
       },
       {
+        "title": "Java array creation, defaults, indexing, and traversal",
+        "slug": "arrays-java-essentials--java-array-creation-defaults-indexing-and-traversal",
+        "sectionSlug": "arrays-java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "References, pass-by-value, shallow copies, and jagged arrays",
+        "slug": "arrays-java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+        "sectionSlug": "arrays-java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "Primitive arrays, ArrayList, boxing, and collection conversion",
+        "slug": "arrays-java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+        "sectionSlug": "arrays-java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "Arrays utilities, sorting, equality, and binary-search contracts",
+        "slug": "arrays-java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+        "sectionSlug": "arrays-java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "Overflow, long accumulators, and safe numeric contracts",
+        "slug": "arrays-java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+        "sectionSlug": "arrays-java-essentials",
+        "time": "15 min"
+      },
+      {
         "title": "Indexing, traversal, and contiguous storage",
         "slug": "arrays-storage-and-operations--indexing-traversal-and-contiguous-storage",
         "sectionSlug": "arrays-storage-and-operations",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Insertion, deletion, and shifting direction",
         "slug": "arrays-storage-and-operations--insertion-deletion-and-shifting-direction",
         "sectionSlug": "arrays-storage-and-operations",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Prefix sums and range queries",
         "slug": "arrays-useful-array-techniques--prefix-sums-and-range-queries",
         "sectionSlug": "arrays-useful-array-techniques",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Two pointers and fixed sliding windows",
         "slug": "arrays-useful-array-techniques--two-pointers-and-fixed-sliding-windows",
         "sectionSlug": "arrays-useful-array-techniques",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Matrices, row-major layout, and transposition",
         "slug": "arrays-useful-array-techniques--matrices-row-major-layout-and-transposition",
         "sectionSlug": "arrays-useful-array-techniques",
+        "time": "20 min"
+      },
+      {
+        "title": "Two Sum with a hash map and original indices",
+        "slug": "arrays-interview-patterns--two-sum-with-a-hash-map-and-original-indices",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Read-write pointers, moving zeros, and deduplication",
+        "slug": "arrays-interview-patterns--read-write-pointers-moving-zeros-and-deduplication",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Array reversal and rotation by three reversals",
+        "slug": "arrays-interview-patterns--array-reversal-and-rotation-by-three-reversals",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Merge sorted arrays into spare capacity",
+        "slug": "arrays-interview-patterns--merge-sorted-arrays-into-spare-capacity",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Lower bounds, duplicate ranges, and binary-search invariants",
+        "slug": "arrays-interview-patterns--lower-bounds-duplicate-ranges-and-binary-search-invariants",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Kadane: maximum subarray and all-negative inputs",
+        "slug": "arrays-interview-patterns--kadane-maximum-subarray-and-all-negative-inputs",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "One-transaction stock profit and prefix minima",
+        "slug": "arrays-interview-patterns--one-transaction-stock-profit-and-prefix-minima",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Boyer-Moore majority vote with verification",
+        "slug": "arrays-interview-patterns--boyer-moore-majority-vote-with-verification",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Product except self without division",
+        "slug": "arrays-interview-patterns--product-except-self-without-division",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Count target-sum subarrays with prefix frequencies",
+        "slug": "arrays-interview-patterns--count-target-sum-subarrays-with-prefix-frequencies",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Variable sliding windows and minimum-length subarrays",
+        "slug": "arrays-interview-patterns--variable-sliding-windows-and-minimum-length-subarrays",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Dutch National Flag and three-way partitioning",
+        "slug": "arrays-interview-patterns--dutch-national-flag-and-three-way-partitioning",
+        "sectionSlug": "arrays-interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Three Sum, duplicate elimination, and k-sum reasoning",
+        "slug": "arrays-advanced-interviews--three-sum-duplicate-elimination-and-k-sum-reasoning",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Merging intervals, copies, and comparator safety",
+        "slug": "arrays-advanced-interviews--merging-intervals-copies-and-comparator-safety",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Binary search in a rotated sorted array",
+        "slug": "arrays-advanced-interviews--binary-search-in-a-rotated-sorted-array",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Quickselect, kth elements, and honest worst-case bounds",
+        "slug": "arrays-advanced-interviews--quickselect-kth-elements-and-honest-worst-case-bounds",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Trapping rain water with boundary maxima",
+        "slug": "arrays-advanced-interviews--trapping-rain-water-with-boundary-maxima",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Next permutation and lexicographic ordering",
+        "slug": "arrays-advanced-interviews--next-permutation-and-lexicographic-ordering",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Set matrix zeroes without cascading mutations",
+        "slug": "arrays-advanced-interviews--set-matrix-zeroes-without-cascading-mutations",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Sliding-window maximum with a monotonic deque",
+        "slug": "arrays-advanced-interviews--sliding-window-maximum-with-a-monotonic-deque",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "First missing positive and index placement",
+        "slug": "arrays-advanced-interviews--first-missing-positive-and-index-placement",
+        "sectionSlug": "arrays-advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: a bounded recent-events ring buffer",
+        "slug": "arrays-project-development--project-a-bounded-recent-events-ring-buffer",
+        "sectionSlug": "arrays-project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: rolling averages and batch analytics",
+        "slug": "arrays-project-development--project-rolling-averages-and-batch-analytics",
+        "sectionSlug": "arrays-project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: difference arrays for batched range updates",
+        "slug": "arrays-project-development--project-difference-arrays-for-batched-range-updates",
+        "sectionSlug": "arrays-project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: immutable snapshots and array ownership",
+        "slug": "arrays-project-development--project-immutable-snapshots-and-array-ownership",
+        "sectionSlug": "arrays-project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Interview rehearsal, property tests, and performance review",
+        "slug": "arrays-project-development--interview-rehearsal-property-tests-and-performance-review",
+        "sectionSlug": "arrays-project-development",
         "time": "15 min"
       },
       {
@@ -1439,9 +1835,45 @@ export const dsaCourses = {
     "componentPath": "dsa/dsa-foundations"
   },
   "arrays": {
-    "name": "Arrays",
-    "prerequisites": "DSA Foundations; indexing and loops.",
+    "name": "Arrays in Java",
+    "prerequisites": "Java variables, loops, methods, and basic classes; no prior DSA required.",
     "sections": [
+      {
+        "slug": "java-essentials",
+        "title": "Java essentials",
+        "lessons": [
+          {
+            "title": "Java array creation, defaults, indexing, and traversal",
+            "slug": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+            "sectionSlug": "java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "References, pass-by-value, shallow copies, and jagged arrays",
+            "slug": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+            "sectionSlug": "java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "Primitive arrays, ArrayList, boxing, and collection conversion",
+            "slug": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+            "sectionSlug": "java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "Arrays utilities, sorting, equality, and binary-search contracts",
+            "slug": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+            "sectionSlug": "java-essentials",
+            "time": "15 min"
+          },
+          {
+            "title": "Overflow, long accumulators, and safe numeric contracts",
+            "slug": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+            "sectionSlug": "java-essentials",
+            "time": "15 min"
+          }
+        ]
+      },
       {
         "slug": "storage-and-operations",
         "title": "Storage and operations",
@@ -1450,13 +1882,13 @@ export const dsaCourses = {
             "title": "Indexing, traversal, and contiguous storage",
             "slug": "storage-and-operations--indexing-traversal-and-contiguous-storage",
             "sectionSlug": "storage-and-operations",
-            "time": "15 min"
+            "time": "20 min"
           },
           {
             "title": "Insertion, deletion, and shifting direction",
             "slug": "storage-and-operations--insertion-deletion-and-shifting-direction",
             "sectionSlug": "storage-and-operations",
-            "time": "15 min"
+            "time": "20 min"
           }
         ]
       },
@@ -1468,18 +1900,192 @@ export const dsaCourses = {
             "title": "Prefix sums and range queries",
             "slug": "useful-array-techniques--prefix-sums-and-range-queries",
             "sectionSlug": "useful-array-techniques",
-            "time": "15 min"
+            "time": "20 min"
           },
           {
             "title": "Two pointers and fixed sliding windows",
             "slug": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
             "sectionSlug": "useful-array-techniques",
-            "time": "15 min"
+            "time": "20 min"
           },
           {
             "title": "Matrices, row-major layout, and transposition",
             "slug": "useful-array-techniques--matrices-row-major-layout-and-transposition",
             "sectionSlug": "useful-array-techniques",
+            "time": "20 min"
+          }
+        ]
+      },
+      {
+        "slug": "interview-patterns",
+        "title": "Interview patterns",
+        "lessons": [
+          {
+            "title": "Two Sum with a hash map and original indices",
+            "slug": "interview-patterns--two-sum-with-a-hash-map-and-original-indices",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Read-write pointers, moving zeros, and deduplication",
+            "slug": "interview-patterns--read-write-pointers-moving-zeros-and-deduplication",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Array reversal and rotation by three reversals",
+            "slug": "interview-patterns--array-reversal-and-rotation-by-three-reversals",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Merge sorted arrays into spare capacity",
+            "slug": "interview-patterns--merge-sorted-arrays-into-spare-capacity",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Lower bounds, duplicate ranges, and binary-search invariants",
+            "slug": "interview-patterns--lower-bounds-duplicate-ranges-and-binary-search-invariants",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Kadane: maximum subarray and all-negative inputs",
+            "slug": "interview-patterns--kadane-maximum-subarray-and-all-negative-inputs",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "One-transaction stock profit and prefix minima",
+            "slug": "interview-patterns--one-transaction-stock-profit-and-prefix-minima",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Boyer-Moore majority vote with verification",
+            "slug": "interview-patterns--boyer-moore-majority-vote-with-verification",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Product except self without division",
+            "slug": "interview-patterns--product-except-self-without-division",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Count target-sum subarrays with prefix frequencies",
+            "slug": "interview-patterns--count-target-sum-subarrays-with-prefix-frequencies",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Variable sliding windows and minimum-length subarrays",
+            "slug": "interview-patterns--variable-sliding-windows-and-minimum-length-subarrays",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          },
+          {
+            "title": "Dutch National Flag and three-way partitioning",
+            "slug": "interview-patterns--dutch-national-flag-and-three-way-partitioning",
+            "sectionSlug": "interview-patterns",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "advanced-interviews",
+        "title": "Advanced interviews",
+        "lessons": [
+          {
+            "title": "Three Sum, duplicate elimination, and k-sum reasoning",
+            "slug": "advanced-interviews--three-sum-duplicate-elimination-and-k-sum-reasoning",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Merging intervals, copies, and comparator safety",
+            "slug": "advanced-interviews--merging-intervals-copies-and-comparator-safety",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Binary search in a rotated sorted array",
+            "slug": "advanced-interviews--binary-search-in-a-rotated-sorted-array",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Quickselect, kth elements, and honest worst-case bounds",
+            "slug": "advanced-interviews--quickselect-kth-elements-and-honest-worst-case-bounds",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Trapping rain water with boundary maxima",
+            "slug": "advanced-interviews--trapping-rain-water-with-boundary-maxima",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Next permutation and lexicographic ordering",
+            "slug": "advanced-interviews--next-permutation-and-lexicographic-ordering",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Set matrix zeroes without cascading mutations",
+            "slug": "advanced-interviews--set-matrix-zeroes-without-cascading-mutations",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "Sliding-window maximum with a monotonic deque",
+            "slug": "advanced-interviews--sliding-window-maximum-with-a-monotonic-deque",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          },
+          {
+            "title": "First missing positive and index placement",
+            "slug": "advanced-interviews--first-missing-positive-and-index-placement",
+            "sectionSlug": "advanced-interviews",
+            "time": "15 min"
+          }
+        ]
+      },
+      {
+        "slug": "project-development",
+        "title": "Project development",
+        "lessons": [
+          {
+            "title": "Project: a bounded recent-events ring buffer",
+            "slug": "project-development--project-a-bounded-recent-events-ring-buffer",
+            "sectionSlug": "project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Project: rolling averages and batch analytics",
+            "slug": "project-development--project-rolling-averages-and-batch-analytics",
+            "sectionSlug": "project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Project: difference arrays for batched range updates",
+            "slug": "project-development--project-difference-arrays-for-batched-range-updates",
+            "sectionSlug": "project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Project: immutable snapshots and array ownership",
+            "slug": "project-development--project-immutable-snapshots-and-array-ownership",
+            "sectionSlug": "project-development",
+            "time": "15 min"
+          },
+          {
+            "title": "Interview rehearsal, property tests, and performance review",
+            "slug": "project-development--interview-rehearsal-property-tests-and-performance-review",
+            "sectionSlug": "project-development",
             "time": "15 min"
           }
         ]
@@ -1487,67 +2093,253 @@ export const dsaCourses = {
     ],
     "articles": [
       {
+        "title": "Java array creation, defaults, indexing, and traversal",
+        "slug": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+        "sectionSlug": "java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "References, pass-by-value, shallow copies, and jagged arrays",
+        "slug": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+        "sectionSlug": "java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "Primitive arrays, ArrayList, boxing, and collection conversion",
+        "slug": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+        "sectionSlug": "java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "Arrays utilities, sorting, equality, and binary-search contracts",
+        "slug": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+        "sectionSlug": "java-essentials",
+        "time": "15 min"
+      },
+      {
+        "title": "Overflow, long accumulators, and safe numeric contracts",
+        "slug": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+        "sectionSlug": "java-essentials",
+        "time": "15 min"
+      },
+      {
         "title": "Indexing, traversal, and contiguous storage",
         "slug": "storage-and-operations--indexing-traversal-and-contiguous-storage",
         "sectionSlug": "storage-and-operations",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Insertion, deletion, and shifting direction",
         "slug": "storage-and-operations--insertion-deletion-and-shifting-direction",
         "sectionSlug": "storage-and-operations",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Prefix sums and range queries",
         "slug": "useful-array-techniques--prefix-sums-and-range-queries",
         "sectionSlug": "useful-array-techniques",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Two pointers and fixed sliding windows",
         "slug": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
         "sectionSlug": "useful-array-techniques",
-        "time": "15 min"
+        "time": "20 min"
       },
       {
         "title": "Matrices, row-major layout, and transposition",
         "slug": "useful-array-techniques--matrices-row-major-layout-and-transposition",
         "sectionSlug": "useful-array-techniques",
+        "time": "20 min"
+      },
+      {
+        "title": "Two Sum with a hash map and original indices",
+        "slug": "interview-patterns--two-sum-with-a-hash-map-and-original-indices",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Read-write pointers, moving zeros, and deduplication",
+        "slug": "interview-patterns--read-write-pointers-moving-zeros-and-deduplication",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Array reversal and rotation by three reversals",
+        "slug": "interview-patterns--array-reversal-and-rotation-by-three-reversals",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Merge sorted arrays into spare capacity",
+        "slug": "interview-patterns--merge-sorted-arrays-into-spare-capacity",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Lower bounds, duplicate ranges, and binary-search invariants",
+        "slug": "interview-patterns--lower-bounds-duplicate-ranges-and-binary-search-invariants",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Kadane: maximum subarray and all-negative inputs",
+        "slug": "interview-patterns--kadane-maximum-subarray-and-all-negative-inputs",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "One-transaction stock profit and prefix minima",
+        "slug": "interview-patterns--one-transaction-stock-profit-and-prefix-minima",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Boyer-Moore majority vote with verification",
+        "slug": "interview-patterns--boyer-moore-majority-vote-with-verification",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Product except self without division",
+        "slug": "interview-patterns--product-except-self-without-division",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Count target-sum subarrays with prefix frequencies",
+        "slug": "interview-patterns--count-target-sum-subarrays-with-prefix-frequencies",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Variable sliding windows and minimum-length subarrays",
+        "slug": "interview-patterns--variable-sliding-windows-and-minimum-length-subarrays",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Dutch National Flag and three-way partitioning",
+        "slug": "interview-patterns--dutch-national-flag-and-three-way-partitioning",
+        "sectionSlug": "interview-patterns",
+        "time": "15 min"
+      },
+      {
+        "title": "Three Sum, duplicate elimination, and k-sum reasoning",
+        "slug": "advanced-interviews--three-sum-duplicate-elimination-and-k-sum-reasoning",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Merging intervals, copies, and comparator safety",
+        "slug": "advanced-interviews--merging-intervals-copies-and-comparator-safety",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Binary search in a rotated sorted array",
+        "slug": "advanced-interviews--binary-search-in-a-rotated-sorted-array",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Quickselect, kth elements, and honest worst-case bounds",
+        "slug": "advanced-interviews--quickselect-kth-elements-and-honest-worst-case-bounds",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Trapping rain water with boundary maxima",
+        "slug": "advanced-interviews--trapping-rain-water-with-boundary-maxima",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Next permutation and lexicographic ordering",
+        "slug": "advanced-interviews--next-permutation-and-lexicographic-ordering",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Set matrix zeroes without cascading mutations",
+        "slug": "advanced-interviews--set-matrix-zeroes-without-cascading-mutations",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Sliding-window maximum with a monotonic deque",
+        "slug": "advanced-interviews--sliding-window-maximum-with-a-monotonic-deque",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "First missing positive and index placement",
+        "slug": "advanced-interviews--first-missing-positive-and-index-placement",
+        "sectionSlug": "advanced-interviews",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: a bounded recent-events ring buffer",
+        "slug": "project-development--project-a-bounded-recent-events-ring-buffer",
+        "sectionSlug": "project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: rolling averages and batch analytics",
+        "slug": "project-development--project-rolling-averages-and-batch-analytics",
+        "sectionSlug": "project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: difference arrays for batched range updates",
+        "slug": "project-development--project-difference-arrays-for-batched-range-updates",
+        "sectionSlug": "project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Project: immutable snapshots and array ownership",
+        "slug": "project-development--project-immutable-snapshots-and-array-ownership",
+        "sectionSlug": "project-development",
+        "time": "15 min"
+      },
+      {
+        "title": "Interview rehearsal, property tests, and performance review",
+        "slug": "project-development--interview-rehearsal-property-tests-and-performance-review",
+        "sectionSlug": "project-development",
         "time": "15 min"
       }
     ],
     "aliases": {
-      "advanced-topics--advanced-arrays": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
-      "advanced-topics--integration-patterns": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
-      "advanced-topics--performance-and-scale": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
-      "advanced-topics--reliability": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
-      "advanced-topics--security-considerations": "useful-array-techniques--two-pointers-and-fixed-sliding-windows",
-      "core-concepts--arrays-mental-models": "storage-and-operations--insertion-deletion-and-shifting-direction",
-      "core-concepts--common-workflows": "storage-and-operations--insertion-deletion-and-shifting-direction",
-      "core-concepts--essential-building-blocks": "storage-and-operations--insertion-deletion-and-shifting-direction",
-      "core-concepts--structures-fundamentals": "storage-and-operations--insertion-deletion-and-shifting-direction",
-      "core-concepts--trade-offs-and-constraints": "storage-and-operations--insertion-deletion-and-shifting-direction",
-      "foundations--arrays-learning-roadmap": "storage-and-operations--indexing-traversal-and-contiguous-storage",
-      "foundations--arrays-terminology": "storage-and-operations--indexing-traversal-and-contiguous-storage",
-      "foundations--introduction-to-arrays": "storage-and-operations--indexing-traversal-and-contiguous-storage",
-      "foundations--setting-up-for-arrays": "storage-and-operations--indexing-traversal-and-contiguous-storage",
-      "foundations--why-arrays-matters": "storage-and-operations--indexing-traversal-and-contiguous-storage",
-      "mastery--arrays-best-practices": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "mastery--arrays-interview-questions": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "mastery--observability-and-measurement": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "mastery--production-readiness": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "mastery--testing-and-validation": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "practical-skills--applied-practice": "useful-array-techniques--prefix-sums-and-range-queries",
-      "practical-skills--debugging-and-troubleshooting": "useful-array-techniques--prefix-sums-and-range-queries",
-      "practical-skills--reusable-techniques": "useful-array-techniques--prefix-sums-and-range-queries",
-      "practical-skills--working-step-by-step": "useful-array-techniques--prefix-sums-and-range-queries",
-      "practical-skills--your-first-arrays-exercise": "useful-array-techniques--prefix-sums-and-range-queries",
-      "real-world--architecture-and-organization": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "real-world--common-failure-modes": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "real-world--data-structures-and-algorithms-case-study": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "real-world--review-and-improvement": "useful-array-techniques--matrices-row-major-layout-and-transposition",
-      "real-world--team-workflow": "useful-array-techniques--matrices-row-major-layout-and-transposition"
+      "advanced-topics--advanced-arrays": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+      "advanced-topics--integration-patterns": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+      "advanced-topics--performance-and-scale": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+      "advanced-topics--reliability": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+      "advanced-topics--security-considerations": "java-essentials--arrays-utilities-sorting-equality-and-binary-search-contracts",
+      "core-concepts--arrays-mental-models": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+      "core-concepts--common-workflows": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+      "core-concepts--essential-building-blocks": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+      "core-concepts--structures-fundamentals": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+      "core-concepts--trade-offs-and-constraints": "java-essentials--references-pass-by-value-shallow-copies-and-jagged-arrays",
+      "foundations--arrays-learning-roadmap": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+      "foundations--arrays-terminology": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+      "foundations--introduction-to-arrays": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+      "foundations--setting-up-for-arrays": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+      "foundations--why-arrays-matters": "java-essentials--java-array-creation-defaults-indexing-and-traversal",
+      "mastery--arrays-best-practices": "storage-and-operations--indexing-traversal-and-contiguous-storage",
+      "mastery--arrays-interview-questions": "storage-and-operations--indexing-traversal-and-contiguous-storage",
+      "mastery--observability-and-measurement": "storage-and-operations--indexing-traversal-and-contiguous-storage",
+      "mastery--production-readiness": "storage-and-operations--indexing-traversal-and-contiguous-storage",
+      "mastery--testing-and-validation": "storage-and-operations--indexing-traversal-and-contiguous-storage",
+      "practical-skills--applied-practice": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+      "practical-skills--debugging-and-troubleshooting": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+      "practical-skills--reusable-techniques": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+      "practical-skills--working-step-by-step": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+      "practical-skills--your-first-arrays-exercise": "java-essentials--primitive-arrays-arraylist-boxing-and-collection-conversion",
+      "real-world--architecture-and-organization": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+      "real-world--common-failure-modes": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+      "real-world--data-structures-and-algorithms-case-study": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+      "real-world--review-and-improvement": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts",
+      "real-world--team-workflow": "java-essentials--overflow-long-accumulators-and-safe-numeric-contracts"
     },
     "componentPath": "dsa/arrays"
   },
@@ -3118,7 +3910,7 @@ export const dsaGroups = [
     "name": "Linear structures",
     "tracks": [
       {
-        "name": "Arrays",
+        "name": "Arrays in Java",
         "slug": "arrays"
       },
       {
