@@ -38,6 +38,7 @@ import { dsaCourses } from "./dsaCourses";
 import { patternCourses } from "./patternCourses";
 import { socialMediaCourses } from "./socialMediaCourses";
 import { generativeAICourse } from "./generativeAICourse";
+import { ragCourse } from "./ragCourse";
 
 const courses = {
   "generative-ai": generativeAICourse,
@@ -120,6 +121,7 @@ const courses = {
 
 export const getStructuredCourse = (moduleId, trackSlug) => {
   if (moduleId === "ai" && trackSlug === "generative-ai") return generativeAICourse;
+  if (moduleId === "ai" && trackSlug === "rag") return ragCourse;
   if (moduleId === "dsa") return dsaCourses[trackSlug] || null;
   if (moduleId === "coding-patterns") return patternCourses[trackSlug] || null;
   if (moduleId === "social-media") return socialMediaCourses[trackSlug] || null;
