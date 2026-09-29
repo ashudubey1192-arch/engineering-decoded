@@ -68,7 +68,10 @@ export const modules = [
         name: "Foundations",
         tracks: tracks("Machine Learning, Deep Learning, Data Science, Python"),
       },
-      { name: "Generative AI", tracks: tracks("LLMs, Prompt Engineering, RAG, AI Agents") },
+      {
+        name: "Generative AI",
+        tracks: tracks("Generative AI, LLMs, Prompt Engineering, RAG, AI Agents"),
+      },
     ],
   ),
   makeModule(
