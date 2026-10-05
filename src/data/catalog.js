@@ -23,22 +23,6 @@ const makeModule = (id, name, icon, accent, description, groups) => ({
 
 export const modules = [
   makeModule(
-    "dsa",
-    "Data Structures and Algorithms",
-    "DS",
-    "#22c55e",
-    "Build strong problem-solving and interview foundations.",
-    dsaGroups,
-  ),
-  makeModule(
-    "coding-patterns",
-    "Coding Patterns and Problem Solving",
-    "CP",
-    "#22c55e",
-    "Recognize reusable patterns and solve coding problems systematically.",
-    patternGroups,
-  ),
-  makeModule(
     "architecture",
     "System Design and Architecture",
     "SD",
@@ -56,6 +40,22 @@ export const modules = [
         ),
       },
     ],
+  ),
+  makeModule(
+    "dsa",
+    "Data Structures and Algorithms",
+    "DS",
+    "#22c55e",
+    "Build strong problem-solving and interview foundations.",
+    dsaGroups,
+  ),
+  makeModule(
+    "coding-patterns",
+    "Coding Patterns and Problem Solving",
+    "CP",
+    "#22c55e",
+    "Recognize reusable patterns and solve coding problems systematically.",
+    patternGroups,
   ),
   makeModule(
     "ai",
