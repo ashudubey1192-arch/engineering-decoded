@@ -1,11 +1,9 @@
 import { lazy } from "react";
 import { getStructuredCourse } from "../../data/structuredCourses";
+import articleFiles from "virtual:tutorial-articles";
 
-const articleFiles = import.meta.glob([
-  "../*/*/jsx/*.jsx",
-  "../*/*/*/jsx/*.jsx",
-  "../*/*/*/articles/*/jsx/*.jsx",
-]);
+const loadTutorial = () => import("../learning/TutorialLesson");
+const TutorialLesson = lazy(loadTutorial);
 const slugByFile = {
   Introduction: "introduction",
   CoreConcepts: "core-concepts",
@@ -40,12 +38,12 @@ export function getArticleComponent(moduleId, trackSlug, articleSlug) {
   const path = getArticlePath(moduleId, trackSlug, articleSlug);
   if (!path) return null;
   const loader = articleFiles[path];
-  if (!loader) return null;
+  if (!loader) return TutorialLesson;
   if (!componentCache.has(path)) componentCache.set(path, lazy(loader));
   return componentCache.get(path);
 }
 
 export function preloadArticleComponent(moduleId, trackSlug, articleSlug) {
   const path = getArticlePath(moduleId, trackSlug, articleSlug);
-  return path ? articleFiles[path]?.() : undefined;
+  return path ? (articleFiles[path] || loadTutorial)().catch(() => undefined) : undefined;
 }

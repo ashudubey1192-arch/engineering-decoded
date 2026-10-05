@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": { "node": "24.x" },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run check:tutorials && vite build",
+    "check:tutorials": "node scripts/check-tutorials.mjs",
     "preview": "vite preview",
     "lint": "eslint src",
     "check:databases": "node scripts/check-database-courses.mjs",

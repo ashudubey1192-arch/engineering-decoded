@@ -26,8 +26,6 @@ export default function CoursePage({ module, track, navigate }) {
       </main>
     );
 
-  if (track.outline) return <CourseOutlinePage module={module} track={track} navigate={navigate} />;
-
   if (structuredSections) {
     return (
       <StructuredCoursePage
@@ -38,6 +36,8 @@ export default function CoursePage({ module, track, navigate }) {
       />
     );
   }
+
+  if (track.outline) return <CourseOutlinePage module={module} track={track} navigate={navigate} />;
 
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);

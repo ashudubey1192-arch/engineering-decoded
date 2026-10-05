@@ -1,0 +1,16 @@
+.tutorialLesson section { scroll-margin-top: 96px; }
+.tutorialLesson .tutorialGoal,
+.tutorialLesson .tutorialExpected {
+  border-left: 3px solid var(--course-accent, #22c55e);
+  background: color-mix(in srgb, var(--course-accent, #22c55e) 7%, transparent);
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 0 8px 8px 0;
+}
+.tutorialLesson .tutorialGoal p,
+.tutorialLesson .tutorialExpected p { margin-bottom: 0; }
+.tutorialLesson li { margin: 10px 0; }
+.tutorialLesson pre { max-width: 100%; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tutorialLesson summary { cursor: pointer; font-weight: 600; padding: 12px 0; }
+.tutorialLesson summary:focus-visible { outline: 2px solid var(--course-accent, #22c55e); outline-offset: 4px; }
+.tutorialLesson a { overflow-wrap: anywhere; }

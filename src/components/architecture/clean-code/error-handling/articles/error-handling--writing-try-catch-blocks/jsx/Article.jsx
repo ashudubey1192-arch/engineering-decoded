@@ -63,9 +63,9 @@ try {
       </section>
       <figure className="fig">
         <svg viewBox="0 0 420 100" role="img" aria-label="Diagram of one wide try block wrapping three unrelated operations with a single silent catch, versus two narrow try blocks, each wrapping one operation with its own specific, named error type.">
-          <rect className="boxWarn" x="20" y="15" width="380" height="30" rx="5" /><text x="210" y="34" className="boxText" style={{fontSize:"5px"}}>try { find + render + email } catch (silent)</text>
-          <rect className="box" x="20" y="60" width="180" height="30" rx="5" /><text x="110" y="79" className="boxText" style={{fontSize:"4.5px"}}>try { render } catch (PdfRenderError)</text>
-          <rect className="box" x="220" y="60" width="180" height="30" rx="5" /><text x="310" y="79" className="boxText" style={{fontSize:"4.5px"}}>try { email } catch (DeliveryError)</text>
+          <rect className="boxWarn" x="20" y="15" width="380" height="30" rx="5" /><text x="210" y="34" className="boxText" style={{fontSize:"5px"}}>{"try { find + render + email } catch (silent)"}</text>
+          <rect className="box" x="20" y="60" width="180" height="30" rx="5" /><text x="110" y="79" className="boxText" style={{fontSize:"4.5px"}}>{"try { render } catch (PdfRenderError)"}</text>
+          <rect className="box" x="220" y="60" width="180" height="30" rx="5" /><text x="310" y="79" className="boxText" style={{fontSize:"4.5px"}}>{"try { email } catch (DeliveryError)"}</text>
         </svg>
         <figcaption>One wide, silent catch hides which step failed; two narrow, named catches make each failure specific and visible.</figcaption>
       </figure>

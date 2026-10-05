@@ -291,8 +291,10 @@ const defaultBlueprint = [
 ];
 
 const buildSections = (module, group, track) => {
-  const blueprint = blueprints[`${module.id}/${group.name}`] || defaultBlueprint;
-  return blueprint.map(([slug, [title, lessonTitles]]) => {
+  const blueprint = track.outline
+    ? track.outline.map(([title, ...lessons]) => [title, lessons])
+    : blueprints[`${module.id}/${track.slug === "serverless" ? "Serverless" : group.name}`] || defaultBlueprint;
+  return blueprint.map(([slug, lessonTitles]) => {
     const personalize = (value) => value.replaceAll("{{course}}", track.name);
     return section(
       slugify(slug),

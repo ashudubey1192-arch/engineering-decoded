@@ -9,58 +9,18 @@ import { getArticleComponent, preloadArticleComponent } from "../articles/regist
 import "./ArticlePage.css";
 import { saveArticleProgress } from "../../services/api";
 
-function GenericArticle({ track }) {
-  return (
-    <div className="genericArticle">
-      <section id="overview">
-        <p className="lead">
-          This dedicated {track.name} article is ready for your technical content.
-        </p>
-        <p>
-          Create a new JSX component for this route when you are ready to write it. The shared
-          reader, navigation, progress, and next-article behavior will continue to work
-          automatically.
-        </p>
-      </section>
-      <section id="concepts">
-        <h2>1. Core concepts</h2>
-        <p>
-          Document the stable mental models, terminology, constraints, and trade-offs that engineers
-          need to understand.
-        </p>
-      </section>
-      <section id="example">
-        <h2>2. Practical example</h2>
-        <pre>
-          <code>{`// Add a focused ${track.name} example here\nconst lesson = { status: "ready" };`}</code>
-        </pre>
-      </section>
-      <section id="mistakes">
-        <h2>3. Common mistakes</h2>
-        <p>Explain the failure modes that occur most often in real projects.</p>
-      </section>
-      <section id="check">
-        <h2>4. Knowledge check</h2>
-        <div className="quiz">
-          <p>When would you use {track.name}, and what alternative would you compare it with?</p>
-        </div>
-      </section>
-    </div>
-  );
-}
-
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const [progress, setProgress] = useState(0);
   const [expandedSections, setExpandedSections] = useState([]);
   const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
   const articles = getStructuredCourseArticles(module?.id, track?.slug) || articleTemplates;
   const canonicalSlug = getStructuredCourse(module?.id, track?.slug)?.aliases?.[articleSlug] || articleSlug;
-  const article = articles.find((item) => item.slug === canonicalSlug) || articles[0];
-  const index = articles.findIndex((item) => item.slug === article.slug);
+  const article = articles.find((item) => item.slug === canonicalSlug);
+  const index = articles.findIndex((item) => item.slug === article?.slug);
   const next = articles[index + 1];
   const isStructuredCourse = Boolean(structuredSections);
   const currentSection = isStructuredCourse
-    ? structuredSections.find((item) => item.slug === article.sectionSlug)
+    ? structuredSections.find((item) => item.slug === article?.sectionSlug)
     : null;
 
   useEffect(() => {
@@ -82,7 +42,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
     return () => window.clearTimeout(timer);
   }, [module, track, next]);
 
-  if (!module || !track)
+  if (!module || !track || !article)
     return (
       <main className="notFound">
         <h1>Article not found</h1>
@@ -211,7 +171,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             <button onClick={() => persistProgress(true)}>✓ MARK COMPLETE</button>
           </div>
         </header>
-        {DedicatedArticle ? <DedicatedArticle article={article} /> : <GenericArticle track={track} />}
+        {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
         {next && (
           <button
             className="nextArticle"

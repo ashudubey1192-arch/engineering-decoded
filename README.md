@@ -73,6 +73,37 @@ npm run build
 
 For Vercel, import this repository and use the default Vite settings: build command `npm run build`, output directory `dist`.
 
+## Tutorial coverage and deployment checks
+
+Use Node.js 24 (also selected by `package.json` for Vercel). `npm run build`
+first runs `npm run check:tutorials`, then creates the Vite production output.
+The content check imports the course data, renders course outlines and every
+article, checks unique lesson routes and section membership, verifies invalid
+lesson handling, and checks the Vercel SPA rewrite. This catches runtime data
+errors that Vite's compilation alone cannot detect. Run `npm run lint` separately.
+
+Existing written article components are retained. Previously missing or scaffolded
+articles use `TutorialLesson`, with course-specific context, reusable explanations
+of the relevant mechanism, worked traces, guided practice, expected results,
+failure cases, and a revealable knowledge check. The shared material lives in
+`src/data/tutorialProfiles.js`, `tutorialTopics.js`, and `tutorialPractice.js`.
+Traces are conceptual exercises, not executable integrations with every named tool.
+Product-specific lessons can be expanded with dedicated components over time.
+
+Mobile, desktop, and tooling tracks with custom outlines now expose their actual
+topics as navigable lessons. The Vite `tutorial-articles` plugin indexes written
+components and excludes historical starter files from the deployment bundle.
+Restart the development server after adding a new dedicated article file.
+
+Vercel serves the static frontend and supports direct lesson links through the
+existing `vercel.json` rewrite. Account, admin, and signed-in progress features
+also require the separately hosted backend: set `VITE_API_URL` to its public
+HTTPS API base URL (including `/api`) in Vercel and configure the backend's allowed
+origin to match the frontend. Never put server credentials in `VITE_*` variables.
+Anonymous tutorial reading does not require that backend. Verify a deployed
+preview's homepage, direct lesson URL, refresh, next lesson, and answer reveal
+before promoting it; a local build cannot verify project settings or a live backend.
+
 ## Database course content
 
 The Database Engineering module contains 22 courses with 30 lessons each. Existing
