@@ -6,6 +6,7 @@ import { javaArrayTraces } from "../../data/javaArrayTraces.js";
 import DsaVisualizer from "./DsaVisualizer.jsx";
 import JavaAlgorithmGuide from "./JavaAlgorithmGuide.jsx";
 import DsaDeepDive from "./DsaDeepDive.jsx";
+import DsaLearningTools from "./DsaLearningTools.jsx";
 import "./DsaLessonArticle.css";
 
 export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
@@ -27,6 +28,11 @@ export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
         <p className="lead">{lesson.intro}</p>
         <p className="dsaPrerequisites">
           <strong>Before you start:</strong> {lesson.prerequisites || course.prerequisites}
+        </p>
+        <p>
+          <a href="#coding-practice">Coding practice</a> ·{" "}
+          <a href="#interactive-playground">Experiment and compare</a> ·{" "}
+          <a href="#concept-diagrams">Structure diagrams</a>
         </p>
         {course.group === "Algorithm techniques" && (
           <p>
@@ -126,6 +132,11 @@ export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
       {course.group === "Algorithm techniques" && (
         <JavaAlgorithmGuide key={courseSlug} courseSlug={courseSlug} />
       )}
+      <DsaLearningTools
+        key={`tools/${courseSlug}/${lessonSlug}`}
+        courseSlug={courseSlug}
+        lessonSlug={lessonSlug}
+      />
       <section id="mistakes">
         <h2>Common mistake and boundary checks</h2>
         <p>{lesson.mistake}</p>

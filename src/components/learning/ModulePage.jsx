@@ -3,7 +3,7 @@ import { articleTemplates } from "../../data/catalog";
 import { getStructuredCourseArticles } from "../../data/structuredCourses";
 import "./ModulePage.css";
 
-export default function ModulePage({ module, navigate }) {
+export default function ModulePage({ module, navigate, introContent }) {
   if (!module)
     return (
       <main className="notFound">
@@ -33,6 +33,7 @@ export default function ModulePage({ module, navigate }) {
           <span>COURSES</span>
         </aside>
       </header>
+      {introContent}
       {module.groups.map((group, index) => (
         <section className="courseGroup" key={group.name}>
           <header>

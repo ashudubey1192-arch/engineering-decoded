@@ -1,0 +1,164 @@
+.dsaPracticeLab,
+.dsaProgressPanel,
+.dsaDiagramPanel,
+.dsaChallenge {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: clamp(14px, 3vw, 24px);
+  background: var(--surface);
+  min-width: 0;
+}
+.dsaProgressPanel {
+  margin-block: 28px;
+}
+.dsaPathPanel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  margin-block: 24px;
+  padding: 24px;
+}
+.article section.dsaPathPanel {
+  padding: clamp(14px, 3vw, 24px);
+}
+.dsaPathList li {
+  margin-block: 12px;
+}
+.dsaPathList span {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 0.8rem;
+  color: var(--course-accent, #22c55e);
+}
+.dsaTimer {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.4rem !important;
+  font-weight: 700;
+}
+.article section.dsaPracticeLab,
+.article section.dsaProgressPanel {
+  padding: clamp(14px, 3vw, 24px);
+}
+.module-dsa > .dsaProgressPanel {
+  max-width: 1200px;
+  margin: 28px auto;
+  color: var(--text);
+}
+.dsaProgressPanel progress {
+  width: 100%;
+  accent-color: var(--course-accent, #22c55e);
+}
+.dsaProgressStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.dsaProgressStats strong {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--course-accent, #22c55e);
+}
+.dsaProgressPanel a {
+  color: var(--course-accent, #22c55e);
+  text-decoration: underline;
+}
+.dsaField {
+  display: grid;
+  gap: 8px;
+  margin-block: 18px;
+  font-weight: 600;
+}
+.dsaField :is(input, textarea, select) {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  min-height: 44px;
+}
+.dsaField textarea {
+  font: 14px/1.6 monospace;
+  resize: vertical;
+  tab-size: 2;
+}
+.dsaQuizOptions {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-top: 24px;
+  padding: 16px;
+}
+.dsaQuizOptions label {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  cursor: pointer;
+  padding: 6px;
+}
+.dsaChallenge details {
+  margin-block: 18px;
+}
+.dsaChallenge summary {
+  cursor: pointer;
+}
+.dsaLabError {
+  border-left: 3px solid #ef856b;
+  padding: 12px;
+}
+.dsaTeachingDiagram {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  color: var(--text);
+}
+.dsaMemoryRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 24px 0;
+}
+.dsaMemoryRow > div {
+  display: grid;
+  gap: 12px;
+  padding: 14px 8px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.dsaMemoryRow .selected {
+  border: 2px solid var(--dsa-active, #22c55e);
+}
+.dsaMemoryRow strong {
+  font-size: 1.5rem;
+}
+.dsaCurrentCell {
+  outline: 2px solid var(--dsa-active, #22c55e);
+  outline-offset: -2px;
+}
+.dsaCellLabel {
+  display: block;
+  font-size: 0.65rem;
+}
+.dsaLesson :is(textarea, select):focus-visible {
+  outline: 2px solid var(--dsa-active);
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .dsaProgressStats {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .dsaMemoryRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .module-dsa > .dsaProgressPanel {
+    margin-inline: 16px;
+  }
+}

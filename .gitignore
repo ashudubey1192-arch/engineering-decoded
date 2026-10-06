@@ -31,6 +31,7 @@ yarn-error.log*
 
 # backend build
 /backend/target/
+/backend/runner/__pycache__/
 
 /dist/
 /.npm-cache/

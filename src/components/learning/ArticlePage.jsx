@@ -8,8 +8,10 @@ import {
 import { getArticleComponent, preloadArticleComponent } from "../articles/registry";
 import "./ArticlePage.css";
 import { saveArticleProgress } from "../../services/api";
+import { dsaLessonKey, updateDsaProgress, useDsaProgress } from "../../services/dsaProgress.js";
 
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
+  const dsaProgress = useDsaProgress();
   const [progress, setProgress] = useState(0);
   const [expandedSections, setExpandedSections] = useState([]);
   const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
@@ -54,8 +56,9 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);
-  const persistProgress = (completed = false) =>
-    saveArticleProgress({
+  const persistProgress = (completed = false) => {
+    if (module.id === "dsa" && completed) updateDsaProgress("lessons", dsaLessonKey(track.slug, article.slug), true);
+    return saveArticleProgress({
       moduleSlug: module.id,
       courseSlug: track.slug,
       sectionSlug: article.sectionSlug || "course",
@@ -64,6 +67,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
       lastPosition: Math.max(0, Math.round(window.scrollY)),
       completed,
     }).catch(() => null);
+  };
 
   return (
     <main className="reader" style={{ "--course-accent": module.accent }}>
@@ -168,7 +172,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <div className="articleMeta">
             <span>▷ {article.time} read</span>
             <span>◆ Updated Aug 2026</span>
-            <button onClick={() => persistProgress(true)}>✓ MARK COMPLETE</button>
+            <button onClick={() => persistProgress(true)}>{module.id === "dsa" && dsaProgress.lessons[dsaLessonKey(track.slug, article.slug)] === true ? "✓ COMPLETED" : "✓ MARK COMPLETE"}</button>
           </div>
         </header>
         {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
@@ -199,6 +203,15 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         <a href="#overview">Overview</a>
         <a href="#concepts">Core concepts</a>
         <a href="#example">Practical example</a>
+        {module.id === "dsa" && <>
+          <a href="#coding-practice">Coding practice</a>
+          <a href="#learning-paths">Learning paths</a>
+          <a href="#spaced-revision">Spaced revision</a>
+          <a href="#interview-mode">Interview mode</a>
+          <a href="#java-practice">Java practice</a>
+          <a href="#interactive-playground">Experiment and compare</a>
+          <a href="#concept-diagrams">Structure diagrams</a>
+        </>}
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
       </aside>

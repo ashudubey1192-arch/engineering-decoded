@@ -221,7 +221,7 @@ function Matrix({ frame }) {
   );
 }
 
-export default function DsaVisualizer({ lesson }) {
+export default function DsaVisualizer({ lesson, allowReverse = true }) {
   const [step, setStep] = useState(0);
   const [variant, setVariant] = useState(false);
   const canReverse = [
@@ -264,7 +264,7 @@ export default function DsaVisualizer({ lesson }) {
         Each step is a state emitted by the implementation below. Highlighted cells or nodes are
         active; faded array cells are outside the current search interval.
       </p>
-      {canReverse && (
+      {canReverse && allowReverse && (
         <label className="dsaVariant">
           <input
             type="checkbox"

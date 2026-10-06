@@ -20,6 +20,9 @@ server:
 management:
   endpoints.web.exposure.include: health,info,metrics
 app:
+  java-runner:
+    url: ${JAVA_RUNNER_URL:}
+    token: ${JAVA_RUNNER_TOKEN:}
   jwt:
     secret: ${JWT_SECRET:change-this-development-secret-with-at-least-32-characters}
     ttl: ${JWT_TTL:PT8H}

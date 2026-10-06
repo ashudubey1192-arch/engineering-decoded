@@ -25,6 +25,8 @@ The compose defaults create `admin@engineeringdecoded.local` / `ChangeMe123!` fo
 - `POST /api/auth/verification` and `POST /api/auth/verification/confirm`
 - `GET|PUT /api/progress`
 - `GET /api/progress/summary`
+- `GET|PUT /api/dsa/progress` (account-scoped drafts, quiz results, review schedules, and interview sessions; newest timestamp wins per entry)
+- `GET /api/dsa/java/status` and `POST /api/dsa/java/run` (authenticated, isolated Java practice; see [runner setup](runner/README.md))
 - `GET /api/admin/stats`
 - `GET|PATCH /api/admin/users/{id}`
 - `GET /api/admin/login-audit`
