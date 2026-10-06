@@ -5,6 +5,7 @@ import { dsaReference } from "../../data/dsaLessonSchema.js";
 import { javaArrayTraces } from "../../data/javaArrayTraces.js";
 import DsaVisualizer from "./DsaVisualizer.jsx";
 import JavaAlgorithmGuide from "./JavaAlgorithmGuide.jsx";
+import DsaDeepDive from "./DsaDeepDive.jsx";
 import "./DsaLessonArticle.css";
 
 export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
@@ -53,6 +54,11 @@ export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
           </div>
         </div>
       </section>
+      <DsaDeepDive
+        key={`companion/${courseSlug}/${lessonSlug}`}
+        courseSlug={courseSlug}
+        lessonSlug={lessonSlug}
+      />
       <section id="example">
         <h2>Work through an example</h2>
         <p>

@@ -1,6 +1,89 @@
 .dsaLesson {
   --dsa-active: var(--course-accent, #22c55e);
 }
+.dsaDeepDive {
+  border-block: 1px solid var(--line);
+  padding-block: 24px;
+}
+.dsaConceptPlayer {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(14px, 3vw, 24px);
+}
+.dsaStepPicker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.dsaStepPicker button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  min-height: 48px;
+  padding: 12px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+.dsaStepPicker button[aria-pressed="true"] {
+  border-color: var(--dsa-active);
+  box-shadow: inset 3px 0 var(--dsa-active);
+  font-weight: 700;
+}
+.dsaStepPicker button span {
+  color: var(--dsa-active);
+  font-weight: 700;
+}
+.dsaConceptFrame {
+  margin: 24px 0 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+.dsaConceptFrame figcaption {
+  font-weight: 700;
+}
+.dsaConceptCells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+.dsaConceptCells li {
+  border: 1px solid var(--dsa-active);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background: var(--surface);
+  font-family: monospace;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+.dsaDeepDiveNotes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 20px 0;
+}
+.dsaFullWalkthrough li {
+  margin-block: 12px;
+}
+@media (max-width: 600px) {
+  .dsaStepPicker,
+  .dsaDeepDiveNotes {
+    grid-template-columns: 1fr;
+  }
+  .dsaConceptFrame {
+    padding: 12px;
+  }
+}
 .dsaLesson section {
   margin-bottom: 40px;
 }
