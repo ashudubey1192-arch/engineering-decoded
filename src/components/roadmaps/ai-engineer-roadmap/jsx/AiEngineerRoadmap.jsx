@@ -1,8 +1,13 @@
 import { useRef, useState } from "react";
-import { aiEngineerStages, ragWalkthrough } from "../../../../data/aiEngineerRoadmap";
+import { ragWalkthrough } from "../../../../data/aiEngineerRoadmap";
+import {
+  aiEngineerReferenceStages as aiEngineerStages,
+  supplementalPractice,
+} from "../../../../data/aiEngineerReferenceRoadmap";
 import "../css/Course.css";
 
-const progressKey = "engineering-decoded:ai-engineer-roadmap:v1";
+// Separate reference-path progress from the previous custom curriculum; retain its saved data.
+const progressKey = "engineering-decoded:ai-engineer-reference-roadmap:v2";
 function readProgress() {
   try {
     const saved = JSON.parse(localStorage.getItem(progressKey) || "[]");
@@ -27,16 +32,28 @@ function Flow({ nodes, label }) {
 }
 export default function AiEngineerRoadmap({ navigate }) {
   const detailRef = useRef(null);
+  const mapRef = useRef(null);
+  const [view, setView] = useState("map");
+  const [selectedBranch, setSelectedBranch] = useState(null);
   const [selected, setSelected] = useState(aiEngineerStages[0].id);
   const [completed, setCompleted] = useState(readProgress);
   const [storageError, setStorageError] = useState(false);
   const [hours, setHours] = useState(8);
   const [ragStep, setRagStep] = useState(0);
-  const selectStage = (id) => {
+  const selectStage = (id, branchIndex = null) => {
     setSelected(id);
+    setSelectedBranch(branchIndex);
+    setView("detail");
     requestAnimationFrame(() => {
       detailRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
       detailRef.current?.focus({ preventScroll: true });
+    });
+  };
+  const showMap = () => {
+    setView("map");
+    requestAnimationFrame(() => {
+      mapRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+      mapRef.current?.focus({ preventScroll: true });
     });
   };
   const stage = aiEngineerStages.find((item) => item.id === selected);
@@ -74,16 +91,17 @@ export default function AiEngineerRoadmap({ navigate }) {
           project at every stage.
         </p>
         <div className="aiRoadmapMeta">
-          <span>12 stages</span>
+          <span>{aiEngineerStages.length} ordered steps</span>
           <span>{totalHours} suggested practice hours</span>
           <span>One evolving capstone</span>
         </div>
         <p className="aiRoadmapAttribution">
-          Topic reference:{" "}
+          Step order and topic branches follow the live{" "}
           <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noreferrer">
             roadmap.sh / AI Engineer ↗
-          </a>
-          . Original explanations, examples, and study sequence added for Engineering Decoded.
+          </a>{" "}
+          roadmap, checked October 7, 2026. Explanations, examples, and time estimates are original
+          additions. Tool lists are alternatives to explore, not requirements to learn every tool.
         </p>
       </header>
       <section className="aiRoadmapOrientation" aria-labelledby="ai-start-heading">
@@ -115,11 +133,98 @@ export default function AiEngineerRoadmap({ navigate }) {
           </p>
         </div>
       </section>
-      <section className="aiRoadmapWorkspace" aria-label="Interactive learning roadmap">
+      <section
+        className="aiReferenceOverview"
+        aria-labelledby="ai-map-heading"
+        ref={mapRef}
+        tabIndex={-1}
+      >
+        <p className="aiRoadmapEyebrow">FOLLOW THE REFERENCE · STEP BY STEP</p>
+        <h2 id="ai-map-heading">The AI engineering learning map</h2>
+        <p>
+          Follow the numbered center path from top to bottom. The connected branches show what to
+          study at each step. Select a step or branch for explanations, a visual example, and a
+          practical checkpoint.
+        </p>
+        <div className="aiRoadmapSteps" aria-label="Roadmap view">
+          <button aria-pressed={view === "map"} onClick={showMap}>
+            Roadmap overview
+          </button>
+          <button aria-pressed={view === "detail"} onClick={() => selectStage(selected)}>
+            Step explanations
+          </button>
+        </div>
+        <div className="aiReferenceLegend">
+          <span>Numbered nodes = learning order</span>
+          <span>Side branches = topics / alternatives</span>
+          <span aria-live="polite">
+            {completed.length} / {aiEngineerStages.length} steps complete
+          </span>
+        </div>
+        <ol className="aiReferenceMap" hidden={view !== "map"} aria-label="Reference roadmap steps">
+          {aiEngineerStages.map((item, index) => (
+            <li className="aiReferenceRow" key={item.id}>
+              <div className="aiReferenceBranches aiReferenceLeft">
+                {item.branches
+                  .filter((_, branchIndex) => branchIndex % 2 === 0)
+                  .map((branch) => (
+                    <button
+                      key={branch.title}
+                      onClick={() => selectStage(item.id, item.branches.indexOf(branch))}
+                      className="aiReferenceBranch"
+                    >
+                      <strong>{branch.title}</strong>
+                      <span>
+                        {branch.topics.map((topic) => (
+                          <span key={topic}>{topic}</span>
+                        ))}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+              <button
+                className="aiReferenceNode"
+                onClick={() => selectStage(item.id)}
+                aria-label={`Step ${index + 1}: ${item.title}${completed.includes(item.id) ? ", completed" : ""}`}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <small>{item.category}</small>
+                <strong>{item.title}</strong>
+                <small>{completed.includes(item.id) ? "✓ Completed" : "Explore this step →"}</small>
+              </button>
+              <div className="aiReferenceBranches aiReferenceRight">
+                {item.branches
+                  .filter((_, branchIndex) => branchIndex % 2 === 1)
+                  .map((branch) => (
+                    <button
+                      key={branch.title}
+                      onClick={() => selectStage(item.id, item.branches.indexOf(branch))}
+                      className="aiReferenceBranch"
+                    >
+                      <strong>{branch.title}</strong>
+                      <span>
+                        {branch.topics.map((topic) => (
+                          <span key={topic}>{topic}</span>
+                        ))}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section
+        className="aiRoadmapWorkspace"
+        aria-label="Interactive learning roadmap"
+        hidden={view !== "detail"}
+      >
         <aside className="aiRoadmapMap">
           <div className="aiRoadmapMapHeading">
             <h2>Your learning path</h2>
-            <span aria-live="polite">{completed.length} / 12 complete</span>
+            <span aria-live="polite">
+              {completed.length} / {aiEngineerStages.length} complete
+            </span>
           </div>
           <progress
             value={doneHours}
@@ -163,6 +268,9 @@ export default function AiEngineerRoadmap({ navigate }) {
           tabIndex={-1}
         >
           <header>
+            <button className="aiRoadmapBack" onClick={showMap}>
+              ← Back to the full roadmap
+            </button>
             <p className="aiRoadmapEyebrow">
               {stage.category} · {stage.hours} PRACTICE HOURS
             </p>
@@ -170,10 +278,26 @@ export default function AiEngineerRoadmap({ navigate }) {
             <p>{stage.summary}</p>
           </header>
           <Flow nodes={stage.flow} label={`${stage.title}: concept flow`} />
+          <section className="aiReferenceTopics" aria-label="Topics in this step">
+            <h3>Study these topics in order</h3>
+            {stage.branches.map((branch, index) => (
+              <section key={branch.title} className={selectedBranch === index ? "isSelected" : ""}>
+                <h4>
+                  {index + 1}. {branch.title}
+                </h4>
+                <ul>
+                  {branch.topics.map((topic) => (
+                    <li key={topic}>{topic}</li>
+                  ))}
+                </ul>
+                <p>{branch.explanation}</p>
+              </section>
+            ))}
+          </section>
           <div className="aiRoadmapConcepts">
             {stage.concepts.map(([title, description], index) => (
               <section key={title}>
-                <span aria-hidden="true">0{index + 1}</span>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <div>
                   <h3>{title}</h3>
                   <p>{description}</p>
@@ -211,6 +335,18 @@ export default function AiEngineerRoadmap({ navigate }) {
                 ? "✓ Completed · mark incomplete"
                 : "Mark stage complete"}
             </button>
+            {selected !== aiEngineerStages[0].id && (
+              <button
+                onClick={() =>
+                  selectStage(
+                    aiEngineerStages[aiEngineerStages.findIndex((item) => item.id === selected) - 1]
+                      .id,
+                  )
+                }
+              >
+                ← Previous step
+              </button>
+            )}
             {selected !== aiEngineerStages.at(-1).id && (
               <button
                 onClick={() =>
@@ -220,7 +356,7 @@ export default function AiEngineerRoadmap({ navigate }) {
                   )
                 }
               >
-                Next stage →
+                Next step →
               </button>
             )}
           </footer>
@@ -230,6 +366,26 @@ export default function AiEngineerRoadmap({ navigate }) {
             </p>
           )}
         </section>
+      </section>
+      <section className="aiReferenceExtras" aria-label="Additional practice">
+        <h2>Additional practice after the roadmap</h2>
+        <p>
+          These Engineering Decoded projects extend the reference path with deployment and portfolio
+          work.
+        </p>
+        {supplementalPractice.map((item) => (
+          <details key={item.id}>
+            <summary>{item.title}</summary>
+            <p>{item.summary}</p>
+            <Flow nodes={item.flow} label={item.title} />
+            <p>
+              <strong>Build:</strong> {item.project}
+            </p>
+            <p>
+              <strong>Checkpoint:</strong> {item.checkpoint}
+            </p>
+          </details>
+        ))}
       </section>
       <section className="aiRoadmapWalkthrough" aria-labelledby="ai-rag-title">
         <p className="aiRoadmapEyebrow">FOLLOW THE DATA</p>

@@ -5,6 +5,252 @@
   color: var(--text);
   --ai-accent: var(--accent-green);
 }
+.aiRoadmap [hidden] {
+  display: none !important;
+}
+.aiReferenceOverview {
+  scroll-margin-top: 90px;
+  padding: 30px 0;
+}
+.aiReferenceOverview > p:not(.aiRoadmapEyebrow),
+.aiReferenceExtras > p {
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 850px;
+}
+.aiReferenceLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 26px;
+  color: var(--muted);
+  font-size: 12px;
+  padding-bottom: 24px;
+}
+.aiReferenceMap {
+  list-style: none;
+  margin: 0;
+  padding: 20px 0;
+}
+.aiReferenceRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  position: relative;
+  padding: 24px 0;
+}
+.aiReferenceRow:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  background: var(--ai-accent);
+  opacity: 0.4;
+  left: calc(50% - 1px);
+  top: 50%;
+  height: 100%;
+  z-index: 0;
+}
+.aiReferenceNode {
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--ai-accent);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 20px 14px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+}
+.aiReferenceNode > span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ai-accent);
+  color: #08110a;
+  font: 13px var(--font-mono);
+}
+.aiReferenceNode strong {
+  font-size: 17px;
+  line-height: 1.4;
+}
+.aiReferenceNode small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.aiReferenceNode small:last-child {
+  color: var(--ai-accent);
+}
+.aiReferenceNode:hover,
+.aiReferenceBranch:hover {
+  background: var(--surface-2);
+}
+.aiReferenceBranches {
+  display: grid;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+.aiReferenceLeft {
+  grid-column: 1;
+  grid-row: 1;
+}
+.aiReferenceRight {
+  grid-column: 3;
+  grid-row: 1;
+}
+.aiReferenceBranch {
+  text-align: left;
+  position: relative;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  width: 100%;
+}
+.aiReferenceBranch::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--muted);
+  opacity: 0.5;
+  position: absolute;
+  top: 50%;
+}
+.aiReferenceLeft .aiReferenceBranch::after {
+  left: 100%;
+}
+.aiReferenceRight .aiReferenceBranch::after {
+  right: 100%;
+}
+.aiReferenceBranch > strong {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 12px;
+}
+.aiReferenceBranch > span {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.aiReferenceBranch > span > span {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.aiReferenceTopics {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.aiReferenceTopics > section {
+  padding: 16px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.aiReferenceTopics > section.isSelected {
+  border-color: var(--ai-accent);
+}
+.aiReferenceTopics h4 {
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+.aiReferenceTopics ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0;
+  list-style: none;
+}
+.aiReferenceTopics li {
+  font-size: 12px;
+  padding: 5px 8px;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+.aiReferenceTopics p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.aiReferenceExtras {
+  margin-top: 36px;
+}
+.aiReferenceExtras details {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-top: 12px;
+  padding: 20px;
+}
+.aiReferenceExtras summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.aiReferenceExtras details p {
+  color: var(--muted);
+  font-size: 14px;
+}
+@media (max-width: 900px) {
+  .aiReferenceRow {
+    grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .aiReferenceBranch {
+    padding: 12px;
+  }
+  .aiReferenceBranch::after {
+    width: 16px;
+  }
+}
+@media (max-width: 650px) {
+  .aiReferenceRow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 24px 0 24px 24px;
+  }
+  .aiReferenceNode,
+  .aiReferenceLeft,
+  .aiReferenceRight {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .aiReferenceNode {
+    grid-row: 1;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .aiReferenceRight:empty {
+    display: none;
+  }
+  .aiReferenceRow:not(:last-child)::after {
+    left: 4px;
+    top: 24px;
+    height: 100%;
+  }
+  .aiReferenceBranch::after {
+    display: none;
+  }
+  .aiReferenceNode::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 1px;
+    background: var(--ai-accent);
+    right: 100%;
+    top: 36px;
+  }
+}
 .aiRoadmap p {
   line-height: 1.75;
 }
