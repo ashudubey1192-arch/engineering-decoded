@@ -1,3 +1,495 @@
-.course-roadmaps-ai-engineer-roadmap .courseMain > header {
-  background: radial-gradient(circle at 90% 15%, color-mix(in srgb, #8f9cff 12%, transparent), transparent 32%);
+.aiRoadmap {
+  max-width: 1320px;
+  margin: auto;
+  padding: 42px 32px 80px;
+  color: var(--text);
+  --ai-accent: var(--accent-green);
+}
+.aiRoadmap p {
+  line-height: 1.75;
+}
+.aiRoadmap a {
+  color: var(--ai-accent);
+  text-underline-offset: 4px;
+}
+.aiRoadmap button,
+.aiRoadmap select {
+  font: inherit;
+}
+.aiRoadmap button:focus-visible,
+.aiRoadmap a:focus-visible,
+.aiRoadmap select:focus-visible {
+  outline: 3px solid var(--ai-accent);
+  outline-offset: 4px;
+}
+.aiRoadmapHero {
+  padding: 0 0 40px;
+  border-bottom: 1px solid var(--line);
+  background: radial-gradient(
+    ellipse at 85% 40%,
+    color-mix(in srgb, var(--ai-accent) 9%, transparent),
+    transparent 60%
+  );
+}
+.aiRoadmapBack {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--muted);
+  margin-bottom: 30px;
+}
+.aiRoadmap .aiRoadmapEyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--ai-accent);
+  margin: 0 0 14px;
+}
+.aiRoadmapHero h1 {
+  font-size: clamp(36px, 5.5vw, 70px);
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  margin: 0 0 22px;
+}
+.aiRoadmapHero h1 span {
+  color: var(--ai-accent);
+}
+.aiRoadmapIntro {
+  max-width: 790px;
+  font-size: 18px;
+  color: var(--muted);
+}
+.aiRoadmapMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin: 24px 0;
+  font-size: 13px;
+}
+.aiRoadmapMeta span::before {
+  content: "✓ ";
+  color: var(--ai-accent);
+}
+.aiRoadmapAttribution {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 780px;
+}
+.aiRoadmap h2 {
+  font-size: 25px;
+  letter-spacing: -0.035em;
+  margin: 0 0 12px;
+}
+.aiRoadmap h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.aiRoadmapOrientation {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 48px;
+  padding: 36px 0;
+}
+.aiRoadmapOrientation p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.aiRoadmapPlan {
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.aiRoadmapPlan label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.aiRoadmapPlan select {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+}
+.aiRoadmapPlan strong {
+  display: block;
+  margin-top: 16px;
+  font-size: 22px;
+}
+.aiRoadmapPlan p {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+.aiRoadmapWorkspace {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.aiRoadmapMap {
+  padding: 24px 0;
+}
+.aiRoadmapMapHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  justify-content: space-between;
+}
+.aiRoadmapMapHeading h2 {
+  font-size: 18px;
+}
+.aiRoadmapMapHeading span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.aiRoadmapMap progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  accent-color: var(--ai-accent);
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.aiRoadmapMap progress::-webkit-progress-bar {
+  background: var(--surface-2);
+}
+.aiRoadmapMap progress::-webkit-progress-value {
+  background: var(--ai-accent);
+}
+.aiRoadmapHint {
+  font-size: 12px;
+  color: var(--muted);
+}
+.aiRoadmapMap > ol {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.aiRoadmapMap > ol > li {
+  position: relative;
+  padding-bottom: 12px;
+}
+.aiRoadmapMap > ol > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 30px;
+  top: 66px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.aiRoadmapMap button {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 36px 1fr 12px;
+  text-align: left;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  min-height: 76px;
+}
+.aiRoadmapMap button:hover {
+  background: var(--surface-2);
+}
+.aiRoadmapMap button[aria-pressed="true"] {
+  border-color: var(--ai-accent);
+  background: color-mix(in srgb, var(--ai-accent) 9%, var(--surface));
+}
+.aiRoadmapNumber {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+.aiRoadmapMap .isComplete .aiRoadmapNumber {
+  color: var(--ai-accent);
+}
+.aiRoadmapMap button small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.aiRoadmapMap button strong {
+  font-size: 13px;
+  line-height: 1.45;
+  display: block;
+}
+.aiRoadmapDetail {
+  scroll-margin-top: 90px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 30px;
+  min-width: 0;
+}
+.aiRoadmapDetail header > p:last-child {
+  color: var(--muted);
+  font-size: 14px;
+}
+.aiRoadmapFlow {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px;
+  padding: 16px 0;
+  margin: 12px 0 22px;
+}
+.aiRoadmapFlow li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 115px;
+}
+.aiRoadmapFlow li span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 60px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--ai-accent) 9%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--ai-accent) 25%, var(--line));
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.5;
+}
+.aiRoadmapFlow b {
+  color: var(--muted);
+  font-weight: 400;
+}
+.aiRoadmapConcepts > section {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+}
+.aiRoadmapConcepts > section > span {
+  color: var(--ai-accent);
+  font: 12px var(--font-mono);
+  padding-top: 4px;
+}
+.aiRoadmapConcepts p,
+.aiRoadmapExample p,
+.aiRoadmapAssignment p,
+.aiRoadmapMistake {
+  font-size: 14px;
+  margin: 0;
+  color: var(--muted);
+}
+.aiRoadmapExample {
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+.aiRoadmapExample figure {
+  margin: 20px 0 0;
+  min-width: 0;
+}
+.aiRoadmapExample figcaption {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+.aiRoadmapExample pre {
+  margin: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 18px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 12px/1.8 var(--font-mono);
+}
+.aiRoadmapAssignment {
+  border-left: 3px solid var(--ai-accent);
+  padding: 4px 0 4px 18px;
+  margin: 8px 0 24px;
+}
+.aiRoadmapAssignment h3:not(:first-child) {
+  margin-top: 20px;
+}
+.aiRoadmap .aiRoadmapMistake {
+  padding: 16px;
+  background: var(--surface-2);
+  border-radius: 8px;
+}
+.aiRoadmapMistake strong {
+  color: var(--text);
+}
+.aiRoadmapDetail footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+.aiRoadmapDetail footer button,
+.aiRoadmapSteps button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.aiRoadmapDetail footer .aiRoadmapPrimary {
+  background: var(--ai-accent);
+  color: #08110a;
+  border-color: var(--ai-accent);
+  font-weight: 600;
+}
+.aiRoadmapWalkthrough {
+  margin-top: 50px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.aiRoadmapWalkthrough > p,
+#ai-rag-result > p {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 850px;
+}
+.aiRoadmapSteps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0;
+}
+.aiRoadmapSteps button[aria-pressed="true"] {
+  border-color: var(--ai-accent);
+  color: var(--ai-accent);
+}
+.aiRoadmapCapstone {
+  padding: 42px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  border-bottom: 1px solid var(--line);
+}
+.aiRoadmapCapstone p,
+.aiRoadmapCapstone li {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.aiRoadmapCapstone ul {
+  padding-left: 20px;
+}
+.aiRoadmapCapstone li {
+  margin-bottom: 14px;
+}
+.aiRoadmapCapstone strong {
+  color: var(--text);
+}
+.aiRoadmapResources {
+  padding-top: 36px;
+}
+.aiRoadmapResources > p {
+  font-size: 14px;
+  color: var(--muted);
+}
+.aiRoadmapResources > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+.aiRoadmapResources a {
+  display: block;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-decoration: none;
+}
+.aiRoadmapResources a:hover {
+  background: var(--surface);
+}
+.aiRoadmapResources strong {
+  display: block;
+  font-size: 14px;
+}
+.aiRoadmapResources span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 950px) {
+  .aiRoadmapWorkspace {
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 18px;
+  }
+  .aiRoadmapDetail {
+    padding: 22px;
+  }
+}
+@media (max-width: 760px) {
+  .aiRoadmap {
+    padding: 24px 18px 50px;
+  }
+  .aiRoadmapOrientation,
+  .aiRoadmapWorkspace,
+  .aiRoadmapCapstone {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .aiRoadmapMap > ol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .aiRoadmapMap > ol > li {
+    padding-bottom: 0;
+  }
+  .aiRoadmapMap > ol > li::after {
+    display: none;
+  }
+  .aiRoadmapMap button {
+    height: 100%;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+  }
+  .aiRoadmapMap button > span:last-child {
+    display: none;
+  }
+  .aiRoadmapWalkthrough {
+    padding: 22px;
+  }
+  .aiRoadmapDetail h2 {
+    font-size: 23px;
+  }
+}
+@media (max-width: 420px) {
+  .aiRoadmapMap > ol,
+  .aiRoadmapResources > div {
+    grid-template-columns: 1fr;
+  }
+  .aiRoadmapDetail {
+    padding: 18px;
+  }
+  .aiRoadmapFlow {
+    flex-direction: column;
+  }
+  .aiRoadmapFlow li {
+    flex-direction: column;
+    flex-basis: auto;
+  }
+  .aiRoadmapFlow b {
+    transform: rotate(90deg);
+  }
+  .aiRoadmapConcepts > section {
+    gap: 10px;
+  }
 }

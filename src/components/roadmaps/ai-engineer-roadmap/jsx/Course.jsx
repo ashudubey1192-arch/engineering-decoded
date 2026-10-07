@@ -1,15 +1,8 @@
-import CoursePage from "../../../learning/CoursePage";
-import { getModule, getTrack } from "../../../../data/catalog";
-import "../css/Course.css";
+import AiEngineerRoadmap from "./AiEngineerRoadmap";
 export default function RoadmapsAiEngineerRoadmapCourse({ navigate }) {
-  const module = getModule("roadmaps");
   return (
-    <div className="course-roadmaps-ai-engineer-roadmap">
-      <CoursePage
-        module={module}
-        track={getTrack(module, "ai-engineer-roadmap")}
-        navigate={navigate}
-      />
-    </div>
+    <main>
+      <AiEngineerRoadmap navigate={navigate} />
+    </main>
   );
 }
