@@ -411,3 +411,8 @@
     min-width: 40px;
   }
 }
+.dsaPlaybackOptions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin: 14px 0; font-size: 13px; }
+.dsaPlaybackOptions label { display: flex; align-items: center; gap: 8px; }
+.dsaPlaybackOptions select { padding: 7px 10px; background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 6px; }
+.dsaPlaybackOptions input { accent-color: #22c55e; }
+.dsaControls button[aria-pressed="true"] { border-color: #22c55e; background: #22c55e22; }

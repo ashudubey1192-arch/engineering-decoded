@@ -10,6 +10,7 @@
     "check:tutorials": "node scripts/check-tutorials.mjs",
     "generate:system-design": "node scripts/build-system-design-quizzes.mjs",
     "check:system-design": "node scripts/check-system-design-quizzes.mjs",
+    "check:dsa-concepts": "node scripts/check-dsa-concept-quizzes.mjs",
     "preview": "vite preview",
     "lint": "eslint src",
     "check:databases": "node scripts/check-database-courses.mjs",

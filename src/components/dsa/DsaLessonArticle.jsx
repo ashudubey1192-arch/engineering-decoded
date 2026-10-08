@@ -7,6 +7,8 @@ import DsaVisualizer from "./DsaVisualizer.jsx";
 import JavaAlgorithmGuide from "./JavaAlgorithmGuide.jsx";
 import DsaDeepDive from "./DsaDeepDive.jsx";
 import DsaLearningTools from "./DsaLearningTools.jsx";
+import ConceptQuiz from '../learning/ConceptQuiz.jsx';
+import { getDsaConceptQuiz } from '../../data/dsaConceptQuizzes.js';
 import "./DsaLessonArticle.css";
 
 export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
@@ -171,6 +173,7 @@ export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
           </div>
         )}
       </section>
+      <ConceptQuiz key={`quiz/${courseSlug}/${lessonSlug}`} title={lesson.title} questions={getDsaConceptQuiz(courseSlug, lessonSlug)} />
       <section id="check">
         <h2>Practice and explain</h2>
         <div className="quiz">

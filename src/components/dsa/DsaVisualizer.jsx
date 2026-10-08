@@ -224,6 +224,9 @@ function Matrix({ frame }) {
 export default function DsaVisualizer({ lesson, allowReverse = true }) {
   const [step, setStep] = useState(0);
   const [variant, setVariant] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [loop, setLoop] = useState(true);
+  const [speed, setSpeed] = useState(1800);
   const canReverse = [
     "linearSearch",
     "insertionSort",
@@ -254,10 +257,25 @@ export default function DsaVisualizer({ lesson, allowReverse = true }) {
     : [{ values: [], note: "The base case returns without an iteration." }];
   const currentStep = Math.min(step, frames.length - 1),
     frame = frames[currentStep];
+  useEffect(() => {
+    if (!playing) return;
+    const timer = window.setInterval(() => {
+      if (document.hidden) return;
+      if (currentStep === frames.length - 1 && !loop) { setPlaying(false); return; }
+      setStep(value => (value + 1) % frames.length);
+    }, speed);
+    return () => window.clearInterval(timer);
+  }, [playing, speed, loop, currentStep, frames.length]);
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const stop = () => setPlaying(false);
+    preference.addEventListener('change', stop);
+    return () => preference.removeEventListener('change', stop);
+  }, []);
   return (
     <div className="dsaVisualizer">
       <div className="dsaVisualizerHeading">
-        <h3>Step-by-step visual lab</h3>
+        <h3>Animated visual lab</h3>
         <span>{frames.length} recorded steps</span>
       </div>
       <p className="dsaLabHint">
@@ -271,6 +289,7 @@ export default function DsaVisualizer({ lesson, allowReverse = true }) {
             checked={variant}
             onChange={(event) => {
               setVariant(event.target.checked);
+              setPlaying(false);
               setStep(0);
             }}
           />{" "}
@@ -278,26 +297,31 @@ export default function DsaVisualizer({ lesson, allowReverse = true }) {
         </label>
       )}
       <div className="dsaControls" role="group" aria-label="Algorithm step controls">
-        <button type="button" onClick={() => setStep(0)} disabled={currentStep === 0}>
+        <button type="button" aria-pressed={playing} disabled={frames.length < 2} onClick={() => { if (!playing && currentStep === frames.length - 1) setStep(0); setPlaying(value => !value); }}>{playing ? 'Pause animation' : 'Play animation'}</button>
+        <button type="button" onClick={() => { setPlaying(false); setStep(0); }} disabled={currentStep === 0 && !playing}>
           Reset
         </button>
-        <button type="button" onClick={() => setStep(currentStep - 1)} disabled={currentStep === 0}>
+        <button type="button" onClick={() => { setPlaying(false); setStep(currentStep - 1); }} disabled={currentStep === 0}>
           Previous step
         </button>
         <button
           type="button"
-          onClick={() => setStep(currentStep + 1)}
+          onClick={() => { setPlaying(false); setStep(currentStep + 1); }}
           disabled={currentStep === frames.length - 1}
         >
           Next step
         </button>
         <button
           type="button"
-          onClick={() => setStep(frames.length - 1)}
+          onClick={() => { setPlaying(false); setStep(frames.length - 1); }}
           disabled={currentStep === frames.length - 1}
         >
           Last step
         </button>
+      </div>
+      <div className="dsaPlaybackOptions">
+        <label>Playback speed <select value={speed} onChange={event => setSpeed(Number(event.target.value))}><option value={3000}>Slow</option><option value={1800}>Normal</option><option value={800}>Fast</option></select></label>
+        <label><input type="checkbox" checked={loop} onChange={event => setLoop(event.target.checked)} /> Loop animation</label>
       </div>
       <label className="dsaScrubber">
         Step {currentStep + 1} of {frames.length}
@@ -307,7 +331,7 @@ export default function DsaVisualizer({ lesson, allowReverse = true }) {
           min="0"
           max={frames.length - 1}
           value={currentStep}
-          onChange={(event) => setStep(Number(event.target.value))}
+          onChange={(event) => { setPlaying(false); setStep(Number(event.target.value)); }}
         />
       </label>
       <div className="dsaStage">

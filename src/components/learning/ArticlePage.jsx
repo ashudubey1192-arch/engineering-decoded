@@ -220,6 +220,8 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <a href="#java-practice">Java practice</a>
           <a href="#interactive-playground">Experiment and compare</a>
           <a href="#concept-diagrams">Structure diagrams</a>
+          <a href="#example">Animated visual lab</a>
+          <a href="#concept-quiz">Quiz</a>
         </>}
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
