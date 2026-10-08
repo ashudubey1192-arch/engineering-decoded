@@ -1,0 +1,40 @@
+.article .conceptMotion { --motion-cyan: #22d3ee; --motion-green: #4ade80; margin: 32px 0; padding: 22px; border: 1px solid #243a36; border-radius: 12px; background: #070d0e; color: #ecf5f3; scroll-margin-top: 90px; }
+.conceptMotion > header, .conceptMotionDialog > header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+.conceptMotion header small { color: #81a69b; font: 10px monospace; letter-spacing: .16em; }
+.conceptMotion header h2 { margin: 8px 0; color: #ecf5f3; font-size: 21px; }
+.conceptMotion button { border: 1px solid #30473f; background: #13211d; color: #dcebe5; border-radius: 6px; padding: 8px 12px; cursor: pointer; font: inherit; font-size: 12px; }
+.conceptMotion button:hover { border-color: #4ade80; }.conceptMotion button:focus-visible { outline: 2px solid #4ade80; outline-offset: 3px; }
+.conceptMotionControls { display: flex; gap: 6px; flex-wrap: wrap; }
+.conceptMotionFigure { margin: 0; padding: 18px; border: 1px solid #16464b; border-radius: 10px; background: #081719; }
+.conceptMotionSvg { overflow-x: auto; }
+.conceptMotionSvg svg { display: block; width: 100%; min-width: 440px; height: auto; max-height: 460px; margin: auto; }
+.conceptMotionSvg text { fill: #d5eeeb; font: 10px monospace; }
+.conceptMotionSvg .boxText { text-anchor: middle; fill: #edf8f5; font: 10px monospace; }
+.conceptMotionSvg .figLabel { text-anchor: middle; fill: #4ade80; font: bold 11px monospace; }
+.conceptMotionSvg .figHint { fill: #9bbab3; font: 9px monospace; }
+.conceptMotionSvg .box, .conceptMotionSvg .node, .conceptMotionSvg .server { fill: #142b2d; stroke: #367076; stroke-width: 1; }
+.conceptMotionSvg .boxAccent { fill: #135545; stroke: #4ade80; stroke-width: 1.5; animation: conceptGlow 2.8s ease-in-out infinite alternate; }
+.conceptMotionSvg .boxWarn { fill: #45320d; stroke: #fbbf24; stroke-width: 1.5; }
+.conceptMotionSvg .flow, .conceptMotionSvg .arrow, .conceptMotionSvg .flowLine { stroke: #22d3ee; stroke-width: 2; fill: none; stroke-dasharray: 6 5; animation: conceptFlow 1.6s linear infinite; }
+.conceptMotionSvg .flowMuted, .conceptMotionSvg .divider { stroke: #3c6668; stroke-width: 1; fill: none; }
+.conceptMotionSvg .flowMuted { stroke-dasharray: 4 5; animation: conceptFlow 2.4s linear infinite; }
+.conceptMotionSvg .ringNode { fill: #135545; stroke: #4ade80; animation: conceptGlow 2.8s ease-in-out infinite alternate; }
+.conceptMotionSvg .ringKey { fill: #fbbf24; stroke: #fbbf24; }
+.conceptMotionFigure figcaption { margin-top: 18px; color: #9ebcb3; font-size: 12px; line-height: 1.7; }
+.conceptDiagramTabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.conceptMotion button[aria-pressed="true"] { background: #153d2b; border-color: #4ade80; color: #b3f9ce; }
+.conceptFrameTabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 18px 0; }
+.conceptFrameTabs button { display: flex; gap: 10px; align-items: center; text-align: left; line-height: 1.5; }
+.conceptFrameTabs span { font: 11px monospace; color: #4ade80; }
+.conceptFrame { border-left: 3px solid #4ade80; padding: 16px 18px; background: #0d2019; border-radius: 0 8px 8px 0; min-height: 165px; }
+.conceptFrame small { color: #4ade80; font: 10px monospace; letter-spacing: .12em; }
+.conceptFrame h3 { margin: 8px 0; font-size: 16px; color: #e3f7ee; }
+.conceptFrame p { margin: 0; color: #b8d0c5; font-size: 14px; line-height: 1.8; }
+.conceptMotion > footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; color: #85a399; font-size: 11px; }
+.conceptMotionDialog { width: min(1100px, 95vw); max-height: 90vh; overflow: auto; padding: 24px; border: 1px solid #34594d; border-radius: 12px; background: #070d0e; color: #ecf5f3; }
+.conceptMotionDialog::backdrop { background: #000c; }.conceptMotionDialog header > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.conceptMotion.isPaused *, .conceptMotion.isPaused .conceptMotionDialog * { animation-play-state: paused !important; }
+@keyframes conceptFlow { to { stroke-dashoffset: -44; } }
+@keyframes conceptGlow { from { fill: #135545; } to { fill: #208068; } }
+@media(max-width: 600px) { .article .conceptMotion { padding: 14px; } .conceptMotionFigure { padding: 10px; } .conceptFrameTabs { grid-template-columns: 1fr; } .conceptMotionDialog { padding: 14px; } }
+@media(prefers-reduced-motion: reduce) { .conceptMotionSvg * { animation: none !important; } }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { articleTemplates } from "../../data/catalog";
 import {
   getStructuredCourseArticles,
@@ -9,10 +9,9 @@ import { getArticleComponent, preloadArticleComponent } from "../articles/regist
 import "./ArticlePage.css";
 import { saveArticleProgress } from "../../services/api";
 import { dsaLessonKey, updateDsaProgress, useDsaProgress } from "../../services/dsaProgress.js";
-import ConceptQuiz from './ConceptQuiz';
 import SystemDesignAnimation from './SystemDesignAnimation';
-import systemDesignQuizzes from '../../data/systemDesignQuizzes.json';
-import { scalabilityQuiz } from '../../data/systemDesignQuizOverrides';
+const ConceptAnimation = lazy(() => import('./ConceptAnimation'));
+const SystemDesignQuiz = lazy(() => import('./SystemDesignQuiz'));
 
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const dsaProgress = useDsaProgress();
@@ -58,7 +57,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
 
   const DedicatedArticle = getArticleComponent(module.id, track.slug, article.slug);
   const quizKey = `${track.slug}/${article.slug}`;
-  const quizQuestions = quizKey === 'system-design-fundamentals/core-concepts--scalability' ? scalabilityQuiz : systemDesignQuizzes[quizKey];
+  const hasConceptQuiz = ['system-design-fundamentals', 'high-level-design', 'low-level-design'].includes(track.slug);
   const showAnimation = track.slug === 'system-design-fundamentals' && article.slug === 'welcome--course-introduction';
   const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
@@ -183,8 +182,9 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           </div>
         </header>
         {showAnimation && <SystemDesignAnimation />}
+        {hasConceptQuiz && !showAnimation && <Suspense fallback={<p>Loading concept visualization…</p>}><ConceptAnimation key={quizKey} lessonKey={quizKey} /></Suspense>}
         {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
-        {quizQuestions && <ConceptQuiz key={quizKey} title={article.title} questions={quizQuestions} />}
+        {hasConceptQuiz && <Suspense fallback={<p>Loading quiz…</p>}><SystemDesignQuiz key={quizKey} title={article.title} lessonKey={quizKey} /></Suspense>}
         {next && (
           <button
             className="nextArticle"
@@ -223,7 +223,8 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         </>}
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
-        {quizQuestions && <a href="#concept-quiz">Quiz</a>}
+        {hasConceptQuiz && <a href="#concept-quiz">Quiz</a>}
+        {hasConceptQuiz && !showAnimation && <a href="#concept-animation">Visual walkthrough</a>}
       </aside>
     </main>
   );

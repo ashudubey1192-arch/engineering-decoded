@@ -1,0 +1,6 @@
+const boxes = labels => `<svg viewBox="0 0 640 200" role="img" aria-label="${labels.join(', ')}">${labels.map((label, index) => { const x = 15 + (index % 3) * 210, y = 15 + Math.floor(index / 3) * 95; return `<rect class="boxAccent" x="${x}" y="${y}" width="190" height="70" rx="8"/><text class="boxText" x="${x + 95}" y="${y + 40}">${label}</text>`; }).join('')}</svg>`;
+export const visualFallbacks = {
+  'high-level-design/hld-foundations--capacity-estimation': { svg: boxes(['100M URLs / month', '≈ 40 writes / sec', '100:1 read/write', '≈ 4,000 reads / sec', '1.2B records / year', '≈ 600 GB raw / year']), caption: 'Estimate requests, read/write ratio, and storage independently. These numbers exclude replica and index overhead.' },
+  'system-design-fundamentals/introduction-to-system-design--30-must-know-concepts': { svg: boxes(['Networking', 'Load balancing', 'Caching', 'Data and storage', 'Communication', 'Reliability']), caption: 'The concepts work together: follow a request, find the bottleneck, and choose the right building blocks.' },
+  'system-design-fundamentals/welcome--course-introduction': { svg: boxes(['Load balancer', 'Cache', 'Message queue', 'Database', 'Rate limiting', 'WebSockets']), caption: 'Six fundamental building blocks; the introduction also includes a live overview of each one.' },
+};

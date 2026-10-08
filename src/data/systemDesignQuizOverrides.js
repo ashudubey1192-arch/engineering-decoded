@@ -1,5 +1,29 @@
 const question = (prompt, options, answer, explanation) => ({ prompt, options, answer, explanation });
 
+export const conceptQuizOverrides = {
+  'system-design-fundamentals/networking--dns': [
+    question('What does DNS primarily do when you open a website?', ['Encrypt the HTTP response', 'Translate a domain name into an address', 'Store the website HTML', 'Balance CPU usage inside a server'], 1, 'DNS resolves human-readable names to records such as IP addresses that clients can use to connect.'),
+    question('Which DNS record aliases one name to another name?', ['A', 'AAAA', 'CNAME', 'MX'], 2, 'A CNAME points to another domain name. A and AAAA hold IP addresses; MX identifies mail servers.'),
+    question('Which server holds the domain owner’s DNS records?', ['The authoritative nameserver', 'Every root server', 'Only the browser cache', 'An application load balancer'], 0, 'Authoritative nameservers publish the records for their zones. A recursive resolver discovers and caches answers.'),
+    question('You plan a DNS cutover tomorrow. What helps reduce how long clients retain the old address?', ['Raise the TTL during the cutover', 'Delete every cache on the internet', 'Switch HTTP to UDP', 'Lower the TTL early enough for the old TTL to expire'], 3, 'Resolvers that cached the old TTL may keep it until it expires. Lower the TTL in advance so later responses expire sooner.'),
+    question('What is the main trade-off of a low DNS TTL?', ['It prevents address changes', 'Faster refreshes, but more DNS lookups', 'It removes the need for authoritative servers', 'It guarantees instant updates everywhere'], 1, 'A short TTL reduces cache lifetime but increases query traffic. Updates still depend on caches and client behavior.'),
+  ],
+  'high-level-design/hld-foundations--capacity-estimation': [
+    question('What is the main purpose of capacity estimation?', ['Predict the exact hardware bill', 'Choose an appropriate order of magnitude for the design', 'Eliminate load testing', 'Prove a system cannot fail'], 1, 'Rough estimates identify which resources and architecture choices the workload actually needs.'),
+    question('100 million new URLs are created in a 30-day month. Approximately how many writes per second is that?', ['40', '4,000', '40,000', '1 million'], 0, '100,000,000 ÷ (30 × 86,400) is about 38.6, or roughly 40 writes per second.'),
+    question('At 40 writes per second and a 100:1 read-to-write ratio, what is the read rate?', ['400 reads/sec', '40 reads/sec', '4 reads/sec', '4,000 reads/sec'], 3, 'Multiply 40 by 100 to estimate 4,000 reads per second.'),
+    question('1.2 billion records at roughly 500 bytes each require how much raw storage?', ['6 GB', '60 TB', '600 GB', '600 MB'], 2, '1.2 billion × 500 bytes = 600 billion bytes, approximately 600 GB before overhead and replicas.'),
+    question('The workload has far more reads than writes and repeatedly accesses popular URLs. Which change is most directly supported?', ['Immediately shard all data', 'Add a cache for popular URL mappings', 'Remove all indexes', 'Serialize every read through one global lock'], 1, 'Caching reduces repeated read traffic. The estimated write and storage volumes alone do not justify sharding.'),
+  ],
+  'system-design-fundamentals/consensus-and-coordination--operational-transformation': [
+    question('What problem does Operational Transformation address?', ['Encrypting edits at rest', 'Caching unchanging pages', 'Reconciling concurrent edits to a shared document', 'Compressing uploaded images'], 2, 'OT transforms operations to account for concurrent changes to the document.'),
+    question('Why can an incoming edit refer to the wrong character position?', ['It was created against an older document state', 'All character positions are random', 'The document must be read-only', 'Every edit deletes the entire document'], 0, 'Another user may have inserted or removed characters since the operation was created.'),
+    question('An insert targets position 11. A concurrent edit adds six characters before that position. Where should the transformed insert target?', ['5', '6', '11', '17'], 3, 'The earlier insertion shifts the intended position forward: 11 + 6 = 17.'),
+    question('What outcome should correctly transformed operations produce?', ['Each user keeps a permanently different document', 'Participants converge on the same final document', 'Only the first user can edit', 'All concurrent changes are discarded'], 1, 'Transformation accounts for concurrent edits so replicas converge while preserving the meaning of operations as far as the algorithm supports.'),
+    question('Why do teams often use an existing OT library?', ['OT needs no correctness testing', 'OT works only for a single writer', 'Correct transformations across operation combinations are difficult', 'OT and CRDTs use identical algorithms'], 2, 'Insert, delete, and other operation combinations require carefully tested transformation rules.'),
+  ],
+};
+
 export const scalabilityQuiz = [
   question('What does scalability mean in system design?', ['Avoiding every possible failure', 'Handling more load by adding resources', 'Keeping all data on one server', 'Reducing features as traffic grows'], 1, 'Scalability is the ability to handle growing demand by increasing resources while maintaining acceptable performance.'),
   question('Which change is vertical scaling?', ['Adding three application servers', 'Partitioning users across databases', 'Upgrading a server from 8 GB to 32 GB of RAM', 'Adding a second region'], 2, 'Vertical scaling increases the resources of an existing machine.'),
