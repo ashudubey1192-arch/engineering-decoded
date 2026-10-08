@@ -9,6 +9,10 @@ import { getArticleComponent, preloadArticleComponent } from "../articles/regist
 import "./ArticlePage.css";
 import { saveArticleProgress } from "../../services/api";
 import { dsaLessonKey, updateDsaProgress, useDsaProgress } from "../../services/dsaProgress.js";
+import ConceptQuiz from './ConceptQuiz';
+import SystemDesignAnimation from './SystemDesignAnimation';
+import systemDesignQuizzes from '../../data/systemDesignQuizzes.json';
+import { scalabilityQuiz } from '../../data/systemDesignQuizOverrides';
 
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const dsaProgress = useDsaProgress();
@@ -53,6 +57,9 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
     );
 
   const DedicatedArticle = getArticleComponent(module.id, track.slug, article.slug);
+  const quizKey = `${track.slug}/${article.slug}`;
+  const quizQuestions = quizKey === 'system-design-fundamentals/core-concepts--scalability' ? scalabilityQuiz : systemDesignQuizzes[quizKey];
+  const showAnimation = track.slug === 'system-design-fundamentals' && article.slug === 'welcome--course-introduction';
   const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);
@@ -175,7 +182,9 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             <button onClick={() => persistProgress(true)}>{module.id === "dsa" && dsaProgress.lessons[dsaLessonKey(track.slug, article.slug)] === true ? "✓ COMPLETED" : "✓ MARK COMPLETE"}</button>
           </div>
         </header>
+        {showAnimation && <SystemDesignAnimation />}
         {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
+        {quizQuestions && <ConceptQuiz key={quizKey} title={article.title} questions={quizQuestions} />}
         {next && (
           <button
             className="nextArticle"
@@ -214,6 +223,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         </>}
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
+        {quizQuestions && <a href="#concept-quiz">Quiz</a>}
       </aside>
     </main>
   );

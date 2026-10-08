@@ -1,0 +1,23 @@
+.sdAnimation { margin: 28px 0; background: #070b0c; border: 1px solid #263436; border-radius: 12px; padding: 22px; color: #edf6f4; }
+.sdAnimationHeading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.sdAnimationHeading small { font: 10px monospace; letter-spacing: .15em; color: #86a09b; }
+.sdAnimation .sdAnimationHeading h2 { font-size: 22px; margin: 7px 0 0; color: #edf6f4; }
+.sdAnimation button { color: #c7dbd7; font-size: 12px; background: #15201e; border: 1px solid #32483f; border-radius: 6px; padding: 8px 10px; cursor: pointer; }
+.sdAnimation button:focus-visible { outline: 2px solid #4ade80; outline-offset: 3px; }
+.sdAnimationGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.sdAnimationCard { --signal: #22d3ee; min-width: 0; border: 1px solid color-mix(in srgb, var(--signal) 35%, transparent); background: color-mix(in srgb, var(--signal) 4%, #060b0c); border-radius: 12px; padding: 12px; }
+.sdAnimationCard.green { --signal: #4ade80; }.sdAnimationCard.amber { --signal: #fbbf24; }
+.sdAnimation .sdAnimationCard h3 { color: var(--signal); font: 700 10px monospace; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 8px; }
+.sdAnimationCard svg { display: block; width: 100%; overflow: visible; }
+.sdAnimationCard path { fill: none; stroke: #384945; stroke-width: 1.5; }
+.sdAnimationCard .activePath { stroke: var(--signal); stroke-width: 2; }
+.sdAnimationCard .sdNode { fill: #182126; stroke: #2c393f; transition: fill .35s; }
+.sdAnimationCard .sdNode.active { fill: var(--signal); stroke: var(--signal); }
+.sdAnimationCard text { fill: #e6eff4; font: 9px monospace; }.sdAnimationCard .active + text { fill: #061011; font-weight: bold; }
+.sdAnimation .sdAnimationCard p { color: var(--signal); font: 10px/1.5 monospace; min-height: 30px; margin: 8px 0 0; text-align: center; }
+.sdAnimationFooter { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; font-size: 11px; color: #8ba49e; }
+.sdAnimationDialog { width: min(1100px, 95vw); max-height: 90vh; padding: 24px; border: 1px solid #32483f; border-radius: 12px; background: #070b0c; color: #edf6f4; }
+.sdAnimationDialog::backdrop { background: #000b; }.sdAnimationDialog button { margin-left: 8px; }
+@media(max-width: 700px) { .sdAnimationGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sdAnimation { padding: 14px; } }
+@media(max-width: 380px) { .sdAnimationGrid { grid-template-columns: 1fr; } }
+@media(prefers-reduced-motion: reduce) { .sdAnimationCard .sdNode { transition: none; } }
