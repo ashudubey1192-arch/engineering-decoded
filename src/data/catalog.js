@@ -70,7 +70,7 @@ export const modules = [
       },
       {
         name: "Generative AI",
-        tracks: tracks("Generative AI, LLMs, Prompt Engineering, RAG, AI Agents"),
+          tracks: tracks("AI Engineering, Generative AI, LLMs, Prompt Engineering, RAG, AI Agents"),
       },
     ],
   ),

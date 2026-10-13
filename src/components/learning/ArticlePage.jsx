@@ -12,6 +12,7 @@ import { dsaLessonKey, updateDsaProgress, useDsaProgress } from "../../services/
 import SystemDesignAnimation from './SystemDesignAnimation';
 const ConceptAnimation = lazy(() => import('./ConceptAnimation'));
 const SystemDesignQuiz = lazy(() => import('./SystemDesignQuiz'));
+const AiConceptLearning = lazy(() => import('./AiConceptLearning'));
 
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const dsaProgress = useDsaProgress();
@@ -177,13 +178,15 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <h1>{article.title}</h1>
           <div className="articleMeta">
             <span>▷ {article.time} read</span>
-            <span>◆ Updated Aug 2026</span>
+            <span>◆ Updated {article.updated || 'Aug 2026'}</span>
             <button onClick={() => persistProgress(true)}>{module.id === "dsa" && dsaProgress.lessons[dsaLessonKey(track.slug, article.slug)] === true ? "✓ COMPLETED" : "✓ MARK COMPLETE"}</button>
           </div>
         </header>
         {showAnimation && <SystemDesignAnimation />}
         {hasConceptQuiz && !showAnimation && <Suspense fallback={<p>Loading concept visualization…</p>}><ConceptAnimation key={quizKey} lessonKey={quizKey} /></Suspense>}
+        {module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading animated example…</p>}><AiConceptLearning key={`animation/${quizKey}`} module={module} track={track} article={article} mode="animation" /></Suspense>}
         {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
+        {module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading quiz…</p>}><AiConceptLearning key={`quiz/${quizKey}`} module={module} track={track} article={article} mode="quiz" /></Suspense>}
         {hasConceptQuiz && <Suspense fallback={<p>Loading quiz…</p>}><SystemDesignQuiz key={quizKey} title={article.title} lessonKey={quizKey} /></Suspense>}
         {next && (
           <button
@@ -226,6 +229,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
         {module.id === 'coding-patterns' && <><a href={article.sectionSlug === 'guide' ? '#pattern-animation' : '#example'}>Animated walkthrough</a><a href="#concept-quiz">Quiz</a></>}
+        {module.id === 'ai' && <><a href="#ai-animation">Animated walkthrough</a><a href="#concept-quiz">Quiz</a></>}
         {hasConceptQuiz && <a href="#concept-quiz">Quiz</a>}
         {hasConceptQuiz && !showAnimation && <a href="#concept-animation">Visual walkthrough</a>}
       </aside>

@@ -1,0 +1,50 @@
+.article .aiTrace { margin: 24px 0 36px; padding: clamp(16px, 3vw, 28px); border: 1px solid #254638; border-radius: 16px; background: radial-gradient(ellipse at top right, #102f24, transparent 65%), #09120f; color: #e4eee9; }
+.aiTrace header small, .aiTraceCurrent small { color: #6ee7a5; letter-spacing: .12em; font-size: 11px; font-weight: 700; }
+.aiTrace header h2 { margin: 10px 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.35; }
+.aiTrace header p { color: #a1b9ad; font-size: 14px; }
+.aiTraceNodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 12px; margin: 24px 0; }
+.aiTraceNodes button { position: relative; overflow: hidden; min-height: 112px; padding: 14px; text-align: left; border: 1px solid #30443a; border-radius: 10px; background: #0e1c16; color: #95a99e; cursor: pointer; }
+.aiTraceNodes strong { display: block; font-size: 13px; line-height: 1.5; }
+.aiTraceNumber { display: block; margin-bottom: 10px; font: 12px monospace; }
+.aiTraceNodes .isCurrent { border-color: #4ade80; background: #153c29; color: #f0fff5; box-shadow: 0 0 22px #22c55e15; }
+.aiTraceNodes .isVisited { color: #b2d4c0; border-color: #347553; }
+.aiTraceSignal { position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: #4ade80; }
+.isCurrent .aiTraceSignal, .isVisited .aiTraceSignal { width: 100%; }
+.isPlaying .isCurrent .aiTraceSignal { animation: aiSignal 1.8s ease-in-out infinite; }
+@keyframes aiSignal { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.aiTraceCurrent { min-height: 160px; padding: 20px; background: #050c09; border: 1px solid #294334; border-radius: 10px; }
+.aiTraceCurrent h3 { margin: 10px 0; }
+.aiTraceCurrent p { margin-bottom: 0; font-family: ui-monospace, monospace; line-height: 1.8; overflow-wrap: anywhere; }
+.aiTraceControls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.aiTraceControls button, .aiTraceControls select { padding: 9px 12px; border: 1px solid #365746; border-radius: 7px; background: #163625; color: #e3f8eb; cursor: pointer; }
+.aiTraceControls button:first-child { background: #22c55e; color: #062311; font-weight: 700; }
+.aiTraceControls button:disabled { opacity: .4; cursor: default; }
+.aiTraceControls label { font-size: 13px; }
+.aiTraceControls > span { color: #9bb5a6; font-size: 12px; }
+.aiTrace :is(button, select, summary):focus-visible { outline: 2px solid #86efac; outline-offset: 3px; }
+.aiTrace details { font-size: 13px; color: #b8cec1; }
+.aiTrace summary { cursor: pointer; }
+.aiTrace li { margin: 10px 0; overflow-wrap: anywhere; }
+.aiProbability { margin: 18px 0; }
+.aiProbability > div { display: grid; grid-template-columns: 20px 1fr 45px; align-items: center; gap: 10px; margin: 8px 0; font: 12px monospace; }
+.aiProbability > div > div { background: #1a3024; border-radius: 4px; }
+.aiProbability i { display: block; background: #4ade80; height: 12px; border-radius: 4px; }
+.aiProbability .isExcluded { opacity: .3; text-decoration: line-through; }
+.aiProbability small { display: block; color: #9bb5a6; }
+.aiMiniVisual { margin: 18px 0; }
+.aiMiniVisual svg { width: 100%; max-height: 200px; background: #07110c; border-radius: 10px; }
+.aiMiniVisual svg text { fill: #c3dfcf; font: 12px ui-monospace, monospace; }
+.aiMiniVisual figcaption { margin-top: 10px; color: #9bb5a6; font-size: 12px; }
+.aiDataSplits, .aiMetricTiles { display: flex; flex-wrap: wrap; gap: 10px; }
+.aiDataSplits > div, .aiMetricTiles > div { flex: 1 1 120px; padding: 14px; border-radius: 8px; border: 1px solid #314c3c; background: #0b1911; }
+.aiDataSplits strong, .aiDataSplits span, .aiMetricTiles strong, .aiMetricTiles span { display: block; margin-bottom: 8px; font-size: 13px; }
+.aiDataSplits .active { border-color: #4ade80; background: #17432b; }
+.aiDataSplits > div > div { display: flex; flex-wrap: wrap; gap: 4px; }
+.aiDataSplits i { width: 12px; height: 12px; background: #77ba92; border-radius: 2px; }
+.aiMetricTiles strong { font-size: 28px; color: #86efac; }
+.aiMiniVisual .error { border-color: #f59e0b; background: #36260b; }
+.aiClassBalance { display: flex; height: 14px; margin-top: 12px; border-radius: 5px; overflow: hidden; }
+.aiClassBalance span { width: 95%; background: #4ade80; }
+.aiClassBalance i { width: 5%; background: #f59e0b; }
+@media (max-width: 600px) { .aiTraceNodes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .aiTraceCurrent { min-height: 200px; padding: 14px; } }
+@media (prefers-reduced-motion: reduce) { .aiTraceSignal { animation: none !important; } }

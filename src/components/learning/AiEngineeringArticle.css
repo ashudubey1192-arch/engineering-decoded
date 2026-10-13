@@ -1,0 +1,47 @@
+.aeLesson .lead { font-size: 19px; line-height: 1.85; }
+.aeGoal, .aeExpected { padding: 18px 22px; border-left: 3px solid #22c55e; background: color-mix(in srgb, var(--surface) 92%, #22c55e); border-radius: 0 10px 10px 0; margin: 22px 0; }
+.aeGoal small { color: var(--course-accent); letter-spacing: .12em; font-weight: 700; }
+.aeGoal p, .aeExpected p { margin-bottom: 0; }
+.aeLesson pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #080e0b; color: #b7f7d1; border: 1px solid #294537; border-radius: 12px; padding: 22px; font: 13px/1.8 ui-monospace, monospace; }
+.aeLesson details { padding: 15px 0; }
+.aeLesson summary { cursor: pointer; font-weight: 650; }
+.aeLesson .aeAttribution { color: var(--muted); font-size: 13px; }
+.aeRoadmap ol { padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.aeRoadmap li { padding: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; }
+.aeRoadmap a { display: block; font-size: 14px; }
+.aeRoadmap span { color: var(--muted); font-size: 12px; }
+.article section.aeAnimation { padding: clamp(16px, 3vw, 26px); margin: 28px 0; border: 1px solid #2c6144; border-radius: 16px; color: #e6f8ee; background: radial-gradient(ellipse at top right, #174c30, transparent 65%), #08160f; }
+.aeAnimation header small, .aeFrame > small { color: #86efac; font-size: 11px; letter-spacing: .12em; }
+.aeAnimation header h2 { margin: 10px 0; font-size: 25px; }
+.aeAnimation header p { color: #b6cebf; }
+.aeFlow { width: 100%; height: auto; display: block; margin: 18px 0; }
+.aeFlow rect { fill: #0d2117; stroke: #426451; stroke-width: 1.5; }
+.aeFlow text { fill: #d7ede0; font: 14px ui-monospace, monospace; }
+.aeFlow .aeNodeNumber { fill: #86efac; font-size: 11px; }
+.aeFlow .active rect { fill: #19482e; stroke: #4ade80; stroke-width: 2.5; }
+.aeFlow .visited rect { stroke: #74ae88; }
+.aeConnector, .aeArrow { stroke: #529b6e; stroke-width: 2; fill: none; }
+.aeConnector { stroke-dasharray: 4 3; }
+.aePulse { fill: #304d3b; }
+.aeFlow .active .aePulse { fill: #4ade80; }
+.playing .aeConnector { animation: aeFlow 1s linear infinite; }
+.playing .active .aePulse { animation: aeGlow 1.2s ease-in-out infinite alternate; }
+@keyframes aeFlow { to { stroke-dashoffset: -14; } }
+@keyframes aeGlow { from { opacity: .3; } to { opacity: 1; } }
+.aeStepSelectors, .aePlayback { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0; }
+.aeAnimation button, .aeAnimation select { border: 1px solid #3b624a; border-radius: 7px; padding: 9px 12px; background: #102e1e; color: #def5e7; font-size: 13px; cursor: pointer; }
+.aeStepSelectors button[aria-pressed="true"] { background: #205839; border-color: #4ade80; }
+.aePlayback button:first-child { background: #22c55e; color: #03200e; font-weight: 700; }
+.aeAnimation button:disabled { opacity: .4; cursor: default; }
+.aeAnimation :is(button, select, summary):focus-visible { outline: 2px solid #86efac; outline-offset: 3px; }
+.aeFrame { padding: 20px; min-height: 230px; background: #050e09; border: 1px solid #36513e; border-radius: 10px; }
+.aeFrame h3 { margin: 10px 0; }
+.aeState { border-top: 1px solid #2b4334; padding-top: 15px; }
+.aeState span { display: block; color: #94bca4; font-size: 10px; letter-spacing: .1em; margin-bottom: 8px; }
+.aeState code { color: #fde68a; overflow-wrap: anywhere; font: 13px/1.8 ui-monospace, monospace; white-space: pre-wrap; }
+.aePlayback label, .aePlayback small { font-size: 12px; color: #b5cebd; }
+.aeAnimation details { color: #c5dfcf; font-size: 13px; }
+.aeAnimation li { margin-bottom: 14px; }
+.aeAnimation li code { display: block; color: #fde68a; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .aeRoadmap ol { grid-template-columns: 1fr; } .aeFlow { min-height: 105px; } .aeFlow text { font-size: 15px; } .aeFrame { min-height: 300px; padding: 15px; } .aeStepSelectors button { flex: 1 1 45%; } }
+@media (prefers-reduced-motion: reduce) { .aeConnector, .aePulse { animation: none !important; } }

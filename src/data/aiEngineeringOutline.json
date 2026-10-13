@@ -1,0 +1,707 @@
+[
+  {
+    "title": "Welcome",
+    "slug": "welcome",
+    "lessons": [
+      {
+        "title": "Course Roadmap",
+        "slug": "welcome--course-roadmap",
+        "sectionSlug": "welcome",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Join the Community",
+        "slug": "welcome--join-the-community",
+        "sectionSlug": "welcome",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Introduction to AI Engineering",
+    "slug": "introduction-to-ai-engineering",
+    "lessons": [
+      {
+        "title": "What is AI Engineering?",
+        "slug": "introduction-to-ai-engineering--what-is-ai-engineering",
+        "sectionSlug": "introduction-to-ai-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "The Three Layers of the AI Stack",
+        "slug": "introduction-to-ai-engineering--the-three-layers-of-the-ai-stack",
+        "sectionSlug": "introduction-to-ai-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "The Modern AI Landscape",
+        "slug": "introduction-to-ai-engineering--the-modern-ai-landscape",
+        "sectionSlug": "introduction-to-ai-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Python for AI",
+    "slug": "python-for-ai",
+    "lessons": [
+      {
+        "title": "Python Essentials for AI",
+        "slug": "python-for-ai--python-essentials-for-ai",
+        "sectionSlug": "python-for-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Functions, Decorators, and Generators",
+        "slug": "python-for-ai--functions-decorators-and-generators",
+        "sectionSlug": "python-for-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Object-Oriented Python and Dataclasses",
+        "slug": "python-for-ai--object-oriented-python-and-dataclasses",
+        "sectionSlug": "python-for-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Type Hints and Pydantic",
+        "slug": "python-for-ai--type-hints-and-pydantic",
+        "sectionSlug": "python-for-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Working with Files and Data",
+        "slug": "python-for-ai--working-with-files-and-data",
+        "sectionSlug": "python-for-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Async Python",
+        "slug": "python-for-ai--async-python",
+        "sectionSlug": "python-for-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Your First AI Application",
+    "slug": "your-first-ai-application",
+    "lessons": [
+      {
+        "title": "Making your first LLM API call",
+        "slug": "your-first-ai-application--making-your-first-llm-api-call",
+        "sectionSlug": "your-first-ai-application",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Understanding LLM Parameters",
+        "slug": "your-first-ai-application--understanding-llm-parameters",
+        "sectionSlug": "your-first-ai-application",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Structured Output from LLMs",
+        "slug": "your-first-ai-application--structured-output-from-llms",
+        "sectionSlug": "your-first-ai-application",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Streaming and Conversation Management",
+        "slug": "your-first-ai-application--streaming-and-conversation-management",
+        "sectionSlug": "your-first-ai-application",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "How LLMs Work",
+    "slug": "how-llms-work",
+    "lessons": [
+      {
+        "title": "What are LLMs?",
+        "slug": "how-llms-work--what-are-llms",
+        "sectionSlug": "how-llms-work",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Tokenization",
+        "slug": "how-llms-work--tokenization",
+        "sectionSlug": "how-llms-work",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Transformer Architecture Simplified",
+        "slug": "how-llms-work--transformer-architecture-simplified",
+        "sectionSlug": "how-llms-work",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "How LLMs Generate Text",
+        "slug": "how-llms-work--how-llms-generate-text",
+        "sectionSlug": "how-llms-work",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "The LLM Training Pipeline",
+        "slug": "how-llms-work--the-llm-training-pipeline",
+        "sectionSlug": "how-llms-work",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Prompt Engineering",
+    "slug": "prompt-engineering",
+    "lessons": [
+      {
+        "title": "What is Prompt Engineering?",
+        "slug": "prompt-engineering--what-is-prompt-engineering",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Anatomy of an Effective Prompt",
+        "slug": "prompt-engineering--anatomy-of-an-effective-prompt",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Advanced Prompting Techniques",
+        "slug": "prompt-engineering--advanced-prompting-techniques",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Context Engineering",
+        "slug": "prompt-engineering--context-engineering",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Prompt Templates and Pipelines",
+        "slug": "prompt-engineering--prompt-templates-and-pipelines",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Defending Against Prompt Injection",
+        "slug": "prompt-engineering--defending-against-prompt-injection",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Prompt Optimization and DSPy",
+        "slug": "prompt-engineering--prompt-optimization-and-dspy",
+        "sectionSlug": "prompt-engineering",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Embeddings and Vector Search",
+    "slug": "embeddings-and-vector-search",
+    "lessons": [
+      {
+        "title": "What are Embeddings?",
+        "slug": "embeddings-and-vector-search--what-are-embeddings",
+        "sectionSlug": "embeddings-and-vector-search",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Choosing Embedding Models",
+        "slug": "embeddings-and-vector-search--choosing-embedding-models",
+        "sectionSlug": "embeddings-and-vector-search",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Vector Databases",
+        "slug": "embeddings-and-vector-search--vector-databases",
+        "sectionSlug": "embeddings-and-vector-search",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Building a Semantic Search Engine",
+        "slug": "embeddings-and-vector-search--building-a-semantic-search-engine",
+        "sectionSlug": "embeddings-and-vector-search",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Scaling Vector Search",
+        "slug": "embeddings-and-vector-search--scaling-vector-search",
+        "sectionSlug": "embeddings-and-vector-search",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "RAG and Retrieval",
+    "slug": "rag-and-retrieval",
+    "lessons": [
+      {
+        "title": "What is RAG?",
+        "slug": "rag-and-retrieval--what-is-rag",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Building a Production RAG Pipeline",
+        "slug": "rag-and-retrieval--building-a-production-rag-pipeline",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Advanced Retrieval Techniques",
+        "slug": "rag-and-retrieval--advanced-retrieval-techniques",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "RAG with Citations and Grounding",
+        "slug": "rag-and-retrieval--rag-with-citations-and-grounding",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Evaluating RAG Systems",
+        "slug": "rag-and-retrieval--evaluating-rag-systems",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Conversational RAG",
+        "slug": "rag-and-retrieval--conversational-rag",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "GraphRAG and Knowledge Graphs",
+        "slug": "rag-and-retrieval--graphrag-and-knowledge-graphs",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Multimodal RAG",
+        "slug": "rag-and-retrieval--multimodal-rag",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agentic RAG",
+        "slug": "rag-and-retrieval--agentic-rag",
+        "sectionSlug": "rag-and-retrieval",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Function Calling and Tool Use",
+    "slug": "function-calling-and-tool-use",
+    "lessons": [
+      {
+        "title": "From Text Generation to Action",
+        "slug": "function-calling-and-tool-use--from-text-generation-to-action",
+        "sectionSlug": "function-calling-and-tool-use",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Designing Tool Schemas",
+        "slug": "function-calling-and-tool-use--designing-tool-schemas",
+        "sectionSlug": "function-calling-and-tool-use",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Multi-Tool Orchestration",
+        "slug": "function-calling-and-tool-use--multi-tool-orchestration",
+        "sectionSlug": "function-calling-and-tool-use",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Structured Workflows with Tool Use",
+        "slug": "function-calling-and-tool-use--structured-workflows-with-tool-use",
+        "sectionSlug": "function-calling-and-tool-use",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Model Context Protocol (MCP)",
+    "slug": "model-context-protocol-mcp",
+    "lessons": [
+      {
+        "title": "What is MCP?",
+        "slug": "model-context-protocol-mcp--what-is-mcp",
+        "sectionSlug": "model-context-protocol-mcp",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Building MCP Clients",
+        "slug": "model-context-protocol-mcp--building-mcp-clients",
+        "sectionSlug": "model-context-protocol-mcp",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Remote MCP Servers",
+        "slug": "model-context-protocol-mcp--remote-mcp-servers",
+        "sectionSlug": "model-context-protocol-mcp",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Production MCP Server Patterns",
+        "slug": "model-context-protocol-mcp--production-mcp-server-patterns",
+        "sectionSlug": "model-context-protocol-mcp",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Building AI Agents",
+    "slug": "building-ai-agents",
+    "lessons": [
+      {
+        "title": "What are AI Agents?",
+        "slug": "building-ai-agents--what-are-ai-agents",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agent Memory Systems",
+        "slug": "building-ai-agents--agent-memory-systems",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Multi-Agent Systems",
+        "slug": "building-ai-agents--multi-agent-systems",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agent Frameworks",
+        "slug": "building-ai-agents--agent-frameworks",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agent Reliability and Debugging",
+        "slug": "building-ai-agents--agent-reliability-and-debugging",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agent Evaluation and Testing",
+        "slug": "building-ai-agents--agent-evaluation-and-testing",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Human-in-the-Loop Patterns",
+        "slug": "building-ai-agents--human-in-the-loop-patterns",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Building AI Workflows",
+        "slug": "building-ai-agents--building-ai-workflows",
+        "sectionSlug": "building-ai-agents",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "AI System Architecture",
+    "slug": "ai-system-architecture",
+    "lessons": [
+      {
+        "title": "Architecture Patterns for AI Applications",
+        "slug": "ai-system-architecture--architecture-patterns-for-ai-applications",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Designing for Reliability",
+        "slug": "ai-system-architecture--designing-for-reliability",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Data Architecture for AI",
+        "slug": "ai-system-architecture--data-architecture-for-ai",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Scaling AI Applications",
+        "slug": "ai-system-architecture--scaling-ai-applications",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "The AI Gateway Pattern",
+        "slug": "ai-system-architecture--the-ai-gateway-pattern",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Building AI-Powered UX",
+        "slug": "ai-system-architecture--building-ai-powered-ux",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Caching Strategies for LLM Applications",
+        "slug": "ai-system-architecture--caching-strategies-for-llm-applications",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Rate Limiting and API Management",
+        "slug": "ai-system-architecture--rate-limiting-and-api-management",
+        "sectionSlug": "ai-system-architecture",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Production Deployment",
+    "slug": "production-deployment",
+    "lessons": [
+      {
+        "title": "Containerizing AI Applications",
+        "slug": "production-deployment--containerizing-ai-applications",
+        "sectionSlug": "production-deployment",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "CI/CD for AI Applications",
+        "slug": "production-deployment--ci-cd-for-ai-applications",
+        "sectionSlug": "production-deployment",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Monitoring and Observability",
+        "slug": "production-deployment--monitoring-and-observability",
+        "sectionSlug": "production-deployment",
+        "time": "5 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Handling Production Incidents",
+        "slug": "production-deployment--handling-production-incidents",
+        "sectionSlug": "production-deployment",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Iterating in Production",
+        "slug": "production-deployment--iterating-in-production",
+        "sectionSlug": "production-deployment",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "The AI Engineering Lifecycle",
+        "slug": "production-deployment--the-ai-engineering-lifecycle",
+        "sectionSlug": "production-deployment",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "LLM Optimization",
+    "slug": "llm-optimization",
+    "lessons": [
+      {
+        "title": "Understanding AI Application Costs",
+        "slug": "llm-optimization--understanding-ai-application-costs",
+        "sectionSlug": "llm-optimization",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Prompt Optimization",
+        "slug": "llm-optimization--prompt-optimization",
+        "sectionSlug": "llm-optimization",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Model Selection and Routing",
+        "slug": "llm-optimization--model-selection-and-routing",
+        "sectionSlug": "llm-optimization",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Latency Optimization",
+        "slug": "llm-optimization--latency-optimization",
+        "sectionSlug": "llm-optimization",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Self-Hosting Models",
+        "slug": "llm-optimization--self-hosting-models",
+        "sectionSlug": "llm-optimization",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Agentic AI",
+    "slug": "agentic-ai",
+    "lessons": [
+      {
+        "title": "Computer Use Agents",
+        "slug": "agentic-ai--computer-use-agents",
+        "sectionSlug": "agentic-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Coding Agents",
+        "slug": "agentic-ai--coding-agents",
+        "sectionSlug": "agentic-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Deep Research Agents",
+        "slug": "agentic-ai--deep-research-agents",
+        "sectionSlug": "agentic-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agent Protocols",
+        "slug": "agentic-ai--agent-protocols",
+        "sectionSlug": "agentic-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Long-Running and Async Agents",
+        "slug": "agentic-ai--long-running-and-async-agents",
+        "sectionSlug": "agentic-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Agent Sandboxing and Security",
+        "slug": "agentic-ai--agent-sandboxing-and-security",
+        "sectionSlug": "agentic-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  },
+  {
+    "title": "Multimodal and Generative AI",
+    "slug": "multimodal-and-generative-ai",
+    "lessons": [
+      {
+        "title": "Vision Models and Image Understanding",
+        "slug": "multimodal-and-generative-ai--vision-models-and-image-understanding",
+        "sectionSlug": "multimodal-and-generative-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Text-to-Image Generation",
+        "slug": "multimodal-and-generative-ai--text-to-image-generation",
+        "sectionSlug": "multimodal-and-generative-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Audio and Speech Generation",
+        "slug": "multimodal-and-generative-ai--audio-and-speech-generation",
+        "sectionSlug": "multimodal-and-generative-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Video Understanding and Generation",
+        "slug": "multimodal-and-generative-ai--video-understanding-and-generation",
+        "sectionSlug": "multimodal-and-generative-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      },
+      {
+        "title": "Building Multimodal Applications",
+        "slug": "multimodal-and-generative-ai--building-multimodal-applications",
+        "sectionSlug": "multimodal-and-generative-ai",
+        "time": "6 min",
+        "updated": "Oct 14, 2026"
+      }
+    ]
+  }
+]
