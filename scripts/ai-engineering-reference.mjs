@@ -1,6 +1,5 @@
 // Independent topic inventory transcribed from the public roadmap on 2026-10-13.
 // Used only to verify coverage; lesson prose and examples are independently authored.
-export const referenceUrl = 'https://algomaster.io/learn/ai-engineering/course-roadmap';
 export const referenceSections = [
   ['Welcome', 'Course Roadmap|Join the Community'],
   ['Introduction to AI Engineering', 'What is AI Engineering?|The Three Layers of the AI Stack|The Modern AI Landscape'],

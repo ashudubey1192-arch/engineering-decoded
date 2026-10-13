@@ -5,7 +5,6 @@
 .aeLesson pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #080e0b; color: #b7f7d1; border: 1px solid #294537; border-radius: 12px; padding: 22px; font: 13px/1.8 ui-monospace, monospace; }
 .aeLesson details { padding: 15px 0; }
 .aeLesson summary { cursor: pointer; font-weight: 650; }
-.aeLesson .aeAttribution { color: var(--muted); font-size: 13px; }
 .aeRoadmap ol { padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .aeRoadmap li { padding: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; }
 .aeRoadmap a { display: block; font-size: 14px; }
@@ -15,6 +14,7 @@
 .aeAnimation header h2 { margin: 10px 0; font-size: 25px; }
 .aeAnimation header p { color: #b6cebf; }
 .aeFlow { width: 100%; height: auto; display: block; margin: 18px 0; }
+.aeFlowMobile { display: none; }
 .aeFlow rect { fill: #0d2117; stroke: #426451; stroke-width: 1.5; }
 .aeFlow text { fill: #d7ede0; font: 14px ui-monospace, monospace; }
 .aeFlow .aeNodeNumber { fill: #86efac; font-size: 11px; }
@@ -43,5 +43,5 @@
 .aeAnimation details { color: #c5dfcf; font-size: 13px; }
 .aeAnimation li { margin-bottom: 14px; }
 .aeAnimation li code { display: block; color: #fde68a; overflow-wrap: anywhere; }
-@media (max-width: 600px) { .aeRoadmap ol { grid-template-columns: 1fr; } .aeFlow { min-height: 105px; } .aeFlow text { font-size: 15px; } .aeFrame { min-height: 300px; padding: 15px; } .aeStepSelectors button { flex: 1 1 45%; } }
+@media (max-width: 600px) { .aeRoadmap ol { grid-template-columns: 1fr; } .aeFlowDesktop { display: none; } .aeFlowMobile { display: block; } .aeFlow text { font-size: 16px; } .aeFrame { min-height: 300px; padding: 15px; } .aeStepSelectors button { flex: 1 1 45%; } }
 @media (prefers-reduced-motion: reduce) { .aeConnector, .aePulse { animation: none !important; } }

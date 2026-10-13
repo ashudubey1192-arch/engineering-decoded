@@ -10,6 +10,26 @@ const wrap = title => {
   return lines;
 };
 
+function FlowDiagram({ lesson, step, columns }) {
+  return <svg className={`aeFlow ${columns === 2 ? 'aeFlowMobile' : 'aeFlowDesktop'}`} viewBox={`0 0 ${columns * 195} ${columns === 2 ? 330 : 165}`} role="img" aria-label={`Walkthrough: ${lesson.steps.map(item => item.title).join(' → ')}. Active stage: ${lesson.steps[step].title}.`}>
+    {lesson.steps.map((item, index) => {
+      const row = Math.floor(index / columns);
+      const column = row % 2 ? columns - 1 - index % columns : index % columns;
+      const x = column * 195, y = row * 165;
+      const endOfRow = index % columns === columns - 1;
+      const connector = endOfRow ? `M${x + 98} ${y + 145}v40` : row % 2 ? `M${x + 10} ${y + 82}h-25` : `M${x + 185} ${y + 82}h25`;
+      const arrow = endOfRow ? `M${x + 93} ${y + 178}l5 7 5-7` : row % 2 ? `M${x - 8} ${y + 77}l-7 5 7 5` : `M${x + 203} ${y + 77}l7 5-7 5`;
+      return <g key={item.title} className={index === step ? 'active' : index < step ? 'visited' : ''}>
+        {index < lesson.steps.length - 1 && <><path className="aeConnector" d={connector} /><path className="aeArrow" d={arrow} /></>}
+        <rect x={10 + x} y={20 + y} width="175" height="125" rx="12" />
+        <text className="aeNodeNumber" x={27 + x} y={47 + y}>0{index + 1}</text>
+        {wrap(item.title).map((line, lineIndex) => <text key={lineIndex} x={27 + x} y={78 + y + lineIndex * 20}>{line}</text>)}
+        <circle className="aePulse" cx={164 + x} cy={44 + y} r="5" />
+      </g>;
+    })}
+  </svg>;
+}
+
 export default function AiEngineeringAnimation({ lesson }) {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -35,15 +55,8 @@ export default function AiEngineeringAnimation({ lesson }) {
   const current = lesson.steps[step];
   return <section id="ai-animation" ref={container} className={`aeAnimation ${playing && visible ? 'playing' : ''}`} aria-label={`${lesson.title} animated walkthrough`}>
     <header><small>WORKED EXAMPLE · INTERACTIVE TRACE</small><h2>See the workflow in motion</h2><p>Explore the normal steps and recovery cases. The explanations describe when each action applies.</p></header>
-    <svg className="aeFlow" viewBox="0 0 780 165" role="img" aria-label={`Workflow: ${lesson.steps.map(item => item.title).join(' → ')}. Active stage: ${current.title}.`}>
-      {lesson.steps.map((item, index) => <g key={item.title} className={index === step ? 'active' : index < step ? 'visited' : ''}>
-        {index < lesson.steps.length - 1 && <><path className="aeConnector" d={`M${185 + index * 195} 82h25`} /><path className="aeArrow" d={`M${202 + index * 195} 77l8 5-8 5`} /></>}
-        <rect x={10 + index * 195} y="20" width="175" height="125" rx="12" />
-        <text className="aeNodeNumber" x={27 + index * 195} y="47">0{index + 1}</text>
-        {wrap(item.title).map((line, lineIndex) => <text key={lineIndex} x={27 + index * 195} y={78 + lineIndex * 20}>{line}</text>)}
-        <circle className="aePulse" cx={164 + index * 195} cy="44" r="5" />
-      </g>)}
-    </svg>
+    <FlowDiagram lesson={lesson} step={step} columns={4} />
+    <FlowDiagram lesson={lesson} step={step} columns={2} />
     <div className="aeStepSelectors" role="group" aria-label="Walkthrough steps">{lesson.steps.map((item, index) => <button key={item.title} aria-pressed={index === step} onClick={() => select(index)}>{index + 1}. {item.title}</button>)}</div>
     <div className="aeFrame" aria-live={playing ? 'off' : 'polite'}><small>STEP {step + 1} / {lesson.steps.length}</small><h3>{current.title}</h3><p>{clean(current.detail)}</p><div className="aeState"><span>EXAMPLE STATE</span><code>{current.state}</code></div></div>
     <div className="aePlayback" role="group" aria-label="Animation controls">

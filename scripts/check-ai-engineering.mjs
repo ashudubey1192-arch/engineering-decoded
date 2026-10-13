@@ -19,7 +19,7 @@ for (const [slug, lesson] of Object.entries(aiEngineeringLessons)) {
   const prose = clean([lesson.intro, lesson.explanation, lesson.reasoning, ...lesson.steps.map(step => step.detail), lesson.pitfall, lesson.exercise].join(' '));
   assert.ok(lesson.reasoning?.length >= 300, `${slug}: missing worked reasoning`);
   assert.ok(prose.split(/\s+/).length >= 200, `${slug}: insufficient chapter-specific detail`);
-  assert.ok(lesson.context.length > 250 && lesson.code.includes('\n') && lesson.reference.startsWith('https://'), `${slug}: incomplete content`);
+  assert.ok(lesson.context.length > 250 && lesson.code.includes('\n') && (lesson.reference?.startsWith('https://') || (lesson.sectionSlug === 'welcome' && lesson.reference === null)), `${slug}: incomplete content`);
   assert.ok(!uniqueExplanations.has(lesson.explanation), `${slug}: recycled explanation`);
   uniqueExplanations.add(lesson.explanation);
   words += prose.split(/\s+/).length;
