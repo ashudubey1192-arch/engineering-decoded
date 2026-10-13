@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./PatternLessonArticle.css";
+import ConceptQuiz from '../learning/ConceptQuiz.jsx';
+import quizzes from '../../data/patternQuizzes.json';
 
 const format = (value) => value === null ? "null" : typeof value === "object" ? JSON.stringify(value) : String(value);
 function StateValue({ value }) {
@@ -8,26 +10,38 @@ function StateValue({ value }) {
   return <code className="patternScalar">{format(value)}</code>;
 }
 
-function Player({ run }) {
+export function Player({ run }) {
   const [step,setStep]=useState(0);
   const [playing,setPlaying]=useState(false);
   const [delay,setDelay]=useState(1000);
+  const [loop,setLoop]=useState(true);
   const last=run.frames.length-1;
   useEffect(()=>{
-    if(!playing || step>=last)return;
-    const timer=window.setTimeout(()=>setStep(value=>Math.min(last,value+1)),delay);
-    return ()=>window.clearTimeout(timer);
-  },[playing,step,last,delay]);
+    if(!playing)return;
+    const timer=window.setInterval(()=>{
+      if(document.hidden)return;
+      if(step>=last&&!loop){setPlaying(false);return;}
+      setStep(value=>(value+1)%run.frames.length);
+    },delay);
+    return ()=>window.clearInterval(timer);
+  },[playing,step,last,delay,loop,run.frames.length]);
+  useEffect(()=>{
+    const media=window.matchMedia('(prefers-reduced-motion: reduce)');
+    const stop=()=>setPlaying(false);
+    media.addEventListener('change',stop);
+    return ()=>media.removeEventListener('change',stop);
+  },[]);
   const frame=run.frames[step];
   const seek=(value)=>{setPlaying(false);setStep(value);};
-  return <div className="patternPlayer">
-    <div className="patternControls">
+  return <div className="patternPlayer" role="region" aria-label="Animated solution">
+    <div className="patternControls" role="group" aria-label="Animation controls">
       <button onClick={()=>seek(0)} disabled={step===0&&!playing}>Reset</button>
       <button onClick={()=>seek(Math.max(0,step-1))} disabled={step===0}>Previous</button>
-      <button onClick={()=>{if(step===last)setStep(0);setPlaying(!playing||step===last);}}>{playing&&step<last?"Pause":"Play"}</button>
+      <button aria-pressed={playing} disabled={last<1} onClick={()=>{if(!playing&&step===last)setStep(0);setPlaying(value=>!value);}}>{playing?"Pause":"Play"}</button>
       <button onClick={()=>seek(Math.min(last,step+1))} disabled={step===last}>Next</button>
       <button onClick={()=>seek(last)} disabled={step===last}>Last</button>
       <label>Speed <select value={delay} onChange={e=>setDelay(Number(e.target.value))}><option value={1800}>Slow</option><option value={1000}>Normal</option><option value={400}>Fast</option></select></label>
+      <label><input type="checkbox" checked={loop} onChange={event=>setLoop(event.target.checked)}/> Loop animation</label>
     </div>
     <label className="patternScrubber">Step {step+1} of {run.frames.length}<input aria-label="Animation step" type="range" min="0" max={last} value={step} onChange={e=>seek(Number(e.target.value))}/></label>
     <p className="patternStep" aria-live={playing?"off":"polite"}>{frame.note}</p>
@@ -57,6 +71,7 @@ export default function PatternLessonArticle({lesson}) {
       <h3>Verified examples</h3><div className="patternTable"><table><thead><tr><th>Case</th><th>Input</th><th>Both approaches return</th></tr></thead><tbody>{lesson.tests.map((item,i)=><tr key={i}><td>{item.label}</td><td><code>{item.args}</code></td><td><code>{item.expected}</code></td></tr>)}</tbody></table></div>
     </section>
     <section id="mistakes"><h2>Check the assumptions before reusing this pattern</h2><p>{lesson.reasoning[2]}</p><p>Test a smallest valid input, a boundary case, and a case that challenges the invariant. If you change the domain, mutation rules, or arithmetic range, revisit the proof and complexity rather than reusing the code unchanged.</p></section>
+    <ConceptQuiz key={lesson.id} title={lesson.title} questions={quizzes[lesson.id]} />
     <section id="check"><h2>Explain it without the code</h2><p>What repeated work does the baseline perform? What does the optimized state represent after each step, and why is the next update safe?</p><details><summary>Reveal the reasoning</summary><p>{lesson.reasoning[0]}</p><p>{lesson.reasoning[1]}</p><p>Now predict the next animation frame before clicking Next and compare both approaches on the boundary example.</p></details></section>
     <footer className="patternReferences">Original lesson code and examples. Study reference: <a href="https://algomaster.io/learn/dsa/frequency-counting-introduction" target="_blank" rel="noreferrer">AlgoMaster — Frequency Counting</a>. Java API references: <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/package-summary.html" target="_blank" rel="noreferrer">Collections</a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/package-summary.html" target="_blank" rel="noreferrer">Concurrency</a>.</footer>
   </div>;

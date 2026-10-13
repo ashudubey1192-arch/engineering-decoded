@@ -225,6 +225,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         </>}
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
+        {module.id === 'coding-patterns' && <><a href={article.sectionSlug === 'guide' ? '#pattern-animation' : '#example'}>Animated walkthrough</a><a href="#concept-quiz">Quiz</a></>}
         {hasConceptQuiz && <a href="#concept-quiz">Quiz</a>}
         {hasConceptQuiz && !showAnimation && <a href="#concept-animation">Visual walkthrough</a>}
       </aside>
