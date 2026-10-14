@@ -159,6 +159,7 @@ export default function App() {
               key={`${path}:${getSession()?.user?.id || "guest"}`}
               module={completionModule}
               track={completionTrack}
+              articleSlug={parts.length >= 4 ? parts[3] : undefined}
               navigate={navigate}
             />
           )}

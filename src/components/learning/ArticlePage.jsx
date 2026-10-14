@@ -7,8 +7,7 @@ import {
 } from "../../data/structuredCourses";
 import { getArticleComponent, preloadArticleComponent } from "../articles/registry";
 import "./ArticlePage.css";
-import { saveArticleProgress } from "../../services/api";
-import { dsaLessonKey, updateDsaProgress, useDsaProgress } from "../../services/dsaProgress.js";
+import { dsaLessonKey, useDsaProgress } from "../../services/dsaProgress.js";
 import SystemDesignAnimation from './SystemDesignAnimation';
 const ConceptAnimation = lazy(() => import('./ConceptAnimation'));
 const SystemDesignQuiz = lazy(() => import('./SystemDesignQuiz'));
@@ -63,18 +62,6 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
   const preloadArticle = (slug) => preloadArticleComponent(module.id, track.slug, slug);
-  const persistProgress = (completed = false) => {
-    if (module.id === "dsa" && completed) updateDsaProgress("lessons", dsaLessonKey(track.slug, article.slug), true);
-    return saveArticleProgress({
-      moduleSlug: module.id,
-      courseSlug: track.slug,
-      sectionSlug: article.sectionSlug || "course",
-      articleSlug: article.slug,
-      progressPercent: completed ? 100 : Math.max(1, Math.round(progress)),
-      lastPosition: Math.max(0, Math.round(window.scrollY)),
-      completed,
-    }).catch(() => null);
-  };
 
   return (
     <main className="reader" style={{ "--course-accent": module.accent }}>
@@ -179,7 +166,6 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <div className="articleMeta">
             <span>▷ {article.time} read</span>
             <span>◆ Updated {article.updated || 'Aug 2026'}</span>
-            <button onClick={() => persistProgress(true)}>{module.id === "dsa" && dsaProgress.lessons[dsaLessonKey(track.slug, article.slug)] === true ? "✓ COMPLETED" : "✓ MARK COMPLETE"}</button>
           </div>
         </header>
         {showAnimation && <SystemDesignAnimation />}
@@ -195,7 +181,6 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
             onFocus={() => preloadArticle(next.slug)}
             onPointerDown={() => preloadArticle(next.slug)}
             onClick={() => {
-              persistProgress(true);
               openArticle(next.slug);
             }}
           >

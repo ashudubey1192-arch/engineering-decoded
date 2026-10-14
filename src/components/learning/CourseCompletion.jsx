@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { api, getSession } from "../../services/api";
 import "./CourseCompletion.css";
+import { dsaLessonKey, updateDsaProgress } from "../../services/dsaProgress.js";
+import { getStructuredCourse } from "../../data/structuredCourses";
 
-export default function CourseCompletion({ module, track, navigate }) {
+export default function CourseCompletion({ module, track, navigate, articleSlug: requestedSlug }) {
+  const articleSlug =
+    getStructuredCourse(module.id, track.slug)?.aliases?.[requestedSlug] || requestedSlug;
   const userId = getSession()?.user?.id;
   const [bookmarked, setBookmarked] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -15,11 +19,20 @@ export default function CourseCompletion({ module, track, navigate }) {
     setBookmarked(false);
     setError("");
     if (userId)
-      Promise.all([api("/progress/courses"), api("/progress/bookmarks")])
+      Promise.all([
+        api(articleSlug ? "/progress" : "/progress/courses"),
+        api("/progress/bookmarks"),
+      ])
         .then(([courses, bookmarks]) => {
           if (!active) return;
           const matches = (row) => row.moduleSlug === module.id && row.courseSlug === track.slug;
-          setCompleted(courses.some(matches));
+          setCompleted(
+            courses.some(
+              (row) =>
+                matches(row) &&
+                (!articleSlug || (row.articleSlug === articleSlug && row.completed)),
+            ),
+          );
           setBookmarked(bookmarks.some(matches));
         })
         .catch((err) => {
@@ -31,7 +44,7 @@ export default function CourseCompletion({ module, track, navigate }) {
     return () => {
       active = false;
     };
-  }, [userId, module.id, track.slug]);
+  }, [userId, module.id, track.slug, articleSlug]);
   const complete = async () => {
     if (!userId) {
       navigate("/login");
@@ -40,11 +53,27 @@ export default function CourseCompletion({ module, track, navigate }) {
     setBusy(true);
     setError("");
     try {
-      await api("/progress/courses", {
+      await api(articleSlug ? "/progress" : "/progress/courses", {
         method: "PUT",
-        body: JSON.stringify({ moduleSlug: module.id, courseSlug: track.slug }),
+        body: JSON.stringify({
+          moduleSlug: module.id,
+          courseSlug: track.slug,
+          ...(articleSlug
+            ? {
+                articleSlug,
+                sectionSlug: "course",
+                completed: true,
+                progressPercent: 100,
+                lastPosition: Math.max(0, Math.round(window.scrollY)),
+              }
+            : {}),
+        }),
       });
-      if (getSession()?.user?.id === userId) setCompleted(true);
+      if (getSession()?.user?.id === userId) {
+        setCompleted(true);
+        if (articleSlug && module.id === "dsa")
+          updateDsaProgress("lessons", dsaLessonKey(track.slug, articleSlug), true);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -74,7 +103,7 @@ export default function CourseCompletion({ module, track, navigate }) {
     <div className="learningActionSpace">
       <section
         className="learningActionBar"
-        aria-label={`Course actions for ${track.name}`}
+        aria-label={`${articleSlug ? "Lesson" : "Course"} actions for ${track.name}`}
         aria-busy={busy}
       >
         {error && (
