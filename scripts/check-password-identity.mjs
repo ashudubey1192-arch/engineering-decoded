@@ -1,0 +1,2 @@
+import {neon} from '@neondatabase/serverless';
+try { const sql=neon(process.env.DATABASE_URL); const [row]=await sql`SELECT EXISTS (SELECT 1 FROM neon_auth.account a JOIN neon_auth."user" u ON u.id=a."userId" WHERE u.email='ashudubey12345@gmail.com' AND a."providerId"='credential') AS has_password_identity`;console.log(JSON.stringify(row)); }catch(e){console.error(e.code||e.name);process.exitCode=1;}

@@ -26,7 +26,11 @@ export default function AccountPage({ navigate }) {
       await restoreSession();
       setMessage(password ? "Password updated" : "Profile updated");
     } catch (e) {
-      setError(e.message);
+      setError(
+        password && /identity not found|credential account not found/i.test(e.message)
+          ? "This account has no password yet. Use ‘Set or reset password by email’ below to create one. Your email sign-in still works."
+          : e.message,
+      );
     } finally {
       setBusy(false);
     }
@@ -85,6 +89,17 @@ export default function AccountPage({ navigate }) {
         </form>
         <form className="accountCard" onSubmit={(e) => submit(e, true)}>
           <h2>Change password</h2>
+          <label>
+            Account email
+            <input name="email" type="email" value={user.email || ""} readOnly autoComplete="username" />
+          </label>
+          <p>
+            Signed up with an email code, Google, or GitHub? Set a password by email first. An email
+            code is not your current password.
+          </p>
+          <button type="button" disabled={busy} onClick={() => navigate("/forgot-password")}>
+            Set or reset password by email
+          </button>
           <label>
             Current password
             <input

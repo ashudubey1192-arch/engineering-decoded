@@ -1,4 +1,5 @@
 import { neon } from "@neondatabase/serverless";
+import { learningCalendar } from "../server/learning.js";
 import { authenticate } from "../server/auth.js";
 import { runner } from "../server/runner.js";
 import { HttpError, requireValue, validateEntries, validateArticle } from "../server/validation.js";
@@ -52,8 +53,37 @@ export function createHandler({ verify = authenticate, connect = neon } = {}) {
       }
       if (path === "/api/progress/summary" && req.method === "GET") {
         const [summary] =
-          await sql`SELECT count(*)::int AS "trackedArticles", count(*) FILTER (WHERE completed)::int AS "completedArticles", count(DISTINCT (module_slug,course_slug)) FILTER (WHERE completed)::int AS "completedCourses" FROM app.article_progress WHERE user_id=${id}`;
-        return res.status(200).json(summary);
+          await sql`SELECT count(*)::int AS "trackedArticles", count(*) FILTER (WHERE completed)::int AS "completedArticles" FROM app.article_progress WHERE user_id=${id}`;
+        const courses =
+          await sql`SELECT module_slug AS "moduleSlug",course_slug AS "courseSlug",completed_at AS "completedAt" FROM app.course_progress WHERE user_id=${id}`;
+        const days =
+          await sql`SELECT day::text FROM app.learning_days WHERE user_id=${id} ORDER BY day DESC`;
+        const articles = await listArticles();
+        return res
+          .status(200)
+          .json({
+            ...summary,
+            completedCourses: courses.length,
+            courses,
+            recentArticle: articles[0] || null,
+            ...learningCalendar(days),
+          });
+      }
+      if (path === "/api/progress/courses" && ["GET", "PUT"].includes(req.method)) {
+        if (req.method === "PUT") {
+          requireValue(
+            [body.moduleSlug, body.courseSlug].every(
+              (s) => typeof s === "string" && /^[a-z0-9][a-z0-9-]{0,239}$/.test(s),
+            ),
+            "Invalid course",
+          );
+          await sql`INSERT INTO app.course_progress(user_id,module_slug,course_slug) VALUES (${id},${body.moduleSlug},${body.courseSlug}) ON CONFLICT DO NOTHING`;
+        }
+        return res
+          .status(200)
+          .json(
+            await sql`SELECT module_slug AS "moduleSlug",course_slug AS "courseSlug",completed_at AS "completedAt" FROM app.course_progress WHERE user_id=${id}`,
+          );
       }
       if (path === "/api/dsa/progress" && ["GET", "PUT"].includes(req.method)) {
         if (req.method === "PUT")

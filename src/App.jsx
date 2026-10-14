@@ -3,6 +3,7 @@ import Header from "./components/layout/Header";
 import Home from "./components/home/Home";
 import ModulePage from "./components/learning/ModulePage";
 import CoursePage from "./components/learning/CoursePage";
+import CourseCompletion from "./components/learning/CourseCompletion";
 import ArticlePage from "./components/learning/ArticlePage";
 import Courses from "./components/courses/Courses";
 import AuthPage from "./components/auth/AuthPage";
@@ -12,7 +13,7 @@ import AccountPage from "./components/auth/AccountPage";
 import { getCourseComponent, getModuleComponent } from "./components/registry";
 import useRouter from "./hooks/useRouter";
 import { getModule, getTrack, modules } from "./data/catalog";
-import { restoreSession } from "./services/api";
+import { restoreSession, getSession } from "./services/api";
 
 export default function App() {
   const { path, navigate, isNavigating } = useRouter();
@@ -126,6 +127,8 @@ export default function App() {
     page = <Home navigate={navigate} />;
   }
 
+  const completionModule = parts[0] === "learn" && parts.length >= 3 ? getModule(parts[1]) : null;
+  const completionTrack = completionModule ? getTrack(completionModule, parts[2]) : null;
   const closeSearch = () => setSearchOpen(false);
 
   return (
@@ -146,10 +149,18 @@ export default function App() {
         }
       >
         <div className="routeView">
-          {!sessionReady && ["account", "admin"].includes(parts[0]) ? (
+          {!sessionReady && ["account", "admin", "forgot-password"].includes(parts[0]) ? (
             <p role="status">Loading your account…</p>
           ) : (
             page
+          )}
+          {sessionReady && completionTrack && (
+            <CourseCompletion
+              key={`${path}:${getSession()?.user?.id || "guest"}`}
+              module={completionModule}
+              track={completionTrack}
+              navigate={navigate}
+            />
           )}
         </div>
       </Suspense>
