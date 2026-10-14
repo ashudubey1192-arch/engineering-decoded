@@ -1,9 +1,98 @@
-import { useEffect,useState } from "react";
-import { api,getSession } from "../../services/api";
+import { useEffect, useState } from "react";
+import { api, getSession } from "../../services/api";
 import "./AdminPage.css";
-export default function AdminPage({navigate}){
-  const session=getSession();const[stats,setStats]=useState(null);const[users,setUsers]=useState([]);const[audits,setAudits]=useState([]);const[error,setError]=useState("");
-  useEffect(()=>{if(session?.user?.role!=="ADMIN"){navigate("/login");return;}Promise.all([api("/admin/stats"),api("/admin/users?size=50"),api("/admin/login-audit?size=30")]).then(([s,u,a])=>{setStats(s);setUsers(u.content);setAudits(a.content);}).catch(reason=>setError(reason.message));},[]);
-  const patchUser=async(user,patch)=>{const updated=await api(`/admin/users/${user.id}`,{method:"PATCH",body:JSON.stringify(patch)});setUsers(current=>current.map(item=>item.id===updated.id?updated:item));};if(session?.user?.role!=="ADMIN")return null;
-  return <main className="adminPage"><header><small>ADMINISTRATION</small><h1>Learning operations</h1><p>Manage accounts and monitor platform activity.</p></header>{error&&<div className="adminError">{error}</div>}{stats&&<section className="adminStats">{[["Total users",stats.users],["Active users",stats.activeUsers],["Progress records",stats.progressRecords],["Completed articles",stats.completedArticles]].map(([label,value])=><article key={label}><span>{label}</span><b>{value}</b></article>)}</section>}<section className="adminPanel"><header><h2>Users</h2><span>{users.length} shown</span></header><div className="adminTable"><div className="adminRow heading"><span>User</span><span>Login</span><span>Role</span><span>Status</span></div>{users.map(user=><div className="adminRow" key={user.id}><span><b>{user.displayName}</b><small>{user.lastLoginAt?`Last login ${new Date(user.lastLoginAt).toLocaleDateString()}`:"Never signed in"}</small></span><span>{user.email||user.mobile}</span><select value={user.role} onChange={event=>patchUser(user,{role:event.target.value})}><option>USER</option><option>ADMIN</option></select><button className={user.active?"enabled":"disabled"} onClick={()=>patchUser(user,{active:!user.active})}>{user.active?"Active":"Disabled"}</button></div>)}</div></section><section className="adminPanel"><header><h2>Recent login activity</h2></header><div className="adminTable"><div className="adminRow audit heading"><span>Identifier</span><span>Result</span><span>IP</span><span>Time</span></div>{audits.map(item=><div className="adminRow audit" key={item.id}><span>{item.loginIdentifier}</span><span className={item.successful?"success":"failure"}>{item.successful?"Successful":"Failed"}</span><span>{item.ipAddress||"—"}</span><span>{new Date(item.occurredAt).toLocaleString()}</span></div>)}</div></section></main>;
+export default function AdminPage({ navigate }) {
+  const [stats, setStats] = useState(null),
+    [users, setUsers] = useState([]),
+    [error, setError] = useState("");
+  const admin = getSession()?.user?.role === "ADMIN";
+  useEffect(() => {
+    if (!admin) return;
+    Promise.all([api("/admin/stats"), api("/admin/users")])
+      .then(([s, u]) => {
+        setStats(s);
+        setUsers(u.content);
+      })
+      .catch((e) => setError(e.message));
+  }, [admin]);
+  async function patchUser(user, patch) {
+    try {
+      const updated = await api(`/admin/users/${encodeURIComponent(user.id)}`, {
+        method: "PATCH",
+        body: JSON.stringify(patch),
+      });
+      setUsers((items) => items.map((item) => (item.id === updated.id ? updated : item)));
+    } catch (e) {
+      setError(e.message);
+    }
+  }
+  if (!admin)
+    return (
+      <main className="adminPage">
+        <h1>Administrator access required</h1>
+        <button onClick={() => navigate("/login")}>Sign in</button>
+      </main>
+    );
+  return (
+    <main className="adminPage">
+      <header>
+        <small>ADMINISTRATION</small>
+        <h1>Learning operations</h1>
+        <p>Manage application access. Authentication activity is managed in Neon Auth.</p>
+      </header>
+      {error && (
+        <p role="alert" className="adminError">
+          {error}
+        </p>
+      )}
+      {stats && (
+        <section className="adminStats">
+          {[
+            ["Total users", stats.users],
+            ["Active users", stats.activeUsers],
+            ["Progress records", stats.progressRecords],
+            ["Completed articles", stats.completedArticles],
+          ].map(([label, value]) => (
+            <article key={label}>
+              <span>{label}</span>
+              <b>{value}</b>
+            </article>
+          ))}
+        </section>
+      )}
+      <section className="adminPanel">
+        <h2>Users</h2>
+        <p>Showing the latest 50 application users.</p>
+        <div className="adminTable">
+          <div className="adminRow heading">
+            <span>User</span>
+            <span>Email</span>
+            <span>Role</span>
+            <span>Status</span>
+          </div>
+          {users.map((user) => (
+            <div className="adminRow" key={user.id}>
+              <span>{user.displayName}</span>
+              <span>{user.email}</span>
+              <select
+                aria-label={`Role for ${user.email}`}
+                disabled={user.id === getSession()?.user.id}
+                value={user.role}
+                onChange={(e) => patchUser(user, { role: e.target.value })}
+              >
+                <option>USER</option>
+                <option>ADMIN</option>
+              </select>
+              <button
+                disabled={user.id === getSession()?.user.id}
+                onClick={() => patchUser(user, { active: !user.active })}
+              >
+                {user.active ? "Active" : "Disabled"}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
 }

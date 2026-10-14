@@ -12,12 +12,30 @@ import AccountPage from "./components/auth/AccountPage";
 import { getCourseComponent, getModuleComponent } from "./components/registry";
 import useRouter from "./hooks/useRouter";
 import { getModule, getTrack, modules } from "./data/catalog";
+import { restoreSession } from "./services/api";
 
 export default function App() {
   const { path, navigate, isNavigating } = useRouter();
   const [theme, setTheme] = useState("dark");
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [sessionReady, setSessionReady] = useState(false);
+  const [, refreshSession] = useState(0);
+
+  useEffect(() => {
+    const changed = () => refreshSession((value) => value + 1);
+    const restore = () =>
+      restoreSession()
+        .catch(() => {})
+        .finally(() => setSessionReady(true));
+    window.addEventListener("ed-session", changed);
+    window.addEventListener("focus", restore);
+    restore();
+    return () => {
+      window.removeEventListener("ed-session", changed);
+      window.removeEventListener("focus", restore);
+    };
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "dark";
@@ -127,7 +145,13 @@ export default function App() {
           </main>
         }
       >
-        <div className="routeView">{page}</div>
+        <div className="routeView">
+          {!sessionReady && ["account", "admin"].includes(parts[0]) ? (
+            <p role="status">Loading your account…</p>
+          ) : (
+            page
+          )}
+        </div>
       </Suspense>
       {searchOpen && (
         <div className="overlay" onMouseDown={closeSearch}>

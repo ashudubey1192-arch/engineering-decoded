@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": "24.x" },
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "npm run check:tutorials && npm run check:ai-engineering && vite build",
@@ -32,9 +34,15 @@
     "check:patterns": "node scripts/build-pattern-lessons.mjs --check && node scripts/check-pattern-routes.mjs",
     "generate:social": "node scripts/generate-social-courses.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate-neon.mjs",
+    "test:api": "node --test tests/api.test.mjs",
+    "test:auth": "node --test tests/sign-in.test.mjs tests/sdk-token.test.mjs"
   },
   "dependencies": {
+    "@neondatabase/auth": "0.6.0-beta",
+    "@neondatabase/serverless": "1.2.0",
+    "jose": "6.2.12",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },

@@ -1,4 +1,20 @@
 import assert from "node:assert/strict";
+import { registerHooks } from "node:module";
+globalThis.__neonAuthTest = {
+  getSession: async () => ({ data: { user: getSession()?.user } }),
+  token: async () => ({ data: { token: getSession()?.user?.id } }),
+};
+registerHooks({
+  load(url, context, nextLoad) {
+    if (url.endsWith("/src/services/neonAuth.js"))
+      return {
+        format: "module",
+        shortCircuit: true,
+        source: "export const auth = globalThis.__neonAuthTest;",
+      };
+    return nextLoad(url, context);
+  },
+});
 const storage = new Map(),
   remote = new Map();
 const localStorage = {
@@ -39,7 +55,7 @@ globalThis.window = {
     };
   },
 };
-const { setSession, clearSession, api } = await import("../src/services/api.js");
+const { setSession, clearSession, getSession, api } = await import("../src/services/api.js");
 const { updateDsaProgress, syncDsaProgress, importGuestProgress } =
   await import("../src/services/dsaProgress.js");
 const key = "engineering-decoded:dsa-practice:v1";
@@ -93,18 +109,16 @@ updateDsaProgress("solved", "guest-only", true);
 assert.equal(state().drafts["guest-task"], "guest code");
 assert.equal(state().drafts.task, undefined);
 
-setSession({ user: { id: "A" }, accessToken: "expired", refreshToken: "A-refresh" });
-window.fetch = async (url) => {
-  if (url.endsWith("/auth/refresh")) {
-    setSession({ user: { id: "B" }, accessToken: "B" });
-    return { ok: true, json: async () => ({ user: { id: "A" }, accessToken: "A" }) };
-  }
-  return { status: 401 };
+setSession({ user: { id: "A" } });
+globalThis.__neonAuthTest.token = async () => {
+  setSession({ user: { id: "B" } });
+  return { data: { token: "A" } };
 };
 await assert.rejects(api("/dsa/progress"), /Account changed/);
-assert.equal(JSON.parse(storage.get("engineering-decoded-session")).user.id, "B");
+assert.equal(getSession().user.id, "B");
+assert.equal(storage.has("engineering-decoded-session"), false);
 delete globalThis.window;
 delete globalThis.localStorage;
 console.log(
-  "Verified account separation, guest import, stale responses, edits during sync, and account-switch refresh protection.",
+  "Verified account separation, guest import, stale responses, edits during sync, and Neon token account-switch protection.",
 );

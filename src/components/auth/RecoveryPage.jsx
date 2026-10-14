@@ -1,9 +1,72 @@
 import { useState } from "react";
-import { api } from "../../services/api";
+import { requireAuth, authResult } from "../../services/api";
 import "./AuthPage.css";
-export default function RecoveryPage({navigate}){
-  const[step,setStep]=useState("request");const[identifier,setIdentifier]=useState("");const[token,setToken]=useState("");const[password,setPassword]=useState("");const[message,setMessage]=useState("");const[error,setError]=useState("");
-  const request=async event=>{event.preventDefault();setError("");try{const result=await api("/auth/forgot-password",{method:"POST",body:JSON.stringify({identifier})});setMessage(result.message);if(result.developmentToken)setToken(result.developmentToken);setStep("reset");}catch(reason){setError(reason.message);}};
-  const reset=async event=>{event.preventDefault();setError("");try{const result=await api("/auth/reset-password",{method:"POST",body:JSON.stringify({token,password})});setMessage(result.message);setStep("done");}catch(reason){setError(reason.message);}};
-  return <main className="authPage"><section className="authCard"><small>ACCOUNT RECOVERY</small><h1>{step==="request"?"Reset password":step==="done"?"Password updated":"Choose a new password"}</h1><p>{message||"Enter the email or mobile number registered to your account."}</p>{step==="request"&&<form onSubmit={request}><label>Email or mobile<input value={identifier} onChange={e=>setIdentifier(e.target.value)} required/></label><button className="authSubmit">Continue</button></form>}{step==="reset"&&<form onSubmit={reset}><label>Reset token<input value={token} onChange={e=>setToken(e.target.value)} required/></label><label>New password<input type="password" minLength="8" value={password} onChange={e=>setPassword(e.target.value)} required/></label><button className="authSubmit">Update password</button></form>}{error&&<div className="authError">{error}</div>}<button className="authSwitch" onClick={()=>navigate("/login")}>Back to sign in</button></section></main>;
+export default function RecoveryPage({ navigate }) {
+  const token = new window.URLSearchParams(window.location.search).get("token");
+  const [message, setMessage] = useState(""),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  async function submit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    const form = new window.FormData(event.currentTarget);
+    try {
+      const client = requireAuth();
+      await authResult(
+        token
+          ? client.resetPassword({ token, newPassword: form.get("password") })
+          : client.requestPasswordReset({
+              email: form.get("email"),
+              redirectTo: window.location.origin + "/forgot-password",
+            }),
+      );
+      setMessage(
+        token
+          ? "Password updated. You can now sign in."
+          : "If an account exists, a reset link will arrive by email.",
+      );
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <main className="authPage">
+      <section className="authCard">
+        <h1>Reset password</h1>
+        {message ? (
+          <p role="status">{message}</p>
+        ) : (
+          <form onSubmit={submit}>
+            {token ? (
+              <label>
+                New password
+                <input
+                  name="password"
+                  type="password"
+                  minLength={8}
+                  required
+                  autoComplete="new-password"
+                />
+              </label>
+            ) : (
+              <label>
+                Email
+                <input name="email" type="email" required autoComplete="email" />
+              </label>
+            )}
+            <button className="authSubmit" disabled={busy}>
+              {busy ? "Please wait…" : "Continue"}
+            </button>
+          </form>
+        )}
+        {error && <p role="alert">{error}</p>}
+        <button className="authSwitch" onClick={() => navigate("/login")}>
+          Back to sign in
+        </button>
+      </section>
+    </main>
+  );
 }

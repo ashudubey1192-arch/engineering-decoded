@@ -1,13 +1,114 @@
-import { useEffect,useState } from "react";
-import { api,getSession,setSession } from "../../services/api";
+import { useState } from "react";
+import { requireAuth, authResult, restoreSession, getSession } from "../../services/api";
 import "./AccountPage.css";
-export default function AccountPage({navigate}){
-  const session=getSession();const[user,setUser]=useState(session?.user||null);const[profile,setProfile]=useState({displayName:"",email:"",mobile:""});const[passwords,setPasswords]=useState({currentPassword:"",newPassword:""});const[challenge,setChallenge]=useState(null);const[code,setCode]=useState("");const[message,setMessage]=useState("");
-  useEffect(()=>{if(!session){navigate("/login");return;}api("/auth/me").then(value=>{setUser(value);setProfile({displayName:value.displayName,email:value.email||"",mobile:value.mobile||""});});},[]);
-  if(!session||!user)return null;const updateSession=updated=>{setUser(updated);setSession({...getSession(),user:updated});};
-  const saveProfile=async event=>{event.preventDefault();updateSession(await api("/auth/profile",{method:"PUT",body:JSON.stringify({...profile,email:profile.email||null,mobile:profile.mobile||null})}));setMessage("Profile updated");};
-  const changePassword=async event=>{event.preventDefault();const result=await api("/auth/change-password",{method:"POST",body:JSON.stringify(passwords)});setMessage(result.message);setPasswords({currentPassword:"",newPassword:""});};
-  const requestVerification=async channel=>{const result=await api("/auth/verification",{method:"POST",body:JSON.stringify({channel})});setChallenge({...result,channel});setCode(result.developmentCode||"");setMessage("Verification code issued");};
-  const confirm=async()=>{const result=await api("/auth/verification/confirm",{method:"POST",body:JSON.stringify({challengeId:challenge.challengeId,code})});setMessage(result.message);const refreshed=await api("/auth/me");updateSession(refreshed);setChallenge(null);};
-  return <main className="accountPage"><header><small>YOUR ACCOUNT</small><h1>Profile and security</h1><p>{message||"Manage identity, contact details, and account security."}</p></header><section className="accountGrid"><form className="accountCard" onSubmit={saveProfile}><h2>Profile</h2><label>Display name<input value={profile.displayName} onChange={e=>setProfile({...profile,displayName:e.target.value})}/></label><label>Email<input type="email" value={profile.email} onChange={e=>setProfile({...profile,email:e.target.value})}/><span>{user.emailVerified?"Verified":"Not verified"}</span></label>{user.email&&!user.emailVerified&&<button type="button" onClick={()=>requestVerification("EMAIL")}>Verify email</button>}<label>Mobile<input value={profile.mobile} onChange={e=>setProfile({...profile,mobile:e.target.value})}/><span>{user.mobileVerified?"Verified":"Not verified"}</span></label>{user.mobile&&!user.mobileVerified&&<button type="button" onClick={()=>requestVerification("MOBILE")}>Verify mobile</button>}<button className="primary">Save profile</button></form><form className="accountCard" onSubmit={changePassword}><h2>Change password</h2><label>Current password<input type="password" value={passwords.currentPassword} onChange={e=>setPasswords({...passwords,currentPassword:e.target.value})} required/></label><label>New password<input type="password" minLength="8" value={passwords.newPassword} onChange={e=>setPasswords({...passwords,newPassword:e.target.value})} required/></label><button className="primary">Update password</button></form></section>{challenge&&<div className="verificationBox"><h2>Enter verification code</h2><input value={code} onChange={e=>setCode(e.target.value)} maxLength="6"/><button onClick={confirm}>Confirm</button></div>}</main>;
+export default function AccountPage({ navigate }) {
+  const user = getSession()?.user;
+  const [message, setMessage] = useState(""),
+    [error, setError] = useState(""),
+    [busy, setBusy] = useState(false);
+  async function submit(event, password) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    setMessage("");
+    const form = new window.FormData(event.currentTarget);
+    try {
+      const client = requireAuth();
+      await authResult(
+        password
+          ? client.changePassword({
+              currentPassword: form.get("currentPassword"),
+              newPassword: form.get("newPassword"),
+              revokeOtherSessions: true,
+            })
+          : client.updateUser({ name: form.get("name") }),
+      );
+      await restoreSession();
+      setMessage(password ? "Password updated" : "Profile updated");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  if (!user)
+    return (
+      <main className="accountPage">
+        <h1>Sign in to manage your account</h1>
+        <button onClick={() => navigate("/login")}>Sign in</button>
+      </main>
+    );
+  return (
+    <main className="accountPage">
+      <header>
+        <h1>Profile and security</h1>
+        {message && <p role="status">{message}</p>}
+        {error && <p role="alert">{error}</p>}
+      </header>
+      <section className="accountGrid">
+        <form className="accountCard" onSubmit={(e) => submit(e, false)}>
+          <h2>Profile</h2>
+          <label>
+            Display name
+            <input name="name" defaultValue={user.displayName} required maxLength={120} />
+          </label>
+          <p>
+            {user.email} · {user.emailVerified ? "Verified" : "Not verified"}
+          </p>
+          {!user.emailVerified && (
+            <button
+              type="button"
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true);
+                try {
+                  await authResult(
+                    requireAuth().sendVerificationEmail({
+                      email: user.email,
+                      callbackURL: window.location.origin + "/account",
+                    }),
+                  );
+                  setMessage("Check your email for a verification link.");
+                } catch (e) {
+                  setError(e.message);
+                } finally {
+                  setBusy(false);
+                }
+              }}
+            >
+              Verify email
+            </button>
+          )}
+          <button className="primary" disabled={busy}>
+            Save profile
+          </button>
+        </form>
+        <form className="accountCard" onSubmit={(e) => submit(e, true)}>
+          <h2>Change password</h2>
+          <label>
+            Current password
+            <input
+              name="currentPassword"
+              type="password"
+              required
+              autoComplete="current-password"
+            />
+          </label>
+          <label>
+            New password
+            <input
+              name="newPassword"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+            />
+          </label>
+          <button className="primary" disabled={busy}>
+            Update password
+          </button>
+        </form>
+      </section>
+    </main>
+  );
 }

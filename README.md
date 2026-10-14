@@ -97,10 +97,9 @@ Restart the development server after adding a new dedicated article file.
 
 Vercel serves the static frontend and supports direct lesson links through the
 existing `vercel.json` rewrite. Account, admin, and signed-in progress features
-also require the separately hosted backend: set `VITE_API_URL` to its public
-HTTPS API base URL (including `/api`) in Vercel and configure the backend's allowed
-origin to match the frontend. Never put server credentials in `VITE_*` variables.
-Anonymous tutorial reading does not require that backend. Verify a deployed
+use Neon Auth and the Vercel Functions API. Follow [NEON_SETUP.md](NEON_SETUP.md)
+to configure the database and authentication. Never put server credentials in
+`VITE_*` variables. Anonymous tutorial reading does not require a backend. Verify a deployed
 preview's homepage, direct lesson URL, refresh, next lesson, and answer reveal
 before promoting it; a local build cannot verify project settings or a live backend.
 
@@ -217,3 +216,11 @@ installation cannot read its release signature archive, setting
 `JAVA_STRUCTURE_SOURCE_CHECK=1` uses `--source 21 --target 21` instead; this checks
 language/bytecode compatibility but not the Java 21 API surface. Browser traces
 are explanatory snapshots, not an in-browser Java interpreter.
+
+## Neon and Vercel backend
+
+The current frontend uses Neon Auth and same-origin Vercel Functions backed by
+Neon PostgreSQL. See [NEON_SETUP.md](NEON_SETUP.md) for environment variables,
+schema migration, local development, first-admin setup, and legacy migration
+boundaries. The separate Java backend is retained for migration/reference;
+`VITE_API_URL` is no longer used by the frontend.
