@@ -1,0 +1,84 @@
+.learningActionSpace {
+  height: 76px;
+}
+.learningActionBar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  min-height: 62px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: var(--surface, #111);
+  border-top: 1px solid var(--border, #333);
+  box-shadow: 0 -4px 20px #00000012;
+}
+.learningActionBar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.learningActionBar button:hover:not(:disabled) {
+  background: var(--surface-2, #222);
+}
+.learningActionBar button:focus-visible {
+  outline: 2px solid var(--accent-green, #22c55e);
+  outline-offset: 2px;
+}
+.learningActionBar button:disabled {
+  cursor: default;
+}
+.learningActionBar[aria-busy="true"] button {
+  opacity: 0.55;
+}
+.learningActionBar button.isComplete,
+.learningActionBar button[aria-pressed="true"] {
+  color: var(--accent-green, #22c55e);
+}
+.learningActionBar svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.learningActionBar .completedCheck {
+  stroke: var(--surface, #111);
+}
+.learningActionDivider {
+  height: 22px;
+  width: 1px;
+  background: var(--border, #333);
+}
+.learningActionError {
+  position: absolute;
+  bottom: 100%;
+  margin: 0;
+  padding: 10px 16px;
+  background: var(--surface, #111);
+  color: #ef6666;
+  border: 1px solid currentColor;
+  max-width: 90vw;
+}
+@media (max-width: 480px) {
+  .learningActionBar {
+    gap: 4px;
+  }
+  .learningActionBar button {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+}

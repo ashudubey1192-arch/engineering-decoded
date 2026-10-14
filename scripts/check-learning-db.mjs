@@ -48,6 +48,12 @@ try {
   assert.equal(summary.streak, 1);
   assert.equal(summary.activity.filter((day) => day.active).length, 1);
   assert.equal((await request("/api/progress/courses")).length, 1);
+  const bookmarkBody = {moduleSlug: 'dsa', courseSlug: 'dsa-foundations'};
+  await request('/api/progress/bookmarks', 'PUT', bookmarkBody);
+  await request('/api/progress/bookmarks', 'PUT', bookmarkBody);
+  assert.equal((await request('/api/progress/bookmarks')).length, 1);
+  await request('/api/progress/bookmarks', 'DELETE', bookmarkBody);
+  assert.equal((await request('/api/progress/bookmarks')).length, 0);
   console.log(
     "Live Neon checks passed: saved completion, reload, idempotency, activity, summary and account isolation.",
   );

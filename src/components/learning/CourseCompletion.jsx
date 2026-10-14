@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { api, getSession } from "../../services/api";
+import "./CourseCompletion.css";
 
 export default function CourseCompletion({ module, track, navigate }) {
   const userId = getSession()?.user?.id;
+  const [bookmarked, setBookmarked] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState("");
@@ -10,14 +12,15 @@ export default function CourseCompletion({ module, track, navigate }) {
     let active = true;
     setBusy(Boolean(userId));
     setCompleted(false);
+    setBookmarked(false);
     setError("");
     if (userId)
-      api("/progress/courses")
-        .then((rows) => {
-          if (active)
-            setCompleted(
-              rows.some((row) => row.moduleSlug === module.id && row.courseSlug === track.slug),
-            );
+      Promise.all([api("/progress/courses"), api("/progress/bookmarks")])
+        .then(([courses, bookmarks]) => {
+          if (!active) return;
+          const matches = (row) => row.moduleSlug === module.id && row.courseSlug === track.slug;
+          setCompleted(courses.some(matches));
+          setBookmarked(bookmarks.some(matches));
         })
         .catch((err) => {
           if (active) setError(err.message);
@@ -48,29 +51,57 @@ export default function CourseCompletion({ module, track, navigate }) {
       setBusy(false);
     }
   };
+  const bookmark = async () => {
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      await api("/progress/bookmarks", {
+        method: bookmarked ? "DELETE" : "PUT",
+        body: JSON.stringify({ moduleSlug: module.id, courseSlug: track.slug }),
+      });
+      if (getSession()?.user?.id === userId) setBookmarked(!bookmarked);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
-    <section
-      style={{ maxWidth: 960, margin: "32px auto", padding: 24 }}
-      aria-label="Course completion"
-    >
-      <h2>{completed ? "Course completed" : "Finished this course?"}</h2>
-      <p>
-        {track.name} ·{" "}
-        {completed
-          ? "Your completion is saved to your account."
-          : "Mark this course complete to save your achievement."}
-      </p>
-      {error && <p role="alert">{error}</p>}
-      <button className="primary" disabled={busy || completed} onClick={complete}>
-        {busy
-          ? "Loading…"
-          : completed
-            ? "✓ Completed"
-            : userId
-              ? "Complete course"
-              : "Sign in to complete course"}
-      </button>
-      {completed && <button onClick={() => navigate("/")}>View dashboard →</button>}
-    </section>
+    <div className="learningActionSpace">
+      <section
+        className="learningActionBar"
+        aria-label={`Course actions for ${track.name}`}
+        aria-busy={busy}
+      >
+        {error && (
+          <p className="learningActionError" role="alert">
+            {error}
+          </p>
+        )}
+        <button type="button" disabled={busy} aria-pressed={bookmarked} onClick={bookmark}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill={bookmarked ? "currentColor" : "none"}>
+            <path d="M6 3h12v18l-6-4-6 4z" />
+          </svg>
+          {bookmarked ? "Bookmarked" : "Bookmark"}
+        </button>
+        <span className="learningActionDivider" aria-hidden="true" />
+        <button
+          type="button"
+          className={completed ? "isComplete" : ""}
+          disabled={busy || completed}
+          onClick={complete}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill={completed ? "currentColor" : "none"}>
+            <circle cx="12" cy="12" r="9" />
+            <path className={completed ? "completedCheck" : ""} d="m8 12 3 3 5-6" />
+          </svg>
+          <span aria-live="polite">{completed ? "Completed" : "Mark as complete"}</span>
+        </button>
+      </section>
+    </div>
   );
 }

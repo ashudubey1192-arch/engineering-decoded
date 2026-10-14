@@ -59,15 +59,32 @@ export function createHandler({ verify = authenticate, connect = neon } = {}) {
         const days =
           await sql`SELECT day::text FROM app.learning_days WHERE user_id=${id} ORDER BY day DESC`;
         const articles = await listArticles();
+        return res.status(200).json({
+          ...summary,
+          completedCourses: courses.length,
+          courses,
+          recentArticle: articles[0] || null,
+          ...learningCalendar(days),
+        });
+      }
+      if (path === "/api/progress/bookmarks" && ["GET", "PUT", "DELETE"].includes(req.method)) {
+        if (req.method !== "GET") {
+          requireValue(
+            [body.moduleSlug, body.courseSlug].every(
+              (s) => typeof s === "string" && /^[a-z0-9][a-z0-9-]{0,239}$/.test(s),
+            ),
+            "Invalid course",
+          );
+          if (req.method === "PUT")
+            await sql`INSERT INTO app.course_bookmarks(user_id,module_slug,course_slug) VALUES (${id},${body.moduleSlug},${body.courseSlug}) ON CONFLICT DO NOTHING`;
+          else
+            await sql`DELETE FROM app.course_bookmarks WHERE user_id=${id} AND module_slug=${body.moduleSlug} AND course_slug=${body.courseSlug}`;
+        }
         return res
           .status(200)
-          .json({
-            ...summary,
-            completedCourses: courses.length,
-            courses,
-            recentArticle: articles[0] || null,
-            ...learningCalendar(days),
-          });
+          .json(
+            await sql`SELECT module_slug AS "moduleSlug",course_slug AS "courseSlug" FROM app.course_bookmarks WHERE user_id=${id}`,
+          );
       }
       if (path === "/api/progress/courses" && ["GET", "PUT"].includes(req.method)) {
         if (req.method === "PUT") {
