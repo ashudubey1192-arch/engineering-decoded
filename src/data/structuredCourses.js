@@ -1,3 +1,4 @@
+import { interviewLessons, makeInterviewCourse, newInterviewCourseKeys } from "./interviewCourses.js";
 import {
   systemDesignFundamentalsArticles,
   systemDesignFundamentalsSections,
@@ -120,7 +121,7 @@ const courses = {
   ddd: { sections: dddSections, articles: dddArticles, componentPath: "architecture/ddd" },
 };
 
-export const getStructuredCourse = (moduleId, trackSlug) => {
+const getBaseCourse = (moduleId, trackSlug) => {
   if (moduleId === "ai" && trackSlug === "ai-engineering") return aiEngineeringCourse;
   if (moduleId === "ai" && trackSlug === "generative-ai") return generativeAICourse;
   if (moduleId === "ai" && trackSlug === "rag") return ragCourse;
@@ -129,6 +130,21 @@ export const getStructuredCourse = (moduleId, trackSlug) => {
   if (moduleId === "social-media") return socialMediaCourses[trackSlug] || null;
   if (trackSlug) return remainingCourses[`${moduleId}/${trackSlug}`] || courses[trackSlug] || null;
   return courses[moduleId] || null;
+};
+const enrichedCourses = new Map();
+export const getStructuredCourse = (moduleId, trackSlug) => {
+  const key = `${moduleId}/${trackSlug}`;
+  if (!interviewLessons[key]) return getBaseCourse(moduleId, trackSlug);
+  if (!enrichedCourses.has(key)) {
+    const addition = makeInterviewCourse(key, interviewLessons[key]);
+    const base = newInterviewCourseKeys.has(key) ? null : getBaseCourse(moduleId, trackSlug);
+    enrichedCourses.set(key, base ? {
+      ...base,
+      sections: [...base.sections, ...addition.sections],
+      articles: [...base.articles, ...addition.articles],
+    } : addition);
+  }
+  return enrichedCourses.get(key);
 };
 export const getStructuredCourseSections = (moduleId, trackSlug) =>
   getStructuredCourse(moduleId, trackSlug)?.sections;

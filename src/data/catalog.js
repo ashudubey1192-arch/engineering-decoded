@@ -22,6 +22,9 @@ const makeModule = (id, name, icon, accent, description, groups) => ({
 });
 
 export const modules = [
+  makeModule("core-cs", "Computer Science Foundations", "CS", "#38bdf8",
+    "Understand the operating systems and networks behind production software.",
+    [{ name: "Core systems", tracks: tracks("Operating Systems, Computer Networks") }]),
   makeModule(
     "architecture",
     "System Design and Architecture",
@@ -66,7 +69,7 @@ export const modules = [
     [
       {
         name: "Foundations",
-        tracks: tracks("Machine Learning, Deep Learning, Data Science, Python"),
+        tracks: tracks("Machine Learning, Deep Learning, Data Science, Python, ML System Design"),
       },
       {
         name: "Generative AI",
@@ -81,7 +84,7 @@ export const modules = [
     "#22c55e",
     "Design APIs, services, security, and business systems.",
     [
-      { name: "Languages", tracks: tracks("Java, Python, Node.js, Go") },
+      { name: "Languages", tracks: [...tracks("Java, Python, Node.js, Go"), { name: "C++", slug: "cpp" }, { name: "C#", slug: "csharp" }] },
       { name: "Frameworks", tracks: tracks("Spring Boot, Express.js, FastAPI, Django") },
       { name: "API engineering", tracks: tracks("REST API, GraphQL, Authentication, OAuth") },
     ],
@@ -283,7 +286,7 @@ export const modules = [
       {
         name: "Technical",
         tracks: tracks(
-          "Java Interview, React Interview, Python Interview, System Design Interview",
+          "Java Interview, React Interview, Python Interview, System Design Interview, Concurrency Interview",
         ),
       },
       {

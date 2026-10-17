@@ -61,7 +61,7 @@ try {
           assert.ok(html.length > 100, `${route}: empty written article`);
           writtenLessons++;
         } else {
-          assert.ok(courseFocus[key], `${route}: missing course-specific context`);
+          assert.ok(article.lab || courseFocus[key], `${route}: missing course-specific context`);
           const html = renderToStaticMarkup(createElement(TutorialLesson, { module, track, article }));
           for (const id of ["overview", "concepts", "example", "mistakes", "check"]) {
             assert.equal(html.split(`id="${id}"`).length - 1, 1, `${route}: missing or repeated ${id}`);

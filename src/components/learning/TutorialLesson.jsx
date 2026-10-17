@@ -1,7 +1,9 @@
 import { getTutorialLesson } from "../../data/tutorialLessons";
+import InterviewLab from "./InterviewLab";
 import "./TutorialLesson.css";
 
 export default function TutorialLesson({ module, track, article }) {
+  if (article.lab) return <InterviewLab key={article.slug} article={article} />;
   const lesson = getTutorialLesson(module, track, article);
   const { mechanism } = lesson;
   return (

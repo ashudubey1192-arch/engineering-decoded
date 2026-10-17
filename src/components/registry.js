@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import { interviewLessons } from "../data/interviewCourses.js";
 
 const moduleFiles = import.meta.glob(["./*/jsx/*.jsx", "!./brand/jsx/*.jsx"]);
 const courseFiles = import.meta.glob("./*/*/jsx/Course.jsx");
@@ -32,6 +33,8 @@ export function preloadModuleComponent(moduleId) {
 }
 
 export function getCourseComponent(moduleId, trackSlug) {
+  // The shared outline includes appended practical labs.
+  if (interviewLessons[`${moduleId}/${trackSlug}`]) return null;
   const directory = getCourseModuleDirectory(moduleId, trackSlug);
   const path = `./${directory}/${trackSlug}/jsx/Course.jsx`;
   return getLazyComponent(path, courseFiles[path]);

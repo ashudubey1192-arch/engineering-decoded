@@ -57,7 +57,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
 
   const DedicatedArticle = getArticleComponent(module.id, track.slug, article.slug);
   const quizKey = `${track.slug}/${article.slug}`;
-  const hasConceptQuiz = ['system-design-fundamentals', 'high-level-design', 'low-level-design'].includes(track.slug);
+  const hasConceptQuiz = !article.lab && ['system-design-fundamentals', 'high-level-design', 'low-level-design'].includes(track.slug);
   const showAnimation = track.slug === 'system-design-fundamentals' && article.slug === 'welcome--course-introduction';
   const coursePath = `/learn/${module.id}/${track.slug}`;
   const openArticle = (slug) => navigate(`/learn/${module.id}/${track.slug}/${slug}`);
@@ -170,9 +170,9 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         </header>
         {showAnimation && <SystemDesignAnimation />}
         {hasConceptQuiz && !showAnimation && <Suspense fallback={<p>Loading concept visualization…</p>}><ConceptAnimation key={quizKey} lessonKey={quizKey} /></Suspense>}
-        {module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading animated example…</p>}><AiConceptLearning key={`animation/${quizKey}`} module={module} track={track} article={article} mode="animation" /></Suspense>}
+        {!article.lab && module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading animated example…</p>}><AiConceptLearning key={`animation/${quizKey}`} module={module} track={track} article={article} mode="animation" /></Suspense>}
         {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
-        {module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading quiz…</p>}><AiConceptLearning key={`quiz/${quizKey}`} module={module} track={track} article={article} mode="quiz" /></Suspense>}
+        {!article.lab && module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading quiz…</p>}><AiConceptLearning key={`quiz/${quizKey}`} module={module} track={track} article={article} mode="quiz" /></Suspense>}
         {hasConceptQuiz && <Suspense fallback={<p>Loading quiz…</p>}><SystemDesignQuiz key={quizKey} title={article.title} lessonKey={quizKey} /></Suspense>}
         {next && (
           <button
@@ -200,7 +200,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         <a href="#overview">Overview</a>
         <a href="#concepts">Core concepts</a>
         <a href="#example">Practical example</a>
-        {module.id === "dsa" && <>
+        {!article.lab && module.id === "dsa" && <>
           <a href="#coding-practice">Coding practice</a>
           <a href="#learning-paths">Learning paths</a>
           <a href="#spaced-revision">Spaced revision</a>
@@ -214,7 +214,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         <a href="#mistakes">Common mistakes</a>
         <a href="#check">Knowledge check</a>
         {module.id === 'coding-patterns' && <><a href={article.sectionSlug === 'guide' ? '#pattern-animation' : '#example'}>Animated walkthrough</a><a href="#concept-quiz">Quiz</a></>}
-        {module.id === 'ai' && <><a href="#ai-animation">Animated walkthrough</a><a href="#concept-quiz">Quiz</a></>}
+        {!article.lab && module.id === 'ai' && <><a href="#ai-animation">Animated walkthrough</a><a href="#concept-quiz">Quiz</a></>}
         {hasConceptQuiz && <a href="#concept-quiz">Quiz</a>}
         {hasConceptQuiz && !showAnimation && <a href="#concept-animation">Visual walkthrough</a>}
       </aside>
