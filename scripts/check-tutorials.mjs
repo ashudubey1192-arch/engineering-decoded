@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { createServer } from "vite";
 import { authoredArticleFiles, starterCopy } from "./tutorial-articles-plugin.mjs";
 
-const server = await createServer({ logLevel: "error", server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ logLevel: "error", optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
 // Course outlines read this browser preference during their initial render.
 globalThis.window = { sessionStorage: { getItem: () => null } };
 const escapeHtml = (text) => text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#x27;");

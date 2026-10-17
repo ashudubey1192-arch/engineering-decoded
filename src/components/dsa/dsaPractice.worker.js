@@ -15,18 +15,19 @@ self.onmessage = ({ data }) => {
   try {
     const solve = new Function(`"use strict";\n${data.code}\n;return solve;`)();
     if (typeof solve !== "function") throw new Error("Define function solve(input).");
-    const results = data.tests.map(({ label, input, expected }) => {
+    const results = data.tests.map(({ label, input, expected, expectedError }) => {
       try {
         const actual = solve(input);
-        const passed = equal(actual, expected);
+        const passed = !expectedError && equal(actual, expected);
         return {
           label,
           passed,
           actual: JSON.stringify(actual)?.slice(0, 1000) ?? String(actual),
-          expected: JSON.stringify(expected),
+          expected: expectedError ? `Error containing: ${expectedError}` : JSON.stringify(expected),
         };
       } catch (error) {
-        return { label, passed: false, error: String(error.message).slice(0, 500) };
+        const message = String(error.message).slice(0, 500);
+        return { label, passed: Boolean(expectedError && message.includes(expectedError)), error: message };
       }
     });
     self.postMessage({ results });

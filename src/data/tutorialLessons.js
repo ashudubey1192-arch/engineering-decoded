@@ -2,6 +2,7 @@ import { technicalTopics } from "./tutorialTopics";
 import { aiTopics, peopleTopics, wellbeingTopics } from "./tutorialPractice";
 import { courseFocus, tutorialProfiles } from "./tutorialProfiles";
 import { platformTopics } from "./tutorialPlatforms";
+import { deepTopicFor } from "./tutorialDeepTopics.js";
 
 const peopleModules = new Set([
   "communication", "leadership", "interviews", "mock-interviews", "roadmaps",
@@ -21,8 +22,9 @@ export function getTutorialLesson(module, track, article) {
   }
   if (module.id === "wellbeing") topics = wellbeingTopics;
   const subject = module.id === "wellbeing" ? `${track.name} ${article.title}` : article.title;
-  const mechanism = topics.find((item) => item.match.test(subject))
-    || topics.find((item) => item.match.test(track.name))
+  const titleMatch = deepTopicFor(module,track,article) || topics.find((item) => item.match.test(subject));
+  const courseMatch = topics.find((item) => item.match.test(track.name));
+  const mechanism = titleMatch || courseMatch
     || {
       title: `${track.name}: connect the concept to a complete workflow`,
       explanation: focus,
@@ -31,5 +33,5 @@ export function getTutorialLesson(module, track, article) {
       question: `What evidence would demonstrate that the ${track.name} workflow is ready for another person to use?`,
       answer: profile.expected,
     };
-  return { ...profile, focus, mechanism };
+  return { ...profile, focus, mechanism, coverage: titleMatch ? "topic-matched" : courseMatch ? "course-matched" : "general-workflow" };
 }

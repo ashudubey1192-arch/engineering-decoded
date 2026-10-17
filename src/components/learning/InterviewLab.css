@@ -32,5 +32,33 @@
 .queueExperiment output { display:block; margin-top:12px; }
 .interviewLab pre { max-width:100%; overflow-x:auto; }
 @keyframes lab-arrive { from { opacity:.4; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.workshopDisclosure { margin:32px 0; padding:20px; border:1px solid var(--course-accent); border-radius:12px; }
+.workshopDisclosure > summary { cursor:pointer; font-weight:700; line-height:1.6; }
+.simulationInputs { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin:20px 0; }
+.simulationInputs label { display:flex; flex-direction:column; gap:8px; font-size:.85rem; }
+.simulationInputs input { width:100%; min-width:0; box-sizing:border-box; padding:10px; border:1px solid #64748b; border-radius:6px; background:transparent; color:inherit; font:inherit; }
+.learningWorkshop select { max-width:100%; margin:8px 0; }
+.simulationTable { overflow-x:auto; }
+.simulationTable table { width:100%; border-collapse:collapse; font-size:.85rem; }
+.simulationTable td, .simulationTable th { padding:12px; border:1px solid #64748b; text-align:left; vertical-align:top; }
+.tutorialTrace pre > span { display:block; white-space:pre-wrap; border-left:3px solid transparent; padding:4px 8px; }
+.tutorialTrace pre > span.traceActive { border-color:var(--lab-accent); background:color-mix(in srgb, var(--lab-accent) 18%, transparent); }
+.tutorialTrace pre b { opacity:.55; margin-right:8px; }
+.modelDiagram { margin:20px 0; }
+.modelDiagram figcaption { font-size:.8rem; margin-bottom:12px; }
+.modelDiagram svg { display:block; width:100%; height:auto; }
+.roadmapTrace { margin:18px 0; }
+.roadmapTrace figcaption, .roadmapAttribution { font-size:.8rem; opacity:.85; }
+.roadmapTrace svg { width:100%; height:auto; display:block; margin-top:8px; }
+.roadmapTraceMarker { transition:cx .35s ease; }
+.roadmapQuestions details { padding:14px 0; border-bottom:1px solid color-mix(in srgb,currentColor 20%,transparent); }
+.roadmapQuestions summary { cursor:pointer; font-weight:600; }
+@media (prefers-reduced-motion:reduce) { .roadmapTraceMarker { transition:none; } }
+.modelDiagram rect { transition:width .2s ease; }
+@media (prefers-reduced-motion:reduce) { .modelDiagram rect { transition:none; } }
+.memoryFrames { display:flex; flex-wrap:wrap; gap:10px; }
+.memoryFrames > div { flex:1; min-width:70px; padding:14px; border:2px solid var(--lab-accent); border-radius:8px; display:flex; flex-direction:column; gap:8px; overflow-wrap:anywhere; }
+.memoryFrames small { font-size:.7rem; }
+.memoryFrames strong { font-size:1.25rem; }
 @media (prefers-reduced-motion:reduce) { .labState.changed { animation:none; } }
 @media (max-width:600px) { .labPlayer { padding:15px; } .labStateGrid { grid-template-columns:1fr; } .labState { flex-direction:row; align-items:center; padding:12px; } .labTimeline li > span { display:none; } .labControls label { margin-left:0; } }

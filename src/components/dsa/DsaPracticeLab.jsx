@@ -107,7 +107,7 @@ export function Challenge({
           <div key={item.label}>
             <h4>{item.label}</h4>
             <pre>
-              <code>{`Input: ${JSON.stringify(item.input)}\nExpected: ${JSON.stringify(item.expected)}`}</code>
+              <code>{`Input: ${JSON.stringify(item.input)}\nExpected: ${item.expectedError ? `Error containing: ${item.expectedError}` : JSON.stringify(item.expected)}`}</code>
             </pre>
           </div>
         ))}

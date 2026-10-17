@@ -8,9 +8,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run check:tutorials && npm run check:ai-engineering && vite build",
+    "build": "npm run check:core-cs && npm run check:tutorials && npm run check:ai-engineering && vite build",
     "check:tutorials": "node scripts/check-tutorials.mjs",
     "check:interview-courses": "node scripts/check-interview-courses.mjs",
+    "check:lesson-depth": "node scripts/audit-lesson-depth.mjs",
+    "test:workshop": "node --test tests/workshop.test.mjs",
+    "check:core-cs": "node --test tests/core-cs-roadmaps.test.mjs && node scripts/check-core-cs-roadmaps.mjs",
     "generate:system-design": "node scripts/build-system-design-quizzes.mjs",
     "check:system-design": "node scripts/check-system-design-quizzes.mjs",
     "check:dsa-concepts": "node scripts/check-dsa-concept-quizzes.mjs",

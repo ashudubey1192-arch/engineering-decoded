@@ -12,11 +12,13 @@ import SystemDesignAnimation from './SystemDesignAnimation';
 const ConceptAnimation = lazy(() => import('./ConceptAnimation'));
 const SystemDesignQuiz = lazy(() => import('./SystemDesignQuiz'));
 const AiConceptLearning = lazy(() => import('./AiConceptLearning'));
+const LearningWorkshop = lazy(() => import('./LearningWorkshop'));
 
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const dsaProgress = useDsaProgress();
   const [progress, setProgress] = useState(0);
   const [expandedSections, setExpandedSections] = useState([]);
+  const [workshopOpen, setWorkshopOpen] = useState(false);
   const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
   const articles = getStructuredCourseArticles(module?.id, track?.slug) || articleTemplates;
   const canonicalSlug = getStructuredCourse(module?.id, track?.slug)?.aliases?.[articleSlug] || articleSlug;
@@ -27,6 +29,10 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const currentSection = isStructuredCourse
     ? structuredSections.find((item) => item.slug === article?.sectionSlug)
     : null;
+
+  useEffect(() => {
+    setWorkshopOpen(false);
+  }, [articleSlug]);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -174,6 +180,10 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
         {DedicatedArticle ? <DedicatedArticle key={`${module.id}/${track.slug}/${article.slug}`} article={article} module={module} track={track} /> : <p>This lesson could not be loaded. Return to the course outline and try again.</p>}
         {!article.lab && module.id === 'ai' && track.slug !== 'ai-engineering' && <Suspense fallback={<p>Loading quiz…</p>}><AiConceptLearning key={`quiz/${quizKey}`} module={module} track={track} article={article} mode="quiz" /></Suspense>}
         {hasConceptQuiz && <Suspense fallback={<p>Loading quiz…</p>}><SystemDesignQuiz key={quizKey} title={article.title} lessonKey={quizKey} /></Suspense>}
+        <details className="workshopDisclosure" open={workshopOpen} onToggle={event=>setWorkshopOpen(event.currentTarget.open)}>
+          <summary>Open practice studio — guided exercises and self-review</summary>
+          {workshopOpen && <Suspense fallback={<p>Loading practice studio…</p>}><LearningWorkshop key={`${module.id}/${track.slug}/${article.slug}`} module={module} track={track} article={article}/></Suspense>}
+        </details>
         {next && (
           <button
             className="nextArticle"

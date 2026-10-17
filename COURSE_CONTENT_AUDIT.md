@@ -1,17 +1,24 @@
 # Course content audit
 
-Reviewed 2026-10-17 against the public [AlgoMaster catalog](https://algomaster.io/courses). The dashboard redirects to login; authenticated and premium chapters were not inspected or copied.
+Updated 2026-10-18. Reference scope: the public [AlgoMaster catalog](https://algomaster.io/courses); authenticated and premium chapters were not inspected or copied.
 
-287 local courses have nonempty outlines. 21 reference-aligned course areas have 33 new original interview labs; 6 are newly added course areas with introductory practical curricula. Existing lessons are retained. These introductory additions do not constitute full parity with every chapter of the reference site.
+287 local courses contain 6278 navigable lessons. There are 351 authored interview labs across 21 course areas. The OS and networking courses include every entry in their public roadmaps (153 and 111 respectively), plus 12 retained workshops each. The other four new curricula retain 12 lessons each. Existing lesson URLs remain available.
 
-Each lab has a mechanism explanation, worked example, controllable state walkthrough, trade-offs, self-review answer and hands-on extension. The queue lab additionally accepts workload inputs. Other animations replay authored states and do not execute code.
+## Learning features
 
-A nonempty outline is a structural check, not proof of depth or accuracy for every existing lesson. Generic shared tutorials remain elsewhere in the catalog and need a separate subject-by-subject editorial review.
+- Every lesson offers a practice studio. Technical lessons expose 7 calculated models and 8 executable JavaScript exercises with sample/boundary tests, reference solutions, and scored checks. Nontechnical lessons use a contextual reflection worksheet.
+- Models cover queues, LRU replacement, round-robin scheduling, HTTPS timing, fraud thresholds, token buckets, and two-sum. They recompute from input values and expose their assumptions.
+- Shared tutorials include a guided reading animation. This highlights authored text and is deliberately labeled separately from calculated simulations.
+- Interview labs retain their specific worked walkthroughs, trade-offs, explained answers, and hands-on extensions.
 
-| Local course | Total lessons | New interview labs |
+## Verification and limitations
+
+Run npm run check:core-cs, npm run check:tutorials, npm run check:interview-courses, npm run check:lesson-depth, and npm run test:workshop. LESSON_DEPTH_AUDIT.json identifies the rendering/content path for every lesson. Topic matching is an automated coverage signal, not a claim that every chapter has received independent expert review. Shared mechanisms are reused where applicable; not every route has a unique simulation or executable exercise. The browser runner executes JavaScript only, while C++, C#, and other native examples remain reading/local implementation exercises. CORE_CS_ROADMAP_AUDIT.md maps every OS and networking roadmap entry to its local lesson. Other curricula do not claim chapter-for-chapter parity with the reference site.
+
+| Local course | Total lessons | Authored interview labs |
 |---|---:|---:|
-| core-cs/operating-systems | 3 | 3 |
-| core-cs/computer-networks | 3 | 3 |
+| core-cs/operating-systems | 165 | 165 |
+| core-cs/computer-networks | 123 | 123 |
 | architecture/system-design-fundamentals | 185 | 1 |
 | architecture/high-level-design | 44 | 1 |
 | architecture/low-level-design | 45 | 1 |
@@ -94,7 +101,7 @@ A nonempty outline is a structural check, not proof of depth or accuracy for eve
 | ai/deep-learning | 24 | 0 |
 | ai/data-science | 24 | 0 |
 | ai/python | 24 | 0 |
-| ai/ml-system-design | 3 | 3 |
+| ai/ml-system-design | 12 | 12 |
 | ai/ai-engineering | 88 | 1 |
 | ai/generative-ai | 35 | 0 |
 | ai/llms | 20 | 0 |
@@ -105,8 +112,8 @@ A nonempty outline is a structural check, not proof of depth or accuracy for eve
 | backend/python | 41 | 1 |
 | backend/node-js | 40 | 0 |
 | backend/go | 41 | 1 |
-| backend/cpp | 3 | 3 |
-| backend/csharp | 3 | 3 |
+| backend/cpp | 12 | 12 |
+| backend/csharp | 12 | 12 |
 | backend/spring-boot | 71 | 0 |
 | backend/express-js | 40 | 0 |
 | backend/fastapi | 40 | 0 |
@@ -247,7 +254,7 @@ A nonempty outline is a structural check, not proof of depth or accuracy for eve
 | interviews/react-interview | 20 | 0 |
 | interviews/python-interview | 20 | 0 |
 | interviews/system-design-interview | 20 | 0 |
-| interviews/concurrency-interview | 3 | 3 |
+| interviews/concurrency-interview | 12 | 12 |
 | interviews/behavioral-interview | 21 | 1 |
 | interviews/leadership-interview | 20 | 0 |
 | interviews/hr-interview | 20 | 0 |
@@ -300,9 +307,13 @@ A nonempty outline is a structural check, not proof of depth or accuracy for eve
 
 ## Technical references
 
+- [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+- [C# asynchronous programming](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/)
+- [HTTP caching specification](https://www.rfc-editor.org/rfc/rfc9111.html)
+- [Production ML systems](https://developers.google.com/machine-learning/crash-course/production-ml-systems)
 - [PostgreSQL window functions](https://www.postgresql.org/docs/current/tutorial-window.html)
 - [Python default arguments](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values)
 - [Go channels](https://go.dev/tour/concurrency/2)
-- [C# asynchronous programming](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/)
 - [Git revert](https://git-scm.com/docs/git-revert)
 - [Kafka design](https://kafka.apache.org/41/design/design/)

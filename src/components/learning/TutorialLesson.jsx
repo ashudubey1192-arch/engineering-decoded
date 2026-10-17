@@ -1,5 +1,6 @@
 import { getTutorialLesson } from "../../data/tutorialLessons";
 import InterviewLab from "./InterviewLab";
+import TutorialTrace from "./TutorialTrace";
 import "./TutorialLesson.css";
 
 export default function TutorialLesson({ module, track, article }) {
@@ -22,6 +23,7 @@ export default function TutorialLesson({ module, track, article }) {
         <h3>Trace the behavior</h3>
         <p>Follow this worked example one step at a time. These traces describe behavior; they are not commands to run against a live service.</p>
         <pre><code>{mechanism.example}</code></pre>
+        <TutorialTrace key={article.slug} mechanism={mechanism} />
       </section>
       <section id="example">
         <h2>2. Apply it in {track.name}</h2>

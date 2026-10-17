@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./InterviewLab.css";
+import RoadmapTrace from "./RoadmapTrace.jsx";
 
 function QueueExperiment() {
   const [arrival, setArrival] = useState(100);
@@ -40,12 +41,15 @@ export default function InterviewLab({ article }) {
       <p className="lead">{lab.scenario}</p>
       <div className="tutorialGoal"><strong>Your objective</strong><p>Explain the mechanism, predict each state transition, and defend the design when the interviewer changes a constraint. These are original practice scenarios, not claims about questions asked by a particular company.</p></div>
     </section>
-    <section id="concepts"><h2>Understand the mechanism</h2><p>{lab.concept}</p></section>
+    <section id="concepts"><h2>Understand the mechanism</h2><p>{lab.concept}</p>
+      {lab.links && <nav aria-label="Related course resources"><ul>{lab.links.map(link => <li key={link.href}><a href={link.href}>{link.title}</a></li>)}</ul></nav>}
+    </section>
     <section id="example">
       <h2>Visual walkthrough</h2>
       <p>Predict the next state before stepping forward. The walkthrough models the stated scenario; it does not execute the sample code.</p>
       <div className="labPlayer" aria-label="Interactive scenario walkthrough">
         <div className="labPlayerHeading"><span>STATE {step + 1} / {lab.states.length}</span><strong>{lab.states[step][0]}</strong></div>
+        {lab.visual && <RoadmapTrace states={lab.states} step={step} />}
         <div className="labStateGrid" aria-live={playing ? "off" : "polite"} aria-atomic="true">
           {lab.states[step].slice(1).map((value, index) => <div className={`labState ${step && value !== lab.states[step - 1][index + 1] ? "changed" : ""}`} key={`${step}-${index}`}>
             <span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong>
@@ -62,7 +66,7 @@ export default function InterviewLab({ article }) {
       </div>
       {article.slug === "interview-lab--bounded-queue" && <QueueExperiment />}
       <details><summary>Read the complete walkthrough</summary><ol>{lab.states.map(([title, ...values]) => <li key={title}><strong>{title}:</strong> {values.join(" · ")}</li>)}</ol></details>
-      <h3>Worked example</h3><pre><code>{lab.code}</code></pre>
+      <h3>{lab.codeLabel || "Worked example"}</h3><pre><code>{lab.code}</code></pre>
       <div className="tutorialExpected"><strong>Expected result</strong><p>{lab.states[last].slice(1).join(". ")}. Check this against the walkthrough and the assumptions above.</p></div>
     </section>
     <section id="mistakes"><h2>Trade-offs and failure cases</h2><p>{lab.mistake}</p></section>
@@ -73,6 +77,9 @@ export default function InterviewLab({ article }) {
       {review && <div className="labReview"><h3>Model answer</h3><p>{lab.answer}</p><p>This is a self-review, not an automated score. Compare your reasoning, assumptions, and failure handling with the explanation.</p></div>}
       <details><summary>Interview evaluation checklist</summary><ul><li>Clarify inputs, constraints, and the required result.</li><li>Explain the invariant or responsibility that makes the approach work.</li><li>Trace a concrete example and an edge case.</li><li>Discuss costs, alternatives, and how to verify the outcome.</li></ul></details>
       <h3>Hands-on extension</h3><p>{lab.challenge}</p>
+      {lab.questions && <div className="roadmapQuestions"><h3>Section interview question bank</h3><p>Answer each question aloud before expanding the model answer.</p>{lab.questions.map(item => <details key={item.href}><summary>{item.question}</summary><p>{item.answer}</p><a href={item.href}>Review: {item.topic}</a></details>)}</div>}
+      {article.roadmap && <p className="roadmapAttribution">Topic inventory: <a href={article.roadmap.source} target="_blank" rel="noreferrer">AlgoMaster · {article.roadmap.section}</a>. Explanations, scenarios, and visual traces here are original teaching material.</p>}
+      {lab.reference && <p>Course reference: <a href={lab.reference[1]} target="_blank" rel="noreferrer">{lab.reference[0]}</a>. Check platform-specific guarantees when implementing the examples.</p>}
     </section>
   </div>;
 }

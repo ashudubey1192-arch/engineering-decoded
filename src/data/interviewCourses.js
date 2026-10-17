@@ -1,3 +1,5 @@
+import { interviewExpansion } from "./interviewExpansion.js";
+import { coreCsRoadmapLessons, coreCsRoadmapSections } from "./coreCsCourses.js";
 // Original teaching examples. Traces are deterministic models, not production benchmarks.
 const lesson = (id, title, concept, scenario, code, states, mistake, question, answer, challenge) => ({
   slug: `interview-lab--${id}`, sectionSlug: "interview-lab", title, time: "12 min", updated: "Oct 2026",
@@ -287,12 +289,38 @@ Object.assign(interviewLessons, {
     "Create two equal ID values and verify map lookup works. Then explain why using a mutable list as a key is dangerous after list mutation.")],
 });
 
+for (const [key, lessons] of Object.entries(interviewExpansion)) interviewLessons[key].push(...lessons);
+const courseReferences = {
+  "interviews/concurrency-interview": ["Java concurrency API", "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutorService.html"],
+  "core-cs/operating-systems": ["Operating Systems: Three Easy Pieces", "https://pages.cs.wisc.edu/~remzi/OSTEP/"],
+  "core-cs/computer-networks": ["HTTP caching specification and protocol context", "https://www.rfc-editor.org/rfc/rfc9111.html"],
+  "ai/ml-system-design": ["Production ML systems", "https://developers.google.com/machine-learning/crash-course/production-ml-systems"],
+  "backend/cpp": ["C++ Core Guidelines", "https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines"],
+  "backend/csharp": ["C# asynchronous programming", "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/"],
+};
+for (const [key, reference] of Object.entries(courseReferences)) {
+  for (const article of interviewLessons[key]) article.lab.reference = reference;
+}
+for (const [key, lessons] of Object.entries(coreCsRoadmapLessons)) interviewLessons[key].unshift(...lessons);
+
 export const newInterviewCourseKeys = new Set([
   "interviews/concurrency-interview", "core-cs/operating-systems", "core-cs/computer-networks",
   "ai/ml-system-design", "backend/cpp", "backend/csharp",
 ]);
 
 export function makeInterviewCourse(key, lessons) {
+  if (coreCsRoadmapSections[key]) {
+    const workshops = lessons.filter(article => !article.roadmap);
+    workshops.forEach(article => { article.sectionSlug = "practical-workshops"; });
+    const sections = [...coreCsRoadmapSections[key], { slug: "practical-workshops", title: "Practical workshops and capstone", lessons: workshops }];
+    return { sections, articles: sections.flatMap(section => section.lessons), componentPath: key };
+  }
+  if (newInterviewCourseKeys.has(key)) {
+    const groups = ["Foundations and worked problems", "Core mechanisms", "Advanced design", "Production practice and capstone"];
+    const sections = groups.map((title, i) => ({ slug: `path-${i + 1}`, title, lessons: lessons.slice(i * 3, i * 3 + 3) }));
+    sections.forEach(section => section.lessons.forEach(article => { article.sectionSlug = section.slug; }));
+    return { sections, articles: sections.flatMap(section => section.lessons), componentPath: key };
+  }
   const section = { slug: "interview-lab", title: "Practical foundations and interview labs", lessons };
   return { sections: [section], articles: lessons, componentPath: key };
 }

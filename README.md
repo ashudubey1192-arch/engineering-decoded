@@ -75,6 +75,25 @@ For Vercel, import this repository and use the default Vite settings: build comm
 
 ## Tutorial coverage and deployment checks
 
+The OS course covers all 153 entries in its public reference roadmap, and networking
+covers all 111, including welcome pages and section interview reviews. Each also retains
+12 practical workshops, giving 165 OS and 123 networking lessons. See
+`CORE_CS_ROADMAP_AUDIT.md` for the chapter-by-chapter mapping. The explanations, scenarios,
+animated traces, and interview answers are original; premium source prose is not copied.
+Concurrency, ML system design, C++, and C# retain twelve-lesson paths with capstones.
+Existing lesson URLs are retained. Open the practice studio at the end of
+a lesson for related calculated models and browser-based JavaScript exercises. Nontechnical
+courses offer a reflection worksheet instead of an unrelated coding task.
+
+Run `npm run check:core-cs` for exact roadmap counts, section membership, topic content,
+interview-bank coverage, and internal links. Run `npm run test:workshop` for calculation and reference-program tests,
+`npm run check:interview-courses` for curriculum and rendering checks, and
+`npm run check:lesson-depth` for the full content-path audit. The last command writes
+`LESSON_DEPTH_AUDIT.json` and fails if a shared lesson falls back to a course-name match
+or a generic workflow. Matching a topic is a coverage signal, not independent expert
+certification. The studio's reusable activities are companions to lessons; not every
+lesson has a unique simulator or native-language runtime. See `COURSE_CONTENT_AUDIT.md`.
+
 Use Node.js 24 (also selected by `package.json` for Vercel). `npm run build`
 first runs `npm run check:tutorials`, then creates the Vite production output.
 The content check imports the course data, renders course outlines and every
