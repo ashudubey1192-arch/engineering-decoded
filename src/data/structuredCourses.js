@@ -7,6 +7,10 @@ import { highLevelDesignArticles, highLevelDesignSections } from "./highLevelDes
 import { lowLevelDesignArticles, lowLevelDesignSections } from "./lowLevelDesign";
 import { javaArticles, javaSections } from "./java";
 import { reactArticles, reactSections } from "./react";
+import {
+  frontendSystemDesignArticles,
+  frontendSystemDesignSections,
+} from "./frontendSystemDesign";
 import { angularArticles, angularSections } from "./angular";
 import { springBootArticles, springBootSections } from "./springBoot";
 import { microservicesArticles, microservicesSections } from "./microservices";
@@ -73,6 +77,11 @@ const courses = {
   authentication: { sections: authenticationSections, articles: authenticationArticles, componentPath: "backend/authentication" },
   oauth: { sections: oauthSections, articles: oauthArticles, componentPath: "backend/oauth" },
   react: { sections: reactSections, articles: reactArticles, componentPath: "frontend/react" },
+  "frontend-system-design": {
+    sections: frontendSystemDesignSections,
+    articles: frontendSystemDesignArticles,
+    componentPath: "frontend/frontend-system-design",
+  },
   angular: {
     sections: angularSections,
     articles: angularArticles,

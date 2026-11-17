@@ -121,6 +121,7 @@ export const modules = [
       { name: "Core web", tracks: tracks("HTML, CSS, JavaScript, TypeScript") },
       { name: "Frameworks", tracks: tracks("React, Angular, Vue, Next.js") },
       { name: "UI and tooling", tracks: tracks("Tailwind CSS, Material UI, Redux, Vite") },
+      { name: "Architecture", tracks: tracks("Frontend System Design") },
     ],
   ),
   makeModule(
