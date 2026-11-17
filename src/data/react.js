@@ -15,6 +15,10 @@ export const reactSections = [
     "What is React?", "Creating a React Application", "React Project Structure",
     "Rendering Elements", "Declarative UI", "React Developer Tools",
   ]),
+  section("under-the-hood", "How React Works", [
+    "React Without a Build Tool", "npm, Bundlers and Babel", "From JSX to createElement",
+    "Virtual DOM and Reconciliation", "Import and Export Patterns",
+  ]),
   section("jsx-and-components", "JSX and Components", [
     "Understanding JSX", "Functional Components", "Props", "Component Composition",
     "Conditional Rendering", "Rendering Lists and Keys",
@@ -33,6 +37,20 @@ export const reactSections = [
   section("routing-and-data", "Routing and Data", [
     "Client-Side Routing", "Nested Routes", "Fetching Data", "Loading and Error States",
     "Mutations and Optimistic Updates",
+  ]),
+  section("class-components", "Class Components and Patterns", [
+    "Class Components", "Class Lifecycle Methods", "Higher-Order Components",
+    "Controlled vs Uncontrolled Components", "Config-Driven UI",
+  ]),
+  section("tailwind-and-redux", "Tailwind and Redux Toolkit", [
+    "Tailwind CSS in React", "Redux Toolkit Store and Slices", "useSelector and useDispatch",
+    "Async Logic with Redux Thunks",
+  ]),
+  section("real-world-features", "Building Real Features", [
+    "Working with Live APIs and CORS", "Shimmer UI", "Debounced Search and Caching",
+    "Infinite Scroll", "Nested Comments", "Live Chat Updates",
+    "Authentication and Protected Routes", "Environment Variables and API Keys",
+    "Multi-Language Support",
   ]),
   section("performance", "Performance", [
     "React Rendering Model", "Memoizing Components", "Code Splitting", "Lazy Loading",

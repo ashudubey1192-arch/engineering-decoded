@@ -6,7 +6,7 @@ import { createServer } from "vite";
 import { databaseCourses } from "../src/data/databaseCourses.js";
 import { databaseLessons, databaseProfiles } from "../src/data/databaseLessons.js";
 
-const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
 let rendered = 0;
 try {
   const { getModule } = await server.ssrLoadModule("/src/data/catalog.js");
@@ -50,7 +50,7 @@ try {
         lesson.lab.code.length > 10 && lesson.lab.result.length > 40,
         `${courseSlug}/${article.slug}: incomplete lab`,
       );
-      assert.equal(new URL(lesson.reference).protocol, "https:");
+      assert.equal(lesson.reference, null);
       for (const prerequisite of lesson.prerequisites) {
         const slug = prerequisite.href.split("/").at(-1);
         assert.ok(lessons[slug], `Broken prerequisite ${prerequisite.href}`);
@@ -68,7 +68,7 @@ try {
       }
       assert.ok(markup.includes("Reveal explanation and expected result"));
       assert.ok(markup.includes('aria-live="polite"') && markup.includes('aria-pressed="true"'));
-      assert.ok(markup.includes("Official reference"));
+      assert.ok(!markup.includes("Official reference"));
       assert.ok(
         !/Replace this placeholder|Add a focused implementation|Explain the terminology|ready for your technical content/.test(
           markup,
@@ -89,7 +89,7 @@ try {
       );
       const markup = renderToStaticMarkup(createElement(Article));
       assert.ok(
-        markup.includes("Official reference") && !markup.includes("Replace this starter copy"),
+        !markup.includes("Official reference") && !markup.includes("Replace this starter copy"),
       );
     }
   }

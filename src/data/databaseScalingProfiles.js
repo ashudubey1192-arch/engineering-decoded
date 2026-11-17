@@ -2,7 +2,7 @@ import { profile, lab } from "./databaseLessonProfiles.js";
 
 export const databaseScalingProfiles = {
   indexing: profile(
-    "https://www.postgresql.org/docs/current/indexes.html",
+    null,
     "Use PostgreSQL indexes to study access paths, selectivity, maintenance, and plan evidence. Indexing is a capability, so the lab installs an engine rather than a separate indexing product.",
     `
 An index is an auxiliary access structure that reduces some reads at the cost of writes and storage. Its value is specific to a query workload.
@@ -70,7 +70,7 @@ Maintain an index rationale tied to query shapes and measured outcomes. Remove r
     ],
   ),
   replication: profile(
-    "https://www.postgresql.org/docs/current/high-availability.html",
+    null,
     "Reason about a primary and replicas using PostgreSQL streaming replication as a reference. Topology exercises are plans for isolated staging environments, not production failover commands.",
     `
 Replication maintains copies for availability, locality, or read scaling. It does not inherently protect against accidental deletion or guarantee zero data loss.
@@ -138,7 +138,7 @@ Rehearse promotion, fencing, reconnect, and failback with clear ownership. Recor
     ],
   ),
   sharding: profile(
-    "https://www.mongodb.com/docs/manual/sharding/",
+    null,
     "Study horizontal distribution with a multi-tenant order service. MongoDB sharding is a concrete reference, while routing and resharding exercises are intentionally engine-neutral.",
     `
 Sharding assigns different subsets of data to different owners. Replication creates copies of the same subset; scalable systems often use both.
@@ -206,7 +206,7 @@ Document shard-key rationale, large-tenant handling, and resharding procedures. 
     ],
   ),
   partitioning: profile(
-    "https://www.postgresql.org/docs/current/ddl-partitioning.html",
+    null,
     "Use PostgreSQL range partitions to organize events by month. Partitioning is a logical/physical subdivision and does not necessarily distribute data across independent servers.",
     `
 Partitioning splits one logical dataset into subsets with explicit boundaries. It helps pruning and lifecycle operations when queries and retention align with those boundaries.

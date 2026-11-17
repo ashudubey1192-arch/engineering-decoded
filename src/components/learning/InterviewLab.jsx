@@ -78,8 +78,6 @@ export default function InterviewLab({ article }) {
       <details><summary>Interview evaluation checklist</summary><ul><li>Clarify inputs, constraints, and the required result.</li><li>Explain the invariant or responsibility that makes the approach work.</li><li>Trace a concrete example and an edge case.</li><li>Discuss costs, alternatives, and how to verify the outcome.</li></ul></details>
       <h3>Hands-on extension</h3><p>{lab.challenge}</p>
       {lab.questions && <div className="roadmapQuestions"><h3>Section interview question bank</h3><p>Answer each question aloud before expanding the model answer.</p>{lab.questions.map(item => <details key={item.href}><summary>{item.question}</summary><p>{item.answer}</p><a href={item.href}>Review: {item.topic}</a></details>)}</div>}
-      {article.roadmap && <p className="roadmapAttribution">Topic inventory: <a href={article.roadmap.source} target="_blank" rel="noreferrer">AlgoMaster · {article.roadmap.section}</a>. Explanations, scenarios, and visual traces here are original teaching material.</p>}
-      {lab.reference && <p>Course reference: <a href={lab.reference[1]} target="_blank" rel="noreferrer">{lab.reference[0]}</a>. Check platform-specific guarantees when implementing the examples.</p>}
     </section>
   </div>;
 }

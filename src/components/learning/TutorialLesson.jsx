@@ -46,9 +46,6 @@ export default function TutorialLesson({ module, track, article }) {
         </div>
         <h3>Independent practice</h3>
         <p>Change one condition in the worked example. Predict the result, then trace the workflow again. Record the assumption that changed and how you would verify the new result.</p>
-        <h3>Further reading</h3>
-        <p><a href={lesson.reference} target="_blank" rel="noreferrer">Read the supporting documentation</a>. For product-specific implementation, check the documentation for the version you are using.</p>
-        {module.id === "wellbeing" && <p>Additional evidence: <a href="https://www.nccih.nih.gov/health/yoga-effectiveness-and-safety" target="_blank" rel="noreferrer">yoga</a> and <a href="https://www.nccih.nih.gov/health/meditation-and-mindfulness-effectiveness-and-safety" target="_blank" rel="noreferrer">meditation and mindfulness</a>.</p>}
       </section>
     </div>
   );

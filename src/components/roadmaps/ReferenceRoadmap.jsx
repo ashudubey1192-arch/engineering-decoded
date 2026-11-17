@@ -110,15 +110,6 @@ function RoadmapView({ roadmap, navigate }) {
           <span>{totalHours} suggested practice hours</span>
           <span>One evolving capstone</span>
         </div>
-        <p className="aiRoadmapAttribution">
-          Main progression and topic branches adapted from the live{" "}
-          <a href={roadmap.source} target="_blank" rel="noreferrer">
-            roadmap.sh / {roadmap.id} ↗
-          </a>{" "}
-          roadmap, checked {roadmap.checked}. Related branches are grouped into study steps.
-          Explanations, exercises, and time estimates are original additions. Tool alternatives are
-          not a requirement to learn every tool.
-        </p>
       </header>
       <section className="aiRoadmapOrientation" aria-labelledby="roadmap-start">
         <div>
@@ -329,16 +320,11 @@ function RoadmapView({ roadmap, navigate }) {
         </ul>
       </section>
       <section className="aiRoadmapResources">
-        <h2>Reference and related roadmaps</h2>
+        <h2>Related roadmaps</h2>
         <p>
-          Use the source map for the broader ecosystem. Check current primary documentation for the
-          tool you choose before implementing it.
+          Explore a related learning path to connect these skills with your next project.
         </p>
         <div>
-          <a href={roadmap.source} target="_blank" rel="noreferrer">
-            <strong>{roadmap.title} reference ↗</strong>
-            <span>Original roadmap.sh topic map</span>
-          </a>
           {["frontend", "backend", "devops", "ai-engineer"]
             .filter((id) => id !== roadmap.id)
             .map((id) => (

@@ -24,7 +24,7 @@ export const stateLessons = {
     'A button inside a form submits by default. Set type="button" for controls that only add a row or open a preview.',
     "Why attach saving to onSubmit rather than only to the button’s onClick?",
     "onSubmit handles keyboard submission and the form’s semantics as well as the button. A click-only implementation can miss other valid submission paths.",
-    "https://react.dev/learn/responding-to-events",
+    null,
   ),
   "state-and-events--component-state": lesson(
     "State is a component’s memory between renders. Updating it requests a new render, unlike changing an ordinary local variable that is recreated each time the function runs.",
@@ -48,7 +48,7 @@ export default function LessonCounter() {
     "Assigning completed = completed + 1 cannot replace a state setter. Storing remaining separately also creates unnecessary synchronization work.",
     "Add a reset button and explain what it updates.",
     "Call setCompleted(0). remaining is recalculated as five, so it needs no setter or Effect.",
-    "https://react.dev/learn/state-a-components-memory",
+    null,
   ),
   "state-and-events--updating-objects-in-state": lesson(
     "Treat an object in state as read-only. To change a field, create a replacement object and copy every level on the path to the changed value.",
@@ -72,7 +72,7 @@ export default function Profile() {
     "Copying profile but then assigning next.preferences.weeklyGoal mutates the old nested object too. A shallow copy does not clone the entire object graph.",
     "Update theme without dropping weeklyGoal.",
     'Use setProfile(p => ({ ...p, preferences: { ...p.preferences, theme: "light" } })). Each changed level gets a new object.',
-    "https://react.dev/learn/updating-objects-in-state",
+    null,
   ),
   "state-and-events--updating-arrays-in-state": lesson(
     "Add, remove, or replace array items by creating a new array. Use stable item IDs to describe which item changed and retain references for items that did not change.",
@@ -101,7 +101,7 @@ export default function Planner() {
     "Using items[0].complete = true mutates existing state even if you later spread the array. Copy the item itself.",
     "Remove a course by ID.",
     "Use setCourses(items => items.filter(item => item.id !== id)). filter returns an array containing only the items to retain.",
-    "https://react.dev/learn/updating-arrays-in-state",
+    null,
   ),
   "state-and-events--lifting-state-up": lesson(
     "When two components must agree on one value, put that value in their closest shared owner. Pass the current value down and pass callbacks that request changes.",
@@ -128,7 +128,7 @@ export default function Catalog() {
     "Copying a prop into child state often creates two competing sources of truth. Use the prop directly unless an intentionally independent draft is required.",
     "Where should a clear-search button live?",
     'It can be rendered anywhere below the owner. Pass a callback that calls setQuery("") so it changes the same shared value.',
-    "https://react.dev/learn/sharing-state-between-components",
+    null,
   ),
   "state-and-events--controlled-components": lesson(
     "A controlled input displays a value supplied by React state. Every edit reports its next value through onChange, making the parent’s state the source of truth.",
@@ -176,7 +176,7 @@ export default function Snapshot() {
     "Do not await a state setter as if it returned a completion promise. Derive the next value locally or respond through the next render.",
     "Replace all three updaters with setCount(count + 1). What happens?",
     "A click increases the displayed count by one because all three calls request the same replacement based on that render’s count.",
-    "https://react.dev/learn/queueing-a-series-of-state-updates",
+    null,
   ),
   "react-hooks--rules-of-hooks": lesson(
     "Hooks connect a function component to React features. Call ordinary Hooks at the top level of components or custom Hooks so React can associate their state consistently across renders.",
@@ -197,7 +197,7 @@ export default function Notes({ enabled }) {
     "Moving useState below the early return makes the Hook count depend on enabled. Put the condition inside an Effect or after Hook declarations instead.",
     "Can a click handler call useState to create a new field?",
     "No. Declare the state during rendering, then call its setter from the handler. For repeated fields, store an array or render child components with their own Hooks.",
-    "https://react.dev/reference/rules/rules-of-hooks",
+    null,
   ),
   "react-hooks--usestate": lesson(
     "useState is the simplest tool for local state. Choose a meaningful initial value, use replacement values for explicit assignments, and use updater functions for changes based on previous state.",
@@ -220,7 +220,7 @@ export default function Goal() {
     "Passing calculateInitial() evaluates it during every render even though React ignores later initial values. Pass calculateInitial when lazy initialization is needed.",
     "Why must an updater avoid making an API request?",
     "React may run it more than once while checking or processing renders. Perform the request in an event handler or appropriate synchronization layer, and keep the updater a pure calculation.",
-    "https://react.dev/reference/react/useState",
+    null,
   ),
   "react-hooks--useeffect": lesson(
     "An Effect synchronizes a component with something outside React, such as a browser API, subscription, or network connection. It is not the default place for derived values or user-event logic.",
@@ -244,7 +244,7 @@ export default function StudyTitle() {
     "Suppressing dependency warnings can leave an Effect using stale data. Restructure the code so dependencies describe what it actually reads.",
     "Should filtering courses from query happen in an Effect?",
     "Usually no. Derive filteredCourses during rendering. An Effect that sets a second state value adds an unnecessary render and synchronization path.",
-    "https://react.dev/reference/react/useEffect",
+    null,
   ),
   "react-hooks--effect-cleanup": lesson(
     "Cleanup reverses the work of an Effect. React runs it before setting up an Effect with changed dependencies and when the component leaves the tree.",
@@ -267,7 +267,7 @@ export default function Timer() {
     "Returning clearInterval(id) runs cancellation immediately and returns no cleanup function. Return () => clearInterval(id) instead.",
     "What happens if cleanup is omitted and this component is repeatedly mounted?",
     "Old intervals continue running and consume resources. Each mount adds another interval even though its previous UI no longer exists.",
-    "https://react.dev/learn/synchronizing-with-effects",
+    null,
   ),
   "react-hooks--useref": lesson(
     "A ref retains a mutable value between renders without requesting a render when it changes. Use it for a DOM handle or bookkeeping that does not determine displayed content.",
@@ -289,7 +289,7 @@ export default function FocusNotes() {
     "Incrementing ref.current will not update a rendered counter. Use state for the count and a ref only for non-visual bookkeeping.",
     "Would an interval ID belong in state or a ref?",
     "Usually a ref, if event handlers need to cancel it. Its identity is bookkeeping rather than displayed content.",
-    "https://react.dev/reference/react/useRef",
+    null,
   ),
   "react-hooks--usememo": lesson(
     "useMemo can reuse the result of an expensive pure calculation when its dependencies have not changed. Treat it as an optional performance optimization, not as persistent application storage.",
@@ -314,7 +314,7 @@ export default function SearchableCourses({ courses }) {
     "Using useMemo to hide a mutation or guarantee a permanent object identity is incorrect. Fix state design first.",
     "Will memoization help when a parent recreates courses on every render?",
     "Not for this dependency: the new array reference invalidates the cache. First determine whether the parent needs to recreate it and whether the calculation is actually costly.",
-    "https://react.dev/reference/react/useMemo",
+    null,
   ),
   "react-hooks--usecallback": lesson(
     "useCallback can preserve a function reference between renders while its dependencies remain equal. It is useful when that identity matters to a memoized child or another Hook.",
@@ -337,7 +337,7 @@ export default function Sessions() {
     "Wrapping every handler in useCallback adds noise without automatically reducing rendering. It helps only when a consumer benefits from stable identity.",
     "What if add also reads a changing courseId prop?",
     "Include courseId in the dependency array. When it changes, React must provide a callback capturing the new course.",
-    "https://react.dev/reference/react/useCallback",
+    null,
   ),
   "react-hooks--usereducer": lesson(
     "useReducer centralizes related state transitions in a pure function. It is useful when several events update the same structured state and the transition rules deserve explicit names.",
@@ -365,7 +365,7 @@ export default function Progress() {
     "Do not mutate state and return it from a reducer. Return a new object for a changed state, and keep action payloads focused.",
     "How would you test the completed transition without rendering React?",
     'Call reducer({ completed: 2 }, { type: "completed" }) and expect { completed: 3 }. Also verify the original object still contains two.',
-    "https://react.dev/reference/react/useReducer",
+    null,
   ),
   "react-hooks--custom-hooks": lesson(
     "A custom Hook packages reusable stateful logic behind a focused API. Components using it share the implementation but each invocation retains its own state and lifecycle.",
@@ -398,6 +398,6 @@ export default function Connection() {
     "navigator.onLine is a connectivity hint, not proof that your API is reachable. Still handle request failures.",
     "Do two Connection components share one online state variable?",
     "No. Each Hook call has its own state and listeners. They often display the same value because they observe the same browser events.",
-    "https://react.dev/learn/reusing-logic-with-custom-hooks",
+    null,
   ),
 };

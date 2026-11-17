@@ -26,7 +26,7 @@ export default function App() {
     "A newly created value object can trigger every consumer even when relevant fields did not change. Prefer focused context values and measure before introducing memoization.",
     "Does context persist a theme after a reload?",
     "No. Persistence is separate. Read and write an appropriate storage mechanism or server preference and use that value to initialize the provider.",
-    "https://react.dev/reference/react/useContext",
+    null,
   ),
   "advanced-react--error-boundaries": lesson(
     "An Error Boundary contains rendering failures in a subtree and displays a fallback instead of letting the failure remove the entire interface. Place boundaries around independently recoverable regions.",
@@ -56,7 +56,7 @@ export default function App() {
     "A rejected fetch in an event handler needs its own try/catch. An Error Boundary does not automatically turn every asynchronous failure into fallback UI.",
     "Why use a boundary around the report instead of only at the app root?",
     "A local boundary can preserve unrelated navigation and tools when the report fails. A root boundary can still provide a final fallback for uncaught rendering failures.",
-    "https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary",
+    null,
   ),
   "advanced-react--portals": lesson(
     "A portal renders a component’s DOM into another container while retaining its position in the React tree. It can help overlays escape clipping and stacking constraints in their visual ancestors.",
@@ -85,7 +85,7 @@ export default function Notice() {
     "Do not assume a portal prevents event bubbling to React ancestors. Handle propagation deliberately if an ancestor click action conflicts with the overlay.",
     'Does adding role="dialog" make this notice a fully accessible modal?',
     "No. A role alone does not manage focus, block background interaction, handle Escape, or restore focus. Those behaviors need a complete dialog implementation.",
-    "https://react.dev/reference/react-dom/createPortal",
+    null,
   ),
   "advanced-react--suspense": lesson(
     "Suspense coordinates a loading fallback for children that suspend through a supported integration. It is a rendering boundary, not a general detector of any network request in a component.",
@@ -110,7 +110,7 @@ export default function Dashboard() {
     "Wrapping an Effect-based fetch in Suspense will not display its fallback. Model that fetch’s loading state yourself or use a supported data integration.",
     "When would one shared boundary be preferable?",
     "When the regions form one coherent unit and showing only half would be confusing. Boundary placement should match the intended user experience.",
-    "https://react.dev/reference/react/Suspense",
+    null,
   ),
   "advanced-react--transitions": lesson(
     "Transitions mark updates as non-urgent so urgent interactions can remain responsive while React prepares another screen state. They do not make expensive JavaScript calculations run on a separate thread.",
@@ -140,7 +140,7 @@ export default function CourseSearch({ courses }) {
     "Transitions are not debouncing and do not reduce network requests automatically. A costly filter loop can still block JavaScript; consider indexing, workers, or virtualization as appropriate.",
     "Why keep input and query separate here?",
     "The controlled input needs an urgent update, while query represents the potentially deferred results. One transitioned value should not control typing.",
-    "https://react.dev/reference/react/useTransition",
+    null,
   ),
   "advanced-react--server-and-client-components": lesson(
     "Server Components run in a server-capable React environment and can keep certain data access and dependencies off the client. Client Components provide browser interactivity. This requires framework support beyond a plain Vite client app.",
@@ -170,7 +170,7 @@ export default function CourseToggle({ courseId }) {
     "Do not pass database clients, secrets, or arbitrary functions to a Client Component. A frontend bundle is inspectable by users.",
     "Can adding use client to a file enable Server Components in Vite?",
     "No. The directive only has meaning in an environment implementing those boundaries. The bundler and server integration must support the component model.",
-    "https://react.dev/reference/rsc/server-components",
+    null,
   ),
   "production-react--application-architecture": lesson(
     "An application architecture defines ownership and dependency direction. A maintainable React feature separates domain decisions, network boundaries, and reusable UI without burying simple behavior in unnecessary abstraction.",
@@ -247,7 +247,7 @@ export default function AccessibleNotes() {
     "Do not remove focus outlines without a visible replacement or communicate errors by color alone. The message must remain understandable without seeing the color.",
     "Why not use useId for course list keys?",
     "Keys represent the identity of your data across renders. Use the course’s stable ID; useId serves accessibility relationships inside components.",
-    "https://react.dev/reference/react/useId",
+    null,
   ),
   "production-react--security-practices": lesson(
     "React escapes ordinary text content, but an application still needs safe handling of URLs, rich HTML, credentials, and server authorization. Client-side visibility is not a security boundary.",
@@ -272,7 +272,7 @@ export default function ResourceLink({ title, url }) {
     "Never place private API keys in frontend environment variables. Bundled values and browser requests can be inspected by the user.",
     "Can the backend trust a role sent from React state?",
     "No. The server derives identity and permissions from its authenticated security context and validates every protected operation independently.",
-    "https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html",
+    null,
   ),
   "production-react--deployment": lesson(
     "Deploy the production artifact with the correct routing, asset, and configuration behavior. A successful local build is necessary, but a real release also needs smoke checks and a rollback path.",
@@ -299,7 +299,7 @@ npm run preview
     "Do not serve the development server as the release architecture. Also remember that Vite client environment values are generally embedded at build time.",
     "A route works when clicked but returns 404 after refresh. What should you inspect?",
     "Check host rewrites for client routes. The server must return the app entry for valid navigation URLs so the client router can choose the screen.",
-    "https://vite.dev/guide/static-deploy",
+    null,
   ),
   "production-react--monitoring-and-maintenance": lesson(
     "After release, observe whether users can complete the workflows the application promises. Combine errors, performance signals, and release metadata to detect regressions and prioritize maintenance.",

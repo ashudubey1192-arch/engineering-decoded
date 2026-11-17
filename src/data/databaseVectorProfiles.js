@@ -35,7 +35,7 @@ const vectorLabs = (name, setup, write, query) => [
 
 export const databaseVectorProfiles = {
   "vector-database-fundamentals": profile(
-    "https://milvus.io/docs/metric.md",
+    null,
     "Follow document chunks from source text to embeddings and nearest-neighbor retrieval. Numerical examples use tiny explicit vectors, so no embedding service or API key is needed.",
     `
 A vector database retrieves nearby representations rather than exact keyword matches alone. Similarity reflects the embedding model and metric, not a guarantee of truth.
@@ -77,7 +77,7 @@ Version the complete retrieval pipeline and retain evaluation fixtures. A releas
     ),
   ),
   pinecone: profile(
-    "https://docs.pinecone.io/guides/get-started/overview",
+    null,
     "Use a Pinecone bring-your-own-vector index for document retrieval. Examples assume an already-created dense three-dimensional cosine index and the current compatible Python SDK; credentials stay in environment variables.",
     `
 Pinecone is a managed retrieval service. Separate raw-vector indexes from integrated-embedding workflows because their ingestion payloads and model responsibilities differ.
@@ -119,7 +119,7 @@ Record index host, metric, model version, namespace ownership, and rebuild proce
     ),
   ),
   milvus: profile(
-    "https://milvus.io/docs/overview.md",
+    null,
     "Use Milvus collections for explicit-vector retrieval. The Python lab uses Milvus Lite through a supported pymilvus environment; a local file does not demonstrate distributed Milvus availability.",
     `
 Milvus supports vector retrieval with scalar fields and configurable indexes. Distinguish Milvus Lite, standalone, and distributed deployments before making operational assumptions.
@@ -161,7 +161,7 @@ Document deployment mode, index parameters, consistency level, and source rebuil
     ),
   ),
   weaviate: profile(
-    "https://docs.weaviate.io/weaviate",
+    null,
     "Use Weaviate concepts for object properties, vector search, and hybrid lexical/semantic retrieval. The labs specify API-neutral request contracts so client-version setup remains explicit.",
     `
 Weaviate combines stored objects and vector retrieval with lexical search capabilities. A configured vectorizer and self-provided vectors are different ingestion modes.
@@ -203,7 +203,7 @@ Version collection configuration, vectorizer models, hybrid settings, and evalua
     ),
   ),
   chroma: profile(
-    "https://docs.trychroma.com/docs/overview/introduction",
+    null,
     "Use Chroma collections for an application retrieval prototype. Python examples supply embeddings explicitly and use PersistentClient; no default embedding model download is required.",
     `
 Chroma stores embeddings, documents, and metadata for retrieval applications. Distinguish an embedded local client, a server, and a managed deployment when discussing operations.

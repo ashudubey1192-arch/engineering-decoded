@@ -23,7 +23,7 @@ export class StudySessions {
     "Do not use new StudySessions() in a component when you intend shared DI ownership. That manually constructed instance bypasses provider configuration.",
     "Why expose asReadonly instead of the writable signal?",
     "It prevents consumers from calling set or update directly and centralizes valid transitions in service methods. It does not deeply freeze object values.",
-    "https://angular.dev/guide/di/creating-injectable-service",
+    null,
   ),
   "services-and-di--dependency-injection-fundamentals": lesson(
     "Dependency injection resolves a token into a value using the active injector hierarchy. It separates the code that needs a capability from the configuration that creates it.",
@@ -45,7 +45,7 @@ export class App {
     "Calling inject inside a button handler can fail because the handler runs outside construction. Inject the dependency into a field and call that field’s methods later.",
     "What does a missing-provider error indicate?",
     "The requested token could not be resolved through the active hierarchy. Check the token identity and whether its provider is configured in the correct scope.",
-    "https://angular.dev/guide/di",
+    null,
   ),
   "services-and-di--provider-configuration": lesson(
     "Provider configuration chooses how a token obtains its value. Class providers, fixed values, factories, and aliases solve different construction and substitution needs.",
@@ -70,7 +70,7 @@ export const reporterProviders = [
     "Do not replace useExisting with useClass casually when identity matters. Two service instances can carry independent mutable state.",
     "Which provider fits a fixed API base URL?",
     "A typed InjectionToken with useValue is appropriate for a fixed public URL. It is configuration, not a secret storage mechanism.",
-    "https://angular.dev/guide/di/dependency-injection-providers",
+    null,
   ),
   "services-and-di--injection-tokens": lesson(
     "InjectionToken gives runtime identity to a dependency that has no injectable class, such as a configuration object or TypeScript interface.",
@@ -93,7 +93,7 @@ export class CourseEndpoint {
     'Recreating new InjectionToken("API base URL") in a consumer does not refer to the exported token, even though the description matches.',
     "Can an API key be made secret by placing it behind an InjectionToken?",
     "No. Client configuration and bundles are inspectable. Private credentials belong on a trusted server.",
-    "https://angular.dev/api/core/InjectionToken",
+    null,
   ),
   "services-and-di--hierarchical-injectors": lesson(
     "Angular resolves dependencies through a hierarchy. A nearby component provider can intentionally create a local instance that differs from a root-provided service.",
@@ -118,7 +118,7 @@ export class DraftEditor {
     "Accidentally repeating providers: [Draft] on every component defeats intended shared state. Inspect provider placement when values unexpectedly diverge.",
     "Where would you provide an isolated state service for a single routed feature?",
     "A route-level provider can scope the feature’s dependency environment. Verify its lifecycle against your routing and reuse configuration.",
-    "https://angular.dev/guide/di/hierarchical-dependency-injection",
+    null,
   ),
   "services-and-di--service-design-patterns": lesson(
     "Good services expose a small domain contract and hide transport or storage details. Separate data access, state coordination, and presentation when their responsibilities differ.",
@@ -144,7 +144,7 @@ export class PlannerState {
     "A readonly signal prevents setter access but does not freeze nested objects. Consumers must still treat returned objects as read-only.",
     "Should this service format the completed count as a localized sentence?",
     "Usually leave presentation formatting to the view layer. The service supplies domain values that different screens can format differently.",
-    "https://angular.dev/style-guide",
+    null,
   ),
   "routing--router-configuration": lesson(
     "The router maps URLs to components and coordinates navigation. A route configuration defines matching rules, while RouterOutlet marks where the active screen appears.",
@@ -173,7 +173,7 @@ export class App {}
     "Putting ** first captures all navigation. Forgetting RouterOutlet leaves matched route content with nowhere to render.",
     "Why use pathMatch: full on the empty redirect?",
     "An empty path can prefix every URL. Full matching restricts this redirect to the intended empty path.",
-    "https://angular.dev/guide/routing/define-routes",
+    null,
   ),
   "routing--router-links": lesson(
     "RouterLink builds navigable links that integrate with Angular’s router and browser history. Use anchors for navigation so users retain link semantics and browser affordances.",
@@ -196,7 +196,7 @@ export class CourseNav {
     "A button that only assigns window.location loses router integration and often causes a full reload. Use RouterLink for internal navigation.",
     "When should navigation still use an ordinary external href?",
     "For a destination outside the Angular application. RouterLink describes routes managed by this application’s router.",
-    "https://angular.dev/guide/routing/navigate-to-routes",
+    null,
   ),
   "routing--route-parameters": lesson(
     "Route parameters identify resources within a path. Read them as changing navigation data rather than assuming a component is recreated for every parameter value.",
@@ -221,7 +221,7 @@ export class CourseDetail {
     "Do not trust a URL parameter as proof of access rights. The server must authorize requests for the identified resource.",
     "Why might snapshot show a stale ID after internal navigation?",
     "A reused component may keep the value read during construction. Observing paramMap handles later parameter changes.",
-    "https://angular.dev/guide/routing/read-route-state",
+    null,
   ),
   "routing--nested-routes": lesson(
     "Nested routes represent screens that share a persistent layout. A parent route displays shared structure and a child outlet displays the active nested page.",
@@ -247,7 +247,7 @@ export const routes: Routes = [{ path: 'courses/:courseId', component: CourseLay
     "Repeating the entire workspace shell in each child defeats the purpose of nested layout ownership. Put shared structure in the parent route component.",
     "Where does the URL /courses/angular/notes obtain courseId?",
     "It is declared on the parent route. A child should read the appropriate parent route or deliberately use configured parameter inheritance.",
-    "https://angular.dev/guide/routing/define-routes",
+    null,
   ),
   "routing--route-guards": lesson(
     "Guards decide whether navigation can proceed, redirect, or be blocked. They improve navigation flow but cannot enforce server-side authorization.",
@@ -274,7 +274,7 @@ export const signedInGuard: CanActivateFn = (_route, state) => {
     "A user can modify client state or call an API directly. Every protected server operation must authenticate and authorize independently.",
     "Why return a UrlTree instead of calling navigate and returning false?",
     "It gives the router one explicit redirect decision as part of the current navigation, avoiding unnecessary competing navigation logic.",
-    "https://angular.dev/guide/routing/route-guards",
+    null,
   ),
   "routing--resolvers": lesson(
     "A resolver loads required data before a route activates. It is useful when the destination cannot meaningfully render without a specific resource.",
@@ -301,7 +301,7 @@ export const courseResolver: ResolveFn<Course> = route => {
     "Resolving every optional dashboard widget blocks navigation unnecessarily. Load optional panels after activation when progressive display is better.",
     "Where should the user see progress while a resolver waits?",
     "In a surviving shell or navigation indicator. The unresolved destination may not yet exist to display its own spinner.",
-    "https://angular.dev/guide/routing/data-resolvers",
+    null,
   ),
   "routing--lazy-loaded-routes": lesson(
     "Lazy routing defers feature code until navigation needs it. Use loadComponent for a standalone screen and loadChildren for a route collection.",
@@ -325,6 +325,6 @@ export const routes: Routes = [
     "A static import of a supposedly deferred feature elsewhere can bring code back into an earlier bundle. Inspect build output instead of assuming folder boundaries control loading.",
     "How do loadComponent and loadChildren differ here?",
     "One resolves a component type for a route; the other resolves additional route definitions, which can describe an entire feature hierarchy.",
-    "https://angular.dev/guide/routing/define-routes",
+    null,
   ),
 };

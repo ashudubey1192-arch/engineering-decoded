@@ -92,16 +92,6 @@ function LessonContent({ lesson }) {
             <p>{lesson.answer}</p>
           </details>
         </div>
-        <p className="databaseReference">
-          <a href={lesson.reference} target="_blank" rel="noreferrer">
-            Official reference for {lesson.course}
-          </a>
-          <span>
-            {" "}
-            — Check the selected product and version for exact syntax, deployment requirements, and
-            guarantees.
-          </span>
-        </p>
       </section>
     </div>
   );

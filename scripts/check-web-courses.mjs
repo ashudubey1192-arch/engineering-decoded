@@ -5,7 +5,7 @@ import { runInNewContext } from "node:vm";
 import { createServer, transformWithOxc } from "vite";
 import * as catalog from "../src/data/frontendCourses.js";
 
-const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
 let rendered = 0;
 let parsed = 0;
 let executed = 0;
@@ -59,7 +59,7 @@ try {
         assert.equal(step.nodes.length, 3);
         assert.ok(step.nodes.every((node) => typeof node === "string" && node.length > 0));
       }
-      assert.equal(new URL(lesson.reference).protocol, "https:");
+      assert.equal(lesson.reference, null);
       const path = `/src/components/frontend/${course}/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`;
       const { default: Article } = await server.ssrLoadModule(path);
       const markup = renderToStaticMarkup(createElement(Article));

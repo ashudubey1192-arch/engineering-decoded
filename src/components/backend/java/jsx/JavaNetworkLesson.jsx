@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { javaNetworkLessons, javaNetworkReferences } from "../../../../data/javaNetworkLessons";
+import { javaNetworkLessons } from "../../../../data/javaNetworkLessons";
 import { javaNetworkPrograms } from "../../../../data/javaNetworkPrograms";
 import "../css/JavaNetworkLesson.css";
 
@@ -257,16 +257,6 @@ export default function JavaNetworkLesson({ lessonId }) {
           <li>Explain the invariant without reading the code.</li>
           <li>Trace a boundary case and state what the API should return.</li>
           <li>Describe the implementation’s time, memory and input assumptions.</li>
-        </ul>
-        <h3>Official Java references</h3>
-        <ul>
-          {javaNetworkReferences.map(([title, url]) => (
-            <li key={url}>
-              <a href={url} target="_blank" rel="noreferrer">
-                {title}
-              </a>
-            </li>
-          ))}
         </ul>
       </section>
     </div>

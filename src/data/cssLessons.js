@@ -1,5 +1,4 @@
-import { lesson as L, mdn } from "./webLessonSchema.js";
-const css = (path) => mdn(`Web/CSS/${path}`);
+import { lesson as L } from "./webLessonSchema.js";
 export const cssLessons = {
   "foundations--selectors": L(
     "Selectors identify which elements a declaration block can style.",
@@ -28,7 +27,7 @@ export const cssLessons = {
     "Do not style every div or button globally when only one feature needs the rule. Deep descendant selectors are fragile when markup changes.",
     "Wrap h2 in a header. Does .card > h2 still match, and how would you adjust the rule?",
     "It no longer matches because h2 is not a direct child. Give the heading a dedicated class or intentionally select .card > header > h2.",
-    css("CSS_selectors"),
+    null,
   ),
   "foundations--cascade-and-specificity": L(
     "The cascade chooses a winning declaration; specificity is only one part of that decision.",
@@ -57,7 +56,7 @@ export const cssLessons = {
     "The statement last rule wins is only true after higher-priority comparisons tie. Layers and important declarations can outrank more specific selectors.",
     "Add another p.note rule at the end with color: green. Which declaration wins?",
     "Green wins because the matching declarations now tie on origin, importance, layer, and specificity; the later declaration breaks the tie.",
-    css("Guides/Cascade/Introduction"),
+    null,
   ),
   "foundations--inheritance": L(
     "Inheritance supplies some unspecified property values from an element’s parent.",
@@ -86,7 +85,7 @@ export const cssLessons = {
     "A parent color does not beat a child’s directly specified color. Do not expect width, margin, or borders to cascade down as inherited values.",
     "If the paragraph receives color: red, does changing the article color affect that paragraph?",
     "No. Its own specified color wins over inheritance. Remove the local declaration or set color: inherit to follow the parent again.",
-    css("CSS_cascade/Inheritance"),
+    null,
   ),
   "foundations--units-and-values": L(
     "Choose units according to what a size should respond to: text, container, viewport, or a fixed measurement.",
@@ -115,7 +114,7 @@ export const cssLessons = {
     "Do not assume every percentage uses viewport width. Avoid viewport-only text sizing that ignores user font preferences.",
     "What happens to .button padding when its font size doubles?",
     "The em-based padding doubles too because it follows the button font size. The rem-based page gutter still follows the root font size.",
-    css("CSS_Values_and_Units"),
+    null,
   ),
   "foundations--custom-properties": L(
     "Custom properties store reusable values that participate in the cascade and usually inherit.",
@@ -144,7 +143,7 @@ export const cssLessons = {
     "Setting --space: red does not make var(--space, 1rem) choose 1rem; red exists but is invalid for padding after substitution.",
     "How would you change one card’s accent without changing every card?",
     "Override --accent on that card or an intentional wrapper. Descendants using the token follow the local value through inheritance.",
-    css("Using_CSS_custom_properties"),
+    null,
   ),
   "box-model--content-padding-border-margin": L(
     "Every normal CSS box separates its content, inner spacing, border, and outside spacing.",
@@ -173,7 +172,7 @@ export const cssLessons = {
     "Do not include margin in border-box width calculations. Setting width:100% with content-box plus padding can overflow a parent.",
     "Switch to border-box while keeping width:200px. How wide is the content?",
     "The content becomes 152 pixels: 200 minus 40 padding minus 8 border. The border box stays 200 pixels and horizontal margins add another 32.",
-    css("CSS_box_model/Introduction_to_the_CSS_box_model"),
+    null,
   ),
   "box-model--sizing-strategies": L(
     "Resilient sizing combines intrinsic content needs with explicit minimum and maximum constraints.",
@@ -202,7 +201,7 @@ export const cssLessons = {
     "Avoid fixed heights on text-heavy cards unless overflow is intentionally managed. A max-width on the parent alone may not solve an unbreakable child.",
     "A grid card overflows because of a long URL. Which two rules could help?",
     "Allow the item to shrink with min-inline-size:0 and permit wrapping with overflow-wrap:anywhere. Verify that the full content remains available.",
-    css("width"),
+    null,
   ),
   "box-model--overflow": L(
     "Overflow determines what happens when content exceeds the space assigned to its box.",
@@ -231,7 +230,7 @@ export const cssLessons = {
     "overflow:hidden may make a screenshot look tidy while making real content unreachable. Check focus rings and zoom before clipping.",
     "Would overflow:clip be appropriate for a code example readers must inspect fully?",
     "Usually not. It removes the scrolling path to clipped content. Use an accessible scrolling area or intentional line wrapping.",
-    css("overflow"),
+    null,
   ),
   "box-model--display-modes": L(
     "display determines an element’s outer participation in layout and the layout used for its children.",
@@ -260,7 +259,7 @@ export const cssLessons = {
     "Do not hide essential instructions with display:none while expecting screen readers to read them. Visual hiding and semantic hiding are different requirements.",
     "Which property preserves a hidden item’s space: display:none or visibility:hidden?",
     "visibility:hidden retains the box’s space. display:none removes the box from layout.",
-    css("display"),
+    null,
   ),
   "box-model--stacking-contexts": L(
     "A stacking context groups descendants so their stacking order is compared as a unit against other contexts.",
@@ -289,7 +288,7 @@ export const cssLessons = {
     "Do not keep escalating z-index without inspecting ancestors. A transform added for animation can unexpectedly create a context.",
     "How could you make the tooltip appear above the sidebar?",
     "Reconsider the parent context ordering or render the overlay outside that lower context. Use an appropriate top-layer primitive when the interaction calls for one.",
-    css("CSS_positioned_layout/Stacking_context"),
+    null,
   ),
   "layout--normal-flow": L(
     "Normal flow is the browser’s default arrangement of block and inline content before specialized positioning.",
@@ -318,7 +317,7 @@ export const cssLessons = {
     "Absolute positioning every text block removes useful flow behavior and makes variable content difficult to support.",
     "What happens when the first paragraph doubles in length?",
     "Its block grows and later content moves down without manual coordinates. This is a core advantage of leaving ordinary content in flow.",
-    css("CSS_display/Block_and_inline_layout_in_normal_flow"),
+    null,
   ),
   "layout--flexbox": L(
     "Flexbox distributes and aligns items along a main axis, with a separate cross axis.",
@@ -347,7 +346,7 @@ export const cssLessons = {
     "justify-content is not always horizontal: axes change with flex-direction and writing mode. Avoid visual reordering that conflicts with keyboard order.",
     "Change flex-direction to column. Which axis does justify-content control now?",
     "It controls the vertical main axis in a horizontal writing mode. align-items now controls horizontal cross-axis alignment.",
-    css("CSS_flexible_box_layout/Basic_concepts_of_flexbox"),
+    null,
   ),
   "layout--css-grid": L(
     "Grid defines rows and columns together, making it useful for aligned two-dimensional layouts.",
@@ -376,7 +375,7 @@ export const cssLessons = {
     "Grid placement can visually reorder content without changing DOM reading order. Keep the source order meaningful and avoid huge fixed minimums.",
     "How would you make the first card span two columns only on wide screens?",
     "Inside an appropriate media or container query, apply grid-column:span 2 to that card. Keep its normal single-track placement below that threshold.",
-    css("CSS_grid_layout/Basic_concepts_of_grid_layout"),
+    null,
   ),
   "layout--positioning": L(
     "Positioning changes how a box is offset and which containing block its offsets reference.",
@@ -405,7 +404,7 @@ export const cssLessons = {
     "An overflow ancestor can change the scroll container relevant to sticky positioning. Check container height and inset values before increasing z-index.",
     "Why might an absolutely positioned badge appear at the page corner?",
     "Its intended parent may not establish the expected containing block. Add position:relative to the appropriate wrapper and inspect ancestors.",
-    css("position"),
+    null,
   ),
   "layout--multi-column-layout": L(
     "Multi-column layout flows continuous content through columns, similar to a newspaper.",
@@ -434,7 +433,7 @@ export const cssLessons = {
     "Do not use columns as a substitute for row-aligned Grid cards. Readers may need to scroll down and back up to follow long columns.",
     "Which layout better suits a pricing comparison with aligned feature rows?",
     "Grid or a semantic data table fits that relationship better. Multi-column layout is intended for a continuous content stream.",
-    css("CSS_multicol_layout"),
+    null,
   ),
   "responsive--media-queries": L(
     "Media queries apply styles when the viewing environment meets a condition.",
@@ -463,7 +462,7 @@ export const cssLessons = {
     "Do not assume a wide screen has a mouse or a narrow screen is a phone. Use pointer and hover features when interaction capability is the concern.",
     "Why test at widths just below and above 48rem?",
     "Those widths expose abrupt overflow or awkward transitions caused by the layout switch. The breakpoint should follow content fit, not a device label.",
-    css("CSS_media_queries/Using_media_queries"),
+    null,
   ),
   "responsive--container-queries": L(
     "Container queries let a component respond to the space its parent provides rather than the whole viewport.",
@@ -492,7 +491,7 @@ export const cssLessons = {
     "Do not put the query container only on the element you intend to restyle. Size queries target descendants of the matching container.",
     "Why can two identical cards use different layouts on the same screen?",
     "Their parent containers can have different widths. Container queries respond to each local context independently of viewport width.",
-    css("CSS_containment/Container_queries"),
+    null,
   ),
   "responsive--fluid-typography": L(
     "Fluid typography scales smoothly within readable limits instead of jumping at many breakpoints.",
@@ -521,7 +520,7 @@ export const cssLessons = {
     "Avoid setting all text in vw alone. Do not give headings fixed heights that clip when text wraps or users enlarge fonts.",
     "At a 1000px viewport and 16px root, what size does this heading use?",
     "The preferred size is 16 + 30 = 46px. It is within the 32–64px range, so 46px is used.",
-    css("clamp"),
+    null,
   ),
   "responsive--responsive-images": L(
     "Responsive image styling controls the rendered box while HTML chooses the downloaded image source.",
@@ -550,7 +549,7 @@ export const cssLessons = {
     "Do not use cover for diagrams when cropping could hide important labels. CSS shrinking alone still downloads the original file.",
     "Which fit mode should a product diagram use if every edge must remain visible?",
     "Use contain inside the constrained box or preserve the natural ratio with auto height. Accept empty space rather than cutting off information.",
-    css("object-fit"),
+    null,
   ),
   "responsive--mobile-first-design": L(
     "Mobile-first CSS establishes a compact baseline and adds layout complexity only when space supports it.",
@@ -579,7 +578,7 @@ export const cssLessons = {
     "Do not hide important content simply because the screen is narrow. Avoid fixed desktop widths that require horizontal page scrolling.",
     "How would you choose the 50rem breakpoint in a real design?",
     "Resize the actual content until the two-column arrangement is comfortably readable. Set the breakpoint around that need and test nearby widths.",
-    mdn("Learn_web_development/Core/CSS_layout/Responsive_Design"),
+    null,
   ),
   "visual--colors": L(
     "Color communicates hierarchy and state, but the meaning must survive without color perception alone.",
@@ -608,7 +607,7 @@ export const cssLessons = {
     "Do not convey required fields or status only by red and green. Translucent colors need checking against every background they can overlap.",
     "What should a dark theme change besides the page background?",
     "Update text, surface, borders, focus indicators, and semantic colors as coordinated pairs. Recheck contrast rather than reusing every light-theme value.",
-    css("CSS_colors"),
+    null,
   ),
   "visual--typography": L(
     "Typography balances readable text, predictable wrapping, and a clear hierarchy.",
@@ -637,7 +636,7 @@ export const cssLessons = {
     "Do not use fixed-height text containers or tiny line heights to force a composition. Test actual long copy and enlarged user fonts.",
     "If a paragraph font becomes 20px, what is its line box with line-height:1.6?",
     "It is 32px. The unitless value scales with the element’s computed font size rather than retaining a fixed pixel height.",
-    css("line-height"),
+    null,
   ),
   "visual--backgrounds": L(
     "Backgrounds decorate an element’s box without becoming semantic document content.",
@@ -666,7 +665,7 @@ export const cssLessons = {
     "An overlay does not guarantee sufficient contrast for every image region. Do not put essential diagrams only in CSS backgrounds.",
     "What happens to the heading if study-room.jpg is unavailable?",
     "The fallback background color remains, as does the gradient. The heading should still be legible and contain all essential information.",
-    css("background"),
+    null,
   ),
   "visual--borders-and-shadows": L(
     "Borders define box edges; shadows add painted depth without changing layout dimensions.",
@@ -695,7 +694,7 @@ export const cssLessons = {
     "Do not rely on faint shadows as the only boundary in high-contrast or forced-color environments. Preserve a meaningful border or outline where needed.",
     "Will a larger shadow increase the card’s width calculation?",
     "No. It can visually overlap or be clipped, but it does not add to the border-box width like padding or border does.",
-    css("box-shadow"),
+    null,
   ),
   "visual--filters-and-blend-modes": L(
     "Filters alter rendered pixels; blend modes combine colors with a backdrop or other background layers.",
@@ -724,7 +723,7 @@ export const cssLessons = {
     "Do not use filtered appearance as the only indication of disabled state. Large animated filters can be expensive and should be measured.",
     "Does grayscale reduce the image download size?",
     "No. It changes rendering after the file is loaded. Optimize the actual image format and dimensions separately.",
-    css("filter"),
+    null,
   ),
   "motion--transitions": L(
     "A transition interpolates between old and new property values when a state changes.",
@@ -753,7 +752,7 @@ export const cssLessons = {
     "transition:all can animate unexpected future properties. Do not make essential feedback depend on waiting for an animation to finish.",
     "What changes for a user who requests reduced motion?",
     "The same hover state appears immediately because the transition is removed. The interaction remains available without animated movement.",
-    css("CSS_transitions/Using_CSS_transitions"),
+    null,
   ),
   "motion--transforms": L(
     "Transforms move, rotate, scale, or skew a box’s visual rendering without rearranging normal flow.",
@@ -782,7 +781,7 @@ export const cssLessons = {
     "Do not use transforms to reserve space in a layout. Avoid assuming two differently ordered transform lists are equivalent.",
     "Will translateX(20px) push the next sibling twenty pixels to the right?",
     "No. It changes visual positioning, not the normal flow slot. Use layout properties when siblings must reflow.",
-    css("transform"),
+    null,
   ),
   "motion--keyframe-animations": L(
     "Keyframes define a timeline of property values that can run without a separate hover or class transition.",
@@ -811,7 +810,7 @@ export const cssLessons = {
     "Do not animate layout-heavy properties across many elements without measuring. Avoid leaving content invisible when an animation is disabled.",
     "Why is it useful that the normal notice style is already visible?",
     "If animation is unsupported, disabled, or reduced, the content remains available immediately. Motion enhances the presentation instead of enabling it.",
-    css("CSS_animations/Using_CSS_animations"),
+    null,
   ),
   "motion--reduced-motion": L(
     "Reduced-motion support offers the same information and actions with less unnecessary movement.",
@@ -840,7 +839,7 @@ export const cssLessons = {
     "Do not hide content in the base style and reveal it only through animation. A reduced-motion override would then leave it inaccessible.",
     "How should you test this without changing your entire operating-system setup?",
     "Use browser developer tools to emulate the media feature, then test both branches and verify that all content and actions remain available.",
-    css("@media/prefers-reduced-motion"),
+    null,
   ),
   "motion--view-transitions": L(
     "View transitions coordinate a visual change between old and new document states.",
@@ -869,7 +868,7 @@ export const cssLessons = {
     "Do not make navigation success depend on animation support. Check current browser support for the exact same-document or cross-document feature you use.",
     "What should happen when startViewTransition is unavailable?",
     "Call the update function directly. The page should reach the same correct state, just without the visual transition.",
-    mdn("Web/API/View_Transition_API"),
+    null,
   ),
   "architecture--bem": L(
     "BEM names classes around independent blocks, their elements, and explicit variants.",
@@ -898,7 +897,7 @@ export const cssLessons = {
     "Do not encode every nested DOM level into class names. A modifier generally assumes the base block class is also present.",
     "How would you add a compact card without duplicating all card styles?",
     "Add card--compact with only the changed spacing and use it alongside card. Keep shared declarations in the base block.",
-    "https://getbem.com/naming/",
+    null,
   ),
   "architecture--css-modules": L(
     "CSS Modules scope class names through build tooling to reduce accidental global collisions.",
@@ -927,7 +926,7 @@ export const cssLessons = {
     'Do not write className="card" when the stylesheet expects styles.card. Modules also do not prevent inherited global font or color rules.',
     "Can two module files both define .title safely?",
     "Yes, their generated names are distinct under the module tooling. Global selectors and intentional global escapes still need careful management.",
-    "https://github.com/css-modules/css-modules",
+    null,
   ),
   "architecture--utility-classes": L(
     "Utility classes expose small reusable styling decisions that can be composed in markup.",
@@ -956,7 +955,7 @@ export const cssLessons = {
     "The order of classes in HTML does not determine conflicting declaration precedence. Stylesheet cascade order still decides the winner.",
     "If two utilities both set padding, does the last class in the attribute always win?",
     "No. The CSS cascade decides based on the declarations, not the class attribute order. Avoid ambiguous conflicting utilities.",
-    css("CSS_cascade/Cascade"),
+    null,
   ),
   "architecture--design-tokens": L(
     "Design tokens name shared design decisions so components can follow a coherent system.",
@@ -985,7 +984,7 @@ export const cssLessons = {
     "Changing only a background token can make text unreadable. Treat foreground and background as coordinated decisions.",
     "Why prefer --surface to --white in a component rule?",
     "Surface expresses the role, which can map to a light or dark value. A literal color name assumes one theme and becomes misleading after a change.",
-    css("Using_CSS_custom_properties"),
+    null,
   ),
   "architecture--component-styling": L(
     "Component styling works best when ownership, variants, and parent layout responsibilities are explicit.",
@@ -1014,7 +1013,7 @@ export const cssLessons = {
     "A component with hard-coded page coordinates is difficult to reuse. Avoid parent selectors that reach through several component boundaries.",
     "Should the card or the grid decide the gap between neighboring cards?",
     "The grid should own that relationship. The card should remain usable in another layout without carrying an inappropriate outside margin.",
-    css("CSS_cascade/Specificity"),
+    null,
   ),
   "production--browser-compatibility": L(
     "Compatibility work starts with a usable baseline and adds features according to real support requirements.",
@@ -1043,7 +1042,7 @@ export const cssLessons = {
     "Do not assume @supports verifies every edge case. Fallback and enhanced states both need actual content testing.",
     "Why reset the sibling margins inside the feature query?",
     "Otherwise both the fallback margins and grid gap would apply, producing unintended extra spacing.",
-    css("@supports"),
+    null,
   ),
   "production--performance": L(
     "CSS performance depends on the rendering work a change triggers and how much content it affects.",
@@ -1072,7 +1071,7 @@ export const cssLessons = {
     "Do not apply will-change to everything; extra layers consume memory. An offscreen transform alone does not remove controls from keyboard navigation.",
     "Why should a sliding drawer also manage focusability?",
     "Visually moving it offscreen does not necessarily remove its controls from Tab order or accessibility APIs. State behavior must accompany animation.",
-    mdn("Web/Performance/Guides/Animation_performance_and_frame_rate"),
+    null,
   ),
   "production--debugging": L(
     "CSS debugging is a sequence of questions about matching, winning values, box geometry, and layout context.",
@@ -1101,7 +1100,7 @@ export const cssLessons = {
     "Do not pile on random overrides before identifying which layer is wrong. A child’s layout problem may originate in its parent.",
     "A declaration is not crossed out but appears ineffective. What should you inspect next?",
     "Check whether the property applies to that display context, then inspect containing blocks, constraints, and intrinsic content sizes.",
-    mdn("Learn_web_development/Core/Styling_basics/Debugging_CSS"),
+    null,
   ),
   "production--accessibility": L(
     "Accessible CSS preserves content, focus, and meaning across input methods and user preferences.",
@@ -1130,7 +1129,7 @@ export const cssLessons = {
     "Do not remove focus outlines or encode errors only in color. CSS order changes do not automatically change reading or keyboard order.",
     "What should happen when a user zooms to a narrow effective viewport?",
     "Text should reflow and controls remain reachable without clipped labels or unnecessary two-direction scrolling. Test the actual interface at zoom.",
-    mdn("Learn_web_development/Core/Accessibility/CSS_and_JavaScript"),
+    null,
   ),
   "production--modern-css-strategy": L(
     "A maintainable CSS strategy combines semantic structure, local layout, shared tokens, and deliberate fallbacks.",
@@ -1159,6 +1158,6 @@ export const cssLessons = {
     "Unlayered normal author rules outrank layered normal rules, and important layer ordering reverses. Avoid mixing strategies without understanding these rules.",
     "Build a responsive course-card page. What should the final review include?",
     "Check narrow and wide layouts, long content, keyboard focus, reduced motion, theme contrast, and representative browser support. Inspect cascade ownership before adding overrides.",
-    css("CSS_cascade/Cascade"),
+    null,
   ),
 };

@@ -78,12 +78,10 @@ progress across two accounts/devices, admin denial, and disabled-user denial on
 a preview deployment. Check `/api/health`, an unknown `/api/*` route (JSON 404
 when signed in), and a direct lesson URL to verify routing.
 
-References: [Neon Auth SDK](https://github.com/neondatabase/neon-js/tree/main/packages/auth)
-and [Neon serverless driver](https://neon.com/docs/serverless/serverless-driver).
 
 Email OTPs are generated, delivered, expired, rate-limited, and validated by Neon
 Auth's Better Auth service. No OTP or email-provider secret is stored by this
 frontend. The 30-second resend countdown is a UI convenience; Neon must enforce
-server-side rate and attempt limits. See the [Email OTP API](https://better-auth.com/docs/plugins/email-otp).
+server-side rate and attempt limits.
 New-user OTP signup follows the policy configured in Neon Auth. Test delivery and
 both provider callbacks on the real preview domain before enabling production.

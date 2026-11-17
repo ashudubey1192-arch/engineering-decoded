@@ -1,6 +1,4 @@
-import { lesson as L, mdn } from "./webLessonSchema.js";
-const js = (path) => mdn(`Web/JavaScript/${path}`);
-const api = (path) => mdn(`Web/API/${path}`);
+import { lesson as L } from "./webLessonSchema.js";
 export const javascriptLessons = {
   "foundations--values-and-types": L(
     "JavaScript values have runtime types, and understanding those types prevents accidental coercion.",
@@ -29,7 +27,7 @@ export const javascriptLessons = {
     "Do not confuse missing values with all falsy values. Zero, false, and an empty string can be valid domain data.",
     "What does typeof undefined return, and does [1] === [1] evaluate to true?",
     "typeof undefined returns the string undefined. The arrays are distinct objects, so strict equality is false.",
-    js("Guide/Data_structures"),
+    null,
   ),
   "foundations--variables": L(
     "Variables bind names to values; declaration choice determines reassignment and scope behavior.",
@@ -58,7 +56,7 @@ export const javascriptLessons = {
     "Do not interpret const as deep immutability. Avoid shadowing important names in nested blocks when it makes the data flow unclear.",
     'Would lesson = {} be allowed? Would lesson.title = "Scope" be allowed?',
     "Reassigning lesson is forbidden because it is const. Mutating its title property is allowed unless the object has separately been made non-writable.",
-    js("Reference/Statements/const"),
+    null,
   ),
   "foundations--operators": L(
     "Operators combine, compare, and choose values, sometimes with implicit conversion.",
@@ -87,7 +85,7 @@ export const javascriptLessons = {
     "Do not use OR defaults when zero is meaningful. Optional chaining can conceal a broken required invariant if used indiscriminately.",
     "Which fallback operator preserves a valid empty search string: logical OR or nullish coalescing?",
     "Use ?? when only null or undefined should trigger the default. An empty string remains unchanged, while || would replace it.",
-    js("Guide/Expressions_and_operators"),
+    null,
   ),
   "foundations--control-flow": L(
     "Control flow determines which operations run and how often they repeat.",
@@ -116,7 +114,7 @@ export const javascriptLessons = {
     "Do not confuse return with break in a function containing a loop. Return ends the whole function, not just the current iteration.",
     "Replace continue with break. What total will be printed?",
     "The loop stops at zero, so fifteen is never processed and the total is ten. The Keep practicing branch runs.",
-    js("Guide/Loops_and_iteration"),
+    null,
   ),
   "foundations--functions": L(
     "Functions give a calculation or operation a name, inputs, and an explicit output contract.",
@@ -145,7 +143,7 @@ export const javascriptLessons = {
     "Logging a value is not the same as returning it. Validate domain inputs if negative or nonnumeric values would violate the function contract.",
     "What does remaining(3, 8) return, and why?",
     "It returns zero because the raw difference is negative and Math.max clamps it. Decide whether clamping or rejecting invalid completion counts best fits the domain.",
-    js("Guide/Functions"),
+    null,
   ),
   "data--objects": L(
     "Objects group related properties and methods behind a shared identity.",
@@ -174,7 +172,7 @@ export const javascriptLessons = {
     "Do not assume spread performs a deep clone. Choose explicit nested copying or a suitable structured clone when the data and requirements permit.",
     "How can you change minutes in a new copy without changing the original?",
     "Create { ...lesson, meta: { ...lesson.meta, minutes: 40 } }. Both the changed outer path and nested object receive new identities.",
-    js("Guide/Working_with_objects"),
+    null,
   ),
   "data--arrays": L(
     "Arrays represent ordered collections and provide transformations for selecting and deriving data.",
@@ -203,7 +201,7 @@ export const javascriptLessons = {
     "Do not use map only for side effects or forget an initial reduce value when an array may be empty.",
     "If all lessons are complete, what are names and total?",
     "names is an empty array and total is zero. The explicit initial accumulator makes reduce safe for an empty pending list.",
-    js("Reference/Global_Objects/Array"),
+    null,
   ),
   "data--maps-and-sets": L(
     "Map models key-value associations and Set models unique membership.",
@@ -232,7 +230,7 @@ export const javascriptLessons = {
     "Do not use map[key] to access a Map entry; use get and set. A Set of objects does not deduplicate by an id field automatically.",
     "What is new Set([{id:1}, {id:1}]).size?",
     "It is two because the objects have different identities. Store IDs or explicitly compare a chosen key when logical deduplication is required.",
-    js("Guide/Keyed_collections"),
+    null,
   ),
   "data--destructuring": L(
     "Destructuring extracts selected values from arrays or objects into local bindings.",
@@ -261,7 +259,7 @@ export const javascriptLessons = {
     "A destructuring assignment does not create a live link to future primitive property changes. Nested objects can still be shared references.",
     "If minutes were null, would the default ten apply?",
     "No. Destructuring defaults only replace undefined. Use an explicit nullish fallback if null should also mean missing.",
-    js("Reference/Operators/Destructuring"),
+    null,
   ),
   "data--immutability": L(
     "Immutable updates create a new changed path while preserving the previous state for comparison or reuse.",
@@ -290,7 +288,7 @@ export const javascriptLessons = {
     "Copying the array and then mutating a shared item still changes the old state. Clone the changed nested path too.",
     "Why can sharing item two be safe here?",
     "Its data did not change and the update discipline avoids mutating it later. Structural sharing saves copying while retaining previous-state integrity.",
-    js("Reference/Operators/Spread_syntax"),
+    null,
   ),
   "language--scope-and-closures": L(
     "A closure retains access to bindings from the lexical scope where a function was created.",
@@ -319,7 +317,7 @@ export const javascriptLessons = {
     "Do not assume closures capture a frozen value; they access bindings whose values can change. Clean up callbacks that no longer need their captured data.",
     "What does calling second() again return, and does it affect first?",
     "It returns two and leaves first’s count unchanged. The closures were created by different outer invocations.",
-    js("Guide/Closures"),
+    null,
   ),
   "language--this-keyword": L(
     "For ordinary functions, this usually depends on how the function is called rather than where it was defined.",
@@ -348,7 +346,7 @@ export const javascriptLessons = {
     "Passing an unbound method as a callback can lose this. An arrow used as an object property does not automatically receive that object as this.",
     "Why might const fn = planner.describe; fn() fail in a module?",
     "The standalone call has undefined this in strict mode, so reading this.title fails. Bind the method or wrap the call as () => planner.describe().",
-    js("Reference/Operators/this"),
+    null,
   ),
   "language--prototypes": L(
     "Property lookup can follow an object’s prototype chain when the property is not found on the object itself.",
@@ -377,7 +375,7 @@ export const javascriptLessons = {
     "Inherited properties can appear in for...in iteration. Use Object.keys or own-property checks when the task requires only local data.",
     "What happens if lesson.describe is assigned a new function?",
     "The new own property shadows the prototype method for that object. Other objects sharing methods continue using the original method.",
-    js("Guide/Inheritance_and_the_prototype_chain"),
+    null,
   ),
   "language--classes": L(
     "Classes provide structured syntax for constructing objects and sharing methods through prototypes.",
@@ -406,7 +404,7 @@ export const javascriptLessons = {
     "Class syntax does not make method callbacks automatically bound. Do not use inheritance merely to share a small helper function.",
     "What happens when add(-5) is called, and does the total change?",
     "It throws before mutation, so the previous total remains intact. The method preserves its nonnegative-duration invariant.",
-    js("Guide/Using_classes"),
+    null,
   ),
   "language--modules": L(
     "Modules make dependencies explicit through exports and imports instead of shared global variables.",
@@ -435,7 +433,7 @@ export const javascriptLessons = {
     "Do not expect exported values to appear on window. Circular dependencies can expose initialization-order problems and deserve careful design.",
     "What must change if remaining is renamed to countRemaining in the exporting file?",
     "Update the import name and call, or export/import with an alias. Named imports must match an actual exported binding.",
-    js("Guide/Modules"),
+    null,
   ),
   "browser--dom-manipulation": L(
     "DOM APIs let JavaScript create, update, and remove document nodes.",
@@ -464,7 +462,7 @@ export const javascriptLessons = {
     "Do not concatenate untrusted strings into innerHTML. Replacing a whole container can also discard user state in its descendants.",
     "How would you remove the item after creating it?",
     "Call item.remove(). Keep the reference or identify the intended node carefully so you do not remove unrelated content.",
-    api("Document_Object_Model/Introduction"),
+    null,
   ),
   "browser--events": L(
     "Events notify code about user actions and browser activity through a propagation path.",
@@ -493,7 +491,7 @@ export const javascriptLessons = {
     "Do not confuse target with currentTarget. Avoid stopping propagation everywhere; it can break unrelated delegated behavior.",
     "Why use closest instead of checking event.target.tagName only?",
     "The click can land on a child inside the button. closest finds the containing actionable button while the containment check keeps the lookup within the list.",
-    api("EventTarget/addEventListener"),
+    null,
   ),
   "browser--forms": L(
     "Form scripts should build on native submission, validation, and named controls.",
@@ -522,7 +520,7 @@ export const javascriptLessons = {
     "This example only displays local feedback; it does not persist to a server. Do not announce a remote save as successful before the request succeeds.",
     "What changes if the input has an ID but no name?",
     "FormData does not include it under topic. IDs identify DOM elements; names define serialized form keys.",
-    api("FormData"),
+    null,
   ),
   "browser--storage": L(
     "Browser storage can preserve small client preferences, but reading and writing can fail.",
@@ -551,7 +549,7 @@ export const javascriptLessons = {
     "Do not assume storage always succeeds or that JSON.parse validates your schema. Large synchronous storage operations can also block interaction.",
     "Why include v1 in the storage key?",
     "It makes a format boundary explicit. Future versions can migrate or ignore older data instead of interpreting a changed schema accidentally.",
-    api("Web_Storage_API"),
+    null,
   ),
   "browser--observers": L(
     "Observer APIs report changes without requiring constant polling from application code.",
@@ -580,7 +578,7 @@ export const javascriptLessons = {
     "Intersection is not proof that a person read the content. Handle unavailable APIs according to your browser support needs and clean up observers.",
     "Which observer should detect that a card’s container became wider?",
     "ResizeObserver fits element-size changes. IntersectionObserver answers visibility relative to a root, not precise layout sizing.",
-    api("Intersection_Observer_API"),
+    null,
   ),
   "async--event-loop": L(
     "The event loop coordinates synchronous JavaScript, queued tasks, and microtasks.",
@@ -609,7 +607,7 @@ export const javascriptLessons = {
     "A zero-millisecond timer is not immediate. Do not use a chain of promises to assume the browser will get a chance to paint between every step.",
     "Move the Promise.resolve line before setTimeout. Does the output order change?",
     "No. The current synchronous logs still run first, the promise reaction runs at the microtask checkpoint, and the timer runs later.",
-    js("Reference/Execution_model"),
+    null,
   ),
   "async--promises": L(
     "A promise represents the eventual fulfillment or rejection of an asynchronous operation.",
@@ -638,7 +636,7 @@ export const javascriptLessons = {
     "Forgetting to return a nested promise breaks the chain’s timing and error propagation. Avoid constructing a new Promise around an API that already returns one.",
     "What happens if the initial value becomes one?",
     "The doubled value is two, so the second handler throws. The success logger is skipped and catch logs Too few.",
-    js("Guide/Using_promises"),
+    null,
   ),
   "async--async-and-await": L(
     "async and await express promise-based control flow with ordinary-looking sequencing and error handling.",
@@ -667,7 +665,7 @@ export const javascriptLessons = {
     "Do not use await inside forEach expecting the outer function to wait. Use for...of for sequential work or map with Promise.all for intentional concurrency.",
     "If the count operation rejects, does the formatted summary return?",
     "No. Promise.all rejects and the async function rejects unless it catches the error. The caller’s catch handles that failure.",
-    js("Reference/Statements/async_function"),
+    null,
   ),
   "async--fetch-api": L(
     "fetch retrieves a response, but application code must interpret status, body, and failure modes.",
@@ -696,7 +694,7 @@ export const javascriptLessons = {
     "Do not assume valid JSON has the expected fields or that a 404 automatically rejects fetch. A response body cannot be freely reread after consumption.",
     "What happens when the endpoint returns valid JSON containing an object instead of an array?",
     "Parsing succeeds but the explicit array check throws. Add item-level checks too when the application requires particular lesson properties.",
-    api("Fetch_API/Using_Fetch"),
+    null,
   ),
   "async--abortcontroller": L(
     "AbortController lets cooperating asynchronous APIs stop work that is no longer relevant.",
@@ -725,7 +723,7 @@ export const javascriptLessons = {
     "Abort does not undo server-side mutations already performed. Use cancellation for obsolete work, not as a transaction rollback mechanism.",
     "Why create a new controller for every search?",
     "Once aborted, a signal cannot be reset. A fresh request needs a fresh non-aborted signal.",
-    api("AbortController"),
+    null,
   ),
   "patterns--functional-programming": L(
     "Functional techniques express transformations through inputs and outputs while limiting hidden mutation.",
@@ -754,7 +752,7 @@ export const javascriptLessons = {
     "Do not overcompose tiny functions until a simple calculation becomes hard to follow. Pure-looking functions can still mutate nested inputs if you let them.",
     "What input should produce zero, and why is that useful to test?",
     "An empty list or a list of only completed lessons should produce zero. These boundary cases verify the accumulator and filtering contract.",
-    js("Reference/Global_Objects/Array/reduce"),
+    null,
   ),
   "patterns--composition": L(
     "Composition builds larger behavior by connecting smaller functions with compatible contracts.",
@@ -783,7 +781,7 @@ export const javascriptLessons = {
     "This simple slug helper does not define a complete Unicode or URL policy. Do not silently assume every stage handles arbitrary input types.",
     "What happens if a stage returns a number before lower runs?",
     "lower expects a string and will fail. Keep stage contracts compatible or validate and convert at the boundary.",
-    js("Guide/Functions"),
+    null,
   ),
   "patterns--factory-pattern": L(
     "A factory function creates objects with a defined public API and configurable behavior.",
@@ -812,7 +810,7 @@ export const javascriptLessons = {
     "A copied array is only a shallow boundary. If items are mutable objects, returning them still exposes their nested state.",
     "Would a second createPlanner() share this planner’s items?",
     "No. Each call creates its own closure and copied array. Sharing should be an explicit choice rather than an accidental module variable.",
-    js("Guide/Closures"),
+    null,
   ),
   "patterns--pub-sub": L(
     "Publish-subscribe lets producers announce events without directly naming every consumer.",
@@ -841,7 +839,7 @@ export const javascriptLessons = {
     "This synchronous example lets a thrown handler stop later handlers. Document that policy or add deliberate isolation; do not hide failures accidentally.",
     "Why publish over a copied listener array?",
     "It gives the current dispatch a stable snapshot when handlers subscribe or unsubscribe during notification. Later dispatches see the changed set.",
-    js("Reference/Global_Objects/Set"),
+    null,
   ),
   "patterns--error-handling": L(
     "Error handling should preserve useful context and give the caller a deliberate recovery path.",
@@ -870,7 +868,7 @@ export const javascriptLessons = {
     "Do not catch an error merely to log and continue as if nothing failed. Keep user-facing messages useful without exposing sensitive internals.",
     "Why check text.trim() before accepting Number(text)?",
     "Number of an empty or whitespace-only string is zero. The explicit check distinguishes an omitted value from an intentional zero.",
-    js("Guide/Control_flow_and_error_handling"),
+    null,
   ),
   "quality--debugging": L(
     "Debugging narrows the gap between expected behavior and the first incorrect state transition.",
@@ -899,7 +897,7 @@ export const javascriptLessons = {
     "Do not patch the displayed string while leaving the data type wrong. That symptom-level fix may fail on the next calculation.",
     'Which cases should accompany the regression check for 10 and "5"?',
     "Include zero, invalid text, and the domain policy for empty or negative values. Validate those policies explicitly instead of assuming conversion defines them.",
-    mdn("Learn_web_development/Core/Scripting/Debugging_JavaScript"),
+    null,
   ),
   "quality--unit-testing": L(
     "Unit tests verify a focused behavior with controlled inputs and observable outputs.",
@@ -928,7 +926,7 @@ export const javascriptLessons = {
     "Do not copy the implementation into an expected-value formula that can repeat the same bug. Prefer concrete examples with independently understood outcomes.",
     "What test would cover an already completed plan?",
     "Assert that remaining(5,5) is zero. Also decide whether invalid totals should be rejected or normalized and test that separate contract.",
-    "https://nodejs.org/api/test.html",
+    null,
   ),
   "quality--integration-testing": L(
     "Integration tests verify that collaborating pieces honor their boundaries together.",
@@ -957,7 +955,7 @@ export const javascriptLessons = {
     "This controlled test does not prove the live endpoint returns that shape. Add a real boundary test where compatibility risk justifies it.",
     "What failure scenario should this integration test add?",
     "Return ok:false and assert rejection. Also cover malformed payloads if the loader owns runtime validation.",
-    "https://nodejs.org/api/test.html",
+    null,
   ),
   "quality--linting": L(
     "Linting catches selected source-level mistakes and enforces agreed code conventions before runtime.",
@@ -986,7 +984,7 @@ export const javascriptLessons = {
     "A lint pass does not prove runtime correctness. Do not globally disable a useful rule because one file needs an environment-specific declaration.",
     "If document is reported as undefined in browser code, what should you inspect?",
     "Check the browser globals configuration and file matching first. If the file truly runs on a server, using document may be a real architectural error.",
-    "https://eslint.org/docs/latest/use/configure/configuration-files",
+    null,
   ),
   "quality--documentation": L(
     "Useful documentation records a function’s contract, assumptions, and examples rather than restating every line.",
@@ -1015,7 +1013,7 @@ export const javascriptLessons = {
     "Do not let comments promise validation that the function never performs. Avoid comments that merely translate syntax into English.",
     "What important behavior should be documented if this function starts rounding up?",
     "Explain that the result now includes a partial block and update examples and tests. Rounding policy is part of the public contract.",
-    "https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html",
+    null,
   ),
   "advanced--iterators-and-generators": L(
     "Iterators expose values one at a time, and generators provide concise syntax for producing that sequence.",
@@ -1044,7 +1042,7 @@ export const javascriptLessons = {
     "An iterator is stateful and may already be partly consumed. Do not assume iterating the same generator object starts it over.",
     "After reading two values from iterator, what does [...iterator] contain?",
     "It contains only three because the earlier values were already consumed. Call lessonIds again for a fresh sequence.",
-    js("Guide/Iterators_and_generators"),
+    null,
   ),
   "advanced--proxy-and-reflect": L(
     "Proxy intercepts selected object operations, while Reflect performs their standard counterparts explicitly.",
@@ -1073,7 +1071,7 @@ export const javascriptLessons = {
     "Writing directly to target bypasses the proxy validation. Do not expose both references when the proxy is intended as an enforcement boundary.",
     "What happens for session.minutes = -1?",
     "The trap throws before forwarding, leaving the existing target value unchanged. Direct target mutation would bypass that check.",
-    js("Reference/Global_Objects/Proxy"),
+    null,
   ),
   "advanced--web-workers": L(
     "Web Workers move suitable computation off the main UI thread and communicate through messages.",
@@ -1102,7 +1100,7 @@ export const javascriptLessons = {
     "This tiny sum is educational, not a performance justification. Transferring data and starting a worker can cost more than a small calculation.",
     "Can the worker call document.querySelector to update the page?",
     "No. Send a result to the main thread and update the DOM there. The worker does not have the window document.",
-    api("Web_Workers_API/Using_web_workers"),
+    null,
   ),
   "advanced--memory-management": L(
     "JavaScript reclaims unreachable objects, but reachable objects can remain in memory long after they are useful.",
@@ -1131,7 +1129,7 @@ export const javascriptLessons = {
     "Removing a DOM node is not always sufficient if other references retain it. Do not assume setting one local variable to null removes every reference.",
     "Why must removeEventListener receive the same function reference?",
     "Listeners are identified partly by the registered callback identity. A newly created arrow function is a different object and does not remove the original.",
-    js("Guide/Memory_management"),
+    null,
   ),
   "advanced--performance": L(
     "Performance work should reduce measured user-visible delay rather than optimize code by appearance.",
@@ -1160,6 +1158,6 @@ export const javascriptLessons = {
     "Do not trust one microbenchmark as proof of whole-page improvement. This example assumes a manageable card count; very large collections need different strategies.",
     "Why can alternating a style write and a geometry read be expensive?",
     "The geometry read may force the browser to synchronize layout after each write. Grouping reads and writes reduces that repeated work.",
-    mdn("Web/Performance/Guides"),
+    null,
   ),
 };

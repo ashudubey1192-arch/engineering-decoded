@@ -1,4 +1,3 @@
-export const dsaReference = "https://www.tutorialspoint.com/data_structures_algorithms/index.htm";
 export const slugifyDsa = (text) =>
   text
     .toLowerCase()

@@ -1,4 +1,4 @@
-// Original curriculum and examples; topic reference: https://roadmap.sh/ai-engineer
+// Curriculum and practical examples.
 export const aiEngineerStages = [
   {
     id: "foundations",

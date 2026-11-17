@@ -56,7 +56,7 @@ npm ls next react react-dom`,
     "Do not scaffold into this learning site or an existing application you want to preserve. Also do not treat public frontend environment variables as secret storage.",
     "Why run both development and production checks?",
     "They exercise different compilation and rendering paths. Production can reveal prerendering errors, missing environment values, and deployment assumptions not exposed by a visited development route.",
-    "https://nextjs.org/docs/app/getting-started/installation",
+    null,
   ),
   "foundations--app-router": lesson(
     "The App Router maps folders to route segments and special files to rendering responsibilities. A folder can organize code without exposing a screen until a page or route handler is present.",
@@ -84,7 +84,7 @@ lib/
     "Do not mix Pages Router APIs such as getServerSideProps into an App Router page. Follow one router’s data and rendering model within that route.",
     "Does app/courses/helpers.ts create a /courses/helpers page?",
     "No. It is an ordinary module. The segment needs a page file for a UI route or a route file for an HTTP handler.",
-    "https://nextjs.org/docs/app/getting-started/project-structure",
+    null,
   ),
   "foundations--layouts-and-pages": lesson(
     "Layouts provide shared structure around pages. Keeping the shell in a layout lets navigation replace the page region while preserving appropriate shared UI and state.",
@@ -112,7 +112,7 @@ export default function CourseLayout({ children }: { children: ReactNode }) {
     "Do not duplicate html and body in every nested layout or use a layout as the sole place to enforce data authorization. Data access must verify its own permissions.",
     "Where should a search result dependent on searchParams usually be calculated?",
     "In the page or an appropriate child that receives current search parameters. Shared layouts are not a reliable source of freshly changing query values.",
-    "https://nextjs.org/docs/app/getting-started/layouts-and-pages",
+    null,
   ),
   "foundations--navigation": lesson(
     "Link provides framework-aware navigation while retaining anchor semantics. Use programmatic routing when an action needs navigation as part of its outcome.",
@@ -137,7 +137,7 @@ export default function Courses() {
     "Do not use a clickable div for navigation. It loses keyboard, context-menu, and link-opening behavior supplied by an anchor.",
     "When is redirect preferable to a client router call?",
     "When the decision happens in server rendering or a Server Action, such as after a successful authenticated mutation.",
-    "https://nextjs.org/docs/app/getting-started/linking-and-navigating",
+    null,
   ),
   "rendering--server-components": lesson(
     "App Router pages and layouts are Server Components by default. They can prepare UI near server data without shipping their component implementation and server dependencies to the browser.",
@@ -163,7 +163,7 @@ export default async function Courses() {
     "Do not fetch your own Route Handler from a Server Component just to reach the same database. A direct server data function avoids an unnecessary internal HTTP round trip.",
     "Can a Server Component render an interactive Client Component?",
     "Yes. It can render a Client Component with suitable props, keeping the interactive boundary smaller than the whole page.",
-    "https://nextjs.org/docs/app/getting-started/server-and-client-components",
+    null,
   ),
   "rendering--client-components": lesson(
     "A Client Component owns browser interaction, state, and Effects. The use client directive establishes a module boundary; it does not mean the component is rendered only in the browser.",
@@ -191,7 +191,7 @@ export default function Courses() {
     "Adding use client to the root layout to enable one button sends a much broader dependency graph toward the client. Move the boundary to the interactive component.",
     "Is window.localStorage safe in a Client Component’s initial render?",
     "Not automatically. That render may execute during server prerendering. Read browser-only storage at the appropriate browser lifecycle point and plan a stable initial UI.",
-    "https://nextjs.org/docs/app/getting-started/server-and-client-components",
+    null,
   ),
   "rendering--static-rendering": lesson(
     "Static rendering prepares reusable output before a particular user request needs it. It works well for public content with an explicit freshness policy.",
@@ -217,7 +217,7 @@ export default async function Course({ params }: { params: Promise<{ slug: strin
     "Do not embed one user’s private profile in shared static output. User-specific access needs a request-aware boundary and a privacy-safe cache design.",
     "Does async automatically make this page request-rendered?",
     "No. Async syntax alone does not determine when its output is generated. The data, request APIs, and caching configuration determine the rendering work.",
-    "https://nextjs.org/docs/app/api-reference/functions/generate-static-params",
+    null,
   ),
   "rendering--dynamic-rendering": lesson(
     "Dynamic rendering handles information that depends on the incoming request, such as cookies, authorization, or a current uncached result. Keep request-specific work at an intentional boundary.",
@@ -244,7 +244,7 @@ export default function Home() {
     "Do not read cookies inside a shared use cache function. Resolve request information outside the cache scope and design any resulting cache key and privacy boundary explicitly.",
     "Should a theme cookie authorize access to paid lessons?",
     "No. It is user-controlled preference data. Verify identity and permissions through a trusted server-side authentication flow.",
-    "https://nextjs.org/docs/app/api-reference/functions/cookies",
+    null,
   ),
   "rendering--streaming": lesson(
     "Streaming lets ready content reach the browser while slower regions are still preparing. Suspense boundaries express which parts can display a useful fallback independently.",
@@ -273,6 +273,6 @@ export default function Home() {
     "Do not wrap the entire application in one boundary unless an all-or-nothing loading experience is intended. Independently useful regions deserve separate boundaries.",
     "Why would awaiting Recommendation’s data above Suspense defeat this example?",
     "The parent would wait before producing any boundary or fallback. Put the waiting work inside the suspended subtree.",
-    "https://nextjs.org/docs/app/getting-started/fetching-data",
+    null,
   ),
 };

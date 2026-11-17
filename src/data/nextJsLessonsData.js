@@ -34,7 +34,7 @@ export default function Courses() {
     "Do not assume every fetch is cached forever or always uncached in every framework version and mode. Choose and document the actual freshness policy.",
     "How would you avoid a waterfall between independent catalog and category reads?",
     "Start both promises before awaiting them, then await Promise.all or give independently useful regions separate Suspense boundaries.",
-    "https://nextjs.org/docs/app/getting-started/fetching-data",
+    null,
   ),
   "data--caching": lesson(
     "Caching reuses a result under a defined key and freshness policy. Decide what may be shared, for how long, and which changes should invalidate it before adding cache directives.",
@@ -67,7 +67,7 @@ export default async function Courses() {
     "Do not read request cookies in this shared cache scope or cache all users under one key. Authentication and private data need carefully separated boundaries.",
     "Why is router.refresh not equivalent to invalidating public-catalog?",
     "It requests an updated server component payload, but that render can still reuse valid cached server data. Invalidate the relevant server cache when the data changes.",
-    "https://nextjs.org/docs/app/getting-started/caching",
+    null,
   ),
   "data--revalidation": lesson(
     "Revalidation connects successful writes to cached reads. Choose whether readers may briefly see stale data or need the writer’s confirmed result immediately.",
@@ -98,7 +98,7 @@ export async function renameCourse(formData: FormData) {
     "Do not use updateTag in a Route Handler; use the supported tag-revalidation API for that context. Also do not use deprecated single-argument revalidateTag semantics as the default teaching pattern.",
     "Which policy fits a public news feed that may briefly show older content?",
     'Stale-while-revalidate can be appropriate: revalidateTag(tag, "max") lets stale content be served while a fresh result is obtained.',
-    "https://nextjs.org/docs/app/getting-started/revalidating",
+    null,
   ),
   "data--server-actions": lesson(
     "Server Actions let forms and client interactions invoke server-side mutations. Treat every action as a callable server boundary with untrusted input.",
@@ -137,7 +137,7 @@ export default function Plan() {
     "Do not rely on a disabled submit button or hidden action reference as security. The server function must validate each invocation.",
     "Why is the first argument previous state in this example?",
     "useActionState supplies the previous action state before the form payload. An ordinary form action without that Hook has a different argument shape.",
-    "https://nextjs.org/docs/app/getting-started/updating-data",
+    null,
   ),
   "data--optimistic-updates": lesson(
     "An optimistic update displays an intended result before the server confirms it. It needs an explicit pending state, a failure path, and reconciliation with authoritative data.",
@@ -175,7 +175,7 @@ export default function Completion({ save }: { save: (value: boolean) => Promise
     "An ordinary server-defined function is not a serializable client prop. A server parent must supply a supported Server Action, and that action still needs authentication and validation.",
     "When is optimism a poor fit?",
     "When the result is unpredictable or the operation is difficult to reverse, such as a consequential payment. A clear pending state may be more appropriate.",
-    "https://nextjs.org/docs/app/guides/forms",
+    null,
   ),
   "routing--dynamic-segments": lesson(
     "Dynamic segments place resource identifiers into the URL. A segment’s shape determines whether the page receives one string, an array of strings, or an optional array.",
@@ -203,7 +203,7 @@ export default function MissingCourse() {
     "Do not blindly spread a catch-all array into a filesystem path or query. Constrain what each segment is allowed to identify.",
     "What type does [...slug] provide?",
     "A string array representing the captured segments. The optional catch-all form can provide undefined when no segments were supplied.",
-    "https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes",
+    null,
   ),
   "routing--route-groups": lesson(
     "Route groups organize routes or choose layouts without adding their folder name to the URL. Parentheses mark an organizational segment rather than a public path segment.",
@@ -229,7 +229,7 @@ export default function MissingCourse() {
     "Creating (marketing)/about/page.tsx and (workspace)/about/page.tsx does not create two distinct pages. They both resolve to /about and conflict.",
     "How would you change navigation styling without changing course URLs?",
     "Move the course routes under a suitable route group with its own layout, while preserving the same resolved path and avoiding duplicate routes.",
-    "https://nextjs.org/docs/app/api-reference/file-conventions/route-groups",
+    null,
   ),
   "routing--parallel-routes": lesson(
     "Parallel routes render named slots beside the normal children region of a layout. They allow independently routed panels, each with its own loading and error boundaries.",
@@ -256,7 +256,7 @@ export default function DefaultChildren() { return null; }`,
     "Do not assume a slot that remains visible during client navigation will also resolve the same way after a refresh. Test hard-navigation fallbacks.",
     "Does @progress create a /dashboard/progress URL?",
     "No. It is a named slot. URL segments come from the ordinary route folders inside and around the slot.",
-    "https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes",
+    null,
   ),
   "routing--intercepting-routes": lesson(
     "Intercepting routes let a soft navigation display a destination in the current context, such as a course preview overlay, while a direct visit renders the destination’s full page.",
@@ -287,7 +287,7 @@ export default function DefaultChildren() { return null; }`,
     "Do not ship only the overlay route. A shared link or refresh needs a complete destination, and a visually drawn overlay is not automatically an accessible modal.",
     "Why does (.)courses work beneath @modal in this tree?",
     "The @modal slot does not add a route segment, so courses is at the same route level as the slot’s parent context.",
-    "https://nextjs.org/docs/app/api-reference/file-conventions/intercepting-routes",
+    null,
   ),
   "routing--middleware": lesson(
     "In Next.js 16, the middleware file convention was renamed to Proxy. This lesson keeps the existing course title while teaching proxy.ts for early request routing and response decisions.",
@@ -309,6 +309,6 @@ export const config = { matcher: '/old-courses' };`,
     "Do not copy middleware.ts examples without checking the installed framework version. Avoid expensive application queries in an early request boundary when the destination already owns them.",
     "Can this redirect protect the course API from unauthorized calls?",
     "No. It only changes navigation for its matched path. The API must authenticate and authorize independently.",
-    "https://nextjs.org/docs/app/api-reference/file-conventions/proxy",
+    null,
   ),
 };

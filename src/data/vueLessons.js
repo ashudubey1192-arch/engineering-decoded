@@ -8,7 +8,7 @@ const lesson = (intro, concepts, code, walkthrough, mistake, exercise, answer, r
   answer,
   reference,
 });
-const guide = (path) => `https://vuejs.org/guide/${path}.html`;
+const guide = (path) => null;
 
 // Examples target Vue 3 and use Composition API unless explicitly stated otherwise.
 export const vueLessons = {
@@ -50,7 +50,7 @@ export const vueLessons = {
     "An edit made in Devtools is temporary. Fix the source code and reproduce the issue after reloading.",
     "The text updates but the button looks disabled. Which tool comes next?",
     "Inspect the button's disabled property and computed CSS in browser tools. Devtools state alone cannot explain every style or DOM issue.",
-    "https://devtools.vuejs.org/guide/features",
+    null,
   ),
   "welcome--template-syntax": lesson(
     "Templates combine HTML with expressions and directives to describe reactive UI.",
@@ -170,7 +170,7 @@ export const vueLessons = {
     "A variable declared in setup but omitted from the return object is not available to the template in this style.",
     "How does script setup reduce this boilerplate?",
     "Top-level bindings in script setup are automatically available in the template. The compiler generates the component setup structure.",
-    "https://vuejs.org/api/composition-api-setup.html",
+    null,
   ),
   "composition--composables": lesson(
     "A composable packages reusable stateful logic without dictating markup.",
@@ -210,7 +210,7 @@ export const vueLessons = {
     "Macros are only understood in their supported SFC compilation context. Do not copy defineProps into an ordinary JavaScript module.",
     "Is script setup executed once for the entire application?",
     "No. Its component setup logic runs per instance. Ordinary module-level code has a different lifetime and is appropriate for shared definitions.",
-    "https://vuejs.org/api/sfc-script-setup.html",
+    null,
   ),
   "application--forms": lesson(
     "v-model connects native input state to reactive data, while submission remains an explicit action.",
@@ -230,7 +230,7 @@ export const vueLessons = {
     "A client route guard is not server authorization. Also test direct URL loads, not only navigation from the home page.",
     "Why might a refresh on /lessons/7 return 404 after deployment?",
     "The host may look for a physical file at that path. Configure an SPA fallback to index.html while preserving API and asset routes.",
-    "https://router.vuejs.org/guide/",
+    null,
   ),
   "application--state-with-pinia": lesson(
     "Pinia gives shared feature state an explicit home with named actions and derived getters.",
@@ -240,7 +240,7 @@ export const vueLessons = {
     "Pinia does not automatically persist state across reloads. Design persistence deliberately, and do not treat client state as proof of authorization.",
     "Should an input's temporary draft always live in Pinia?",
     "No. Keep state local when only one component owns it. Promote it when several features need a shared lifetime or coordinated updates.",
-    "https://pinia.vuejs.org/core-concepts/",
+    null,
   ),
   "application--data-fetching": lesson(
     "A useful data request has loading, success, empty, and failure states, plus cleanup for obsolete work.",
@@ -260,7 +260,7 @@ export const vueLessons = {
     "Do not expose raw exception details or assume an error boundary catches every independent asynchronous callback. Handle request errors explicitly.",
     "Where should a failed save's validation message appear?",
     "Near the form that initiated the save. Expected operational failures need actionable messages without replacing the whole page.",
-    "https://vuejs.org/api/composition-api-lifecycle.html#onerrorcaptured",
+    null,
   ),
   "advanced--transitions": lesson(
     "Transition coordinates enter and leave effects as Vue adds or removes an element.",
@@ -320,7 +320,7 @@ export const vueLessons = {
     "A large snapshot can pass without proving the important behavior. Prefer targeted assertions and include empty or unusual inputs when meaningful.",
     "Should this test assert the name of a local ref?",
     "No. Local names can change during refactoring without changing the contract. Check what the consumer or user observes.",
-    "https://test-utils.vuejs.org/guide/",
+    null,
   ),
   "testing--user-interaction-tests": lesson(
     "Interaction tests prove that user actions lead to the intended outputs or component events.",
@@ -330,7 +330,7 @@ export const vueLessons = {
     "Calling the component's internal handler directly skips the connection between the rendered button and its event listener.",
     "How would you test that a disabled save button cannot submit?",
     "Assert the disabled state and verify the user interaction does not emit a save. Add a browser-level check when native behavior matters.",
-    "https://test-utils.vuejs.org/guide/essentials/event-handling.html",
+    null,
   ),
   "testing--mocking-requests": lesson(
     "Mock request boundaries to make success and failure scenarios repeatable without a live backend.",
@@ -340,7 +340,7 @@ export const vueLessons = {
     "Testing only success misses most recovery bugs. Add empty arrays, non-OK responses, rejected requests, and obsolete-response scenarios.",
     "How do you simulate an HTTP failure rather than a network failure?",
     "Resolve fetch with ok:false for an HTTP error. Reject the promise for a network error. The component should handle both deliberately.",
-    "https://test-utils.vuejs.org/guide/advanced/http-requests.html",
+    null,
   ),
   "testing--router-tests": lesson(
     "Router integration tests verify navigation and route rendering with a fresh router per test.",
@@ -350,7 +350,7 @@ export const vueLessons = {
     "Sharing one router instance across tests can leak navigation state. A mocked useRouter call cannot prove that the real route table works.",
     "Does memory-history testing validate production refresh behavior?",
     "No. Test direct deep links against the deployed host too, because its fallback rules live outside Vue Router.",
-    "https://test-utils.vuejs.org/guide/advanced/vue-router.html",
+    null,
   ),
   "testing--end-to-end-tests": lesson(
     "End-to-end tests exercise a real browser and the application as a user experiences it.",
@@ -360,7 +360,7 @@ export const vueLessons = {
     "Fixed sleeps make tests slow and flaky. Use observable conditions, and keep destructive test data isolated from production accounts.",
     "What extra coverage does this provide over a component test?",
     "It checks the assembled page in a browser, including navigation and native controls. Backend persistence requires a real save flow and an additional reload assertion.",
-    "https://playwright.dev/docs/intro",
+    null,
   ),
   "production--performance": lesson(
     "Optimize the slow experience you can measure: initial loading, interactions, or large updates.",

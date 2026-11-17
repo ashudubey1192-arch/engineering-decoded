@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     "Do not expose a database mutation just because a handler is server-side. Verify the caller and enforce resource permissions before every protected write.",
     "When would a Route Handler be preferable to a Server Action?",
     "When a consumer needs a stable HTTP endpoint, such as a webhook sender, mobile client, or third-party integration.",
-    "https://nextjs.org/docs/app/getting-started/route-handlers",
+    null,
   ),
   "fullstack--forms": lesson(
     "A useful form combines semantic HTML, server validation, pending feedback, and recoverable results. Native form behavior remains valuable even when the framework handles submission.",
@@ -67,7 +67,7 @@ export default function Plan() {
     "Do not trust input type=number or client constraints as the only validation. A caller can submit a request without using the form.",
     "Why keep a validation message separate from a save confirmation?",
     "Valid input does not prove a database write succeeded. Report exactly which operation completed so users know whether their work is stored.",
-    "https://nextjs.org/docs/app/guides/forms",
+    null,
   ),
   "fullstack--authentication": lesson(
     "Authentication establishes who the caller is; authorization decides what that identity may do. Use a maintained authentication solution and enforce resource-level rules near data access.",
@@ -95,7 +95,7 @@ export async function getMyPlans() {
     "Do not accept a role or user ID from a hidden form field as authority. The server derives identity from the verified session.",
     "Why is checking only in a shared layout insufficient?",
     "Layouts can be reused, and actions or endpoints can be invoked independently. The operation that reads or writes protected data must enforce its own checks.",
-    "https://nextjs.org/docs/app/guides/authentication",
+    null,
   ),
   "fullstack--database-access": lesson(
     "Keep database clients and credentials in server-only modules. A data-access layer should combine safe queries, authorization, and output shaping rather than exposing raw database objects to the browser.",
@@ -128,7 +128,7 @@ export async function renameMyPlan(id: string, title: string) {
     "Do not return an entire user or database record to a Client Component when it only needs a title. Private fields can leak through serialized props.",
     "When would this operation need optimistic concurrency control?",
     "When two editors can overwrite the same plan. Include a version or updated-at condition and handle a conflict instead of silently accepting the last write.",
-    "https://nextjs.org/docs/app/guides/data-security",
+    null,
   ),
   "fullstack--file-uploads": lesson(
     "File uploads need an end-to-end trust and storage design. The browser selects bytes, but the server decides who may upload, which content is acceptable, and how it may later be served.",
@@ -161,7 +161,7 @@ export async function POST(request: Request) {
     "Do not serve arbitrary uploaded HTML from your application origin or accept a MIME declaration as proof that a file is safe.",
     "Why is the post-parse size check not a complete resource limit?",
     "The server may already have received or buffered the body. Configure limits at the hosting or request-processing boundary, or use a controlled direct-upload architecture.",
-    "https://nextjs.org/docs/app/guides/backend-for-frontend",
+    null,
   ),
   "experience--loading-ui": lesson(
     "Loading UI communicates that navigation or data work is still in progress while preserving useful context. Match the fallback to the region that is actually waiting.",
@@ -184,7 +184,7 @@ export default function LoadingCourses() {
     "Do not add artificial delays to production just to make a skeleton visible. The goal is responsive output, not a loading animation on every visit.",
     "Why might loading.tsx fail to cover a slow query in its parent layout?",
     "That work occurs above the automatically created boundary. Move the waiting region below an appropriate Suspense boundary or restructure the layout.",
-    "https://nextjs.org/docs/app/api-reference/file-conventions/loading",
+    null,
   ),
   "experience--error-handling": lesson(
     "Separate expected outcomes from unexpected failures. Validation and missing resources deserve intentional UI; unexpected rendering failures need a recovery boundary and safe diagnostics.",
@@ -214,7 +214,7 @@ export default function CourseError({ error, reset }: {
     "Do not display raw server stack traces or secret-bearing messages to users. Log safely on the server and present a useful, limited explanation.",
     "Does this error boundary catch every failure from a button’s async handler?",
     "No. Handle ordinary event-handler and asynchronous failures at their operation boundary, updating local error state or using the appropriate framework action flow.",
-    "https://nextjs.org/docs/app/getting-started/error-handling",
+    null,
   ),
   "experience--images": lesson(
     "next/image helps deliver appropriately sized images while reserving layout space. Good source assets, responsive sizing, and meaningful alternative text remain your responsibility.",
@@ -239,7 +239,7 @@ export default function Home() {
     "Do not use a decorative image’s filename as its alt text. Describe its relevant meaning, or use empty alt text when it is genuinely decorative.",
     "Why include sizes when CSS makes the image responsive?",
     "It informs resource selection so the browser can download a suitable candidate instead of assuming an unnecessarily large display width.",
-    "https://nextjs.org/docs/app/api-reference/components/image",
+    null,
   ),
   "experience--fonts": lesson(
     "next/font integrates font loading with the application build and stylesheet system. Use a small deliberate font set and verify layout behavior rather than adding many families and weights.",
@@ -265,7 +265,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     "Do not load the same font through both next/font and a separate external stylesheet. Duplicate loading can waste bandwidth and complicate behavior.",
     "Why might a local font be preferable in a restricted CI environment?",
     "The build can use the checked-in asset without fetching font files from a remote service, making that part of the build reproducible.",
-    "https://nextjs.org/docs/app/getting-started/fonts",
+    null,
   ),
   "experience--metadata-and-seo": lesson(
     "Metadata describes a page to browsers, search engines, and sharing tools. Pair it with readable content, semantic headings, and a deliberate URL policy.",
@@ -294,6 +294,6 @@ export default function Courses() { return <main><h1>Your courses</h1></main>; }
     "Do not ship the same generic title and description on every distinct public page or leave example.com as the production canonical origin.",
     "Can robots.txt protect a private course plan?",
     "No. It communicates crawling preferences. The server must restrict access to the data itself.",
-    "https://nextjs.org/docs/app/getting-started/metadata-and-og-images",
+    null,
   ),
 };

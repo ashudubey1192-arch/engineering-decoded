@@ -32,7 +32,6 @@ export function roadmap(config) {
   let hours = 0;
   return {
     ...config,
-    source: `https://roadmap.sh/${config.id}`,
     checked: "October 8, 2026",
     stages: config.stages.map((item) => {
       const start = Math.floor(hours / 8) + 1;

@@ -61,12 +61,6 @@ export default function NextJsLesson({ slug }) {
             <p>{content.answer}</p>
           </details>
         </div>
-        <p className="reactReference">
-          Go deeper:{" "}
-          <a href={content.reference} target="_blank" rel="noopener noreferrer">
-            Official documentation ↗
-          </a>
-        </p>
       </section>
     </div>
   );

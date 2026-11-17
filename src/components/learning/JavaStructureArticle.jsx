@@ -104,39 +104,6 @@ export default function JavaStructureArticle({ lessonSlug }) {
           <li>Explain worst-case versus expected or amortized cost, and production trade-offs.</li>
         </ol>
       </section>
-      <section>
-        <h2>Java API references</h2>
-        <ul>
-          {[
-            "LinkedList",
-            "Deque",
-            "ArrayDeque",
-            "Queue",
-            "PriorityQueue",
-            "HashMap",
-            "Hashtable",
-            "LinkedHashMap",
-          ].map((name) => (
-            <li key={name}>
-              <a
-                href={`https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/${name}.html`}
-              >
-                {name} — Java 21 API
-              </a>
-            </li>
-          ))}
-          <li>
-            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingQueue.html">
-              BlockingQueue — Java 21 API
-            </a>
-          </li>
-          <li>
-            <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html">
-              ConcurrentHashMap — Java 21 API
-            </a>
-          </li>
-        </ul>
-      </section>
     </div>
   );
 }

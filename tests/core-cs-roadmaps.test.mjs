@@ -5,7 +5,7 @@ import { interviewLessons, makeInterviewCourse } from "../src/data/interviewCour
 import { osRoadmapContent } from "../src/data/osRoadmapContent.js";
 import { networkRoadmapContent } from "../src/data/networkRoadmapContent.js";
 
-// Independent totals and section sizes from the public roadmaps checked 2026-10-18.
+// Curriculum totals and section sizes established 2026-10-18.
 const expected = {
   "core-cs/operating-systems": { total:153, sizes:[2,6,5,7,10,11,8,8,7,11,9,14,14,10,9,11,11], content:osRoadmapContent },
   "core-cs/computer-networks": { total:111, sizes:[2,2,5,7,9,11,9,12,8,9,8,10,10,9], content:networkRoadmapContent },
@@ -27,7 +27,8 @@ for (const [key, spec] of Object.entries(expected)) {
       for (const source of section.chapters) {
         const article=rendered.lessons.find(a=>a.roadmap.id===source.id);
         assert.equal(article.title,source.title);
-        assert.equal(article.roadmap.source,source.source);
+        assert.ok(!("source" in article.roadmap));
+        assert.ok(!("source" in source));
         assert.ok(article.lab.visual);
         assert.ok(article.lab.concept.length>200,source.id);
         for (const field of ["scenario","mistake","question","answer","challenge"]) assert.ok(article.lab[field].length>20,`${source.id}: ${field}`);

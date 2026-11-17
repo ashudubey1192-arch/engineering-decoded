@@ -3,12 +3,18 @@
 import { stateLessons } from "./reactLessonsState.js";
 import { applicationLessons } from "./reactLessonsApplication.js";
 import { advancedLessons } from "./reactLessonsAdvanced.js";
+import { internalsLessons } from "./reactLessonsInternals.js";
+import { storeLessons } from "./reactLessonsStore.js";
+import { featureLessons } from "./reactLessonsFeatures.js";
 import { lesson } from "./reactLessonSchema.js";
 
 export const reactLessons = {
   ...stateLessons,
   ...applicationLessons,
   ...advancedLessons,
+  ...internalsLessons,
+  ...storeLessons,
+  ...featureLessons,
   "welcome--course-introduction": lesson(
     "Build a small course planner while learning how React turns data into an interactive interface. By the end, you will be able to design components, manage state, load data, test behavior, and prepare an application for release.",
     [
@@ -75,7 +81,7 @@ npm run preview`,
     "Do not run the scaffolding command inside an existing application you want to keep. Frontend environment variables are public build inputs, so they cannot hold secret credentials.",
     "Why test both npm run dev and npm run build?",
     "Development prioritizes rapid feedback. A production build bundles and optimizes the app and can reveal import or build configuration failures that an unvisited development route never exposed.",
-    "https://vite.dev/guide/",
+    null,
   ),
   "react-foundations--what-is-react": lesson(
     "React is a library for describing user interfaces with components. A component combines a rendering function with inputs, and React coordinates updates when those inputs or its state change.",
@@ -118,7 +124,7 @@ createRoot(document.getElementById('root')).render(
     "Use hydrateRoot when attaching to matching server-rendered React HTML. createRoot is for a client root and can replace existing contents.",
     "Where should a second card be added: another root or inside App?",
     "Inside App for a normal single application. Multiple roots are useful for independently embedded widgets, not for every reusable component.",
-    "https://react.dev/reference/react-dom/client/createRoot",
+    null,
   ),
   "react-foundations--react-project-structure": lesson(
     "Organize files around clear responsibilities so a feature can grow without becoming a collection of unrelated imports. Begin small and separate code when there is a reason to reuse or maintain it independently.",
@@ -166,7 +172,7 @@ export default function App() {
     "Avoid network requests, DOM mutations, or state updates performed unconditionally during rendering. Rendering describes UI; event handlers and Effects handle work at the appropriate time.",
     "If a component renders again, must every DOM node be recreated?",
     "No. React reconciles the descriptions and can reuse existing DOM nodes, applying only the changes needed for the committed output.",
-    "https://react.dev/learn/render-and-commit",
+    null,
   ),
   "react-foundations--declarative-ui": lesson(
     "Declarative UI describes what the screen should look like for a given state. Instead of coordinating individual DOM edits, model the state and derive the visible content from it.",
@@ -212,7 +218,7 @@ export default function InspectableCounter() {
     "Console logging alone can be misleading under StrictMode. A render log is not proof that React committed a visible DOM change.",
     "The label is wrong but the DOM matches the rendered text. What should you inspect next?",
     "Inspect the component props and state, then trace their owner. The defect is likely in the data or rendering expression rather than the browser DOM.",
-    "https://react.dev/learn/react-developer-tools",
+    null,
   ),
   "jsx-and-components--understanding-jsx": lesson(
     "JSX is a syntax extension that lets JavaScript describe nested UI. It resembles HTML, but expressions, attributes, and component names follow JavaScript and React rules.",
@@ -237,7 +243,7 @@ export default function InspectableCounter() {
     'Writing title="course.title" passes literal text. Use title={course.title} to evaluate the property. Render {course.title}, not the entire course object.',
     "How would you display twice the number of lessons?",
     "Use {course.lessons * 2} in a text position. JSX braces accept the multiplication expression and React renders the resulting number.",
-    "https://react.dev/learn/writing-markup-with-jsx",
+    null,
   ),
   "jsx-and-components--functional-components": lesson(
     "A function component receives props and returns renderable output. Its job is to describe a small, coherent part of the interface while staying pure during rendering.",
@@ -258,7 +264,7 @@ export default function Catalog() {
     "Defining CourseCard inside Catalog creates a new component type on each render and can reset child state. Define reusable component functions at module scope.",
     "Make CourseCard render nothing when its title is missing.",
     "Add if (!title) return null before the normal return. If the component later uses Hooks, keep those Hook calls before any conditional return.",
-    "https://react.dev/learn/your-first-component",
+    null,
   ),
   "jsx-and-components--props": lesson(
     "Props carry information from a parent to a child. They are read-only snapshots for a render and may contain strings, objects, JSX, or callback functions.",
@@ -284,7 +290,7 @@ export default function App() {
     "Do not assign to props.title or push into a received array. Mutations make state ownership unclear and can prevent expected updates.",
     "How can a card request deletion without owning the list?",
     "Accept onDelete and call it with the card ID. The parent updates its list state and passes the resulting data back down.",
-    "https://react.dev/learn/passing-props-to-a-component",
+    null,
   ),
   "jsx-and-components--component-composition": lesson(
     "Composition builds larger interfaces by nesting smaller components. A wrapper can provide structure and styling while its caller supplies the content through children or named JSX props.",
@@ -360,6 +366,6 @@ export default function CourseList() {
     "Array indexes can associate state with the wrong item after reordering. Random keys force remounts on every render. Neither is a substitute for stable identity.",
     "A new course is inserted first. Why is its index a poor key?",
     "Every following index shifts. React may reuse an existing component and its input state for a different course, because the position-based key now identifies different data.",
-    "https://react.dev/learn/rendering-lists",
+    null,
   ),
 };

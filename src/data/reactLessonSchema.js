@@ -7,7 +7,7 @@ export function lesson(
   mistake,
   exercise,
   answer,
-  reference = "https://react.dev/learn",
+  reference = null,
 ) {
   return { intro, concepts, code, walkthrough, flow, mistake, exercise, answer, reference };
 }

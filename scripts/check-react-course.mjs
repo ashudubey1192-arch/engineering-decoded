@@ -8,7 +8,7 @@ import { reactLessons } from "../src/data/reactLessons.js";
 // Check content coverage and render each real route entry, not just the shared reader.
 assert.equal(Object.keys(reactLessons).length, reactArticles.length);
 const server = await createServer({
-  server: { middlewareMode: true },
+  optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false },
   appType: "custom",
 });
 let compiled = 0;
@@ -24,7 +24,7 @@ try {
     }
     assert.equal(content.concepts.length, 3, `${article.slug}: missing concepts`);
     assert.equal(content.flow.length, 3, `${article.slug}: missing visual`);
-    assert.ok(content.reference.startsWith("https://"));
+    assert.equal(content.reference, null);
     const path = `/src/components/frontend/react/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`;
     const { default: Article } = await server.ssrLoadModule(path);
     const markup = renderToStaticMarkup(createElement(Article));

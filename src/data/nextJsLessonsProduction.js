@@ -30,7 +30,7 @@ test('rejects an overlong title', () => expect(normalizeTitle('x'.repeat(121))).
     "Do not duplicate the production implementation inside the test and then test the duplicate. Import the code used by the application.",
     "Why not render an async page directly in a basic Vitest component test?",
     "The framework’s async Server Component execution model is not fully represented by that setup. Test its pure helpers separately and verify the complete route in a suitable integration or browser environment.",
-    "https://nextjs.org/docs/app/guides/testing/vitest",
+    null,
   ),
   "quality--integration-testing": lesson(
     "Integration tests verify that cooperating parts honor a boundary contract. Choose the boundary deliberately: a handler plus validation can be tested in-process, while routing, cookies, and deployment behavior require a running framework.",
@@ -63,7 +63,7 @@ test('returns a normalized valid title', async () => {
     "Mocking POST itself would remove the behavior these tests are meant to verify. Replace external dependencies only where needed.",
     "What does this test not prove about /api/validate-plan?",
     "It does not prove the deployed URL is reachable or that runtime infrastructure behaves correctly. A running-app smoke test covers that layer.",
-    "https://nextjs.org/docs/app/guides/testing",
+    null,
   ),
   "quality--end-to-end-testing": lesson(
     "End-to-end tests verify critical workflows in a real browser against a running Next.js application. Include direct navigation and refresh because server routing and client navigation have different entry paths.",
@@ -96,7 +96,7 @@ test('catalog is reachable by link and reload', async ({ page }) => {
     "A passing local test does not prove a host’s base path, CDN, or environment configuration is correct. Repeat a focused smoke check in the deployed test environment.",
     "Why cover both soft navigation and a reload for intercepted routes?",
     "Soft navigation can show an overlay while a direct reload should show the canonical page. Both behaviors are part of the routing contract.",
-    "https://nextjs.org/docs/app/guides/testing/playwright",
+    null,
   ),
   "quality--accessibility": lesson(
     "Accessible Next.js applications need semantic content and intentional handling of dynamic navigation. Server rendering does not automatically provide keyboard behavior, readable labels, or sensible focus.",
@@ -124,7 +124,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     "Do not remove outlines or replace links with generic elements just to match a design. Styling should preserve the control’s underlying behavior.",
     "What should happen when a course preview dialog closes?",
     "Focus should return to a sensible control, normally the link that opened it, and the background should become operable again.",
-    "https://nextjs.org/docs/architecture/accessibility",
+    null,
   ),
   "quality--security": lesson(
     "Security boundaries follow data and operations, not visual component boundaries. Treat server entry points as callable interfaces and browser-provided values as untrusted.",
@@ -153,7 +153,7 @@ export function safeReturnPath(raw: unknown): string {
     "Do not assume use server means only your own page can invoke an action, or that a hidden field can safely identify the current user.",
     "Does hiding an admin link stop unauthorized API calls?",
     "No. Visibility is a usability concern; the server independently checks identity and resource permissions for every protected operation.",
-    "https://nextjs.org/docs/app/guides/data-security",
+    null,
   ),
   "production--performance": lesson(
     "Measure the complete user experience: server latency, transferred JavaScript, image delivery, hydration, and browser rendering. Optimize the bottleneck that actually limits a task.",
@@ -187,7 +187,7 @@ export default function Report() { return <h2>Your study report</h2>; }`,
     "Do not set ssr: false merely to hide hydration mistakes. Fix inconsistent rendering, and reserve browser-only rendering for a justified dependency or feature.",
     "When would deferring a component make the experience worse?",
     "When it is essential to the initial task and the first interaction now waits on an avoidable chunk load. Defer optional work, not blindly every visible region.",
-    "https://nextjs.org/docs/app/guides/lazy-loading",
+    null,
   ),
   "production--observability": lesson(
     "Observability explains whether users can complete the workflows a release promises. Correlate safe diagnostics, request timings, and release versions across server and client boundaries.",
@@ -218,7 +218,7 @@ export async function measured<T>(operation: string, run: () => Promise<T>, repo
     "Do not swallow a failed save because it was logged. The caller still needs the failure to show a recoverable state.",
     "What should you compare when failures rise after deployment?",
     "Compare release IDs, affected routes, response statuses, and timings using safe test data, then reproduce the failing path and add a targeted regression check.",
-    "https://nextjs.org/docs/app/guides/instrumentation",
+    null,
   ),
   "production--environment-variables": lesson(
     "Environment variables configure an application across local, test, and production environments. Understand which values remain on the server and which are embedded into browser code.",
@@ -248,7 +248,7 @@ export function databaseUrl() {
     "Renaming a private key with NEXT_PUBLIC_ does not make integration easier safely; it publishes the value to browser code. Rotate any credential that has already been exposed.",
     "Will changing NEXT_PUBLIC_SUPPORT_LABEL after building always change an existing browser bundle?",
     "No. Public values are typically embedded at build time. Rebuild or design an explicit runtime public-configuration mechanism when that behavior is required.",
-    "https://nextjs.org/docs/app/guides/environment-variables",
+    null,
   ),
   "production--deployment": lesson(
     "Deploy the runtime your application actually requires. Server rendering, Server Actions, image optimization, and static export do not all have the same hosting needs.",
@@ -277,7 +277,7 @@ npm run start
     "Do not publish only static files from an application that depends on runtime server handlers. A successful build does not prove the selected hosting mode supports those features.",
     "Why test a direct dynamic URL after deployment?",
     "The first request reaches the host before client navigation runs. It exposes route handling, prerendered-path, and runtime configuration problems.",
-    "https://nextjs.org/docs/app/getting-started/deploying",
+    null,
   ),
   "production--architecture": lesson(
     "A maintainable Next.js architecture makes server boundaries, feature ownership, and data contracts visible. Route conventions should organize the application without forcing all business logic into page files.",
@@ -313,6 +313,6 @@ tests/
     "Do not import a server database module through a shared barrel used by Client Components. Keep server-only boundaries explicit so accidental imports fail clearly.",
     "Where should invalidation for a renamed public course be decided?",
     "At the mutation boundary after the durable write succeeds, using tags and paths that reflect all affected readers. Keep this policy close to the feature’s data contract.",
-    "https://nextjs.org/docs/app/guides/data-security",
+    null,
   ),
 };

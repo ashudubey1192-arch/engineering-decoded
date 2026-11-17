@@ -1,5 +1,4 @@
-import { lesson as L, tsDoc } from "./webLessonSchema.js";
-const handbook = (path) => tsDoc(`handbook/2/${path}.html`);
+import { lesson as L } from "./webLessonSchema.js";
 export const typescriptLessons = {
   "foundations--why-typescript": L(
     "TypeScript checks JavaScript programs before execution by describing the values their code expects.",
@@ -28,7 +27,7 @@ export const typescriptLessons = {
     "Do not interpret a type assertion or annotation as a runtime conversion. JavaScript callers and network responses can still supply invalid values.",
     'If an API sends "5" as a string, does annotating it number convert it?',
     "No. Validate and explicitly convert it at the boundary. Types describe assumptions; runtime code must establish those assumptions for external data.",
-    tsDoc("handbook/typescript-from-scratch.html"),
+    null,
   ),
   "foundations--compiler-setup": L(
     "A TypeScript project needs compiler settings aligned with its runtime or bundler.",
@@ -57,7 +56,7 @@ export const typescriptLessons = {
     "Do not copy Bundler resolution into every Node project. Declaring DOM APIs does not make document exist in a server runtime.",
     "Why run a type-check command even if the dev server already runs TypeScript files?",
     "Many dev tools transpile without performing full type checking. A separate compiler pass checks cross-file contracts before release.",
-    tsDoc("tsconfig/"),
+    null,
   ),
   "foundations--primitive-types": L(
     "Primitive annotations describe ordinary JavaScript values without changing their runtime representation.",
@@ -86,7 +85,7 @@ export const typescriptLessons = {
     "A number annotation does not guarantee finite, positive, or integer values. These are additional domain constraints requiring runtime checks.",
     "Can minutes hold NaN or 2.5 under the number type?",
     "Yes. Use Number.isFinite, Number.isInteger, and range checks where those restrictions are required.",
-    handbook("everyday-types"),
+    null,
   ),
   "foundations--arrays-and-tuples": L(
     "Arrays describe repeated element types; tuples describe a fixed positional structure.",
@@ -115,7 +114,7 @@ export const typescriptLessons = {
     "Do not use a tuple when callers are likely to forget what several positions mean; an object with named fields may be clearer.",
     "Would readonly [string, number] automatically call Object.freeze at runtime?",
     "No. Readonly is a type-system restriction on that reference. Runtime immutability requires a separate implementation choice.",
-    handbook("objects"),
+    null,
   ),
   "foundations--type-inference": L(
     "Type inference derives useful types from values and context so code does not need redundant annotations.",
@@ -144,7 +143,7 @@ export const typescriptLessons = {
     "Do not force broad any types when inference is already useful. An empty array or complex branch may need an intentional annotation.",
     'Why can status = "published" succeed while config.mode = "wide" fails?',
     "status is inferred as mutable string. config uses a const assertion, making mode readonly with the specific literal type compact.",
-    handbook("everyday-types"),
+    null,
   ),
   "modeling--type-aliases": L(
     "A type alias gives a reusable name to a type expression without creating a new runtime object.",
@@ -173,7 +172,7 @@ export const typescriptLessons = {
     "A type alias is erased at runtime and cannot be used as a constructor or validator. Names alone do not create nominally distinct types.",
     "Can you call new Lesson() after declaring this alias?",
     "No. Lesson exists only in the type system. Create an object or a real factory function to produce runtime values.",
-    handbook("everyday-types"),
+    null,
   ),
   "modeling--interfaces": L(
     "Interfaces describe object contracts that values and classes can implement structurally.",
@@ -202,7 +201,7 @@ export const typescriptLessons = {
     "implements or an interface annotation does not inject fields at runtime. The actual object must still provide the values.",
     "What type do you need to consider when reading lesson.summary?",
     "It may be string or undefined. Narrow or provide a fallback before using string-only operations.",
-    handbook("objects"),
+    null,
   ),
   "modeling--unions": L(
     "A union describes a value that may belong to one of several alternatives.",
@@ -231,7 +230,7 @@ export const typescriptLessons = {
     "Do not assert away a union just to call a method. Prove the relevant case with a runtime check.",
     "Why is id.toUpperCase() unsafe before the conditional?",
     "A number has no such method. The union requires code to handle all possible inputs or narrow to the string alternative first.",
-    handbook("everyday-types"),
+    null,
   ),
   "modeling--intersections": L(
     "An intersection requires a value to satisfy multiple contracts at the same time.",
@@ -260,7 +259,7 @@ export const typescriptLessons = {
     "Do not confuse union alternatives with intersection requirements. A & B does not mean either A or B.",
     "What happens to { value:string } & { value:number }?",
     "The value property would have to satisfy both string and number, yielding an impossible never property. Resolve the conflicting model instead of casting around it.",
-    handbook("objects"),
+    null,
   ),
   "modeling--literal-types": L(
     "Literal types restrict a value to specific strings, numbers, or booleans that represent valid choices.",
@@ -289,7 +288,7 @@ export const typescriptLessons = {
     "A literal type does not validate a string received from a server. Check external values before treating them as Status.",
     "How would you add a scheduled status safely?",
     "Extend the union, update every relevant decision, and use exhaustive handling where all statuses need a branch. Add runtime validation for the new value too.",
-    handbook("everyday-types"),
+    null,
   ),
   "functions--function-types": L(
     "A function type describes the arguments a callable accepts and the result it returns.",
@@ -318,7 +317,7 @@ export const typescriptLessons = {
     "Do not use the broad Function type when you know the signature. It loses useful argument and result checking.",
     "What should happen if a formatter returns a number instead?",
     "It is incompatible with this string-returning contract. Return a string or change the public contract intentionally.",
-    handbook("functions"),
+    null,
   ),
   "functions--optional-parameters": L(
     "Optional and default parameters describe which arguments a caller may omit.",
@@ -347,7 +346,7 @@ export const typescriptLessons = {
     "Defaults do not apply to null. With strict null checking, null must be explicitly allowed if it is a valid input.",
     'Does greet("Ada", "") use the default Hello?',
     "No. The empty string is supplied and is not undefined, so the result is comma-space followed by Ada.",
-    handbook("functions"),
+    null,
   ),
   "functions--overloads": L(
     "Overloads describe distinct call signatures when the return type depends on the accepted input form.",
@@ -376,7 +375,7 @@ export const typescriptLessons = {
     "The implementation signature is not an extra public overload. A string | string[] variable may need its own overload or narrowing before a call.",
     "Why is one known to be a string rather than string | string[]?",
     "The public overload selected by its argument correlates a string input with a string output. The broad implementation handles both cases internally.",
-    handbook("functions"),
+    null,
   ),
   "functions--rest-parameters": L(
     "Rest parameters collect a variable number of arguments into a typed array or tuple.",
@@ -405,7 +404,7 @@ export const typescriptLessons = {
     "A general (string | number)[] does not prove it contains exactly the two arguments label requires. Avoid casting an arbitrary array into a tuple.",
     "What does total() return with no arguments?",
     "It returns zero because the rest array is empty and reduce has an explicit zero initial value.",
-    handbook("functions"),
+    null,
   ),
   "functions--this-types": L(
     "An explicit this parameter describes the receiver a normal function requires when called.",
@@ -434,7 +433,7 @@ export const typescriptLessons = {
     "Do not count this as a real runtime argument. Passing planner as the first ordinary argument does not set the receiver.",
     'Why is describe(planner, "!") not the correct standalone call?',
     'The this parameter is erased and not part of the ordinary argument list. Use describe.call(planner, "!") or a bound function.',
-    handbook("functions"),
+    null,
   ),
   "generics--generic-functions": L(
     "A generic function preserves a relationship between input and output types across many callers.",
@@ -463,7 +462,7 @@ export const typescriptLessons = {
     "A generic does not guarantee a nonempty array. Avoid claiming a T return when the implementation can produce undefined.",
     "What type and value result from first<number>([])?",
     "The static type is number | undefined and the runtime value is undefined. The explicit type argument does not create an element.",
-    handbook("generics"),
+    null,
   ),
   "generics--constraints": L(
     "A generic constraint states the minimum capability the implementation needs while retaining the caller’s more specific type.",
@@ -492,7 +491,7 @@ export const typescriptLessons = {
     "Do not use a constraint as a reason to manufacture an arbitrary T from scratch. T may have extra required fields you do not know.",
     "Does the returned value still expose minutes to the caller?",
     "Yes. T preserves the input’s specific shape and the result adds label rather than reducing the value to only its constraint.",
-    handbook("generics"),
+    null,
   ),
   "generics--generic-interfaces": L(
     "A generic interface describes a reusable container or service whose member types depend on a chosen parameter.",
@@ -521,7 +520,7 @@ export const typescriptLessons = {
     "A readonly return type does not deep-freeze objects inside a repository. Design copying and mutation ownership separately.",
     "Can titles.save(42) type-check?",
     "No. This repository is fixed to strings. Create a number repository or a deliberate union repository if both are valid.",
-    handbook("generics"),
+    null,
   ),
   "generics--generic-classes": L(
     "Generic classes bind an instance’s fields and methods to a selected element type.",
@@ -550,7 +549,7 @@ export const typescriptLessons = {
     "TypeScript private is primarily a compile-time access restriction; JavaScript # fields provide runtime private names. Choose the mechanism intentionally.",
     "Why does dequeue return T | undefined instead of T?",
     "The queue may be empty. The union forces callers to handle that state instead of assuming a value exists.",
-    handbook("generics"),
+    null,
   ),
   "generics--default-type-parameters": L(
     "Default type parameters make a common generic choice optional while preserving an explicit override.",
@@ -579,7 +578,7 @@ export const typescriptLessons = {
     "Do not default external payloads to any, which permits unchecked access. A default type is not a default runtime value.",
     "Does ApiResponse create a data object when none is provided?",
     "No. It is only a type declaration. Required runtime fields must be supplied by actual code.",
-    handbook("generics"),
+    null,
   ),
   "narrowing--type-guards": L(
     "Type guards use runtime evidence to narrow a broad static type within a control-flow branch.",
@@ -608,7 +607,7 @@ export const typescriptLessons = {
     "Do not return true after checking only that a value is an object if the predicate claims additional fields. The compiler trusts your predicate contract.",
     "What should isLesson({title:42}) return?",
     "False. The field exists but has the wrong runtime type, so it must not enter the Lesson branch.",
-    handbook("narrowing"),
+    null,
   ),
   "narrowing--discriminated-unions": L(
     "A discriminated union models distinct states with a shared literal field that identifies each alternative.",
@@ -637,7 +636,7 @@ export const typescriptLessons = {
     "Do not replace the model with status:string and every payload optional. That loses the relationship between state and available data.",
     'Can {status:"success"} satisfy LoadState without titles?',
     "No. The success variant requires titles. A discriminated union makes that missing payload a type error.",
-    handbook("narrowing"),
+    null,
   ),
   "narrowing--assertion-functions": L(
     "An assertion function stops execution when a condition is false and narrows the type when it returns.",
@@ -666,7 +665,7 @@ export const typescriptLessons = {
     "An assertion signature with an empty body is unsound. Do not use assertions to bypass expected validation and error recovery.",
     "What happens for uppercase(42)?",
     "The assertion throws Expected text before the string method runs. Callers must handle that failure according to the application contract.",
-    handbook("narrowing"),
+    null,
   ),
   "narrowing--unknown-and-never": L(
     "unknown represents an unproven value; never represents a value or path that cannot exist under the current type model.",
@@ -695,7 +694,7 @@ export const typescriptLessons = {
     "Do not replace unknown with any simply to silence errors. never is not a general empty placeholder for missing data; use null or undefined when those are real values.",
     "Why can a never-returning branch fit inside a number-returning function?",
     "It never produces a conflicting normal value. Every successful return still produces a number.",
-    handbook("narrowing"),
+    null,
   ),
   "narrowing--exhaustiveness": L(
     "Exhaustive handling makes newly added union cases visible as compile-time work instead of silent fallthrough.",
@@ -724,7 +723,7 @@ export const typescriptLessons = {
     "A default branch returning a generic label can hide forgotten cases. Use a never check when every alternative deserves explicit behavior.",
     "Add archived to Status without changing label. What should happen?",
     "The assertNever call becomes a type error because status can still be archived in the default branch. Add the corresponding case.",
-    handbook("narrowing"),
+    null,
   ),
   "advanced--keyof-and-typeof": L(
     "keyof extracts allowed property names, while typeof in a type position captures the static type of an existing value.",
@@ -753,7 +752,7 @@ export const typescriptLessons = {
     "Do not confuse type operators with runtime reflection. A server response cannot be validated merely by declaring typeof a sample object.",
     "If a typescript property is added to durations, must Topic be manually edited?",
     "No. Topic is derived from the object type and updates automatically. Runtime data still needs its own validation.",
-    handbook("keyof-types"),
+    null,
   ),
   "advanced--indexed-access": L(
     "Indexed access types retrieve a member type from another type without repeating its declaration.",
@@ -782,7 +781,7 @@ export const typescriptLessons = {
     "Do not broaden key to any string when only known keys are valid. A key constraint prevents unsupported indexing.",
     'What is Lesson["title" | "minutes"]?',
     "It is string | number because either selected property type is possible.",
-    handbook("indexed-access-types"),
+    null,
   ),
   "advanced--mapped-types": L(
     "Mapped types transform a set of property keys into a related object type.",
@@ -811,7 +810,7 @@ export const typescriptLessons = {
     "Do not assume mapped types recursively transform nested objects. The simple examples here affect only one object level.",
     "Would Readonly<{meta:{title:string}}> make meta.title readonly too?",
     "No. It makes the meta property readonly, but the nested object’s title remains mutable through its own type unless separately transformed.",
-    handbook("mapped-types"),
+    null,
   ),
   "advanced--conditional-types": L(
     "Conditional types select a type result based on whether another type satisfies a relationship.",
@@ -840,7 +839,7 @@ export const typescriptLessons = {
     "Do not expect a conditional type to branch over actual values at runtime. Complex recursive types can become difficult to understand and slow to check.",
     "What does ElementOf<readonly number[]> produce?",
     "It produces number because the pattern accepts readonly arrays and infers their element type.",
-    handbook("conditional-types"),
+    null,
   ),
   "advanced--template-literal-types": L(
     "Template literal types construct string patterns from literal parts and unions.",
@@ -869,7 +868,7 @@ export const typescriptLessons = {
     "Do not confuse a template literal type with a runtime template string. The type generates no event dispatcher or string parser.",
     "How many combinations result from two topics and three action literals?",
     "Six combinations, assuming each topic can pair with every action. Use a more precise union if some combinations are invalid.",
-    handbook("template-literal-types"),
+    null,
   ),
   "ecosystem--declaration-files": L(
     "Declaration files describe the type surface of JavaScript that exists elsewhere.",
@@ -898,7 +897,7 @@ export const typescriptLessons = {
     "A broad declare module stub can turn a missing contract into any and hide errors. Keep declarations accurate and test them against the implementation.",
     "Will creating duration.d.ts make a missing duration.js import work at runtime?",
     "No. Declarations only inform tooling. The runtime module must exist and export the promised function.",
-    tsDoc("handbook/declaration-files/introduction.html"),
+    null,
   ),
   "ecosystem--module-resolution": L(
     "Module resolution tells TypeScript how to find the files and declarations named by imports.",
@@ -927,7 +926,7 @@ export const typescriptLessons = {
     "A project can type-check while failing to load a path alias at runtime. Do not assume compiler paths alone configure Node.",
     "Why might an import work in a bundler but fail when emitted JavaScript runs directly in Node?",
     "The environments can differ in extension rules, aliases, and package resolution. Align compiler settings and emitted paths with the actual loader.",
-    tsDoc("handbook/modules/reference.html"),
+    null,
   ),
   "ecosystem--project-references": L(
     "Project references divide a larger TypeScript codebase into explicit buildable units.",
@@ -956,7 +955,7 @@ export const typescriptLessons = {
     "Do not point every package at every other package. Cyclic or overly connected boundaries undermine the value of a project graph.",
     "Does a project reference automatically make an arbitrary import alias work in production?",
     "No. Runtime packaging and module resolution still need to agree with the import path. References primarily coordinate type checking and builds.",
-    tsDoc("handbook/project-references.html"),
+    null,
   ),
   "ecosystem--javascript-migration": L(
     "TypeScript migration can proceed incrementally while keeping the existing JavaScript application working.",
@@ -985,7 +984,7 @@ export const typescriptLessons = {
     "Do not rename the whole codebase and suppress every error with any. That creates work without gaining much reliability.",
     "Which module would be a good first migration candidate?",
     "A pure, well-tested module with clear inputs and outputs provides quick feedback. Network boundaries are also valuable once runtime validation is explicit.",
-    tsDoc("handbook/migrating-from-javascript.html"),
+    null,
   ),
   "ecosystem--library-typing": L(
     "A library’s type declarations are part of its public API and should support realistic consumer usage.",
@@ -1014,7 +1013,7 @@ export const typescriptLessons = {
     "Do not advertise types that differ from runtime behavior or expose private build paths consumers cannot resolve.",
     "Why is Lesson | undefined a better return contract than Lesson here?",
     "A lookup can fail. Modeling absence forces callers to handle it instead of trusting an assertion that the implementation cannot guarantee.",
-    tsDoc("handbook/declaration-files/publishing.html"),
+    null,
   ),
   "production--strict-configuration": L(
     "Strict checking makes assumptions about missing values and callable contracts visible during development.",
@@ -1043,7 +1042,7 @@ export const typescriptLessons = {
     "Non-null assertions can make a strict project look clean while preserving runtime bugs. Use them only when an external invariant is actually guaranteed.",
     "Does strict alone enable noUncheckedIndexedAccess?",
     "No. Enable it separately when you want indexed reads to reflect potentially missing values.",
-    tsDoc("tsconfig/"),
+    null,
   ),
   "production--error-design": L(
     "Typed error models make expected failures part of the function contract instead of hidden control flow.",
@@ -1072,7 +1071,7 @@ export const typescriptLessons = {
     "Do not return a success object containing an undefined value to represent failure. Keep the result alternatives distinct and complete.",
     "How should a UI distinguish invalid input from a server outage?",
     "Model separate failure categories or channels and provide different recovery actions. Do not collapse every failure into one ambiguous message.",
-    handbook("narrowing"),
+    null,
   ),
   "production--runtime-validation": L(
     "Runtime validation turns external unknown values into domain values whose static types can be trusted.",
@@ -1101,7 +1100,7 @@ export const typescriptLessons = {
     "Do not replace this boundary with value as Lesson. Assertions do not inspect data or reject invalid payloads.",
     'Why check Number.isFinite after typeof minutes === "number"?',
     "NaN and Infinity are numbers in JavaScript but are not meaningful finite durations. Domain validity is stricter than the primitive type.",
-    handbook("narrowing"),
+    null,
   ),
   "production--testing": L(
     "A TypeScript test strategy checks both runtime behavior and the intended static API contract.",
@@ -1130,7 +1129,7 @@ export const typescriptLessons = {
     "Do not assume running Vitest or another transpiling runner also runs tsc. Keep a separate type-check command in the verification workflow.",
     "Would types catch an implementation that returns value * 3 instead?",
     "No. The return type is still number. A runtime test with a concrete expected result catches that behavioral mistake.",
-    tsDoc("handbook/release-notes/typescript-3-9.html"),
+    null,
   ),
   "production--architecture-practices": L(
     "TypeScript architecture is strongest when types follow domain boundaries and runtime trust is explicit.",
@@ -1159,6 +1158,6 @@ export const typescriptLessons = {
     "Do not share raw API payload types everywhere if the transport and domain evolve independently. Avoid interfaces that simply mirror every implementation detail.",
     "Build a typed lesson planner with an API parser, state union, and tests. What should each layer guarantee?",
     "The parser validates unknown input, the domain models valid lessons, the state union represents loading and failure explicitly, and tests cover both runtime outcomes and rejected type usage.",
-    handbook("objects"),
+    null,
   ),
 };

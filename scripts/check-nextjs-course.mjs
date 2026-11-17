@@ -6,7 +6,7 @@ import { nextJsArticles } from "../src/data/frontendCourses.js";
 import { nextJsLessons } from "../src/data/nextJsLessons.js";
 
 assert.equal(Object.keys(nextJsLessons).length, nextJsArticles.length);
-const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
 let snippets = 0;
 try {
   for (const article of nextJsArticles) {
@@ -20,7 +20,7 @@ try {
     }
     assert.equal(content.concepts.length, 3);
     assert.equal(content.flow.length, 3);
-    assert.ok(content.reference.startsWith("https://"));
+    assert.equal(content.reference, null);
     const path = `/src/components/frontend/next-js/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`;
     const { default: Article } = await server.ssrLoadModule(path);
     const markup = renderToStaticMarkup(createElement(Article));

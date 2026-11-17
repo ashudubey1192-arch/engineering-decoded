@@ -617,18 +617,3 @@ export const javaNetworkSections = [
       time,
     })),
 }));
-
-export const javaNetworkReferences = [
-  [
-    "Java 21 TreeMap API",
-    "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/TreeMap.html",
-  ],
-  [
-    "Java 21 Socket API",
-    "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/net/Socket.html",
-  ],
-  [
-    "Java 21 HttpClient API",
-    "https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html",
-  ],
-];

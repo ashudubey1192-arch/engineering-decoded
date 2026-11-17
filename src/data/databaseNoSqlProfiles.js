@@ -2,7 +2,7 @@ import { profile, lab } from "./databaseLessonProfiles.js";
 
 export const databaseNoSqlProfiles = {
   mongodb: profile(
-    "https://www.mongodb.com/docs/manual/",
+    null,
     "Model an order as a MongoDB document and test operations with mongosh. Single-document atomicity, replica-set transactions, and sharding are distinct capabilities.",
     `
 MongoDB stores BSON documents in collections. Its flexible structure supports aggregates such as an order with bounded line items, while validation still matters.
@@ -70,7 +70,7 @@ Rehearse elections, restores, and partial bulk-write recovery. Document which re
     ],
   ),
   cassandra: profile(
-    "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/intro.html",
+    null,
     "Use Cassandra CQL to model events by tenant and day. Query patterns, bounded partitions, consistency levels, and repair are central; CQL is not interchangeable with relational SQL.",
     `
 Cassandra is a distributed wide-column database designed around partition-key access. Model tables for known queries rather than expecting arbitrary joins.
@@ -138,7 +138,7 @@ Schedule repair, test node replacement, and document retention/TTL behavior. Ali
     ],
   ),
   redis: profile(
-    "https://redis.io/docs/latest/develop/data-types/",
+    null,
     "Use Redis commands for expiring sessions, counters, and ordered data. Redis is memory-oriented; persistence, replication, eviction, and atomic command semantics must be chosen explicitly.",
     `
 Redis serves key-oriented data structures such as strings, hashes, sets, sorted sets, and streams. Choose the structure according to required operations, not JSON familiarity.
@@ -206,7 +206,7 @@ Document whether Redis is disposable or authoritative, then rehearse the corresp
     ],
   ),
   influxdb: profile(
-    "https://docs.influxdata.com/influxdb3/core/",
+    null,
     "Use InfluxDB 3 Core concepts for timestamped sensor data. Line protocol is the ingestion example; do not mix InfluxDB 1.x/2.x Flux and bucket administration with this version's APIs.",
     `
 InfluxDB stores time-series observations for time-bounded analysis. This course targets InfluxDB 3 Core; product versions differ in APIs, deployment, and query language support.

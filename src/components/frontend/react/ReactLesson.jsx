@@ -1,6 +1,9 @@
 import { useEffect, useId, useState } from "react";
 import { reactLessons } from "../../../data/reactLessons";
+import ReactMotion from "./ReactMotion";
+import PracticeLab from "./ReactPracticeLabs";
 import "./css/ReactLesson.css";
+import "./css/ReactPractice.css";
 
 function SnapshotDemo() {
   const [count, setCount] = useState(0);
@@ -302,6 +305,7 @@ export default function ReactLesson({ slug }) {
           </ol>
           <p className="diagramCaption">{content.flow.join(" → ")}</p>
         </figure>
+        {content.animation && <ReactMotion key={slug} animation={content.animation} />}
       </section>
       <section id="example">
         <h2>2. Worked example</h2>
@@ -315,6 +319,27 @@ export default function ReactLesson({ slug }) {
         <h3>Walk through the result</h3>
         <p>{content.walkthrough}</p>
         <LessonDemo key={slug} slug={slug} />
+        <PracticeLab key={`lab-${slug}`} slug={slug} />
+        {content.deepDive?.map((part) => (
+          <div className="reactDeepDive" key={part.heading}>
+            <h3>{part.heading}</h3>
+            {part.paragraphs?.map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+            {part.points && (
+              <ul>
+                {part.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            )}
+            {part.code && (
+              <pre tabIndex={0} aria-label={`${part.heading} code`}>
+                <code>{part.code}</code>
+              </pre>
+            )}
+          </div>
+        ))}
       </section>
       <section id="mistakes">
         <h2>3. Common mistakes</h2>
@@ -333,12 +358,6 @@ export default function ReactLesson({ slug }) {
             <p>{content.answer}</p>
           </details>
         </div>
-        <p className="reactReference">
-          Go deeper:{" "}
-          <a href={content.reference} target="_blank" rel="noopener noreferrer">
-            Official documentation ↗
-          </a>
-        </p>
       </section>
     </div>
   );

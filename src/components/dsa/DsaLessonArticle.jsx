@@ -1,7 +1,6 @@
 import { runDsaAlgorithm } from "../../data/dsaAlgorithms.js";
 import { dsaAlgorithmSources } from "../../data/dsaAlgorithmSources.js";
 import { dsaLessons, getDsaLesson } from "../../data/dsaLessons.js";
-import { dsaReference } from "../../data/dsaLessonSchema.js";
 import { javaArrayTraces } from "../../data/javaArrayTraces.js";
 import DsaVisualizer from "./DsaVisualizer.jsx";
 import JavaAlgorithmGuide from "./JavaAlgorithmGuide.jsx";
@@ -192,33 +191,6 @@ export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
             <h3>Apply it in a project</h3>
             <p>{lesson.project}</p>
           </aside>
-        )}
-        {lesson.references ? (
-          <div className="dsaReference">
-            <h3>Official Java references</h3>
-            <ul>
-              {lesson.references.map((reference) => (
-                <li key={reference.url}>
-                  <a href={reference.url} target="_blank" rel="noreferrer">
-                    {reference.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p>
-              Explanations, examples, and practice material are original. Java behavior is
-              referenced against Java SE 21 documentation.
-            </p>
-          </div>
-        ) : (
-          <p className="dsaReference">
-            Curriculum reference:{" "}
-            <a href={dsaReference} target="_blank" rel="noreferrer">
-              TutorialsPoint — Data Structures and Algorithms
-            </a>
-            . Explanations, implementations, and visual traces on this page are original teaching
-            material.
-          </p>
         )}
       </section>
     </div>

@@ -23,7 +23,7 @@ if (toolingRoot) {
 }
 
 assert.equal(Object.keys(angularLessons).length, angularArticles.length);
-const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
 let parsedSnippets = 0;
 let parsedTemplates = 0;
 try {
@@ -38,7 +38,7 @@ try {
     }
     assert.equal(content.concepts.length, 3, `${article.slug}: missing concepts`);
     assert.equal(content.flow.length, 3, `${article.slug}: missing visual`);
-    assert.ok(content.reference.startsWith("https://"));
+    assert.equal(content.reference, null);
     const entry = `/src/components/frontend/angular/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`;
     const { default: Article } = await server.ssrLoadModule(entry);
     const markup = renderToStaticMarkup(createElement(Article));

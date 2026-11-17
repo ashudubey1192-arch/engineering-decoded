@@ -35,7 +35,7 @@ const designLabs = (system, model, operation, performance, reliability, producti
 
 export const databaseHybridProfiles = {
   "hybrid-database-fundamentals": profile(
-    "https://docs.cockroachlabs.com/docs/stable/architecture/overview",
+    null,
     "Hybrid database is an architectural category, not a universal engine or query language. Follow an order service with an authoritative relational store and a derived analytical/search view.",
     `
 A hybrid design combines capabilities or storage paths for different workloads. Define the combination explicitly rather than assuming the label guarantees strong consistency everywhere.
@@ -79,7 +79,7 @@ Document the source of truth, replay contract, freshness objective, and reconcil
     ),
   ),
   "distributed-sql": profile(
-    "https://docs.cockroachlabs.com/docs/stable/architecture/overview",
+    null,
     "Study a range-sharded, consensus-replicated SQL architecture using CockroachDB as a concrete reference. Vendor SQL compatibility, isolation, and operational controls must be checked individually.",
     `
 Distributed SQL combines a relational interface with distributed storage and transactions. SQL compatibility does not remove network coordination or locality costs.
@@ -123,7 +123,7 @@ Rehearse one-node and one-region failures according to the intended topology. Do
     ),
   ),
   "multi-model-databases": profile(
-    "https://docs.arango.ai/arangodb/stable/concepts/data-models/",
+    null,
     "Explore documents, graphs, and key lookups in one database through a product-neutral catalog design. ArangoDB documentation is a concrete reference; examples below are model and query-design exercises, not portable commands.",
     `
 Multi-model databases expose more than one logical model. Shared infrastructure may simplify operations, but capabilities and transaction scope differ across products.
@@ -167,7 +167,7 @@ Document model boundaries, maximum traversal depth, and integrity checks. Includ
     ),
   ),
   "htap-databases": profile(
-    "https://docs.pingcap.com/tidb/stable/tiflash-overview/",
+    null,
     "HTAP combines transactional processing and analytical queries. Use a row-oriented order path and a columnar analytical replica as the teaching architecture; TiDB/TiFlash is a concrete implementation to investigate.",
     `
 HTAP aims to serve operational writes and analytical reads over related data. The key questions are freshness, isolation, resource interference, and operational complexity.

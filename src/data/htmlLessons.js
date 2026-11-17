@@ -1,5 +1,4 @@
-import { lesson as L, mdn } from "./webLessonSchema.js";
-const html = (path) => mdn(`Web/HTML/${path}`);
+import { lesson as L } from "./webLessonSchema.js";
 export const htmlLessons = {
   "getting-started--how-the-web-uses-html": L(
     "HTML gives a web page meaning before CSS styles it or JavaScript adds behavior.",
@@ -28,7 +27,7 @@ export const htmlLessons = {
     "Do not use HTML solely as empty containers for scripts. Missing semantics make navigation, indexing, and resilient loading harder.",
     "Save this as index.html, open it, and disable JavaScript. Which content and actions remain?",
     "The heading, paragraph, and normal link remain available. The destination needs its own lessons.html file or server route; a link does not create that page.",
-    html("Reference/Elements"),
+    null,
   ),
   "getting-started--document-structure": L(
     "A predictable document skeleton separates page metadata from visible content.",
@@ -57,7 +56,7 @@ export const htmlLessons = {
     "Do not put visible article content in head or confuse title with h1. Avoid disabling pinch zoom in the viewport declaration.",
     "Change the title and h1 to different strings. Where does each appear?",
     "The title appears in the browser tab and may be used by search results. The h1 appears in the page and its heading navigation structure.",
-    html("Reference/Elements/html"),
+    null,
   ),
   "getting-started--elements-and-attributes": L(
     "Elements identify a kind of content; attributes configure that element or add metadata.",
@@ -86,7 +85,7 @@ export const htmlLessons = {
     "Do not repeat IDs or nest interactive controls, such as a button inside a link. Removing a boolean attribute is different from setting its text to false.",
     "Make the button available, then click the Topic label. What changes?",
     "Remove disabled entirely to enable the button. Clicking the label focuses the input because its for value matches the input ID.",
-    html("Reference/Attributes"),
+    null,
   ),
   "getting-started--text-and-headings": L(
     "Text elements communicate structure and emphasis independently of font size.",
@@ -115,7 +114,7 @@ export const htmlLessons = {
     "Do not choose h4 merely because it looks smaller or use repeated br elements for spacing. These choices distort structure.",
     "Add Week two and a CSS layout subsection. Which heading levels fit?",
     "Week two is another h2 alongside Week one. CSS layout is an h3 within Week two. CSS should handle the visual spacing and font sizes.",
-    html("Reference/Elements/Heading_Elements"),
+    null,
   ),
   "getting-started--comments-and-entities": L(
     "Comments document source intent; character references display characters that would otherwise be markup.",
@@ -144,7 +143,7 @@ export const htmlLessons = {
     "Do not put secrets in comments or insert many nonbreaking spaces to align columns. Use CSS layout for alignment.",
     "Display the literal text A < B & C in a paragraph without creating markup.",
     "Write A &lt; B &amp; C between the paragraph tags. The browser displays the symbols while keeping the content a single text node.",
-    mdn("Glossary/Character_reference"),
+    null,
   ),
   "content--semantic-html": L(
     "Semantic elements describe the role of content so readers and tools can understand the page.",
@@ -173,7 +172,7 @@ export const htmlLessons = {
     "Replacing every div with section adds noise if the wrappers are only for layout. Avoid multiple visible main regions.",
     "Would a reusable product card always need an article element?",
     "Only when it is a meaningful self-contained composition. A layout wrapper can remain a div; the content responsibility should determine the element.",
-    html("Reference/Elements"),
+    null,
   ),
   "content--links-and-navigation": L(
     "A real hyperlink gives users navigation, context menus, keyboard support, and a shareable destination.",
@@ -202,7 +201,7 @@ export const htmlLessons = {
     'Do not replace links with clickable divs or use href="#" for actions. Generic text such as click here hides the destination.',
     "Add a link from a lesson to its exercise section. What must match?",
     'Use href="#exercise" and assign id="exercise" to the target section. The ID must be unique and exactly match the fragment.',
-    html("Reference/Elements/a"),
+    null,
   ),
   "content--images-and-figures": L(
     "Images need an appropriate text alternative and predictable space in the document.",
@@ -231,7 +230,7 @@ export const htmlLessons = {
     "Avoid file names as alt text and do not omit alt on meaningful images. Long diagrams may also need a nearby extended description.",
     "How would the markup differ for a purely decorative flourish?",
     'Use alt="" so it does not add noise to the reading order. Keep dimensions when useful for layout, and do not give it a misleading descriptive caption.',
-    html("Reference/Elements/img"),
+    null,
   ),
   "content--lists": L(
     "Lists express related items, ordered procedures, or term-and-description relationships.",
@@ -260,7 +259,7 @@ export const htmlLessons = {
     "Do not simulate lists with bullet characters and br elements. Do not place a nested ul directly beside li elements when it belongs within an item.",
     "Create a packing checklist and a three-step installation procedure. Which list types fit?",
     "Use ul for independent checklist items and ol for installation steps. The choice reflects whether changing the order changes the meaning.",
-    html("Reference/Elements/ol"),
+    null,
   ),
   "content--tables": L(
     "Tables describe data whose meaning depends on relationships between rows and columns.",
@@ -289,7 +288,7 @@ export const htmlLessons = {
     "A visually bold td is not a header. Do not remove table semantics with presentation roles just to solve a styling issue.",
     "Add a JavaScript row with 60 minutes. Which cell should be a row header?",
     'JavaScript belongs in th scope="row"; 60 belongs in td. The column header Minutes continues to identify the measurement.',
-    html("Reference/Elements/table"),
+    null,
   ),
   "forms--form-structure": L(
     "A form groups controls into a submission with an explicit destination and method.",
@@ -318,7 +317,7 @@ export const htmlLessons = {
     "An input without name is not included as a normal named field. GET query strings are visible in URLs and should not carry sensitive values.",
     'Remove name="q" and submit. Why does the server no longer receive the search term?',
     "The ID still labels the control, but the serialization key is missing. Restore name to include the term in the request.",
-    html("Reference/Elements/form"),
+    null,
   ),
   "forms--input-types": L(
     "Choose an input type that matches the data and the interaction users need.",
@@ -347,7 +346,7 @@ export const htmlLessons = {
     "A number input is not a universal numeric keyboard. Phone numbers and account identifiers are usually strings, not quantities.",
     "Design a quantity field and a telephone field. Which types fit?",
     "Use number with suitable min and step for quantity, and tel for telephone. Validate business rules on the server regardless of browser controls.",
-    html("Reference/Elements/input"),
+    null,
   ),
   "forms--labels-and-fieldsets": L(
     "Labels identify individual controls; fieldsets and legends explain a related group.",
@@ -376,7 +375,7 @@ export const htmlLessons = {
     "Placeholder text disappears and is not a replacement for a label. Different names would make these radios independent groups.",
     "Add an Afternoon option. Which attribute must match the others?",
     "Its name must remain time so only one option is selected. Give it a distinct value and visible label identifying Afternoon.",
-    html("Reference/Elements/fieldset"),
+    null,
   ),
   "forms--native-validation": L(
     "Native constraints catch common input mistakes before a normal form submission.",
@@ -405,7 +404,7 @@ export const htmlLessons = {
     "A previously set custom validity message must be cleared when the value becomes valid. Do not assume browser validation proves a request is safe.",
     "Try a sessions value of 9, then 3. What changes?",
     "Nine exceeds max and triggers rangeOverflow. Three is within range, though all other controls must also be valid before submission succeeds.",
-    html("Guides/Constraint_validation"),
+    null,
   ),
   "forms--accessible-forms": L(
     "An accessible form connects instructions, errors, and recovery to the affected control.",
@@ -434,7 +433,7 @@ export const htmlLessons = {
     "Red borders alone do not explain a failure. Do not erase all user input after a failed submission or leave aria-invalid true after correction.",
     "What should happen to the error text when the address is fixed?",
     "Remove or update the error, clear aria-invalid, and keep only existing description IDs. Confirm the result with keyboard and screen-reader testing.",
-    mdn("Learn_web_development/Extensions/Forms"),
+    null,
   ),
   "media--audio-and-video": L(
     "Native media elements provide playback controls, while alternatives make their information available more widely.",
@@ -463,7 +462,7 @@ export const htmlLessons = {
     "A track element does not create captions; the WebVTT file must exist and be accurate. Fallback text alone is not a full transcript.",
     "How would you support learners who cannot hear the audio?",
     "Provide accurate synchronized captions and a transcript. Include meaningful non-speech sounds, not only dialogue.",
-    html("Reference/Elements/video"),
+    null,
   ),
   "media--responsive-images": L(
     "Responsive image markup lets the browser select an appropriate source for the display context.",
@@ -492,7 +491,7 @@ export const htmlLessons = {
     "Do not label a 400-pixel file as 800w or make sizes disagree with the actual layout. These mistakes can waste bandwidth or blur images.",
     "When is picture preferable to merely adding more srcset widths?",
     "Use picture when the composition should change, such as a close crop on narrow screens, or when offering alternate formats with fallback.",
-    html("Guides/Responsive_images"),
+    null,
   ),
   "media--iframes": L(
     "An iframe embeds a separate browsing context with its own document and security boundary.",
@@ -521,7 +520,7 @@ export const htmlLessons = {
     "Do not grant every sandbox capability without a reason. Combining allow-scripts and allow-same-origin for same-origin content can undermine the sandbox.",
     "Why might an interactive widget stop working in this frame?",
     "The empty sandbox blocks scripting and other capabilities. Add only the specific permissions the trusted widget needs after reviewing its behavior.",
-    html("Reference/Elements/iframe"),
+    null,
   ),
   "media--svg-basics": L(
     "SVG describes shapes in a scalable coordinate system and keeps those shapes as document elements.",
@@ -550,7 +549,7 @@ export const htmlLessons = {
     "A shape is not automatically a button. If SVG is interactive, implement keyboard access and clear names, or use native controls around it.",
     "What happens when the rendered width is reduced to 200?",
     "The diagram becomes smaller while preserving its coordinate relationships. The viewBox remains unchanged and maps into the new viewport.",
-    mdn("Web/SVG/Tutorials/SVG_from_scratch"),
+    null,
   ),
   "media--canvas-basics": L(
     "Canvas is a drawing surface whose pixels are controlled by script rather than individual shape elements.",
@@ -579,7 +578,7 @@ export const htmlLessons = {
     "Changing CSS size alone can blur the drawing. Do not assume pixels provide accessible names or keyboard targets for chart data.",
     "How many pixels should the foreground use for 75 percent progress?",
     "Use 225 of the 300 pixels and update the accessible text to 75 percent. Visual and textual representations should remain consistent.",
-    mdn("Web/API/Canvas_API/Tutorial"),
+    null,
   ),
   "accessibility--landmarks": L(
     "Landmarks help users jump between major page regions without traversing every link and paragraph.",
@@ -608,7 +607,7 @@ export const htmlLessons = {
     "Multiple unnamed navigation regions are difficult to distinguish. Do not add redundant role attributes when native semantics already provide the intended role.",
     'Should every paragraph receive role="region"?',
     "No. Landmarks should represent major regions. Excessive regions make navigation noisy and less useful.",
-    mdn("Web/Accessibility/ARIA/Reference/Roles/landmark_role"),
+    null,
   ),
   "accessibility--heading-hierarchy": L(
     "A heading hierarchy acts as a readable outline for both visual readers and assistive technology.",
@@ -637,7 +636,7 @@ export const htmlLessons = {
     "Do not use a bold paragraph as a heading or skip levels to get a particular font size. Inspect the heading list independently of appearance.",
     "Add a subsection called Grid placement inside Grid. Which level should it use?",
     "Use h4 because Grid is h3. A later peer topic under Layout should return to h3.",
-    html("Reference/Elements/Heading_Elements"),
+    null,
   ),
   "accessibility--keyboard-navigation": L(
     "Keyboard users need a logical focus order, visible focus, and controls that operate without a pointer.",
@@ -666,7 +665,7 @@ export const htmlLessons = {
     "Do not remove outlines without a replacement or use tabindex to compensate for a scrambled DOM. Custom widgets require explicit keyboard behavior.",
     "Test the page using only Tab, Shift+Tab, Enter, and Space. What should you record?",
     "Check that every action is reachable, focus remains visible, the order makes sense, and no component traps focus unexpectedly.",
-    mdn("Web/HTML/Reference/Global_attributes/tabindex"),
+    null,
   ),
   "accessibility--aria-fundamentals": L(
     "ARIA describes roles, names, and states when native HTML alone does not express the interaction.",
@@ -695,7 +694,7 @@ export const htmlLessons = {
     'Adding role="button" to a div does not supply button behavior. An incorrect ARIA state can be more misleading than no enhancement.',
     "What breaks if the script updates hidden but never aria-expanded?",
     "Visual users see the panel change while assistive technology receives a stale state. Update both from the same source of truth.",
-    mdn("Web/Accessibility/ARIA"),
+    null,
   ),
   "accessibility--accessibility-testing": L(
     "Accessibility testing combines automated checks with manual interaction and content review.",
@@ -724,7 +723,7 @@ export const htmlLessons = {
     "A passing automated audit is not an accessibility guarantee. Do not test only the initial page while ignoring dialogs, errors, and loading states.",
     "Write a reproducible report for a save button that cannot be reached by keyboard.",
     "Include the route, initial state, Tab sequence, observed focus behavior, and expected reachable control. Retest the same sequence after the fix.",
-    mdn("Learn_web_development/Core/Accessibility/Tooling"),
+    null,
   ),
   "browser--metadata": L(
     "Metadata describes the document to browsers and other consumers without becoming its main visible content.",
@@ -753,7 +752,7 @@ export const htmlLessons = {
     "Duplicating one generic title across all pages weakens orientation. Do not promise content in metadata that the page does not provide.",
     "Write a distinct title and description for a CSS Grid lesson.",
     "Use a title such as CSS Grid layout | Study desk and a description naming rows, columns, and placement examples. Keep both aligned with the actual lesson.",
-    html("Reference/Elements/meta"),
+    null,
   ),
   "browser--favicons-and-manifests": L(
     "Icons identify a site in browser surfaces; a web app manifest describes selected app-like presentation details.",
@@ -782,7 +781,7 @@ export const htmlLessons = {
     "Do not label a manifest as an offline cache. A service worker and an explicit caching strategy are separate concerns.",
     "What must change when hosting the application under /academy/?",
     "Review start_url, scope if supplied, and icon paths so they resolve to the intended deployment. Root-relative paths still begin at the origin root.",
-    mdn("Web/Progressive_web_apps/Manifest"),
+    null,
   ),
   "browser--data-attributes": L(
     "data-* attributes attach small application-specific values to existing elements.",
@@ -811,7 +810,7 @@ export const htmlLessons = {
     "Do not store credentials in data attributes or assume dataset values are already numbers. Styling hooks should not become accidental authorization rules.",
     "What property reads data-course-name, and what type does it return?",
     "dataset.courseName returns a string when the attribute exists. A missing attribute yields undefined, so handle that case before using it.",
-    html("How_to/Use_data_attributes"),
+    null,
   ),
   "browser--loading-scripts": L(
     "Script loading strategy affects when parsing pauses and when code can safely use document elements.",
@@ -840,7 +839,7 @@ export const htmlLessons = {
     "Do not assume async scripts execute in source order. Avoid placing dependencies in separate async scripts that expect each other to exist.",
     "Two classic scripts depend on source order and need the DOM. Which attribute fits?",
     "Use defer on both external scripts and keep their dependency order in the document. Alternatively, express dependencies with module imports.",
-    html("Reference/Elements/script"),
+    null,
   ),
   "browser--seo-fundamentals": L(
     "Search-friendly HTML makes the page understandable, discoverable, and consistent with its URL.",
@@ -869,7 +868,7 @@ export const htmlLessons = {
     "Do not invent a canonical URL that points to a different topic. Replace example.com with the actual public origin before publishing.",
     "Why is an empty page with an excellent description still a poor result?",
     "Metadata cannot replace useful, accessible content. Users and crawlers need the actual explanation and navigable relationships between pages.",
-    "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+    null,
   ),
   "patterns--article-page": L(
     "An article page needs a clear topic, reading structure, and meaningful supporting metadata.",
@@ -898,7 +897,7 @@ export const htmlLessons = {
     "Do not promote every paragraph into a section or use headings only for visual emphasis. Keep the reading order meaningful without CSS.",
     "Add a References section and a code example. Which elements would you use?",
     "Use a section with h2 for References and a list of links. Use pre containing code for a multiline code example, escaping markup characters.",
-    html("Reference/Elements/article"),
+    null,
   ),
   "patterns--application-shell": L(
     "An application shell separates persistent navigation from the changing page content.",
@@ -927,7 +926,7 @@ export const htmlLessons = {
     "A new route should not leave keyboard focus in a removed element. Do not duplicate main every time a view is mounted.",
     "Where should a skip link lead after navigating to another lesson?",
     "It should still target the single main region, whose content now represents the new lesson. Keep the target ID stable across routes.",
-    html("Reference/Elements/main"),
+    null,
   ),
   "patterns--navigation-menu": L(
     "Most website navigation is a list of links, optionally revealed by a disclosure button.",
@@ -956,7 +955,7 @@ export const htmlLessons = {
     'Do not hide all navigation in baseline HTML and rely on a script that may never load. Avoid role="menu" unless implementing its full interaction contract.',
     "What should happen when JavaScript is disabled?",
     "The links should remain directly usable. The example deliberately enhances a working list instead of making navigation depend on the toggle script.",
-    html("Reference/Elements/nav"),
+    null,
   ),
   "patterns--dialog-markup": L(
     "The native dialog element provides a foundation for modal interactions with browser-managed behavior.",
@@ -985,7 +984,7 @@ export const htmlLessons = {
     "Do not simulate modality with only a high z-index. A custom overlay must also handle focus, keyboard dismissal, and background interaction.",
     "Why is setting the open attribute not equivalent to showModal()?",
     "The open attribute displays a nonmodal dialog. showModal additionally establishes modal top-layer behavior and background inertness.",
-    html("Reference/Elements/dialog"),
+    null,
   ),
   "patterns--reusable-templates": L(
     "The template element stores inert markup that scripts can clone into the live document.",
@@ -1014,7 +1013,7 @@ export const htmlLessons = {
     "Appending the original template content consumes its children. Clone it for repeated use, and avoid duplicated IDs across instances.",
     "How would you render three lessons without emptying the template?",
     "Clone template.content separately for each lesson, populate that clone, then append it. The original fragment remains available for the next iteration.",
-    html("Reference/Elements/template"),
+    null,
   ),
   "production--validation-and-debugging": L(
     "HTML debugging starts by comparing intended structure, source markup, and the DOM the browser actually created.",
@@ -1043,7 +1042,7 @@ export const htmlLessons = {
     "Do not assume View Source and the Elements panel show identical structures. DOM mutations and parser recovery can explain differences.",
     "A CSS selector p > div never matches the invalid example. Why?",
     "The browser has repaired the markup so the div is no longer a child of the paragraph. Correct the HTML rather than increasing CSS specificity.",
-    "https://validator.w3.org/nu/",
+    null,
   ),
   "production--performance": L(
     "Efficient HTML helps the browser discover important resources early and avoid unnecessary layout shifts.",
@@ -1072,7 +1071,7 @@ export const htmlLessons = {
     "High priority on every resource removes the intended distinction. Measure a real page under constrained network and CPU conditions.",
     "Which image should you avoid lazy-loading when it dominates the first screen?",
     "The main above-the-fold content image should normally load eagerly. Confirm the effect using network and performance tools rather than relying on the attribute alone.",
-    mdn("Web/Performance/Guides/Lazy_loading"),
+    null,
   ),
   "production--security-considerations": L(
     "HTML security depends on keeping untrusted content from becoming executable markup or unsafe navigation.",
@@ -1101,7 +1100,7 @@ export const htmlLessons = {
     "Do not switch to innerHTML merely to preserve formatting. Never assume client-side validation prevents direct malicious requests.",
     "What additional work is needed if comments intentionally support rich HTML?",
     "Define allowed markup and URL schemes, sanitize with a maintained solution, and apply server-side validation and an appropriate CSP. Avoid homemade string replacements.",
-    mdn("Web/Security/Attacks/XSS"),
+    null,
   ),
   "production--progressive-enhancement": L(
     "Progressive enhancement starts with useful native behavior and adds convenience when capabilities are available.",
@@ -1130,7 +1129,7 @@ export const htmlLessons = {
     "The /search endpoint must exist; markup alone does not implement search. Do not preventDefault before establishing a working alternative.",
     "How would you verify the baseline before adding live suggestions?",
     "Disable JavaScript and submit a query. Confirm results are returned by the server, then enable the enhancement and test failures as well as success.",
-    mdn("Glossary/Progressive_Enhancement"),
+    null,
   ),
   "production--html-best-practices": L(
     "Production HTML should remain understandable, operable, and maintainable beyond its initial visual design.",
@@ -1159,6 +1158,6 @@ export const htmlLessons = {
     "Avoid treating validation, accessibility, and performance as cosmetic cleanup. They influence markup choices from the start.",
     "Build a capstone article page with a table, image, and search form. What should your review cover?",
     "Check heading order, table headers, image alternatives and dimensions, labels and names, real link destinations, keyboard use, and the server form endpoint. Validate and inspect the rendered DOM.",
-    html("Reference/Elements"),
+    null,
   ),
 };

@@ -22,7 +22,7 @@ export class StudyProgress {
     "Do not put a temporary disclosure toggle or single-field draft into a global store merely because a store exists. Local ownership reduces coupling.",
     "How would you reset this component’s progress?",
     "Call done.set(0). remaining is computed, so it does not need a reset operation of its own.",
-    "https://angular.dev/guide/signals",
+    null,
   ),
   "state-management--shared-service-state": lesson(
     "Shared service state gives multiple consumers one coordinated owner. The state is shared only among consumers resolving the same provider instance.",
@@ -48,7 +48,7 @@ export class StudyGoal {
     "Exposing a mutable object through a readonly signal does not make the object immutable. Avoid in-place nested updates and expose domain methods for changes.",
     "Why might two components inject the same class yet show different values?",
     "A nearer provider can create separate instances. Inspect component and route providers before assuming signal updates failed.",
-    "https://angular.dev/guide/di/hierarchical-dependency-injection",
+    null,
   ),
   "state-management--signals": lesson(
     "Signals hold values and notify tracked consumers when those values change. Angular can track a signal read in a template or computed calculation to connect changes with the relevant consumers.",
@@ -70,7 +70,7 @@ console.info(courses()[0].complete); // true
     "Calling courses().push(...) changes an array without notifying through the signal API. Return a new array from update instead.",
     "Does a signal replace every observable in an Angular application?",
     "No. A signal is useful for current state, while observables express asynchronous streams and operators such as debouncing and cancellation.",
-    "https://angular.dev/guide/signals",
+    null,
   ),
   "state-management--computed-state": lesson(
     "computed derives a readonly signal from other reactive values. It keeps related display values consistent without manually synchronizing additional writable state.",
@@ -92,7 +92,7 @@ console.info(weeklyHours(), message()); // 6, Keep planning`,
     "Using an Effect to write weeklyHours creates avoidable synchronization. Prefer computed when one value is fully determined by others.",
     "Can the consumer call weeklyHours.set(20)?",
     "No. A computed signal is readonly. Change the source signals or redesign ownership if the total needs to be independently editable.",
-    "https://angular.dev/guide/signals",
+    null,
   ),
   "state-management--effects": lesson(
     "An Effect performs side work in response to tracked signal changes. Use it to synchronize with an external system when a pure computed value is not enough.",
@@ -120,7 +120,7 @@ export class App {
     "Do not update a dependency in an Effect without a carefully justified model; feedback loops and extra work can result. Keep derived state computed.",
     "Why capture sessions() before starting the timer?",
     "The synchronous read establishes the Effect dependency and captures that run’s value. Reading only inside the later callback would not establish the same tracking relationship.",
-    "https://angular.dev/guide/signals/effect",
+    null,
   ),
   "state-management--ngrx-fundamentals": lesson(
     "NgRx Store coordinates application state through actions, reducers, and selectors. It can make complex cross-feature transitions explicit, but adds structure that a small local feature may not need.",
@@ -147,7 +147,7 @@ export const plannerReducer = createReducer(initialState,
     "Do not put every keystroke into Store by default. Keep transient local form state local unless cross-feature coordination requires otherwise.",
     "Where should saving completion to an API happen?",
     "In a side-effect layer that reacts to an action and reports success or failure through further actions. The reducer remains deterministic.",
-    "https://ngrx.io/guide/store",
+    null,
   ),
   "testing--unit-testing-fundamentals": lesson(
     "Unit tests verify a focused behavior with controlled inputs. Use pure tests for domain calculations and Angular’s TestBed when dependency injection or component rendering is part of the behavior.",
@@ -171,7 +171,7 @@ describe('remaining lessons', () => {
     "A test that only checks a service or component exists rarely protects its useful behavior. Assert the outcome of a meaningful operation.",
     "When does a test need TestBed?",
     "When Angular facilities such as injected dependencies, compiled templates, or lifecycle-managed behavior are relevant. Pure functions can be tested directly.",
-    "https://angular.dev/guide/testing",
+    null,
   ),
   "testing--testing-components": lesson(
     "A component test verifies both class behavior and its template wiring. TestBed creates a fixture that lets the test interact with the rendered DOM.",
@@ -203,7 +203,7 @@ it('updates the rendered count after a click', async () => {
     "Do not assert only fixture.componentInstance.count() when the requirement concerns visible text. Template wiring can be broken even when a method works.",
     "What extra test would protect a disabled-at-limit behavior?",
     "Click until the limit, wait for the view update, and assert both the count and the native button.disabled property.",
-    "https://angular.dev/guide/testing/components-basics",
+    null,
   ),
   "testing--testing-services": lesson(
     "Service tests verify domain behavior while controlling dependencies. TestBed can provide the real service and replace an external collaborator with a focused fake.",
@@ -232,7 +232,7 @@ it('normalizes the title before saving', () => {
     "Providing a fake under a different InjectionToken does not replace the dependency. Token identity must match exactly.",
     "Why is this preferable to mocking Planner.submit itself?",
     "Mocking the method under test would bypass its normalization rule. Replacing only the external save dependency preserves the behavior being verified.",
-    "https://angular.dev/guide/testing/services",
+    null,
   ),
   "testing--testing-http-requests": lesson(
     "Angular’s HTTP testing backend intercepts HttpClient requests and lets tests assert their shape and deliver controlled responses. It exercises request code without contacting a real server.",
@@ -260,7 +260,7 @@ it('loads the course list', async () => {
     "Awaiting firstValueFrom before flushing leaves the promise waiting on the test itself. Start the promise, flush the request, then await the result.",
     "How do you simulate an HTTP 503 response?",
     'Use request.flush with a failure body and { status: 503, statusText: "Service Unavailable" }, then assert the service or UI’s intended error behavior.',
-    "https://angular.dev/guide/http/testing",
+    null,
   ),
   "testing--testing-routes": lesson(
     "RouterTestingHarness drives navigation through an Angular router configuration and exposes routed content. It helps verify parameter handling, redirects, and component activation.",
@@ -289,7 +289,7 @@ it('renders the requested course on initial navigation', async () => {
     "Asserting only that navigateByUrl was called does not prove that the destination activated or rendered the correct parameter.",
     "What should a guard redirect test assert?",
     "Assert the final activated page or URL and its visible result, not only the attempted protected URL.",
-    "https://angular.dev/guide/routing/testing",
+    null,
   ),
   "testing--end-to-end-testing": lesson(
     "End-to-end tests exercise an actual browser and running application. Keep a small set around critical flows that cross routing, templates, data, and deployment behavior.",
@@ -315,7 +315,7 @@ test('the course index survives refresh', async ({ page }) => {
     "A development server deep-link test does not validate production rewrite rules. Run a corresponding smoke check against the actual staging host.",
     "Why not test every pure pipe case through a browser?",
     "Pure unit tests are faster and more precise for formatting rules. Browser tests should concentrate on integration risks that smaller tests cannot detect.",
-    "https://playwright.dev/docs/intro",
+    null,
   ),
   "production-angular--application-architecture": lesson(
     "Organize an Angular application around feature ownership and clear dependency direction. Keep templates focused on presentation and isolate transport and domain rules behind meaningful APIs.",
@@ -344,7 +344,7 @@ shared/ui/
     "A shared folder can become a dependency tangle if everything is placed there by default. Share code because it has independent consumers and a coherent contract.",
     "Where would a backend field course_title become title?",
     "In a feature API adapter or domain mapper. Mapping once prevents transport naming from leaking through all templates.",
-    "https://angular.dev/style-guide",
+    null,
   ),
   "production-angular--change-detection": lesson(
     "Change detection checks whether template bindings need to update the view. Learn which changes notify Angular and how component boundaries affect the work performed.",
@@ -366,7 +366,7 @@ export class App {
     "Mutating an input object while retaining its reference can undermine expected OnPush updates. Prefer immutable replacement and explicit ownership.",
     "Does OnPush mean Angular never checks a component after its first render?",
     "No. It changes when subtrees are eligible to be skipped. Signals, events, input changes, and other supported notifications still drive updates.",
-    "https://angular.dev/guide/zoneless",
+    null,
   ),
   "production-angular--performance-optimization": lesson(
     "Optimize a measured user-visible bottleneck rather than adding complexity preemptively. Loading, computation, DOM size, and browser layout can all dominate a screen’s performance.",
@@ -391,7 +391,7 @@ export class App {
     "Do not defer essential first-screen content merely to lower an initial bundle number. A faster shell that delays the primary task can feel slower.",
     "Why might a large template filter still be slow with OnPush?",
     "OnPush does not make expensive work cheap when a check is necessary. Reduce or cache the computation and consider reducing the rendered item count.",
-    "https://angular.dev/guide/templates/defer",
+    null,
   ),
   "production-angular--accessibility": lesson(
     "Accessible Angular interfaces retain semantic HTML and handle dynamic changes intentionally. Native controls, clear names, keyboard behavior, and visible focus are core requirements.",
@@ -412,7 +412,7 @@ export class App {
     "Do not remove focus outlines without a clear replacement. A visually hidden or collapsed region must also have the intended keyboard and assistive-technology behavior.",
     "Does aria-expanded open the help region by itself?",
     "No. It communicates state. The component’s open signal and hidden binding implement the actual visibility behavior.",
-    "https://angular.dev/best-practices/a11y",
+    null,
   ),
   "production-angular--security": lesson(
     "Angular’s template protections are one part of application security. Safe data handling, server authorization, dependency maintenance, and deployment policies still matter.",
@@ -434,7 +434,7 @@ export class CourseNote {
     "Do not call bypassSecurityTrustHtml simply to silence sanitization or to make arbitrary HTML work. The bypass is a trust assertion, not a sanitizer.",
     "Can hiding a delete button prevent unauthorized deletion?",
     "No. The backend must authorize the deletion request independently, because the user can call the endpoint without using that button.",
-    "https://angular.dev/best-practices/security",
+    null,
   ),
   "production-angular--server-side-rendering": lesson(
     "Server-side rendering creates initial HTML on the server, while hydration connects client behavior to compatible markup. Choose rendering modes according to content, personalization, and hosting needs.",
@@ -462,7 +462,7 @@ export class App {
     "Do not assume a client-only storage read is safe in a class initializer. That initializer can execute on the server when SSR is enabled.",
     "Why can Date.now() in initial markup cause trouble during hydration?",
     "The server and client may compute different values. Transfer a stable initial value or defer browser-specific display until after hydration as appropriate.",
-    "https://angular.dev/guide/ssr",
+    null,
   ),
   "production-angular--build-and-deployment": lesson(
     "A release needs a reproducible build, correct hosting behavior, and checks against the actual deployed artifact. The appropriate host depends on whether the application is static, server-rendered, or hybrid.",
@@ -487,6 +487,6 @@ npx ng build --configuration production
     "Do not deploy ng serve as a production architecture or put secrets in client environment files. Client configuration is part of the public application.",
     "A deep link returns 404 only after refresh. What should you inspect?",
     "Inspect host fallback or server rendering routes. The first request reaches the host before Angular can match the route in the browser.",
-    "https://angular.dev/tools/cli/deployment",
+    null,
   ),
 };

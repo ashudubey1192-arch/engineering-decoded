@@ -2,20 +2,6 @@ import { course, lesson } from "./dsaLessonSchema.js";
 import { javaArrayPrograms } from "./javaArrayPrograms.js";
 import { javaArraySource } from "./javaArrayRuntime.js";
 
-const references = [
-  {
-    title: "Java language specification: Arrays",
-    url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-10.html",
-  },
-  {
-    title: "Java Arrays API",
-    url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Arrays.html",
-  },
-  {
-    title: "Java ArrayList API",
-    url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html",
-  },
-];
 
 function teach(
   id,
@@ -53,7 +39,6 @@ function teach(
     },
     steps,
     project,
-    references,
     prerequisites:
       "Java variables, loops, methods, and basic classes. Start with Java essentials, then follow the Arrays lessons in order.",
     boundaries: program.cases.map(([invocation, expected]) => ({ invocation, expected })),

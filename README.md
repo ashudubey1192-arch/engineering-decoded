@@ -75,11 +75,10 @@ For Vercel, import this repository and use the default Vite settings: build comm
 
 ## Tutorial coverage and deployment checks
 
-The OS course covers all 153 entries in its public reference roadmap, and networking
+The OS course covers all 153 entries in its course roadmap, and networking
 covers all 111, including welcome pages and section interview reviews. Each also retains
 12 practical workshops, giving 165 OS and 123 networking lessons. See
-`CORE_CS_ROADMAP_AUDIT.md` for the chapter-by-chapter mapping. The explanations, scenarios,
-animated traces, and interview answers are original; premium source prose is not copied.
+`CORE_CS_ROADMAP_AUDIT.md` for the chapter-by-chapter mapping. The lessons include explanations, scenarios, animated traces, and interview answers.
 Concurrency, ML system design, C++, and C# retain twelve-lesson paths with capstones.
 Existing lesson URLs are retained. Open the practice studio at the end of
 a lesson for related calculated models and browser-based JavaScript exercises. Nontechnical
@@ -127,7 +126,7 @@ before promoting it; a local build cannot verify project settings or a live back
 The Database Engineering module contains 22 courses with 30 lessons each. Existing
 article URLs load the shared `DatabaseLessonArticle` reader with course-specific
 explanations, section labs, expected results, interactive walkthroughs, knowledge
-checks, and official references. The six older entry components per course also
+checks, and practical exercises. The six older entry components per course also
 delegate to authored lessons.
 
 Content lives in `src/data/databaseLessonTopics.js` and the database profile files
@@ -154,8 +153,7 @@ route-planning capstone. Its URL is `/learn/dsa/dsa-foundations`; the singular
 available as focused topic tracks. Every lesson
 includes an invariant, time/space analysis, a worked input, a JavaScript
 implementation (Java for Arrays, JavaScript for the other topics), an interactive visual trace, and a practice question with an
-explanation. Coverage uses the linked TutorialsPoint curriculum as a reference;
-the prose, code, and visualizations are original.
+explanation. The curriculum includes original prose, code, and visualizations.
 
 Edit `src/data/dsaLinearLessons.js`, `dsaHierarchyLessons.js`, and
 `dsaAlgorithmLessons.js` for content. `dsaFoundationLessons.js` assembles those
@@ -221,7 +219,7 @@ no Java class files in the repository.
 The Java course at `/learn/backend/java` includes 18 authored lessons in four
 new sections. Each lesson has a runnable Java 21 example with expected output,
 a manually stepped visual trace, an invariant, complexity analysis, pitfalls,
-project applications, interview exercises, and official Java API references.
+project applications, interview exercises, and Java API examples.
 The LRU cache capstone combines hashing and recency ordering.
 
 Content: `src/data/javaStructureLessons.js`. Shared reader:

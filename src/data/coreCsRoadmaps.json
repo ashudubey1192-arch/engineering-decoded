@@ -1,6 +1,5 @@
 {
   "core-cs/operating-systems": {
-    "source": "https://algomaster.io/learn/operating-systems/course-roadmap",
     "checked": "2026-10-18",
     "sections": [
       {
@@ -9,13 +8,11 @@
         "chapters": [
           {
             "id": "course-roadmap",
-            "title": "Course Roadmap",
-            "source": "https://algomaster.io/learn/operating-systems/course-roadmap"
+            "title": "Course Roadmap"
           },
           {
             "id": "join-community",
-            "title": "Join the Community",
-            "source": "https://algomaster.io/learn/operating-systems/join-community"
+            "title": "Join the Community"
           }
         ]
       },
@@ -25,33 +22,27 @@
         "chapters": [
           {
             "id": "what-is-an-operating-system",
-            "title": "What Is an Operating System?",
-            "source": "https://algomaster.io/learn/operating-systems/what-is-an-operating-system"
+            "title": "What Is an Operating System?"
           },
           {
             "id": "what-happens-when-you-run-a-program",
-            "title": "What Happens When You Run a Program",
-            "source": "https://algomaster.io/learn/operating-systems/what-happens-when-you-run-a-program"
+            "title": "What Happens When You Run a Program"
           },
           {
             "id": "course-environment",
-            "title": "Setting Up Your Environment",
-            "source": "https://algomaster.io/learn/operating-systems/course-environment"
+            "title": "Setting Up Your Environment"
           },
           {
             "id": "c-survival-guide-for-os",
-            "title": "C Survival Guide for Operating Systems",
-            "source": "https://algomaster.io/learn/operating-systems/c-survival-guide-for-os"
+            "title": "C Survival Guide for Operating Systems"
           },
           {
             "id": "essential-system-tools",
-            "title": "Essential System Tools",
-            "source": "https://algomaster.io/learn/operating-systems/essential-system-tools"
+            "title": "Essential System Tools"
           },
           {
             "id": "os-introduction-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/os-introduction-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -61,28 +52,23 @@
         "chapters": [
           {
             "id": "how-the-cpu-executes-instructions",
-            "title": "How the CPU Executes Instructions",
-            "source": "https://algomaster.io/learn/operating-systems/how-the-cpu-executes-instructions"
+            "title": "How the CPU Executes Instructions"
           },
           {
             "id": "privilege-levels",
-            "title": "Privilege Levels: User Mode and Kernel Mode",
-            "source": "https://algomaster.io/learn/operating-systems/privilege-levels"
+            "title": "Privilege Levels: User Mode and Kernel Mode"
           },
           {
             "id": "the-memory-hierarchy",
-            "title": "The Memory Hierarchy and Why Latency Matters",
-            "source": "https://algomaster.io/learn/operating-systems/the-memory-hierarchy"
+            "title": "The Memory Hierarchy and Why Latency Matters"
           },
           {
             "id": "interrupts-exceptions-and-traps",
-            "title": "Interrupts, Exceptions, and Traps",
-            "source": "https://algomaster.io/learn/operating-systems/interrupts-exceptions-and-traps"
+            "title": "Interrupts, Exceptions, and Traps"
           },
           {
             "id": "hardware-foundations-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/hardware-foundations-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -92,38 +78,31 @@
         "chapters": [
           {
             "id": "what-the-kernel-manages",
-            "title": "What the Kernel Manages",
-            "source": "https://algomaster.io/learn/operating-systems/what-the-kernel-manages"
+            "title": "What the Kernel Manages"
           },
           {
             "id": "kernel-architectures",
-            "title": "Monolithic, Micro, and Hybrid Kernels",
-            "source": "https://algomaster.io/learn/operating-systems/kernel-architectures"
+            "title": "Monolithic, Micro, and Hybrid Kernels"
           },
           {
             "id": "system-calls",
-            "title": "System Calls: The Kernel's API",
-            "source": "https://algomaster.io/learn/operating-systems/system-calls"
+            "title": "System Calls: The Kernel's API"
           },
           {
             "id": "inside-a-system-call",
-            "title": "Inside a System Call: The Execution Path",
-            "source": "https://algomaster.io/learn/operating-systems/inside-a-system-call"
+            "title": "Inside a System Call: The Execution Path"
           },
           {
             "id": "boot-elf-and-the-abi",
-            "title": "Boot, ELF, and the ABI",
-            "source": "https://algomaster.io/learn/operating-systems/boot-elf-and-the-abi"
+            "title": "Boot, ELF, and the ABI"
           },
           {
             "id": "linux-windows-and-macos",
-            "title": "Linux, Windows, and macOS Compared",
-            "source": "https://algomaster.io/learn/operating-systems/linux-windows-and-macos"
+            "title": "Linux, Windows, and macOS Compared"
           },
           {
             "id": "os-architecture-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/os-architecture-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -133,53 +112,43 @@
         "chapters": [
           {
             "id": "program-vs-process",
-            "title": "Program vs Process",
-            "source": "https://algomaster.io/learn/operating-systems/program-vs-process"
+            "title": "Program vs Process"
           },
           {
             "id": "the-process-control-block",
-            "title": "The Process Control Block",
-            "source": "https://algomaster.io/learn/operating-systems/the-process-control-block"
+            "title": "The Process Control Block"
           },
           {
             "id": "process-states",
-            "title": "Process States and Transitions",
-            "source": "https://algomaster.io/learn/operating-systems/process-states"
+            "title": "Process States and Transitions"
           },
           {
             "id": "fork-exec-wait-exit",
-            "title": "fork, exec, wait, and exit",
-            "source": "https://algomaster.io/learn/operating-systems/fork-exec-wait-exit"
+            "title": "fork, exec, wait, and exit"
           },
           {
             "id": "clone-and-what-fork-shares",
-            "title": "clone(): What fork and Thread Creation Share",
-            "source": "https://algomaster.io/learn/operating-systems/clone-and-what-fork-shares"
+            "title": "clone(): What fork and Thread Creation Share"
           },
           {
             "id": "zombies-and-orphans",
-            "title": "Zombies and Orphans",
-            "source": "https://algomaster.io/learn/operating-systems/zombies-and-orphans"
+            "title": "Zombies and Orphans"
           },
           {
             "id": "context-switching",
-            "title": "Context Switching",
-            "source": "https://algomaster.io/learn/operating-systems/context-switching"
+            "title": "Context Switching"
           },
           {
             "id": "signals",
-            "title": "Signals",
-            "source": "https://algomaster.io/learn/operating-systems/signals"
+            "title": "Signals"
           },
           {
             "id": "process-groups-sessions-and-jobs",
-            "title": "Process Groups, Sessions, and Jobs",
-            "source": "https://algomaster.io/learn/operating-systems/process-groups-sessions-and-jobs"
+            "title": "Process Groups, Sessions, and Jobs"
           },
           {
             "id": "processes-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/processes-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -189,58 +158,47 @@
         "chapters": [
           {
             "id": "why-scheduling-exists",
-            "title": "Why CPU Scheduling Exists",
-            "source": "https://algomaster.io/learn/operating-systems/why-scheduling-exists"
+            "title": "Why CPU Scheduling Exists"
           },
           {
             "id": "scheduling-metrics",
-            "title": "Scheduling Metrics",
-            "source": "https://algomaster.io/learn/operating-systems/scheduling-metrics"
+            "title": "Scheduling Metrics"
           },
           {
             "id": "fcfs-sjf-and-srtf",
-            "title": "FCFS, SJF, and SRTF",
-            "source": "https://algomaster.io/learn/operating-systems/fcfs-sjf-and-srtf"
+            "title": "FCFS, SJF, and SRTF"
           },
           {
             "id": "round-robin",
-            "title": "Round Robin",
-            "source": "https://algomaster.io/learn/operating-systems/round-robin"
+            "title": "Round Robin"
           },
           {
             "id": "priority-scheduling-and-aging",
-            "title": "Priority Scheduling and Aging",
-            "source": "https://algomaster.io/learn/operating-systems/priority-scheduling-and-aging"
+            "title": "Priority Scheduling and Aging"
           },
           {
             "id": "multilevel-queues-and-mlfq",
-            "title": "Multilevel Queues and Feedback Queues",
-            "source": "https://algomaster.io/learn/operating-systems/multilevel-queues-and-mlfq"
+            "title": "Multilevel Queues and Feedback Queues"
           },
           {
             "id": "multiprocessor-scheduling",
-            "title": "Multiprocessor Scheduling",
-            "source": "https://algomaster.io/learn/operating-systems/multiprocessor-scheduling"
+            "title": "Multiprocessor Scheduling"
           },
           {
             "id": "real-time-scheduling",
-            "title": "Real-Time Scheduling",
-            "source": "https://algomaster.io/learn/operating-systems/real-time-scheduling"
+            "title": "Real-Time Scheduling"
           },
           {
             "id": "linux-scheduling-classes",
-            "title": "Linux Scheduling Classes",
-            "source": "https://algomaster.io/learn/operating-systems/linux-scheduling-classes"
+            "title": "Linux Scheduling Classes"
           },
           {
             "id": "fair-scheduling-cfs-to-eevdf",
-            "title": "Fair Scheduling: From CFS to EEVDF",
-            "source": "https://algomaster.io/learn/operating-systems/fair-scheduling-cfs-to-eevdf"
+            "title": "Fair Scheduling: From CFS to EEVDF"
           },
           {
             "id": "cpu-scheduling-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/cpu-scheduling-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -250,43 +208,35 @@
         "chapters": [
           {
             "id": "what-a-thread-is-to-the-kernel",
-            "title": "What a Thread Is to the Kernel",
-            "source": "https://algomaster.io/learn/operating-systems/what-a-thread-is-to-the-kernel"
+            "title": "What a Thread Is to the Kernel"
           },
           {
             "id": "processes-vs-threads",
-            "title": "Processes vs Threads",
-            "source": "https://algomaster.io/learn/operating-systems/processes-vs-threads"
+            "title": "Processes vs Threads"
           },
           {
             "id": "user-and-kernel-threads",
-            "title": "User-Level and Kernel-Level Threads",
-            "source": "https://algomaster.io/learn/operating-systems/user-and-kernel-threads"
+            "title": "User-Level and Kernel-Level Threads"
           },
           {
             "id": "thread-creation-and-teardown",
-            "title": "Thread Creation and Teardown",
-            "source": "https://algomaster.io/learn/operating-systems/thread-creation-and-teardown"
+            "title": "Thread Creation and Teardown"
           },
           {
             "id": "what-a-context-switch-costs",
-            "title": "What a Thread Switch Actually Costs",
-            "source": "https://algomaster.io/learn/operating-systems/what-a-context-switch-costs"
+            "title": "What a Thread Switch Actually Costs"
           },
           {
             "id": "thread-pools-and-sizing",
-            "title": "Why Thread Pools Exist and How to Size Them",
-            "source": "https://algomaster.io/learn/operating-systems/thread-pools-and-sizing"
+            "title": "Why Thread Pools Exist and How to Size Them"
           },
           {
             "id": "runtime-threading-models",
-            "title": "How Language Runtimes Map to Kernel Threads",
-            "source": "https://algomaster.io/learn/operating-systems/runtime-threading-models"
+            "title": "How Language Runtimes Map to Kernel Threads"
           },
           {
             "id": "threads-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/threads-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -296,43 +246,35 @@
         "chapters": [
           {
             "id": "race-conditions-and-atomicity",
-            "title": "Race Conditions and Hardware Atomicity",
-            "source": "https://algomaster.io/learn/operating-systems/race-conditions-and-atomicity"
+            "title": "Race Conditions and Hardware Atomicity"
           },
           {
             "id": "memory-ordering-and-false-sharing",
-            "title": "Memory Ordering, Barriers, and False Sharing",
-            "source": "https://algomaster.io/learn/operating-systems/memory-ordering-and-false-sharing"
+            "title": "Memory Ordering, Barriers, and False Sharing"
           },
           {
             "id": "mutexes-semaphores-and-condition-variables",
-            "title": "Mutexes, Semaphores, and Condition Variables",
-            "source": "https://algomaster.io/learn/operating-systems/mutexes-semaphores-and-condition-variables"
+            "title": "Mutexes, Semaphores, and Condition Variables"
           },
           {
             "id": "how-blocking-works",
-            "title": "How Blocking Works: Wait Queues and Futexes",
-            "source": "https://algomaster.io/learn/operating-systems/how-blocking-works"
+            "title": "How Blocking Works: Wait Queues and Futexes"
           },
           {
             "id": "spinlocks-and-interrupt-context",
-            "title": "Spinlocks, Preemption, and Interrupt Context",
-            "source": "https://algomaster.io/learn/operating-systems/spinlocks-and-interrupt-context"
+            "title": "Spinlocks, Preemption, and Interrupt Context"
           },
           {
             "id": "deadlock",
-            "title": "Deadlock: Conditions, Detection, and Prevention",
-            "source": "https://algomaster.io/learn/operating-systems/deadlock"
+            "title": "Deadlock: Conditions, Detection, and Prevention"
           },
           {
             "id": "starvation-livelock-and-priority-inversion",
-            "title": "Starvation, Livelock, and Priority Inversion",
-            "source": "https://algomaster.io/learn/operating-systems/starvation-livelock-and-priority-inversion"
+            "title": "Starvation, Livelock, and Priority Inversion"
           },
           {
             "id": "synchronization-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/synchronization-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -342,38 +284,31 @@
         "chapters": [
           {
             "id": "pipes-and-fifos",
-            "title": "Pipes and Named Pipes",
-            "source": "https://algomaster.io/learn/operating-systems/pipes-and-fifos"
+            "title": "Pipes and Named Pipes"
           },
           {
             "id": "shared-memory",
-            "title": "Shared Memory",
-            "source": "https://algomaster.io/learn/operating-systems/shared-memory"
+            "title": "Shared Memory"
           },
           {
             "id": "message-queues-and-signals",
-            "title": "Message Queues and Signals as IPC",
-            "source": "https://algomaster.io/learn/operating-systems/message-queues-and-signals"
+            "title": "Message Queues and Signals as IPC"
           },
           {
             "id": "unix-domain-sockets",
-            "title": "Unix Domain Sockets",
-            "source": "https://algomaster.io/learn/operating-systems/unix-domain-sockets"
+            "title": "Unix Domain Sockets"
           },
           {
             "id": "network-sockets-and-the-kernel",
-            "title": "Network Sockets: Buffers, Backlog, and Accept Queues",
-            "source": "https://algomaster.io/learn/operating-systems/network-sockets-and-the-kernel"
+            "title": "Network Sockets: Buffers, Backlog, and Accept Queues"
           },
           {
             "id": "zero-copy-transfers",
-            "title": "Zero-Copy: sendfile, splice, and mmap",
-            "source": "https://algomaster.io/learn/operating-systems/zero-copy-transfers"
+            "title": "Zero-Copy: sendfile, splice, and mmap"
           },
           {
             "id": "ipc-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/ipc-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -383,58 +318,47 @@
         "chapters": [
           {
             "id": "the-io-path",
-            "title": "The I/O Path: From write() to the Device",
-            "source": "https://algomaster.io/learn/operating-systems/the-io-path"
+            "title": "The I/O Path: From write() to the Device"
           },
           {
             "id": "device-controllers-interrupts-and-dma",
-            "title": "Device Controllers, Interrupts, and DMA",
-            "source": "https://algomaster.io/learn/operating-systems/device-controllers-interrupts-and-dma"
+            "title": "Device Controllers, Interrupts, and DMA"
           },
           {
             "id": "blocking-and-non-blocking-io",
-            "title": "Blocking and Non-Blocking I/O",
-            "source": "https://algomaster.io/learn/operating-systems/blocking-and-non-blocking-io"
+            "title": "Blocking and Non-Blocking I/O"
           },
           {
             "id": "synchronous-and-asynchronous-io",
-            "title": "Synchronous and Asynchronous I/O",
-            "source": "https://algomaster.io/learn/operating-systems/synchronous-and-asynchronous-io"
+            "title": "Synchronous and Asynchronous I/O"
           },
           {
             "id": "io-multiplexing",
-            "title": "select, poll, and epoll",
-            "source": "https://algomaster.io/learn/operating-systems/io-multiplexing"
+            "title": "select, poll, and epoll"
           },
           {
             "id": "readiness-and-completion-models",
-            "title": "Readiness vs Completion, Edge vs Level",
-            "source": "https://algomaster.io/learn/operating-systems/readiness-and-completion-models"
+            "title": "Readiness vs Completion, Edge vs Level"
           },
           {
             "id": "io-uring",
-            "title": "io_uring: The Completion-Based Model",
-            "source": "https://algomaster.io/learn/operating-systems/io-uring"
+            "title": "io_uring: The Completion-Based Model"
           },
           {
             "id": "event-loops-reactor-and-proactor",
-            "title": "Event Loops, Reactor, and Proactor",
-            "source": "https://algomaster.io/learn/operating-systems/event-loops-reactor-and-proactor"
+            "title": "Event Loops, Reactor, and Proactor"
           },
           {
             "id": "buffering-and-backpressure",
-            "title": "Buffering and Backpressure",
-            "source": "https://algomaster.io/learn/operating-systems/buffering-and-backpressure"
+            "title": "Buffering and Backpressure"
           },
           {
             "id": "event-driven-servers-in-production",
-            "title": "Event-Driven Servers in Production",
-            "source": "https://algomaster.io/learn/operating-systems/event-driven-servers-in-production"
+            "title": "Event-Driven Servers in Production"
           },
           {
             "id": "io-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/io-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -444,48 +368,39 @@
         "chapters": [
           {
             "id": "the-process-address-space",
-            "title": "The Process Address Space",
-            "source": "https://algomaster.io/learn/operating-systems/the-process-address-space"
+            "title": "The Process Address Space"
           },
           {
             "id": "logical-and-physical-memory",
-            "title": "Logical and Physical Memory",
-            "source": "https://algomaster.io/learn/operating-systems/logical-and-physical-memory"
+            "title": "Logical and Physical Memory"
           },
           {
             "id": "contiguous-allocation-and-fragmentation",
-            "title": "Contiguous Allocation and Fragmentation",
-            "source": "https://algomaster.io/learn/operating-systems/contiguous-allocation-and-fragmentation"
+            "title": "Contiguous Allocation and Fragmentation"
           },
           {
             "id": "segmentation",
-            "title": "Segmentation",
-            "source": "https://algomaster.io/learn/operating-systems/segmentation"
+            "title": "Segmentation"
           },
           {
             "id": "how-malloc-works",
-            "title": "How malloc Works",
-            "source": "https://algomaster.io/learn/operating-systems/how-malloc-works"
+            "title": "How malloc Works"
           },
           {
             "id": "kernel-memory-allocation",
-            "title": "Kernel Memory Allocation",
-            "source": "https://algomaster.io/learn/operating-systems/kernel-memory-allocation"
+            "title": "Kernel Memory Allocation"
           },
           {
             "id": "memory-metrics",
-            "title": "VSZ, RSS, PSS, and What They Mean",
-            "source": "https://algomaster.io/learn/operating-systems/memory-metrics"
+            "title": "VSZ, RSS, PSS, and What They Mean"
           },
           {
             "id": "memory-pressure-and-the-oom-killer",
-            "title": "Memory Pressure and the OOM Killer",
-            "source": "https://algomaster.io/learn/operating-systems/memory-pressure-and-the-oom-killer"
+            "title": "Memory Pressure and the OOM Killer"
           },
           {
             "id": "memory-management-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/memory-management-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -495,73 +410,59 @@
         "chapters": [
           {
             "id": "why-virtual-memory-exists",
-            "title": "Why Virtual Memory Exists",
-            "source": "https://algomaster.io/learn/operating-systems/why-virtual-memory-exists"
+            "title": "Why Virtual Memory Exists"
           },
           {
             "id": "the-mmu-and-address-translation",
-            "title": "The MMU and Address Translation",
-            "source": "https://algomaster.io/learn/operating-systems/the-mmu-and-address-translation"
+            "title": "The MMU and Address Translation"
           },
           {
             "id": "paging",
-            "title": "Paging",
-            "source": "https://algomaster.io/learn/operating-systems/paging"
+            "title": "Paging"
           },
           {
             "id": "multilevel-page-tables",
-            "title": "Multilevel Page Tables",
-            "source": "https://algomaster.io/learn/operating-systems/multilevel-page-tables"
+            "title": "Multilevel Page Tables"
           },
           {
             "id": "the-tlb",
-            "title": "The TLB: Hits, Misses, and Invalidation",
-            "source": "https://algomaster.io/learn/operating-systems/the-tlb"
+            "title": "The TLB: Hits, Misses, and Invalidation"
           },
           {
             "id": "page-faults",
-            "title": "Page Faults",
-            "source": "https://algomaster.io/learn/operating-systems/page-faults"
+            "title": "Page Faults"
           },
           {
             "id": "demand-paging",
-            "title": "Demand Paging",
-            "source": "https://algomaster.io/learn/operating-systems/demand-paging"
+            "title": "Demand Paging"
           },
           {
             "id": "page-replacement-algorithms",
-            "title": "Page Replacement Algorithms",
-            "source": "https://algomaster.io/learn/operating-systems/page-replacement-algorithms"
+            "title": "Page Replacement Algorithms"
           },
           {
             "id": "working-sets-and-thrashing",
-            "title": "Working Sets and Thrashing",
-            "source": "https://algomaster.io/learn/operating-systems/working-sets-and-thrashing"
+            "title": "Working Sets and Thrashing"
           },
           {
             "id": "copy-on-write",
-            "title": "Copy-on-Write",
-            "source": "https://algomaster.io/learn/operating-systems/copy-on-write"
+            "title": "Copy-on-Write"
           },
           {
             "id": "mmap-and-memory-mapped-files",
-            "title": "mmap and Memory-Mapped Files",
-            "source": "https://algomaster.io/learn/operating-systems/mmap-and-memory-mapped-files"
+            "title": "mmap and Memory-Mapped Files"
           },
           {
             "id": "shared-libraries-and-shared-pages",
-            "title": "Shared Libraries and Shared Pages",
-            "source": "https://algomaster.io/learn/operating-systems/shared-libraries-and-shared-pages"
+            "title": "Shared Libraries and Shared Pages"
           },
           {
             "id": "huge-pages-numa-and-aslr",
-            "title": "Huge Pages, NUMA, and ASLR",
-            "source": "https://algomaster.io/learn/operating-systems/huge-pages-numa-and-aslr"
+            "title": "Huge Pages, NUMA, and ASLR"
           },
           {
             "id": "virtual-memory-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/virtual-memory-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -571,73 +472,59 @@
         "chapters": [
           {
             "id": "the-file-abstraction",
-            "title": "The File Abstraction",
-            "source": "https://algomaster.io/learn/operating-systems/the-file-abstraction"
+            "title": "The File Abstraction"
           },
           {
             "id": "file-descriptors",
-            "title": "File Descriptors",
-            "source": "https://algomaster.io/learn/operating-systems/file-descriptors"
+            "title": "File Descriptors"
           },
           {
             "id": "file-operations",
-            "title": "File Operations",
-            "source": "https://algomaster.io/learn/operating-systems/file-operations"
+            "title": "File Operations"
           },
           {
             "id": "directories-and-path-resolution",
-            "title": "Directories and Path Resolution",
-            "source": "https://algomaster.io/learn/operating-systems/directories-and-path-resolution"
+            "title": "Directories and Path Resolution"
           },
           {
             "id": "inodes",
-            "title": "Inodes",
-            "source": "https://algomaster.io/learn/operating-systems/inodes"
+            "title": "Inodes"
           },
           {
             "id": "hard-and-symbolic-links",
-            "title": "Hard and Symbolic Links",
-            "source": "https://algomaster.io/learn/operating-systems/hard-and-symbolic-links"
+            "title": "Hard and Symbolic Links"
           },
           {
             "id": "file-permissions",
-            "title": "File Permissions",
-            "source": "https://algomaster.io/learn/operating-systems/file-permissions"
+            "title": "File Permissions"
           },
           {
             "id": "the-vfs-layer",
-            "title": "The Virtual File System Layer",
-            "source": "https://algomaster.io/learn/operating-systems/the-vfs-layer"
+            "title": "The Virtual File System Layer"
           },
           {
             "id": "file-allocation-and-extents",
-            "title": "File Allocation and Extents",
-            "source": "https://algomaster.io/learn/operating-systems/file-allocation-and-extents"
+            "title": "File Allocation and Extents"
           },
           {
             "id": "dentry-and-inode-caches",
-            "title": "Directory and Inode Caches",
-            "source": "https://algomaster.io/learn/operating-systems/dentry-and-inode-caches"
+            "title": "Directory and Inode Caches"
           },
           {
             "id": "crash-consistency",
-            "title": "Crash Consistency",
-            "source": "https://algomaster.io/learn/operating-systems/crash-consistency"
+            "title": "Crash Consistency"
           },
           {
             "id": "journaling",
-            "title": "Journaling",
-            "source": "https://algomaster.io/learn/operating-systems/journaling"
+            "title": "Journaling"
           },
           {
             "id": "copy-on-write-file-systems",
-            "title": "Copy-on-Write File Systems",
-            "source": "https://algomaster.io/learn/operating-systems/copy-on-write-file-systems"
+            "title": "Copy-on-Write File Systems"
           },
           {
             "id": "file-systems-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/file-systems-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -647,53 +534,43 @@
         "chapters": [
           {
             "id": "storage-hardware",
-            "title": "Storage Hardware",
-            "source": "https://algomaster.io/learn/operating-systems/storage-hardware"
+            "title": "Storage Hardware"
           },
           {
             "id": "storage-performance",
-            "title": "Storage Performance",
-            "source": "https://algomaster.io/learn/operating-systems/storage-performance"
+            "title": "Storage Performance"
           },
           {
             "id": "disk-scheduling-algorithms",
-            "title": "Disk Scheduling Algorithms",
-            "source": "https://algomaster.io/learn/operating-systems/disk-scheduling-algorithms"
+            "title": "Disk Scheduling Algorithms"
           },
           {
             "id": "the-block-layer",
-            "title": "The Block Layer",
-            "source": "https://algomaster.io/learn/operating-systems/the-block-layer"
+            "title": "The Block Layer"
           },
           {
             "id": "the-page-cache",
-            "title": "The Page Cache and Write-Back",
-            "source": "https://algomaster.io/learn/operating-systems/the-page-cache"
+            "title": "The Page Cache and Write-Back"
           },
           {
             "id": "buffered-and-direct-io",
-            "title": "Buffered and Direct I/O",
-            "source": "https://algomaster.io/learn/operating-systems/buffered-and-direct-io"
+            "title": "Buffered and Direct I/O"
           },
           {
             "id": "durability-and-fsync",
-            "title": "Durability and fsync",
-            "source": "https://algomaster.io/learn/operating-systems/durability-and-fsync"
+            "title": "Durability and fsync"
           },
           {
             "id": "raid",
-            "title": "RAID Fundamentals",
-            "source": "https://algomaster.io/learn/operating-systems/raid"
+            "title": "RAID Fundamentals"
           },
           {
             "id": "diagnosing-io-problems",
-            "title": "Diagnosing I/O Problems",
-            "source": "https://algomaster.io/learn/operating-systems/diagnosing-io-problems"
+            "title": "Diagnosing I/O Problems"
           },
           {
             "id": "storage-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/storage-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -703,48 +580,39 @@
         "chapters": [
           {
             "id": "protection-vs-security",
-            "title": "Protection vs Security",
-            "source": "https://algomaster.io/learn/operating-systems/protection-vs-security"
+            "title": "Protection vs Security"
           },
           {
             "id": "users-groups-and-permissions",
-            "title": "Users, Groups, and Permissions",
-            "source": "https://algomaster.io/learn/operating-systems/users-groups-and-permissions"
+            "title": "Users, Groups, and Permissions"
           },
           {
             "id": "access-control-and-capabilities",
-            "title": "Access Control Models and Capabilities",
-            "source": "https://algomaster.io/learn/operating-systems/access-control-and-capabilities"
+            "title": "Access Control Models and Capabilities"
           },
           {
             "id": "memory-protection",
-            "title": "Memory Protection",
-            "source": "https://algomaster.io/learn/operating-systems/memory-protection"
+            "title": "Memory Protection"
           },
           {
             "id": "seccomp-and-syscall-filtering",
-            "title": "Seccomp and Syscall Filtering",
-            "source": "https://algomaster.io/learn/operating-systems/seccomp-and-syscall-filtering"
+            "title": "Seccomp and Syscall Filtering"
           },
           {
             "id": "resource-limits",
-            "title": "Resource Limits",
-            "source": "https://algomaster.io/learn/operating-systems/resource-limits"
+            "title": "Resource Limits"
           },
           {
             "id": "common-os-vulnerabilities",
-            "title": "Common OS-Level Vulnerabilities",
-            "source": "https://algomaster.io/learn/operating-systems/common-os-vulnerabilities"
+            "title": "Common OS-Level Vulnerabilities"
           },
           {
             "id": "side-channels",
-            "title": "Side Channels",
-            "source": "https://algomaster.io/learn/operating-systems/side-channels"
+            "title": "Side Channels"
           },
           {
             "id": "protection-and-security-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/protection-and-security-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -754,58 +622,47 @@
         "chapters": [
           {
             "id": "what-virtualization-is",
-            "title": "What Virtualization Is",
-            "source": "https://algomaster.io/learn/operating-systems/what-virtualization-is"
+            "title": "What Virtualization Is"
           },
           {
             "id": "virtual-machines-and-hypervisors",
-            "title": "Virtual Machines and Hypervisors",
-            "source": "https://algomaster.io/learn/operating-systems/virtual-machines-and-hypervisors"
+            "title": "Virtual Machines and Hypervisors"
           },
           {
             "id": "virtualized-memory",
-            "title": "Virtualized Memory",
-            "source": "https://algomaster.io/learn/operating-systems/virtualized-memory"
+            "title": "Virtualized Memory"
           },
           {
             "id": "containers-vs-virtual-machines",
-            "title": "Containers vs Virtual Machines",
-            "source": "https://algomaster.io/learn/operating-systems/containers-vs-virtual-machines"
+            "title": "Containers vs Virtual Machines"
           },
           {
             "id": "namespaces",
-            "title": "Linux Namespaces",
-            "source": "https://algomaster.io/learn/operating-systems/namespaces"
+            "title": "Linux Namespaces"
           },
           {
             "id": "cgroups",
-            "title": "Control Groups",
-            "source": "https://algomaster.io/learn/operating-systems/cgroups"
+            "title": "Control Groups"
           },
           {
             "id": "container-file-systems",
-            "title": "Container File Systems",
-            "source": "https://algomaster.io/learn/operating-systems/container-file-systems"
+            "title": "Container File Systems"
           },
           {
             "id": "pid-1-and-signal-handling",
-            "title": "PID 1 and Signal Handling",
-            "source": "https://algomaster.io/learn/operating-systems/pid-1-and-signal-handling"
+            "title": "PID 1 and Signal Handling"
           },
           {
             "id": "container-resource-failures",
-            "title": "Container Resource Failures",
-            "source": "https://algomaster.io/learn/operating-systems/container-resource-failures"
+            "title": "Container Resource Failures"
           },
           {
             "id": "container-security",
-            "title": "Container Security",
-            "source": "https://algomaster.io/learn/operating-systems/container-security"
+            "title": "Container Security"
           },
           {
             "id": "virtualization-and-containers-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/virtualization-and-containers-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -815,65 +672,53 @@
         "chapters": [
           {
             "id": "a-systematic-debugging-method",
-            "title": "A Systematic Debugging Method",
-            "source": "https://algomaster.io/learn/operating-systems/a-systematic-debugging-method"
+            "title": "A Systematic Debugging Method"
           },
           {
             "id": "investigating-processes",
-            "title": "Investigating Processes",
-            "source": "https://algomaster.io/learn/operating-systems/investigating-processes"
+            "title": "Investigating Processes"
           },
           {
             "id": "investigating-cpu",
-            "title": "Investigating CPU",
-            "source": "https://algomaster.io/learn/operating-systems/investigating-cpu"
+            "title": "Investigating CPU"
           },
           {
             "id": "investigating-memory",
-            "title": "Investigating Memory",
-            "source": "https://algomaster.io/learn/operating-systems/investigating-memory"
+            "title": "Investigating Memory"
           },
           {
             "id": "investigating-disk",
-            "title": "Investigating Disk",
-            "source": "https://algomaster.io/learn/operating-systems/investigating-disk"
+            "title": "Investigating Disk"
           },
           {
             "id": "investigating-system-calls",
-            "title": "Investigating System Calls",
-            "source": "https://algomaster.io/learn/operating-systems/investigating-system-calls"
+            "title": "Investigating System Calls"
           },
           {
             "id": "investigating-network-and-sockets",
-            "title": "Investigating Network and Sockets",
-            "source": "https://algomaster.io/learn/operating-systems/investigating-network-and-sockets"
+            "title": "Investigating Network and Sockets"
           },
           {
             "id": "file-descriptor-exhaustion",
-            "title": "File Descriptor Exhaustion",
-            "source": "https://algomaster.io/learn/operating-systems/file-descriptor-exhaustion"
+            "title": "File Descriptor Exhaustion"
           },
           {
             "id": "profiling-and-flame-graphs",
-            "title": "Profiling and Flame Graphs",
-            "source": "https://algomaster.io/learn/operating-systems/profiling-and-flame-graphs"
+            "title": "Profiling and Flame Graphs"
           },
           {
             "id": "ebpf-and-bpftrace",
-            "title": "eBPF and bpftrace",
-            "source": "https://algomaster.io/learn/operating-systems/ebpf-and-bpftrace"
+            "title": "eBPF and bpftrace"
           },
           {
             "id": "observability-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/operating-systems/observability-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       }
     ]
   },
   "core-cs/computer-networks": {
-    "source": "https://algomaster.io/learn/computer-networks/course-roadmap",
     "checked": "2026-10-18",
     "sections": [
       {
@@ -882,13 +727,11 @@
         "chapters": [
           {
             "id": "course-roadmap",
-            "title": "Course Roadmap",
-            "source": "https://algomaster.io/learn/computer-networks/course-roadmap"
+            "title": "Course Roadmap"
           },
           {
             "id": "join-community",
-            "title": "Join the Community",
-            "source": "https://algomaster.io/learn/computer-networks/join-community"
+            "title": "Join the Community"
           }
         ]
       },
@@ -898,13 +741,11 @@
         "chapters": [
           {
             "id": "20-must-know-networking-concepts",
-            "title": "20 Must-Know Networking Concepts",
-            "source": "https://algomaster.io/learn/computer-networks/20-must-know-networking-concepts"
+            "title": "20 Must-Know Networking Concepts"
           },
           {
             "id": "what-happens-when-you-type-a-url",
-            "title": "What Happens When You Type a URL",
-            "source": "https://algomaster.io/learn/computer-networks/what-happens-when-you-type-a-url"
+            "title": "What Happens When You Type a URL"
           }
         ]
       },
@@ -914,28 +755,23 @@
         "chapters": [
           {
             "id": "osi-7-layer-model",
-            "title": "The OSI 7-Layer Model",
-            "source": "https://algomaster.io/learn/computer-networks/osi-7-layer-model"
+            "title": "The OSI 7-Layer Model"
           },
           {
             "id": "tcp-ip-4-layer-model",
-            "title": "The TCP/IP 4-Layer Model",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-ip-4-layer-model"
+            "title": "The TCP/IP 4-Layer Model"
           },
           {
             "id": "packet-structure-and-encapsulation",
-            "title": "Packet Structure and Encapsulation",
-            "source": "https://algomaster.io/learn/computer-networks/packet-structure-and-encapsulation"
+            "title": "Packet Structure and Encapsulation"
           },
           {
             "id": "network-types-lan-wan-vpn",
-            "title": "Network Types: LAN, WAN, VPN, and Internet",
-            "source": "https://algomaster.io/learn/computer-networks/network-types-lan-wan-vpn"
+            "title": "Network Types: LAN, WAN, VPN, and Internet"
           },
           {
             "id": "fundamentals-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/fundamentals-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -945,38 +781,31 @@
         "chapters": [
           {
             "id": "ethernet-and-frames",
-            "title": "Ethernet and Frames",
-            "source": "https://algomaster.io/learn/computer-networks/ethernet-and-frames"
+            "title": "Ethernet and Frames"
           },
           {
             "id": "mac-vs-ip-addresses",
-            "title": "MAC Addresses vs IP Addresses",
-            "source": "https://algomaster.io/learn/computer-networks/mac-vs-ip-addresses"
+            "title": "MAC Addresses vs IP Addresses"
           },
           {
             "id": "switches-hubs-routers",
-            "title": "Switches vs Hubs vs Routers",
-            "source": "https://algomaster.io/learn/computer-networks/switches-hubs-routers"
+            "title": "Switches vs Hubs vs Routers"
           },
           {
             "id": "arp-protocol",
-            "title": "ARP: How IP Maps to MAC",
-            "source": "https://algomaster.io/learn/computer-networks/arp-protocol"
+            "title": "ARP: How IP Maps to MAC"
           },
           {
             "id": "vlans-and-segmentation",
-            "title": "VLANs and Network Segmentation",
-            "source": "https://algomaster.io/learn/computer-networks/vlans-and-segmentation"
+            "title": "VLANs and Network Segmentation"
           },
           {
             "id": "wifi-802-11-basics",
-            "title": "Wi-Fi Basics: IEEE 802.11",
-            "source": "https://algomaster.io/learn/computer-networks/wifi-802-11-basics"
+            "title": "Wi-Fi Basics: IEEE 802.11"
           },
           {
             "id": "data-link-layer-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/data-link-layer-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -986,48 +815,39 @@
         "chapters": [
           {
             "id": "ipv4-addressing",
-            "title": "IPv4 Addressing and Why It Is Running Out",
-            "source": "https://algomaster.io/learn/computer-networks/ipv4-addressing"
+            "title": "IPv4 Addressing and Why It Is Running Out"
           },
           {
             "id": "ipv6",
-            "title": "IPv6: The Replacement",
-            "source": "https://algomaster.io/learn/computer-networks/ipv6"
+            "title": "IPv6: The Replacement"
           },
           {
             "id": "subnetting-and-cidr",
-            "title": "Subnetting and CIDR",
-            "source": "https://algomaster.io/learn/computer-networks/subnetting-and-cidr"
+            "title": "Subnetting and CIDR"
           },
           {
             "id": "how-routing-works",
-            "title": "How Routing Works",
-            "source": "https://algomaster.io/learn/computer-networks/how-routing-works"
+            "title": "How Routing Works"
           },
           {
             "id": "bgp-and-ospf",
-            "title": "BGP and OSPF for Engineers",
-            "source": "https://algomaster.io/learn/computer-networks/bgp-and-ospf"
+            "title": "BGP and OSPF for Engineers"
           },
           {
             "id": "nat-and-pat",
-            "title": "NAT and PAT",
-            "source": "https://algomaster.io/learn/computer-networks/nat-and-pat"
+            "title": "NAT and PAT"
           },
           {
             "id": "icmp-ping-traceroute",
-            "title": "ICMP, Ping, and Traceroute",
-            "source": "https://algomaster.io/learn/computer-networks/icmp-ping-traceroute"
+            "title": "ICMP, Ping, and Traceroute"
           },
           {
             "id": "dhcp",
-            "title": "DHCP: How Your Laptop Gets an IP",
-            "source": "https://algomaster.io/learn/computer-networks/dhcp"
+            "title": "DHCP: How Your Laptop Gets an IP"
           },
           {
             "id": "network-layer-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/network-layer-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1037,58 +857,47 @@
         "chapters": [
           {
             "id": "tcp-vs-udp",
-            "title": "TCP vs UDP: When Each Wins",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-vs-udp"
+            "title": "TCP vs UDP: When Each Wins"
           },
           {
             "id": "tcp-three-way-handshake",
-            "title": "The TCP Three-Way Handshake",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-three-way-handshake"
+            "title": "The TCP Three-Way Handshake"
           },
           {
             "id": "tcp-connection-termination",
-            "title": "TCP Connection Termination",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-connection-termination"
+            "title": "TCP Connection Termination"
           },
           {
             "id": "tcp-header-anatomy",
-            "title": "TCP Header Anatomy",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-header-anatomy"
+            "title": "TCP Header Anatomy"
           },
           {
             "id": "reliability-acks-retransmission",
-            "title": "Reliability: Sequence Numbers, ACKs, Retransmission",
-            "source": "https://algomaster.io/learn/computer-networks/reliability-acks-retransmission"
+            "title": "Reliability: Sequence Numbers, ACKs, Retransmission"
           },
           {
             "id": "flow-control-sliding-window",
-            "title": "Flow Control & the Sliding Window",
-            "source": "https://algomaster.io/learn/computer-networks/flow-control-sliding-window"
+            "title": "Flow Control & the Sliding Window"
           },
           {
             "id": "congestion-control",
-            "title": "Congestion Control: Slow Start, AIMD, Reno, Cubic, BBR",
-            "source": "https://algomaster.io/learn/computer-networks/congestion-control"
+            "title": "Congestion Control: Slow Start, AIMD, Reno, Cubic, BBR"
           },
           {
             "id": "head-of-line-blocking",
-            "title": "Head-of-Line Blocking",
-            "source": "https://algomaster.io/learn/computer-networks/head-of-line-blocking"
+            "title": "Head-of-Line Blocking"
           },
           {
             "id": "udp-internals",
-            "title": "UDP Internals",
-            "source": "https://algomaster.io/learn/computer-networks/udp-internals"
+            "title": "UDP Internals"
           },
           {
             "id": "tcp-tuning-knobs",
-            "title": "TCP Tuning Knobs in Production",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-tuning-knobs"
+            "title": "TCP Tuning Knobs in Production"
           },
           {
             "id": "transport-layer-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/transport-layer-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1098,48 +907,39 @@
         "chapters": [
           {
             "id": "dns-hierarchy",
-            "title": "The DNS Hierarchy",
-            "source": "https://algomaster.io/learn/computer-networks/dns-hierarchy"
+            "title": "The DNS Hierarchy"
           },
           {
             "id": "recursive-vs-iterative",
-            "title": "Recursive vs Iterative DNS Resolution",
-            "source": "https://algomaster.io/learn/computer-networks/recursive-vs-iterative"
+            "title": "Recursive vs Iterative DNS Resolution"
           },
           {
             "id": "dns-record-types",
-            "title": "DNS Record Types",
-            "source": "https://algomaster.io/learn/computer-networks/dns-record-types"
+            "title": "DNS Record Types"
           },
           {
             "id": "dns-caching-and-ttls",
-            "title": "DNS Caching and TTLs",
-            "source": "https://algomaster.io/learn/computer-networks/dns-caching-and-ttls"
+            "title": "DNS Caching and TTLs"
           },
           {
             "id": "anycast-and-geodns",
-            "title": "Anycast and GeoDNS",
-            "source": "https://algomaster.io/learn/computer-networks/anycast-and-geodns"
+            "title": "Anycast and GeoDNS"
           },
           {
             "id": "doh-and-dot",
-            "title": "DNS over HTTPS and DNS over TLS",
-            "source": "https://algomaster.io/learn/computer-networks/doh-and-dot"
+            "title": "DNS over HTTPS and DNS over TLS"
           },
           {
             "id": "dnssec",
-            "title": "DNSSEC",
-            "source": "https://algomaster.io/learn/computer-networks/dnssec"
+            "title": "DNSSEC"
           },
           {
             "id": "debugging-dns",
-            "title": "Debugging DNS with dig and nslookup",
-            "source": "https://algomaster.io/learn/computer-networks/debugging-dns"
+            "title": "Debugging DNS with dig and nslookup"
           },
           {
             "id": "dns-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/dns-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1149,63 +949,51 @@
         "chapters": [
           {
             "id": "http-request-response-anatomy",
-            "title": "HTTP Request/Response Anatomy",
-            "source": "https://algomaster.io/learn/computer-networks/http-request-response-anatomy"
+            "title": "HTTP Request/Response Anatomy"
           },
           {
             "id": "http-methods-and-idempotency",
-            "title": "HTTP Methods and Idempotency",
-            "source": "https://algomaster.io/learn/computer-networks/http-methods-and-idempotency"
+            "title": "HTTP Methods and Idempotency"
           },
           {
             "id": "status-codes",
-            "title": "HTTP Status Codes",
-            "source": "https://algomaster.io/learn/computer-networks/status-codes"
+            "title": "HTTP Status Codes"
           },
           {
             "id": "http-headers",
-            "title": "HTTP Headers",
-            "source": "https://algomaster.io/learn/computer-networks/http-headers"
+            "title": "HTTP Headers"
           },
           {
             "id": "http-1-vs-2-vs-3",
-            "title": "HTTP/1.1 vs HTTP/2 vs HTTP/3",
-            "source": "https://algomaster.io/learn/computer-networks/http-1-vs-2-vs-3"
+            "title": "HTTP/1.1 vs HTTP/2 vs HTTP/3"
           },
           {
             "id": "persistent-connections",
-            "title": "Persistent Connections, Pipelining, and Multiplexing",
-            "source": "https://algomaster.io/learn/computer-networks/persistent-connections"
+            "title": "Persistent Connections, Pipelining, and Multiplexing"
           },
           {
             "id": "http-2-internals",
-            "title": "HTTP/2 Internals",
-            "source": "https://algomaster.io/learn/computer-networks/http-2-internals"
+            "title": "HTTP/2 Internals"
           },
           {
             "id": "http-3-and-quic",
-            "title": "HTTP/3 and QUIC",
-            "source": "https://algomaster.io/learn/computer-networks/http-3-and-quic"
+            "title": "HTTP/3 and QUIC"
           },
           {
             "id": "tls-handshake",
-            "title": "TLS Handshake Step-by-Step",
-            "source": "https://algomaster.io/learn/computer-networks/tls-handshake"
+            "title": "TLS Handshake Step-by-Step"
           },
           {
             "id": "certificates-and-pki",
-            "title": "Certificates and PKI",
-            "source": "https://algomaster.io/learn/computer-networks/certificates-and-pki"
+            "title": "Certificates and PKI"
           },
           {
             "id": "http-caching",
-            "title": "HTTP Caching in Browsers, Proxies, and CDNs",
-            "source": "https://algomaster.io/learn/computer-networks/http-caching"
+            "title": "HTTP Caching in Browsers, Proxies, and CDNs"
           },
           {
             "id": "http-https-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/http-https-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1215,43 +1003,35 @@
         "chapters": [
           {
             "id": "websockets",
-            "title": "WebSockets: Full-Duplex over a Single Connection",
-            "source": "https://algomaster.io/learn/computer-networks/websockets"
+            "title": "WebSockets: Full-Duplex over a Single Connection"
           },
           {
             "id": "server-sent-events",
-            "title": "Server-Sent Events (SSE)",
-            "source": "https://algomaster.io/learn/computer-networks/server-sent-events"
+            "title": "Server-Sent Events (SSE)"
           },
           {
             "id": "long-polling-vs-sse-vs-websockets",
-            "title": "Long Polling vs SSE vs WebSockets",
-            "source": "https://algomaster.io/learn/computer-networks/long-polling-vs-sse-vs-websockets"
+            "title": "Long Polling vs SSE vs WebSockets"
           },
           {
             "id": "grpc-and-protobuf",
-            "title": "gRPC and Protocol Buffers",
-            "source": "https://algomaster.io/learn/computer-networks/grpc-and-protobuf"
+            "title": "gRPC and Protocol Buffers"
           },
           {
             "id": "graphql-networking",
-            "title": "GraphQL Networking Concerns",
-            "source": "https://algomaster.io/learn/computer-networks/graphql-networking"
+            "title": "GraphQL Networking Concerns"
           },
           {
             "id": "mqtt",
-            "title": "MQTT for Lightweight IoT",
-            "source": "https://algomaster.io/learn/computer-networks/mqtt"
+            "title": "MQTT for Lightweight IoT"
           },
           {
             "id": "smtp-ftp-ssh",
-            "title": "SMTP, FTP, and SSH: The Older Protocols",
-            "source": "https://algomaster.io/learn/computer-networks/smtp-ftp-ssh"
+            "title": "SMTP, FTP, and SSH: The Older Protocols"
           },
           {
             "id": "modern-protocols-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/modern-protocols-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1261,48 +1041,39 @@
         "chapters": [
           {
             "id": "what-is-a-socket",
-            "title": "What Is a Socket?",
-            "source": "https://algomaster.io/learn/computer-networks/what-is-a-socket"
+            "title": "What Is a Socket?"
           },
           {
             "id": "tcp-socket-programming",
-            "title": "TCP Socket Programming",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-socket-programming"
+            "title": "TCP Socket Programming"
           },
           {
             "id": "udp-socket-programming",
-            "title": "UDP Socket Programming",
-            "source": "https://algomaster.io/learn/computer-networks/udp-socket-programming"
+            "title": "UDP Socket Programming"
           },
           {
             "id": "multi-client-with-threads",
-            "title": "Handling Multiple Clients with Threads",
-            "source": "https://algomaster.io/learn/computer-networks/multi-client-with-threads"
+            "title": "Handling Multiple Clients with Threads"
           },
           {
             "id": "non-blocking-io-and-select",
-            "title": "Non-Blocking I/O and select()",
-            "source": "https://algomaster.io/learn/computer-networks/non-blocking-io-and-select"
+            "title": "Non-Blocking I/O and select()"
           },
           {
             "id": "epoll-kqueue-iocp",
-            "title": "epoll, kqueue, and IOCP",
-            "source": "https://algomaster.io/learn/computer-networks/epoll-kqueue-iocp"
+            "title": "epoll, kqueue, and IOCP"
           },
           {
             "id": "async-networking",
-            "title": "Async Networking with asyncio and Java NIO",
-            "source": "https://algomaster.io/learn/computer-networks/async-networking"
+            "title": "Async Networking with asyncio and Java NIO"
           },
           {
             "id": "concurrent-tcp-server",
-            "title": "Building a Concurrent TCP Echo Server",
-            "source": "https://algomaster.io/learn/computer-networks/concurrent-tcp-server"
+            "title": "Building a Concurrent TCP Echo Server"
           },
           {
             "id": "socket-programming-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/socket-programming-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1312,43 +1083,35 @@
         "chapters": [
           {
             "id": "wireshark-deep-dive",
-            "title": "Wireshark Deep Dive",
-            "source": "https://algomaster.io/learn/computer-networks/wireshark-deep-dive"
+            "title": "Wireshark Deep Dive"
           },
           {
             "id": "tcpdump",
-            "title": "tcpdump for the Command Line",
-            "source": "https://algomaster.io/learn/computer-networks/tcpdump"
+            "title": "tcpdump for the Command Line"
           },
           {
             "id": "netstat-ss-lsof",
-            "title": "netstat, ss, lsof: Who's Using This Port?",
-            "source": "https://algomaster.io/learn/computer-networks/netstat-ss-lsof"
+            "title": "netstat, ss, lsof: Who's Using This Port?"
           },
           {
             "id": "curl-and-wget",
-            "title": "curl and wget Like a Pro",
-            "source": "https://algomaster.io/learn/computer-networks/curl-and-wget"
+            "title": "curl and wget Like a Pro"
           },
           {
             "id": "traceroute-mtr-ping",
-            "title": "traceroute, mtr, ping: Where Is the Latency?",
-            "source": "https://algomaster.io/learn/computer-networks/traceroute-mtr-ping"
+            "title": "traceroute, mtr, ping: Where Is the Latency?"
           },
           {
             "id": "iperf-bandwidth-testing",
-            "title": "iperf for Bandwidth Testing",
-            "source": "https://algomaster.io/learn/computer-networks/iperf-bandwidth-testing"
+            "title": "iperf for Bandwidth Testing"
           },
           {
             "id": "reading-a-real-pcap",
-            "title": "Reading a Packet Capture: A Real Bug",
-            "source": "https://algomaster.io/learn/computer-networks/reading-a-real-pcap"
+            "title": "Reading a Packet Capture: A Real Bug"
           },
           {
             "id": "network-tools-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/network-tools-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1358,53 +1121,43 @@
         "chapters": [
           {
             "id": "latency-vs-throughput-vs-bandwidth",
-            "title": "Latency vs Throughput vs Bandwidth",
-            "source": "https://algomaster.io/learn/computer-networks/latency-vs-throughput-vs-bandwidth"
+            "title": "Latency vs Throughput vs Bandwidth"
           },
           {
             "id": "bandwidth-delay-product",
-            "title": "The Bandwidth-Delay Product",
-            "source": "https://algomaster.io/learn/computer-networks/bandwidth-delay-product"
+            "title": "The Bandwidth-Delay Product"
           },
           {
             "id": "where-latency-comes-from",
-            "title": "Where Latency Comes From",
-            "source": "https://algomaster.io/learn/computer-networks/where-latency-comes-from"
+            "title": "Where Latency Comes From"
           },
           {
             "id": "tcp-optimization",
-            "title": "TCP Optimization in Production",
-            "source": "https://algomaster.io/learn/computer-networks/tcp-optimization"
+            "title": "TCP Optimization in Production"
           },
           {
             "id": "connection-pooling",
-            "title": "Connection Pooling and Keep-Alive",
-            "source": "https://algomaster.io/learn/computer-networks/connection-pooling"
+            "title": "Connection Pooling and Keep-Alive"
           },
           {
             "id": "http-caching-strategies",
-            "title": "HTTP Caching Strategies",
-            "source": "https://algomaster.io/learn/computer-networks/http-caching-strategies"
+            "title": "HTTP Caching Strategies"
           },
           {
             "id": "cdns-and-edge",
-            "title": "CDNs and Edge Networks",
-            "source": "https://algomaster.io/learn/computer-networks/cdns-and-edge"
+            "title": "CDNs and Edge Networks"
           },
           {
             "id": "compression",
-            "title": "Compression",
-            "source": "https://algomaster.io/learn/computer-networks/compression"
+            "title": "Compression"
           },
           {
             "id": "finding-bottlenecks",
-            "title": "Finding Network Bottlenecks in Production",
-            "source": "https://algomaster.io/learn/computer-networks/finding-bottlenecks"
+            "title": "Finding Network Bottlenecks in Production"
           },
           {
             "id": "network-performance-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/network-performance-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1414,53 +1167,43 @@
         "chapters": [
           {
             "id": "fallacies-of-distributed-computing",
-            "title": "The Eight Fallacies of Distributed Computing",
-            "source": "https://algomaster.io/learn/computer-networks/fallacies-of-distributed-computing"
+            "title": "The Eight Fallacies of Distributed Computing"
           },
           {
             "id": "failure-modes-and-partitions",
-            "title": "Failure Modes: Timeouts, Partial Failures, Partitions",
-            "source": "https://algomaster.io/learn/computer-networks/failure-modes-and-partitions"
+            "title": "Failure Modes: Timeouts, Partial Failures, Partitions"
           },
           {
             "id": "retries-and-backoff",
-            "title": "Retry Strategies and Exponential Backoff",
-            "source": "https://algomaster.io/learn/computer-networks/retries-and-backoff"
+            "title": "Retry Strategies and Exponential Backoff"
           },
           {
             "id": "idempotency",
-            "title": "Idempotency: Why Retries Need It",
-            "source": "https://algomaster.io/learn/computer-networks/idempotency"
+            "title": "Idempotency: Why Retries Need It"
           },
           {
             "id": "circuit-breakers",
-            "title": "Circuit Breakers",
-            "source": "https://algomaster.io/learn/computer-networks/circuit-breakers"
+            "title": "Circuit Breakers"
           },
           {
             "id": "load-balancing-l4-l7",
-            "title": "Load Balancing: Layer 4 vs Layer 7",
-            "source": "https://algomaster.io/learn/computer-networks/load-balancing-l4-l7"
+            "title": "Load Balancing: Layer 4 vs Layer 7"
           },
           {
             "id": "health-checks-and-discovery",
-            "title": "Health Checks and Service Discovery",
-            "source": "https://algomaster.io/learn/computer-networks/health-checks-and-discovery"
+            "title": "Health Checks and Service Discovery"
           },
           {
             "id": "graceful-shutdown",
-            "title": "Graceful Shutdown and Connection Draining",
-            "source": "https://algomaster.io/learn/computer-networks/graceful-shutdown"
+            "title": "Graceful Shutdown and Connection Draining"
           },
           {
             "id": "backpressure-and-rate-limiting",
-            "title": "Backpressure and Rate Limiting",
-            "source": "https://algomaster.io/learn/computer-networks/backpressure-and-rate-limiting"
+            "title": "Backpressure and Rate Limiting"
           },
           {
             "id": "distributed-systems-networking-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/distributed-systems-networking-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       },
@@ -1470,48 +1213,39 @@
         "chapters": [
           {
             "id": "tls-deep-dive",
-            "title": "TLS/SSL Deep Dive",
-            "source": "https://algomaster.io/learn/computer-networks/tls-deep-dive"
+            "title": "TLS/SSL Deep Dive"
           },
           {
             "id": "certificate-validation",
-            "title": "Certificate Validation and Common Failures",
-            "source": "https://algomaster.io/learn/computer-networks/certificate-validation"
+            "title": "Certificate Validation and Common Failures"
           },
           {
             "id": "mitm-replay-downgrade",
-            "title": "Common Attacks: MITM, Replay, and Downgrade",
-            "source": "https://algomaster.io/learn/computer-networks/mitm-replay-downgrade"
+            "title": "Common Attacks: MITM, Replay, and Downgrade"
           },
           {
             "id": "ddos",
-            "title": "DDoS: SYN Floods, Amplification, and Slowloris",
-            "source": "https://algomaster.io/learn/computer-networks/ddos"
+            "title": "DDoS: SYN Floods, Amplification, and Slowloris"
           },
           {
             "id": "dns-spoofing",
-            "title": "DNS Spoofing and Cache Poisoning",
-            "source": "https://algomaster.io/learn/computer-networks/dns-spoofing"
+            "title": "DNS Spoofing and Cache Poisoning"
           },
           {
             "id": "firewalls-and-ids",
-            "title": "Firewalls and IDS/IPS",
-            "source": "https://algomaster.io/learn/computer-networks/firewalls-and-ids"
+            "title": "Firewalls and IDS/IPS"
           },
           {
             "id": "vpn-protocols",
-            "title": "VPN Protocols: IPsec, WireGuard, and OpenVPN",
-            "source": "https://algomaster.io/learn/computer-networks/vpn-protocols"
+            "title": "VPN Protocols: IPsec, WireGuard, and OpenVPN"
           },
           {
             "id": "zero-trust",
-            "title": "Zero Trust Networking",
-            "source": "https://algomaster.io/learn/computer-networks/zero-trust"
+            "title": "Zero Trust Networking"
           },
           {
             "id": "network-security-interview-questions",
-            "title": "Interview Questions",
-            "source": "https://algomaster.io/learn/computer-networks/network-security-interview-questions"
+            "title": "Interview Questions"
           }
         ]
       }

@@ -25,7 +25,7 @@ export class App {
     "Do not mix ngModel and reactive form directives on the same control. Choose one ownership model for that control.",
     "What happens if the input inside the form has no name?",
     "ngModel cannot register normally with the parent form. Supply a name or explicitly configure the control as standalone when it should not participate.",
-    "https://angular.dev/guide/forms/template-driven-forms",
+    null,
   ),
   "forms--reactive-forms": lesson(
     "Reactive forms define a typed control model in the component class. The template binds to that model, making complex validation and programmatic updates explicit.",
@@ -52,7 +52,7 @@ export class App {
     "Do not assume a typed FormGroup validates a server payload. Validate input at the server and normalize external data before patching the form.",
     "When would patchValue be appropriate?",
     "When updating only selected fields, such as restoring a saved title while keeping other edits. setValue is useful when the whole shape must be present.",
-    "https://angular.dev/guide/forms/reactive-forms",
+    null,
   ),
   "forms--form-validation": lesson(
     "Validation combines rules with useful feedback. A form should explain how to correct a field, preserve the draft, and validate again on the server.",
@@ -76,7 +76,7 @@ export class App {
     "Disabling submit without explaining invalid fields leaves users guessing. Provide field-level feedback and handle submission as a final validation checkpoint.",
     "What should happen after a server rejects one field?",
     "Keep the draft, show a field-specific message linked to its control, and let the user correct it. Clear stale server errors when appropriate.",
-    "https://angular.dev/guide/forms/form-validation",
+    null,
   ),
   "forms--custom-validators": lesson(
     "A custom validator expresses a domain rule that built-in constraints do not capture. Keep synchronous validators pure and return structured error information.",
@@ -101,7 +101,7 @@ export const title = new FormControl('', {
     "Calling setValue inside a validator can create recursive validation and surprising edits. Normalize at a deliberate input or submission boundary instead.",
     "Where should a password-confirmation match rule be attached?",
     "To the FormGroup containing both controls, because the rule concerns their relationship rather than one independent field.",
-    "https://angular.dev/guide/forms/form-validation",
+    null,
   ),
   "forms--dynamic-forms": lesson(
     "Dynamic forms turn trusted field metadata into controls and markup. They are useful for varying questionnaires, but the schema needs a clear contract and validation policy.",
@@ -131,7 +131,7 @@ export function buildForm(schema: TextField[]) {
     "Do not confuse metadata-driven forms with trusted HTML injection. The application should own its templates and support only known control types.",
     "Why validate duplicate field keys before rendering?",
     "Duplicate keys can overwrite or misassociate controls and labels. Each schema field needs one unambiguous identity.",
-    "https://angular.dev/guide/forms/dynamic-forms",
+    null,
   ),
   "forms--form-arrays": lesson(
     "FormArray models an ordered collection of controls whose length can change. It is useful for repeated study topics, attendees, or checklist entries.",
@@ -155,7 +155,7 @@ export class App {
     'Inside a form, an add-row button without type="button" can submit accidentally. Explicitly distinguish structural controls from the submit action.',
     "How does a FormArray differ from a FormGroup?",
     "FormArray is an ordered, variable-length collection; FormGroup normally uses known named controls. FormRecord is useful for dynamically keyed controls.",
-    "https://angular.dev/guide/forms/reactive-forms",
+    null,
   ),
   "http-and-rxjs--httpclient": lesson(
     "HttpClient exposes typed observable-based requests and integrates with Angular’s DI and interceptor infrastructure. Configure it once and keep transport concerns at an API boundary.",
@@ -180,7 +180,7 @@ export class CourseApi {
     "Reading the same cold request through several independent async bindings can duplicate requests. Bind once with a template alias or use a deliberate sharing strategy.",
     "Why is get<Course[]> not enough to trust response fields?",
     "TypeScript types disappear at runtime. The server can still return malformed data, so validate the actual response when correctness requires it.",
-    "https://angular.dev/guide/http/making-requests",
+    null,
   ),
   "http-and-rxjs--http-interceptors": lesson(
     "Interceptors process HTTP requests and responses through a configured chain. They suit cross-cutting concerns such as request metadata, timing, and consistent transport policies.",
@@ -202,7 +202,7 @@ export const httpProviders = [provideHttpClient(withInterceptors([plannerHeader]
     "Do not subscribe inside an interceptor and detach the request from the returned observable. Return the composed next(request) pipeline.",
     "Why should a retry policy distinguish reads from writes?",
     "Retrying a write can duplicate a side effect unless the endpoint has suitable idempotency semantics. A blanket retry policy can change application behavior.",
-    "https://angular.dev/guide/http/interceptors",
+    null,
   ),
   "http-and-rxjs--observables": lesson(
     "An observable describes a stream of values over time. A subscriber receives next notifications and eventually completion or an error, and can release work by unsubscribing.",
@@ -224,7 +224,7 @@ setTimeout(() => subscription.unsubscribe(), 3500);`,
     "Creating an observable is not always enough to execute it. Conversely, forgetting teardown on a long-lived source can keep work alive after its UI disappears.",
     "How does this differ from an ordinary promise?",
     "A promise settles once and has no standard subscription teardown. An observable can emit multiple values and define cleanup for cancellation.",
-    "https://rxjs.dev/guide/observable",
+    null,
   ),
   "http-and-rxjs--rxjs-operators": lesson(
     "Operators compose stream behavior without nesting independent subscriptions. Choose transformations and flattening operators according to the meaning of your events.",
@@ -250,7 +250,7 @@ query$.next(' Angular ');
     "Nested subscribe calls make cancellation and errors difficult to coordinate. Flatten asynchronous work with an operator selected for the intended ordering.",
     "Which operator fits ordered saves that must not overlap?",
     "concatMap queues work and subscribes sequentially. Still design server-side ordering and failure handling explicitly.",
-    "https://rxjs.dev/guide/operators",
+    null,
   ),
   "http-and-rxjs--subjects": lesson(
     "A Subject is both an observable and an observer: it can receive values through next and multicast them to subscribers. Use it for explicit event streams, not as a default replacement for all state.",
@@ -273,7 +273,7 @@ export class SelectedCourse {
     "Do not expose the writable Subject publicly if consumers should not control the event source. An asObservable view communicates a narrower contract.",
     "Would a plain Subject replay the current selection to a new subscriber?",
     "No. It only forwards emissions that occur while subscribed. BehaviorSubject supplies an initial and current value.",
-    "https://rxjs.dev/guide/subject",
+    null,
   ),
   "http-and-rxjs--error-handling": lesson(
     "An RxJS error terminates the stream segment that emits it. Place recovery at the right boundary so one failed request does not unnecessarily disable future user interactions.",
@@ -295,7 +295,7 @@ const result$ = query$.pipe(
     "Returning [] from catchError can make an outage look like no results. Use an explicit failure state or rethrow to an owner that can present one.",
     "Should finalize display “Saved successfully”?",
     "No. It runs for failure and unsubscription as well as success. Report success only from the confirmed successful result.",
-    "https://rxjs.dev/api/operators/catchError",
+    null,
   ),
   "http-and-rxjs--canceling-requests": lesson(
     "Cancellation prevents obsolete work from updating the current screen and can release network resources. switchMap is a useful policy for reads where only the newest request matters.",
@@ -325,7 +325,7 @@ export class App {
     "Do not use switchMap for writes that must all finish merely because it is familiar. Unsubscribing does not roll back a server mutation.",
     "How would you trigger the initial empty search too?",
     "Add startWith(this.query.value) to the source pipeline before debouncing, and decide whether an empty query should actually reach the server.",
-    "https://angular.dev/guide/http/making-requests",
+    null,
   ),
   "http-and-rxjs--async-pipe": lesson(
     "AsyncPipe connects a template to an observable or promise and updates the view when a value arrives. It owns the subscription lifecycle for the bound source.",
@@ -347,6 +347,6 @@ export class App {
     "A truthiness-based @if can hide valid values such as zero or false. Use an object view model or explicit null checks when those values are meaningful.",
     "Why keep the observable in a field rather than call a new request method from the template?",
     "A method that creates a new observable on each evaluation changes source identity, causing resubscription and potentially repeated requests.",
-    "https://angular.dev/api/common/AsyncPipe",
+    null,
   ),
 };

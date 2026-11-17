@@ -1,8 +1,8 @@
 # Course content audit
 
-Updated 2026-10-18. Reference scope: the public [AlgoMaster catalog](https://algomaster.io/courses); authenticated and premium chapters were not inspected or copied.
+Updated 2026-10-18. Scope: all local course outlines and lesson content.
 
-287 local courses contain 6278 navigable lessons. There are 351 authored interview labs across 21 course areas. The OS and networking courses include every entry in their public roadmaps (153 and 111 respectively), plus 12 retained workshops each. The other four new curricula retain 12 lessons each. Existing lesson URLs remain available.
+287 local courses contain 6278 navigable lessons. There are 351 authored interview labs across 21 course areas. The OS and networking courses include every entry in their course roadmaps (153 and 111 respectively), plus 12 retained workshops each. The other four new curricula retain 12 lessons each. Existing lesson URLs remain available.
 
 ## Learning features
 
@@ -13,7 +13,7 @@ Updated 2026-10-18. Reference scope: the public [AlgoMaster catalog](https://alg
 
 ## Verification and limitations
 
-Run npm run check:core-cs, npm run check:tutorials, npm run check:interview-courses, npm run check:lesson-depth, and npm run test:workshop. LESSON_DEPTH_AUDIT.json identifies the rendering/content path for every lesson. Topic matching is an automated coverage signal, not a claim that every chapter has received independent expert review. Shared mechanisms are reused where applicable; not every route has a unique simulation or executable exercise. The browser runner executes JavaScript only, while C++, C#, and other native examples remain reading/local implementation exercises. CORE_CS_ROADMAP_AUDIT.md maps every OS and networking roadmap entry to its local lesson. Other curricula do not claim chapter-for-chapter parity with the reference site.
+Run npm run check:core-cs, npm run check:tutorials, npm run check:interview-courses, npm run check:lesson-depth, and npm run test:workshop. LESSON_DEPTH_AUDIT.json identifies the rendering/content path for every lesson. Topic matching is an automated coverage signal, not a claim that every chapter has received independent expert review. Shared mechanisms are reused where applicable; not every route has a unique simulation or executable exercise. The browser runner executes JavaScript only, while C++, C#, and other native examples remain reading/local implementation exercises. CORE_CS_ROADMAP_AUDIT.md maps every OS and networking roadmap entry to its local lesson. Course coverage is checked against the local curriculum inventories.
 
 | Local course | Total lessons | Authored interview labs |
 |---|---:|---:|
@@ -304,16 +304,3 @@ Run npm run check:core-cs, npm run check:tutorials, npm run check:interview-cour
 | social-media/zoom | 3 | 0 |
 | social-media/teams | 3 | 0 |
 | social-media/outlook | 3 | 0 |
-
-## Technical references
-
-- [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
-- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
-- [C# asynchronous programming](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/)
-- [HTTP caching specification](https://www.rfc-editor.org/rfc/rfc9111.html)
-- [Production ML systems](https://developers.google.com/machine-learning/crash-course/production-ml-systems)
-- [PostgreSQL window functions](https://www.postgresql.org/docs/current/tutorial-window.html)
-- [Python default arguments](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values)
-- [Go channels](https://go.dev/tour/concurrency/2)
-- [Git revert](https://git-scm.com/docs/git-revert)
-- [Kafka design](https://kafka.apache.org/41/design/design/)

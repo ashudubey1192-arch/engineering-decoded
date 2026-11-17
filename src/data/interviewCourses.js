@@ -290,17 +290,6 @@ Object.assign(interviewLessons, {
 });
 
 for (const [key, lessons] of Object.entries(interviewExpansion)) interviewLessons[key].push(...lessons);
-const courseReferences = {
-  "interviews/concurrency-interview": ["Java concurrency API", "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutorService.html"],
-  "core-cs/operating-systems": ["Operating Systems: Three Easy Pieces", "https://pages.cs.wisc.edu/~remzi/OSTEP/"],
-  "core-cs/computer-networks": ["HTTP caching specification and protocol context", "https://www.rfc-editor.org/rfc/rfc9111.html"],
-  "ai/ml-system-design": ["Production ML systems", "https://developers.google.com/machine-learning/crash-course/production-ml-systems"],
-  "backend/cpp": ["C++ Core Guidelines", "https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines"],
-  "backend/csharp": ["C# asynchronous programming", "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/"],
-};
-for (const [key, reference] of Object.entries(courseReferences)) {
-  for (const article of interviewLessons[key]) article.lab.reference = reference;
-}
 for (const [key, lessons] of Object.entries(coreCsRoadmapLessons)) interviewLessons[key].unshift(...lessons);
 
 export const newInterviewCourseKeys = new Set([

@@ -1,0 +1,396 @@
+/* ---------- Animated walkthrough (ReactMotion) ---------- */
+.reactMotion {
+  margin: 28px 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 6px;
+}
+.reactMotion > header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.reactMotion header small {
+  display: block;
+  color: var(--course-accent);
+  font: 700 10px var(--font-mono);
+  letter-spacing: 0.09em;
+}
+.reactMotion header strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 17px;
+}
+.reactMotionControls {
+  display: flex;
+  gap: 8px;
+}
+.reactMotion button {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font: 600 12px/1.4 var(--font-sans);
+  cursor: pointer;
+}
+.reactMotion button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.reactMotion button:not(:disabled):hover,
+.reactMotion button[aria-pressed="true"] {
+  border-color: var(--course-accent);
+}
+.reactMotionStage {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 4px;
+}
+.reactMotionStage svg {
+  display: block;
+  width: 100%;
+  min-width: 480px;
+  height: auto;
+}
+.reactMotionEdge {
+  stroke: var(--line);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+}
+.reactMotionEdge.isActive {
+  stroke: var(--course-accent);
+  animation: reactMotionDash 1.2s linear infinite;
+}
+.reactMotionNode rect {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1.5;
+  transition:
+    fill 0.35s ease,
+    stroke 0.35s ease;
+}
+.reactMotionNode text {
+  fill: var(--text);
+  font: 600 11px var(--font-mono);
+  text-anchor: middle;
+}
+.reactMotionNode .reactMotionSub {
+  fill: var(--muted);
+  font: 9px var(--font-mono);
+}
+.reactMotionNode.isSource rect {
+  stroke: var(--course-accent);
+}
+.reactMotionNode.isTarget rect {
+  stroke: var(--course-accent);
+  stroke-width: 2.5;
+  fill: color-mix(in srgb, var(--course-accent) 18%, var(--surface));
+  animation: reactMotionPulse 1.4s ease-in-out infinite alternate;
+}
+.reactMotionToken {
+  animation: reactMotionTravel 1.1s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+.reactMotionToken circle {
+  fill: var(--course-accent);
+  stroke: var(--bg);
+  stroke-width: 3;
+}
+.reactMotionToken text {
+  fill: var(--course-accent);
+  font: 700 10px var(--font-mono);
+  text-anchor: middle;
+}
+.reactMotionSteps {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.reactMotionSteps button {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  font-weight: 400;
+  line-height: 1.55;
+}
+.reactMotionSteps button span {
+  color: var(--course-accent);
+  font: 700 11px/1.9 var(--font-mono);
+}
+.reactMotionSteps button[aria-current="step"] {
+  border-color: var(--course-accent);
+  background: color-mix(in srgb, var(--course-accent) 10%, var(--bg));
+}
+.reactMotionCaption {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+@keyframes reactMotionTravel {
+  from {
+    transform: translate(var(--from-x), var(--from-y));
+  }
+  to {
+    transform: translate(var(--to-x), var(--to-y));
+  }
+}
+@keyframes reactMotionDash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@keyframes reactMotionPulse {
+  from {
+    stroke-opacity: 1;
+  }
+  to {
+    stroke-opacity: 0.45;
+  }
+}
+
+/* ---------- Deep-dive sections ---------- */
+.reactDeepDive {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  margin-top: 28px;
+}
+.reactDeepDive h3 {
+  margin-bottom: 8px;
+}
+.reactDeepDive ul {
+  padding-left: 20px;
+}
+.reactDeepDive li {
+  margin: 6px 0;
+}
+
+/* ---------- Practice labs ---------- */
+.reactLabSplit {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.reactLabSplit pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+.reactLabReveal {
+  animation: reactLabFade 0.45s ease both;
+}
+.reactLab .reactLabInline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reactLab .reactLabInline input:not([type="checkbox"]) {
+  margin: 0;
+}
+.reactLab button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--course-accent) 18%, var(--bg));
+}
+.reactLab button:disabled {
+  opacity: 0.5;
+}
+.reactLabFlash {
+  animation: reactLabFlash 1.2s ease;
+}
+.reactLabLog {
+  margin: 0;
+  padding: 12px 12px 12px 34px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font: 12px/1.8 var(--font-mono);
+  color: var(--muted);
+  max-height: 240px;
+  overflow: auto;
+}
+.reactLabGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.reactLabStack {
+  display: grid;
+  gap: 10px;
+}
+.reactLabStack > * {
+  animation: reactLabFade 0.4s ease both;
+}
+.reactLabCard {
+  display: grid;
+  gap: 6px;
+  min-height: 72px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 4px;
+}
+.reactLabCard span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.reactLabBanner {
+  border-color: var(--course-accent);
+}
+.reactLab .reactLabPick {
+  display: grid;
+  gap: 8px;
+}
+.reactLabBadged {
+  position: relative;
+  border: 2px solid var(--course-accent);
+  border-radius: 6px;
+  animation: reactLabFade 0.35s ease both;
+}
+.reactLabBadged em {
+  position: absolute;
+  top: -10px;
+  right: 8px;
+  padding: 1px 8px;
+  background: var(--course-accent);
+  color: var(--bg);
+  font: 700 10px/1.6 var(--font-mono);
+  font-style: normal;
+  border-radius: 3px;
+}
+.reactLabSkeleton {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+  min-height: 72px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+}
+.reactLabSkeleton span {
+  display: block;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--line);
+}
+.reactLabSkeleton span:last-child {
+  width: 60%;
+}
+.reactLabSkeleton.isLoading span {
+  background: linear-gradient(90deg, var(--line) 25%, var(--surface) 50%, var(--line) 75%);
+  background-size: 200% 100%;
+  animation: reactLabShimmer 1.2s linear infinite;
+}
+.reactLabScroller {
+  display: grid;
+  gap: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.reactLabSentinel {
+  padding: 10px;
+  text-align: center;
+  color: var(--muted);
+  font: 11px var(--font-mono);
+  border: 1px dashed var(--line);
+}
+.reactLabComments {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.reactLabComments li {
+  margin: 8px 0;
+  padding: 10px 0 4px 14px;
+  border-left: 2px solid var(--course-accent);
+  animation: reactLabFade 0.35s ease both;
+}
+.reactLabComments .reactLabComments li {
+  border-left-color: var(--line);
+}
+.reactLabComments p {
+  margin: 0 0 6px;
+}
+.reactLab .reactLabComments button {
+  padding: 4px 10px;
+}
+.reactLabChat {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  min-height: 120px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font-size: 14px;
+}
+.reactLabChat li {
+  padding: 4px 0;
+  animation: reactLabSlide 0.35s ease both;
+}
+.reactLabChat strong {
+  color: var(--course-accent);
+  margin-right: 6px;
+}
+@keyframes reactLabFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reactLabSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reactLabFlash {
+  from {
+    background: color-mix(in srgb, var(--course-accent) 30%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+@keyframes reactLabShimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (max-width: 600px) {
+  .reactMotion {
+    padding: 16px;
+  }
+  .reactLabSplit {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reactMotion *,
+  .reactLab * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reactMotionToken {
+    transform: translate(var(--to-x), var(--to-y));
+  }
+}

@@ -103,12 +103,6 @@ export default function WebLesson({ course, slug, content }) {
             <p>{content.answer}</p>
           </details>
         </div>
-        <p className="webReference">
-          Continue learning:{" "}
-          <a href={content.reference} target="_blank" rel="noopener noreferrer">
-            Reference documentation ↗
-          </a>
-        </p>
       </section>
     </div>
   );

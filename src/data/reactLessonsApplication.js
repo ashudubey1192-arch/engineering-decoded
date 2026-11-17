@@ -141,7 +141,7 @@ export default function App() {
     "Do not add a second BrowserRouter inside an existing router. Place one routing owner around the application tree.",
     "Why test a pasted deep link as well as in-app navigation?",
     "A pasted link reaches the server first. Its rewrite rules must serve the app for valid client routes, while preserving API and asset requests.",
-    "https://reactrouter.com/start/declarative/routing",
+    null,
   ),
   "routing-and-data--nested-routes": lesson(
     "Nested routes express screens that share a layout. The parent renders persistent navigation and an Outlet where the matched child appears.",
@@ -171,7 +171,7 @@ export default function App() {
     "A matched child does not appear if the parent forgets Outlet. Do not duplicate the shared layout inside every child to work around that omission.",
     "Where would a course-specific notes tab live?",
     "It can be a child route below :courseId, with another Outlet in the course detail layout if multiple detail tabs share a common header.",
-    "https://reactrouter.com/start/declarative/routing",
+    null,
   ),
   "routing-and-data--fetching-data": lesson(
     "Remote data introduces asynchronous timing and failures. A basic Effect can demonstrate request lifecycle, while production applications often use a router or data library for caching, deduplication, and server rendering.",
@@ -211,7 +211,7 @@ export default function Courses({ query = '' }) {
     "Do not make the Effect callback itself async; React expects a cleanup function or no return value, not a promise. Define an async function inside it.",
     "Why keep an active flag as well as aborting?",
     "It directly guards the state update if asynchronous work has already progressed or does not respond to cancellation. Aborting also avoids unnecessary request work when supported.",
-    "https://react.dev/reference/react/useEffect#fetching-data-with-effects",
+    null,
   ),
   "routing-and-data--loading-and-error-states": lesson(
     "A data-driven screen needs more than a successful list. Design the pending, empty, failed, and successful states so users know what is happening and what they can do next.",
@@ -286,7 +286,7 @@ export default function Planner() {
     "Counting render logs alone does not measure user-visible slowness. Measure the expensive interaction and distinguish component computation from layout and paint.",
     "Why is pushing into a global array during render unsafe?",
     "React may repeat or abandon rendering. The external array could be changed multiple times even though the user sees only one committed screen.",
-    "https://react.dev/learn/render-and-commit",
+    null,
   ),
   "performance--memoizing-components": lesson(
     "memo can let React skip a component render when its props remain equal. Apply it at measured expensive boundaries, and keep the component correct even if React renders it again.",
@@ -309,7 +309,7 @@ export default function Page() {
     "Do not use a comparison that always returns true. It can freeze meaningful prop changes and create incorrect UI.",
     'Would passing course={{ title: "React" }} preserve prop equality?',
     "No. That expression creates a new object each parent render. Prefer the minimal primitive prop here or stabilize objects when there is a measured reason.",
-    "https://react.dev/reference/react/memo",
+    null,
   ),
   "performance--code-splitting": lesson(
     "Code splitting separates JavaScript into chunks that can be loaded when needed. It reduces initial work when substantial features are not required for the first screen.",
@@ -337,7 +337,7 @@ async function downloadReport() {
     "Moving the same module into a static import elsewhere can defeat the intended loading boundary. Verify the bundle rather than assuming the source layout guarantees a split.",
     "What trade-off comes with deferring a large feature?",
     "The initial screen can load less code, but the first use of the deferred feature may wait for a network request. Prefetch strategically when user intent makes it worthwhile.",
-    "https://vite.dev/guide/features.html#dynamic-import",
+    null,
   ),
   "performance--lazy-loading": lesson(
     "React lazy turns a dynamic module import into a component that can suspend while its code loads. Suspense supplies a nearby loading fallback for that waiting period.",
@@ -364,7 +364,7 @@ export default function App() {
     "Suspense is not an error handler. Put an Error Boundary around a boundary that must recover from chunk loading failure.",
     "Why might the fallback be difficult to see locally?",
     "The local chunk can load almost instantly or already be cached. Throttle the network when checking the loading experience.",
-    "https://react.dev/reference/react/lazy",
+    null,
   ),
   "performance--profiling-react-applications": lesson(
     "Optimize a reproducible slow interaction using evidence. React profiling explains component rendering cost; browser performance tools explain network, JavaScript, layout, and paint.",
@@ -387,7 +387,7 @@ export default function ProfiledList({ courses }) {
     "Do not optimize a component because it renders often if each render is trivial. A large synchronous calculation or browser layout may dominate the interaction instead.",
     "A memo change lowers render time but scrolling remains slow. What next?",
     "Use browser performance tools to inspect layout, paint, event handlers, and DOM size. React rendering is only one part of the total work.",
-    "https://react.dev/reference/react/Profiler",
+    null,
   ),
   "testing--testing-fundamentals": lesson(
     "Tests turn intended behavior into repeatable checks. Choose the smallest scope that can detect a meaningful regression and use broader tests for interactions that cross component or system boundaries.",
@@ -416,7 +416,7 @@ npx vitest run`,
     "A large snapshot can change without explaining which behavior broke. Prefer focused assertions about names, states, messages, and outcomes.",
     "Which test should verify an immutable reducer update?",
     "A pure unit test can call the reducer directly and assert both the new result and the unchanged input. A browser is unnecessary for that transition.",
-    "https://vitest.dev/guide/",
+    null,
   ),
   "testing--react-testing-library": lesson(
     "Testing Library encourages queries that match how people find controls: role, accessible name, and visible text. This makes tests more resistant to harmless implementation changes.",
@@ -441,7 +441,7 @@ test('shows the course and its action', () => {
     "Do not use getBy for an element you expect to be absent: it throws before the assertion. Use queryBy and an absence matcher.",
     "Which query waits for a success message after a request?",
     "Use await screen.findByText(...) or findByRole with the appropriate accessible name. It retries until the element appears or times out.",
-    "https://testing-library.com/docs/react-testing-library/intro/",
+    null,
   ),
   "testing--testing-user-interactions": lesson(
     "Test a sequence of actions and the resulting interface rather than calling component internals. user-event models realistic typing, focus, and clicks more closely than dispatching a single event manually.",
@@ -470,7 +470,7 @@ test('updates the greeting as the learner types', async () => {
     "Do not omit await from user-event calls. Tests that race the interaction can pass or fail unpredictably.",
     "What additional test would protect an empty-name fallback?",
     "Type a name, clear the input with await user.clear(...), and assert that Hello, learner is shown again.",
-    "https://testing-library.com/docs/user-event/intro/",
+    null,
   ),
   "testing--mocking-api-requests": lesson(
     "Control network responses in tests so success, latency, and failure are reproducible. Mock at the network boundary when you want to exercise the real request and response handling logic.",
@@ -501,7 +501,7 @@ test('shows a request failure', async () => {
     "Mocking the entire component or its state bypasses the behavior you intended to verify. Keep transport outcomes controlled while exercising the request code.",
     "How would you test a successful empty list?",
     "Return HttpResponse.json([]), render the screen, and assert the intended empty-state message after loading resolves. Add that message to the data owner if needed.",
-    "https://mswjs.io/docs/integrations/node",
+    null,
   ),
   "testing--end-to-end-testing": lesson(
     "End-to-end tests drive a real browser through a complete workflow. Keep a focused set around critical paths such as opening a course, submitting a valid plan, and recovering from a failed request.",
@@ -531,6 +531,6 @@ test('courses remain reachable after refresh', async ({ page }) => {
     "A test against a development server does not verify production hosting rewrites. Run an equivalent smoke check against the deployed test environment.",
     "Why not cover every reducer branch with browser tests?",
     "Browser tests cost more time and have more failure sources. Pure transitions are faster to cover with unit tests, leaving browser tests for integration risks.",
-    "https://playwright.dev/docs/intro",
+    null,
   ),
 };

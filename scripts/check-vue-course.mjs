@@ -6,7 +6,7 @@ import { vueArticles } from "../src/data/frontendCourses.js";
 import { vueLessons } from "../src/data/vueLessons.js";
 
 assert.deepEqual(Object.keys(vueLessons).sort(), vueArticles.map(({ slug }) => slug).sort());
-const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+const server = await createServer({ optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false }, appType: "custom" });
 try {
   for (const article of vueArticles) {
     const lesson = vueLessons[article.slug];
@@ -21,7 +21,7 @@ try {
     ]) {
       assert.ok(lesson[field]?.length > 30, `${article.slug}: incomplete ${field}`);
     }
-    assert.ok(new URL(lesson.reference).protocol === "https:");
+    assert.equal(lesson.reference, null);
     const { default: Article } = await server.ssrLoadModule(
       `/src/components/frontend/vue/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`,
     );

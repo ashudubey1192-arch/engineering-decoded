@@ -95,14 +95,6 @@ export default function AiEngineerRoadmap({ navigate }) {
           <span>{totalHours} suggested practice hours</span>
           <span>One evolving capstone</span>
         </div>
-        <p className="aiRoadmapAttribution">
-          Step order and topic branches follow the live{" "}
-          <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noreferrer">
-            roadmap.sh / AI Engineer ↗
-          </a>{" "}
-          roadmap, checked October 7, 2026. Explanations, examples, and time estimates are original
-          additions. Tool lists are alternatives to explore, not requirements to learn every tool.
-        </p>
       </header>
       <section className="aiRoadmapOrientation" aria-labelledby="ai-start-heading">
         <div>
@@ -436,43 +428,6 @@ export default function AiEngineerRoadmap({ navigate }) {
             what you would improve.
           </li>
         </ul>
-      </section>
-      <section className="aiRoadmapResources" aria-labelledby="ai-resources-title">
-        <h2 id="ai-resources-title">Go deeper, one resource at a time</h2>
-        <p>
-          Use the roadmap for direction and primary documentation for implementation. Check current
-          model availability, API syntax, and pricing before building.
-        </p>
-        <div>
-          <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noreferrer">
-            <strong>roadmap.sh ↗</strong>
-            <span>Reference topic map</span>
-          </a>
-          <a
-            href="https://huggingface.co/learn/llm-course/chapter1/1"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <strong>Hugging Face LLM Course ↗</strong>
-            <span>Models, tokenizers, datasets, and adaptation</span>
-          </a>
-          <a
-            href="https://docs.pytorch.org/tutorials/beginner/basics/intro.html"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <strong>PyTorch basics ↗</strong>
-            <span>Optional deeper learning and training foundations</span>
-          </a>
-          <a
-            href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <strong>Tool-use documentation ↗</strong>
-            <span>A concrete provider example of tool execution</span>
-          </a>
-        </div>
       </section>
     </div>
   );

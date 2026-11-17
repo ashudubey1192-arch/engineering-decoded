@@ -13,7 +13,7 @@ const lab = (label, code, result) => ({ label, code, result });
 
 export const databaseLessonProfiles = {
   sql: profile(
-    "https://www.postgresql.org/docs/current/tutorial.html",
+    null,
     "Use a small order ledger to learn relational queries. The SQL examples use a PostgreSQL-compatible subset; identity columns, pagination, and administrative commands vary by engine.",
     `
 SQL describes the result you want; the optimizer chooses an execution strategy. Tables represent relations, and SELECT composes filtering, projection, joins, and aggregation.
@@ -81,7 +81,7 @@ Keep migrations reviewed, restore drills timed, and query regressions measured. 
     ],
   ),
   postgresql: profile(
-    "https://www.postgresql.org/docs/current/",
+    null,
     "Build an order service using PostgreSQL tables, constraints, MVCC, and WAL. Examples use psql in a disposable database and require the privileges stated by each administrative operation.",
     `
 PostgreSQL combines relational constraints and transactions with extensible types and indexes. Use relational columns for core invariants and JSONB for genuinely variable attributes.
@@ -149,7 +149,7 @@ Practice point-in-time recovery, index maintenance, and failover in staging. Doc
     ],
   ),
   mysql: profile(
-    "https://dev.mysql.com/doc/refman/8.4/en/",
+    null,
     "Use MySQL 8.4 with InnoDB for a tenant order ledger. Storage-engine and isolation assumptions are explicit because MySQL engines do not all provide the same guarantees.",
     `
 MySQL provides relational queries, indexes, and transactions. This course uses InnoDB so row locking, crash recovery, and foreign-key behavior have a concrete meaning.
@@ -217,7 +217,7 @@ Rehearse backup restoration and replica promotion. Record version-specific DDL l
     ],
   ),
   oracle: profile(
-    "https://docs.oracle.com/en/database/oracle/oracle-database/26/cncpt/",
+    null,
     "Use Oracle SQL for an order ledger, with explicit transaction boundaries. Administrative exercises belong in a disposable pluggable database and may require a DBA-operated environment.",
     `
 Oracle Database provides relational storage, SQL, PL/SQL, and transactional recovery. Separate everyday schema work from instance administration and licensed optional features.
@@ -285,7 +285,7 @@ Maintain approved restore and failover runbooks and verify them with the operati
     ],
   ),
   transactions: profile(
-    "https://www.postgresql.org/docs/current/mvcc.html",
+    null,
     "Study transaction guarantees with a two-account transfer in PostgreSQL. Transactions are a database capability, so the installation lesson means preparing a two-session laboratory.",
     `
 A transaction groups work behind a commit boundary. ACID describes atomicity, consistency of enforced invariants, isolation from interference, and configured durability.
