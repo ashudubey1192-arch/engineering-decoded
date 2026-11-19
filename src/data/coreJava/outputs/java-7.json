@@ -1,0 +1,3 @@
+{
+  "java-7--java-7-language-and-library-features": "strings in switch: Sunday is a weekend, Monday a weekday\nbinary literal 170, underscores 1400000000\ndiamond inference: {asha=[91]}\nNIO.2 + try-with-resources: first\nparsed 12\nmulti-catch: NullPointerException\nprecise rethrow kept the type: disk\nsuppressed exceptions: close failed\nObjects.equals(null, null): true, Objects.hash: true\nThreadLocalRandom in range: true\nFork/Join task result: 5050\nPhaser phase before/after: 0 -> 1"
+}

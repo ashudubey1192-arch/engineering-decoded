@@ -11,6 +11,8 @@
     "build": "npm run check:core-cs && npm run check:tutorials && npm run check:ai-engineering && vite build",
     "check:tutorials": "node scripts/check-tutorials.mjs",
     "check:frontend-system-design": "node scripts/check-frontend-system-design.mjs",
+    "generate:core-java": "node scripts/build-core-java.mjs",
+    "check:core-java": "node scripts/build-core-java.mjs --check",
     "generate:frontend-system-design": "node scripts/generate-fsd-articles.mjs",
     "check:interview-courses": "node scripts/check-interview-courses.mjs",
     "check:lesson-depth": "node scripts/audit-lesson-depth.mjs",

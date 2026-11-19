@@ -1,0 +1,3 @@
+{
+  "interview-and-libraries--core-java-top-interview-questions": "1) \"a\" + 1 + 2 = a12, 1 + 2 + \"a\" = 3a\n2) Integer 127 == 127: true, 128 == 128: false\n3) s1 == s2: false, s1 == s2.intern(): true\n4) overridden method: Child, hidden static method: Parent.kind\n5) finally overrides return: 2\n6) i = i++ + ++i with i = 5 gives 12\n7) 0.1 + 0.2 == 0.3: false, 10 / 0.0 = Infinity\n8) char 'A' += 1 -> B, 'A' + 1 -> 66\n9) remove(Integer 1) then remove(index 0): [3]\n10) HashMap allows a null key: true\n11) \"x\".equals(null-ref) is safe: false, String.valueOf(null-ref): null\n12) Java passes a copy of the reference: abc\n13) Math.round(-2.5) = -2, Math.round(2.5) = 3\n14) static counter shared: 3"
+}

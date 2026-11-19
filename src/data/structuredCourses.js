@@ -5,7 +5,7 @@ import {
 } from "./systemDesignFundamentals";
 import { highLevelDesignArticles, highLevelDesignSections } from "./highLevelDesign";
 import { lowLevelDesignArticles, lowLevelDesignSections } from "./lowLevelDesign";
-import { javaArticles, javaSections } from "./java";
+import { javaAliases, javaArticles, javaSections } from "./java";
 import { reactArticles, reactSections } from "./react";
 import {
   frontendSystemDesignArticles,
@@ -65,7 +65,12 @@ const courses = {
     articles: lowLevelDesignArticles,
     componentPath: "system-design/low-level-design",
   },
-  java: { sections: javaSections, articles: javaArticles, componentPath: "backend/java" },
+  java: {
+    sections: javaSections,
+    articles: javaArticles,
+    aliases: javaAliases,
+    componentPath: "backend/java",
+  },
   python: { sections: pythonSections, articles: pythonArticles, componentPath: "backend/python" },
   "node-js": { sections: nodeJsSections, articles: nodeJsArticles, componentPath: "backend/node-js" },
   go: { sections: goSections, articles: goArticles, componentPath: "backend/go" },

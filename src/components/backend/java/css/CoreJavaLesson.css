@@ -1,0 +1,72 @@
+.coreJavaTopics {
+  margin: 20px 0 0;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.coreJavaTopics small {
+  display: block;
+  color: var(--course-accent);
+  font: 700 10px/1.6 var(--font-mono);
+  letter-spacing: 0.09em;
+  margin-bottom: 8px;
+}
+.coreJavaTopics ol {
+  margin: 0;
+  padding-left: 22px;
+  columns: 2 260px;
+  column-gap: 28px;
+}
+.coreJavaTopics li {
+  break-inside: avoid;
+  margin: 3px 0;
+}
+.coreJavaTopic {
+  border-top: 1px solid var(--line);
+  padding: 14px 0 6px;
+  scroll-margin-top: 80px;
+}
+.coreJavaTopic h3 {
+  margin: 0 0 8px;
+}
+.coreJavaTopic h3 span {
+  color: var(--course-accent);
+  font: 700 12px var(--font-mono);
+  margin-right: 6px;
+}
+.coreJavaLesson pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.coreJavaLesson p code,
+.coreJavaLesson li code,
+.coreJavaLesson summary code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.coreJavaOutput {
+  border-left: 3px solid var(--course-accent);
+}
+.coreJavaNote {
+  font-size: 0.92em;
+  color: var(--muted, inherit);
+  font-style: italic;
+}
+.coreJavaQa {
+  border-top: 1px solid var(--line);
+  padding: 10px 0;
+}
+.coreJavaQa summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.coreJavaQa p {
+  margin: 8px 0 0;
+}
+.coreJavaLesson .reactTakeaway ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.coreJavaLesson .reactTakeaway li p {
+  margin: 0 0 6px;
+}
