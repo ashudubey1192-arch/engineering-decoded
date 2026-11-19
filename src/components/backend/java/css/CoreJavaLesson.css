@@ -70,3 +70,68 @@
 .coreJavaLesson .reactTakeaway li p {
   margin: 0 0 6px;
 }
+.coreJavaDiagram {
+  margin: 24px 0 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.coreJavaDiagram figcaption {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.coreJavaDiagram figcaption small {
+  color: var(--course-accent);
+  font: 700 10px/1.6 var(--font-mono);
+  letter-spacing: 0.09em;
+  margin-right: 6px;
+}
+.coreJavaDiagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+}
+.coreJavaDiagram .cjNode {
+  fill: var(--surface);
+  stroke: var(--course-accent);
+  stroke-width: 1.5;
+}
+.coreJavaDiagram .cjLabel {
+  fill: currentColor;
+  font: 700 13px var(--font-mono);
+}
+.coreJavaDiagram .cjSub,
+.coreJavaDiagram .cjToken {
+  fill: currentColor;
+  opacity: 0.75;
+  font: 11px var(--font-mono);
+}
+.coreJavaDiagram .cjToken {
+  opacity: 1;
+  font-weight: 600;
+}
+.coreJavaDiagram .cjLife {
+  stroke: var(--line);
+  stroke-dasharray: 4 4;
+}
+.coreJavaDiagram .cjEdge {
+  stroke: var(--course-accent);
+  stroke-width: 1.6;
+}
+.coreJavaDiagram .cjArrowHead,
+.coreJavaDiagram .cjBadge {
+  fill: var(--course-accent);
+}
+.coreJavaDiagram .cjBadgeText {
+  fill: var(--surface);
+  font: 700 10px var(--font-mono);
+}
+.cjLegend {
+  margin: 12px 0 0;
+  padding-left: 22px;
+  font-size: 0.93em;
+}
+.cjLegend li {
+  margin: 4px 0;
+}

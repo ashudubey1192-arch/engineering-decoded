@@ -1449,5 +1449,496 @@ export default [
         "time": "8 min"
       }
     ]
+  },
+  {
+    "slug": "interview-core-java",
+    "title": "Interview Q&A: Core Java Top Questions",
+    "lessons": [
+      {
+        "title": "Core Java Q1-Q10: OOP, String Creation, final, HashMap Keys and Immutability",
+        "slug": "interview-core-java--core-java-q1-q10-oop-string-creation-final-hashmap-keys-and-immutability",
+        "time": "18 min"
+      },
+      {
+        "title": "Core Java Q11-Q20: Collection Class Comparisons",
+        "slug": "interview-core-java--core-java-q11-q20-collection-class-comparisons",
+        "time": "13 min"
+      },
+      {
+        "title": "Core Java Q21-Q27: Concurrent Collections, Your Own HashMap and Fail-Fast Iterators",
+        "slug": "interview-core-java--core-java-q21-q27-concurrent-collections-your-own-hashmap-and-fail-fast-iterators",
+        "time": "16 min"
+      },
+      {
+        "title": "Core Java Q28-Q36: Exception Handling Questions",
+        "slug": "interview-core-java--core-java-q28-q36-exception-handling-questions",
+        "time": "14 min"
+      },
+      {
+        "title": "Core Java Q37-Q47: Cloning, Overriding Rules, Interfaces, Platforms and Primitives",
+        "slug": "interview-core-java--core-java-q37-q47-cloning-overriding-rules-interfaces-platforms-and-primitives",
+        "time": "17 min"
+      },
+      {
+        "title": "Core Java Q48-Q55: Thread Basics, start vs run and volatile",
+        "slug": "interview-core-java--core-java-q48-q55-thread-basics-start-vs-run-and-volatile",
+        "time": "12 min"
+      },
+      {
+        "title": "Core Java Q56-Q61: Race Conditions, wait/notify and Producer-Consumer",
+        "slug": "interview-core-java--core-java-q56-q61-race-conditions-wait-notify-and-producer-consumer",
+        "time": "11 min"
+      },
+      {
+        "title": "Core Java Q62-Q71: Strings, Reflection, static, Singleton and Initialization Blocks",
+        "slug": "interview-core-java--core-java-q62-q71-strings-reflection-static-singleton-and-initialization-blocks",
+        "time": "17 min"
+      },
+      {
+        "title": "Core Java Q72-Q83: ConcurrentHashMap, Deadlock, Thread States and Locks",
+        "slug": "interview-core-java--core-java-q72-q83-concurrenthashmap-deadlock-thread-states-and-locks",
+        "time": "18 min"
+      },
+      {
+        "title": "Core Java Q84-Q92: Thread Pools, ThreadLocal, Executors, Semaphore, Atomics and Future",
+        "slug": "interview-core-java--core-java-q84-q92-thread-pools-threadlocal-executors-semaphore-atomics-and-future",
+        "time": "18 min"
+      },
+      {
+        "title": "Core Java Q93-Q103: CountDownLatch, CyclicBarrier, Phaser, Locks and Fork/Join",
+        "slug": "interview-core-java--core-java-q93-q103-countdownlatch-cyclicbarrier-phaser-locks-and-fork-join",
+        "time": "15 min"
+      },
+      {
+        "title": "Core Java Q104-Q116: Serialization Questions and the Object Class Methods",
+        "slug": "interview-core-java--core-java-q104-q116-serialization-questions-and-the-object-class-methods",
+        "time": "17 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-collections",
+    "title": "Interview Q&A: Collection Framework",
+    "lessons": [
+      {
+        "title": "Collections Q1-Q12: Framework, Hierarchies and the Basic Differences",
+        "slug": "interview-collections--collections-q1-q12-framework-hierarchies-and-the-basic-differences",
+        "time": "13 min"
+      },
+      {
+        "title": "Collections Q13-Q22: Keys, Implementation Choices, WeakHashMap, EnumSet and EnumMap",
+        "slug": "interview-collections--collections-q13-q22-keys-implementation-choices-weakhashmap-enumset-and-enummap",
+        "time": "12 min"
+      },
+      {
+        "title": "Collections Q23-Q28: Writing Custom HashMap, LinkedHashMap, ArrayList, HashSet and LinkedHashSet",
+        "slug": "interview-collections--collections-q23-q28-writing-custom-hashmap-linkedhashmap-arraylist-hashset-and-linkedhashset",
+        "time": "16 min"
+      },
+      {
+        "title": "Collections Q29-Q37: Iterating and Sorting Lists, Sets, Maps and Arrays",
+        "slug": "interview-collections--collections-q29-q37-iterating-and-sorting-lists-sets-maps-and-arrays",
+        "time": "12 min"
+      },
+      {
+        "title": "Collections Q38-Q53: Concurrent Collections and Choosing Collections for Multithreading",
+        "slug": "interview-collections--collections-q38-q53-concurrent-collections-and-choosing-collections-for-multithreading",
+        "time": "14 min"
+      },
+      {
+        "title": "Collections Output Questions Q51-Q62: Generics, Iteration Changes, EnumMap and Nulls",
+        "slug": "interview-collections--collections-output-questions-q51-q62-generics-iteration-changes-enummap-and-nulls",
+        "time": "14 min"
+      },
+      {
+        "title": "Collections Output Questions Q63-Q75: HashMap Buckets, equals/hashCode Puzzles and Legacy Collections",
+        "slug": "interview-collections--collections-output-questions-q63-q75-hashmap-buckets-equals-hashcode-puzzles-and-legacy-collections",
+        "time": "15 min"
+      },
+      {
+        "title": "Collections Output Questions Q76-Q87: Identity, Nulls, Binary Search, EnumSet and Comparators",
+        "slug": "interview-collections--collections-output-questions-q76-q87-identity-nulls-binary-search-enumset-and-comparators",
+        "time": "13 min"
+      },
+      {
+        "title": "Collections Output Questions Q88-Q98: Nulls in TreeSet, Sorted Maps, Wildcards and PriorityQueue",
+        "slug": "interview-collections--collections-output-questions-q88-q98-nulls-in-treeset-sorted-maps-wildcards-and-priorityqueue",
+        "time": "14 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-equals-hashcode",
+    "title": "Interview Q&A: equals and hashCode",
+    "lessons": [
+      {
+        "title": "equals and hashCode Q1-Q9: The Contract, Employee Keys and How HashMap Uses Them",
+        "slug": "interview-equals-hashcode--equals-and-hashcode-q1-q9-the-contract-employee-keys-and-how-hashmap-uses-them",
+        "time": "15 min"
+      },
+      {
+        "title": "equals and hashCode Q10-Q16: Buckets, Size and get() for Every Override Combination",
+        "slug": "interview-equals-hashcode--equals-and-hashcode-q10-q16-buckets-size-and-get-for-every-override-combination",
+        "time": "9 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-exceptions",
+    "title": "Interview Q&A: Exception Handling",
+    "lessons": [
+      {
+        "title": "Exceptions Q1-Q10: What Exceptions Are, the Hierarchy, Keywords and Custom Exceptions",
+        "slug": "interview-exceptions--exceptions-q1-q10-what-exceptions-are-the-hierarchy-keywords-and-custom-exceptions",
+        "time": "14 min"
+      },
+      {
+        "title": "Exceptions Q11-Q20: try/catch/finally Rules, ARM, Nested try, Overriding Rules and Returns",
+        "slug": "interview-exceptions--exceptions-q11-q20-try-catch-finally-rules-arm-nested-try-overriding-rules-and-returns",
+        "time": "15 min"
+      },
+      {
+        "title": "Exceptions Q21-Q26: Throwing from catch and finally, Catching Exception, Multi-catch, Overloading and Best Practices",
+        "slug": "interview-exceptions--exceptions-q21-q26-throwing-from-catch-and-finally-catching-exception-multi-catch-overloading-and-best-practices",
+        "time": "14 min"
+      },
+      {
+        "title": "Exceptions Output Questions Q26-Q37: Flow Through try, catch and finally",
+        "slug": "interview-exceptions--exceptions-output-questions-q26-q37-flow-through-try-catch-and-finally",
+        "time": "17 min"
+      },
+      {
+        "title": "Exceptions Output Questions Q38-Q47: Uncaught, Multi-catch, Propagation, throws and try-with-resources",
+        "slug": "interview-exceptions--exceptions-output-questions-q38-q47-uncaught-multi-catch-propagation-throws-and-try-with-resources",
+        "time": "12 min"
+      },
+      {
+        "title": "Exceptions Output Questions Q48-Q59: Unhandled Exceptions and Overriding with throws",
+        "slug": "interview-exceptions--exceptions-output-questions-q48-q59-unhandled-exceptions-and-overriding-with-throws",
+        "time": "12 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-threads",
+    "title": "Interview Q&A: Multithreading",
+    "lessons": [
+      {
+        "title": "Threads Q1-Q10: Threads vs Processes, Creating Threads, Ordering and volatile",
+        "slug": "interview-threads--threads-q1-q10-threads-vs-processes-creating-threads-ordering-and-volatile",
+        "time": "13 min"
+      },
+      {
+        "title": "Threads Q11-Q20: synchronized vs volatile, Race Conditions, wait/notify and Deadlock",
+        "slug": "interview-threads--threads-q11-q20-synchronized-vs-volatile-race-conditions-wait-notify-and-deadlock",
+        "time": "13 min"
+      },
+      {
+        "title": "Threads Q21-Q31: Thread Dumps, Life Cycle, Scheduling, Daemons, Deprecated Methods, sleep and yield",
+        "slug": "interview-threads--threads-q21-q31-thread-dumps-life-cycle-scheduling-daemons-deprecated-methods-sleep-and-yield",
+        "time": "15 min"
+      },
+      {
+        "title": "Threads Q32-Q40: Thread-Safety Guidelines, State Transitions, notify vs notifyAll and Locks",
+        "slug": "interview-threads--threads-q32-q40-thread-safety-guidelines-state-transitions-notify-vs-notifyall-and-locks",
+        "time": "14 min"
+      },
+      {
+        "title": "Threads Q41-Q50: Can Thread 2 Enter This Method? Every synchronized Combination",
+        "slug": "interview-threads--threads-q41-q50-can-thread-2-enter-this-method-every-synchronized-combination",
+        "time": "10 min"
+      },
+      {
+        "title": "Threads Q51-Q60: Thread Pools, ThreadLocal, Busy Spin, holdsLock, Starvation, Shutdown Hooks and Priorities",
+        "slug": "interview-threads--threads-q51-q60-thread-pools-threadlocal-busy-spin-holdslock-starvation-shutdown-hooks-and-priorities",
+        "time": "15 min"
+      },
+      {
+        "title": "Threads Output Questions Q61-Q71: Shared Runnables, join, Interrupts, wait Without notify and Deadlock",
+        "slug": "interview-threads--threads-output-questions-q61-q71-shared-runnables-join-interrupts-wait-without-notify-and-deadlock",
+        "time": "15 min"
+      },
+      {
+        "title": "Threads Output Questions Q72-Q82: Lock Rules, IllegalMonitorStateException, Double start and Exceptions in run",
+        "slug": "interview-threads--threads-output-questions-q72-q82-lock-rules-illegalmonitorstateexception-double-start-and-exceptions-in-run",
+        "time": "13 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-concurrency",
+    "title": "Interview Q&A: Thread Concurrency (java.util.concurrent)",
+    "lessons": [
+      {
+        "title": "Concurrency Q1-Q8: Executor Framework, Semaphore (and Writing One), Atomics, Future and Callable",
+        "slug": "interview-concurrency--concurrency-q1-q8-executor-framework-semaphore-and-writing-one-atomics-future-and-callable",
+        "time": "13 min"
+      },
+      {
+        "title": "Concurrency Q9-Q18: CountDownLatch, CyclicBarrier, Writing Your Own, and Phaser Compared",
+        "slug": "interview-concurrency--concurrency-q9-q18-countdownlatch-cyclicbarrier-writing-your-own-and-phaser-compared",
+        "time": "14 min"
+      },
+      {
+        "title": "Concurrency Q19-Q27: Phaser in Depth, Exchanger and BlockingQueue Producer-Consumer",
+        "slug": "interview-concurrency--concurrency-q19-q27-phaser-in-depth-exchanger-and-blockingqueue-producer-consumer",
+        "time": "14 min"
+      },
+      {
+        "title": "Concurrency Q28-Q33 and Q40: The Lock Interface, Conditions, ReentrantLock and Writing Your Own",
+        "slug": "interview-concurrency--concurrency-q28-q33-and-q40-the-lock-interface-conditions-reentrantlock-and-writing-your-own",
+        "time": "15 min"
+      },
+      {
+        "title": "Concurrency Q34-Q39 and Q41: Fork/Join, Divide and Conquer, Work Stealing and Parallel Programming",
+        "slug": "interview-concurrency--concurrency-q34-q39-and-q41-fork-join-divide-and-conquer-work-stealing-and-parallel-programming",
+        "time": "13 min"
+      },
+      {
+        "title": "Concurrency Q42-Q49: Atomic Operations, AtomicInteger and AtomicLong (and Writing Them), Output Questions",
+        "slug": "interview-concurrency--concurrency-q42-q49-atomic-operations-atomicinteger-and-atomiclong-and-writing-them-output-questions",
+        "time": "16 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-serialization",
+    "title": "Interview Q&A: Serialization",
+    "lessons": [
+      {
+        "title": "Serialization Q1-Q10: Basics, Externalizable, Custom writeObject, serialVersionUID and Compatibility",
+        "slug": "interview-serialization--serialization-q1-q10-basics-externalizable-custom-writeobject-serialversionuid-and-compatibility",
+        "time": "14 min"
+      },
+      {
+        "title": "Serialization Q11-Q24: static and transient, Members, Constructors, Singletons and Output Questions",
+        "slug": "interview-serialization--serialization-q11-q24-static-and-transient-members-constructors-singletons-and-output-questions",
+        "time": "15 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-jdbc",
+    "title": "Interview Q&A: JDBC",
+    "lessons": [
+      {
+        "title": "JDBC Q1-Q10: JDBC, Drivers, Connecting, Statement, PreparedStatement, CallableStatement and Cursors",
+        "slug": "interview-jdbc--jdbc-q1-q10-jdbc-drivers-connecting-statement-preparedstatement-callablestatement-and-cursors",
+        "time": "13 min"
+      },
+      {
+        "title": "JDBC Q11-Q20: ResultSet Types, Concurrency, Holdability, Navigation, LOBs, Transactions and DriverManager",
+        "slug": "interview-jdbc--jdbc-q11-q20-resultset-types-concurrency-holdability-navigation-lobs-transactions-and-drivermanager",
+        "time": "13 min"
+      },
+      {
+        "title": "JDBC Q21-Q31: Connection, Metadata, Pagination, Top-N, Dates and Timestamps, and RowSets",
+        "slug": "interview-jdbc--jdbc-q21-q31-connection-metadata-pagination-top-n-dates-and-timestamps-and-rowsets",
+        "time": "15 min"
+      },
+      {
+        "title": "JDBC Q32-Q40: Connection Pooling, Best Practices, SQLExceptions, ORA Errors, Functions, Batch and Savepoints",
+        "slug": "interview-jdbc--jdbc-q32-q40-connection-pooling-best-practices-sqlexceptions-ora-errors-functions-batch-and-savepoints",
+        "time": "14 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-additional",
+    "title": "Interview Q&A: Additional Frequently Asked Questions",
+    "lessons": [
+      {
+        "title": "Additional Q1-Q10: JVM Memory, Class Loading, GC Roots, Leaks and the JIT",
+        "slug": "interview-additional--additional-q1-q10-jvm-memory-class-loading-gc-roots-leaks-and-the-jit",
+        "time": "12 min"
+      },
+      {
+        "title": "Additional Q11-Q20: Generics, Type Erasure, Strings, Wrappers and equals Pitfalls",
+        "slug": "interview-additional--additional-q11-q20-generics-type-erasure-strings-wrappers-and-equals-pitfalls",
+        "time": "14 min"
+      },
+      {
+        "title": "Additional Q21-Q30: Design Patterns, SOLID, Immutability, Records vs Lombok and Common Coding Questions",
+        "slug": "interview-additional--additional-q21-q30-design-patterns-solid-immutability-records-vs-lombok-and-common-coding-questions",
+        "time": "14 min"
+      }
+    ]
+  },
+  {
+    "slug": "interview-jdk-versions",
+    "title": "Interview Q&A: Top 100 JDK 1-27 Questions",
+    "lessons": [
+      {
+        "title": "JDK Top 100 Q1-Q12: Release History, LTS Cadence and the Big Features of Java 1 to 7",
+        "slug": "interview-jdk-versions--jdk-top-100-q1-q12-release-history-lts-cadence-and-the-big-features-of-java-1-to-7",
+        "time": "14 min"
+      },
+      {
+        "title": "JDK Top 100 Q13-Q25: Java 8 Lambdas, Functional Interfaces, Method References and Default Methods",
+        "slug": "interview-jdk-versions--jdk-top-100-q13-q25-java-8-lambdas-functional-interfaces-method-references-and-default-methods",
+        "time": "16 min"
+      },
+      {
+        "title": "JDK Top 100 Q26-Q40: Java 8 Streams in Depth",
+        "slug": "interview-jdk-versions--jdk-top-100-q26-q40-java-8-streams-in-depth",
+        "time": "17 min"
+      },
+      {
+        "title": "JDK Top 100 Q41-Q50: Optional, java.time, CompletableFuture and Other Java 8 APIs",
+        "slug": "interview-jdk-versions--jdk-top-100-q41-q50-optional-java-time-completablefuture-and-other-java-8-apis",
+        "time": "14 min"
+      },
+      {
+        "title": "JDK Top 100 Q51-Q62: Modules, var, Collection Factories, HttpClient, switch Expressions and Text Blocks",
+        "slug": "interview-jdk-versions--jdk-top-100-q51-q62-modules-var-collection-factories-httpclient-switch-expressions-and-text-blocks",
+        "time": "15 min"
+      },
+      {
+        "title": "JDK Top 100 Q63-Q76: Records, Sealed Classes and Pattern Matching (instanceof, switch, Record Patterns)",
+        "slug": "interview-jdk-versions--jdk-top-100-q63-q76-records-sealed-classes-and-pattern-matching-instanceof-switch-record-patterns",
+        "time": "19 min"
+      },
+      {
+        "title": "JDK Top 100 Q77-Q88: Virtual Threads, Pinning, Structured Concurrency and Scoped Values",
+        "slug": "interview-jdk-versions--jdk-top-100-q77-q88-virtual-threads-pinning-structured-concurrency-and-scoped-values",
+        "time": "16 min"
+      },
+      {
+        "title": "JDK Top 100 Q89-Q100: Sequenced Collections, FFM API, Compact Source Files, Flexible Constructors, Lazy Constants and JDK 25-27",
+        "slug": "interview-jdk-versions--jdk-top-100-q89-q100-sequenced-collections-ffm-api-compact-source-files-flexible-constructors-lazy-constants-and-jdk-25-27",
+        "time": "16 min"
+      }
+    ]
+  },
+  {
+    "slug": "jdk-features",
+    "title": "JDK Features: Java 1.0 to Java 27",
+    "lessons": [
+      {
+        "title": "Java 1.0 (1996): The Original Platform",
+        "slug": "jdk-features--java-1-0-1996-the-original-platform",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 1.1 (1997): Inner Classes, JDBC, Reflection, RMI and Serialization",
+        "slug": "jdk-features--java-1-1-1997-inner-classes-jdbc-reflection-rmi-and-serialization",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 1.2 (1998): The Collections Framework, Swing, strictfp and Reference Objects",
+        "slug": "jdk-features--java-1-2-1998-the-collections-framework-swing-strictfp-and-reference-objects",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 1.3 (2000) and 1.4 (2002): HotSpot, Dynamic Proxies, assert, NIO, Regex and Logging",
+        "slug": "jdk-features--java-1-3-2000-and-1-4-2002-hotspot-dynamic-proxies-assert-nio-regex-and-logging",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 5 (2004): Generics, Annotations, Enums, Autoboxing, Varargs, for-each and java.util.concurrent",
+        "slug": "jdk-features--java-5-2004-generics-annotations-enums-autoboxing-varargs-for-each-and-java-util-concurrent",
+        "time": "10 min"
+      },
+      {
+        "title": "Java 6 (2006): Scripting, the Compiler API, JDBC 4, Annotation Processing and NavigableMap",
+        "slug": "jdk-features--java-6-2006-scripting-the-compiler-api-jdbc-4-annotation-processing-and-navigablemap",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 7 (2011): Project Coin, try-with-resources, NIO.2, Fork/Join and invokedynamic",
+        "slug": "jdk-features--java-7-2011-project-coin-try-with-resources-nio-2-fork-join-and-invokedynamic",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 8 (2014, LTS): Lambdas, Streams, Optional, java.time, Default Methods and CompletableFuture",
+        "slug": "jdk-features--java-8-2014-lts-lambdas-streams-optional-java-time-default-methods-and-completablefuture",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 9 (2017): The Module System, JShell, Collection Factories and the Process API",
+        "slug": "jdk-features--java-9-2017-the-module-system-jshell-collection-factories-and-the-process-api",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 10 (2018): var, Unmodifiable Copies and the First Six-Month Release",
+        "slug": "jdk-features--java-10-2018-var-unmodifiable-copies-and-the-first-six-month-release",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 11 (2018, LTS): HttpClient, String and Files Methods, Single-File Launch and Java EE Removal",
+        "slug": "jdk-features--java-11-2018-lts-httpclient-string-and-files-methods-single-file-launch-and-java-ee-removal",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 12 (2019) and Java 13 (2019): Switch Expressions Preview, Text Blocks Preview, teeing and Shenandoah",
+        "slug": "jdk-features--java-12-2019-and-java-13-2019-switch-expressions-preview-text-blocks-preview-teeing-and-shenandoah",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 14 (2020): Switch Expressions Final, Helpful NullPointerExceptions, Records and instanceof Preview",
+        "slug": "jdk-features--java-14-2020-switch-expressions-final-helpful-nullpointerexceptions-records-and-instanceof-preview",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 15 (2020): Text Blocks Final, Sealed Classes Preview, Hidden Classes, ZGC and Shenandoah Production",
+        "slug": "jdk-features--java-15-2020-text-blocks-final-sealed-classes-preview-hidden-classes-zgc-and-shenandoah-production",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 16 (2021): Records and instanceof Patterns Final, Stream.toList, jpackage and Strong Encapsulation",
+        "slug": "jdk-features--java-16-2021-records-and-instanceof-patterns-final-stream-tolist-jpackage-and-strong-encapsulation",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 17 (2021, LTS): Sealed Classes Final, Strong Encapsulation, RandomGenerator and Strict Floating Point",
+        "slug": "jdk-features--java-17-2021-lts-sealed-classes-final-strong-encapsulation-randomgenerator-and-strict-floating-point",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 18 (2022): UTF-8 by Default, the Simple Web Server and Code Snippets in Javadoc",
+        "slug": "jdk-features--java-18-2022-utf-8-by-default-the-simple-web-server-and-code-snippets-in-javadoc",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 19 (2022) and Java 20 (2023): Virtual Threads, Record Patterns, Structured Concurrency and Scoped Values Previews",
+        "slug": "jdk-features--java-19-2022-and-java-20-2023-virtual-threads-record-patterns-structured-concurrency-and-scoped-values-previews",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 21 (2023, LTS): Virtual Threads, Pattern Matching for switch, Record Patterns and Sequenced Collections",
+        "slug": "jdk-features--java-21-2023-lts-virtual-threads-pattern-matching-for-switch-record-patterns-and-sequenced-collections",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 22 (2024): Unnamed Variables, the Foreign Function & Memory API and Multi-File Source Launch",
+        "slug": "jdk-features--java-22-2024-unnamed-variables-the-foreign-function-memory-api-and-multi-file-source-launch",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 23 (2024): Markdown Documentation Comments, Generational ZGC by Default and Many Previews",
+        "slug": "jdk-features--java-23-2024-markdown-documentation-comments-generational-zgc-by-default-and-many-previews",
+        "time": "8 min"
+      },
+      {
+        "title": "Java 24 (2025): Stream Gatherers, Class-File API, No More synchronized Pinning, AOT Cache and Post-Quantum Crypto",
+        "slug": "jdk-features--java-24-2025-stream-gatherers-class-file-api-no-more-synchronized-pinning-aot-cache-and-post-quantum-crypto",
+        "time": "10 min"
+      },
+      {
+        "title": "Java 25 (2025, LTS): Compact Source Files, Module Imports, Flexible Constructors, Scoped Values and Compact Headers",
+        "slug": "jdk-features--java-25-2025-lts-compact-source-files-module-imports-flexible-constructors-scoped-values-and-compact-headers",
+        "time": "10 min"
+      },
+      {
+        "title": "Java 26 (March 2026): HTTP/3, Final Means Final, Applet API Removal, AOT With Any GC and Lazy Constants",
+        "slug": "jdk-features--java-26-march-2026-http-3-final-means-final-applet-api-removal-aot-with-any-gc-and-lazy-constants",
+        "time": "9 min"
+      },
+      {
+        "title": "Java 27 (September 2026): G1 Everywhere, Compact Headers by Default, Post-Quantum TLS and JFR Redaction",
+        "slug": "jdk-features--java-27-september-2026-g1-everywhere-compact-headers-by-default-post-quantum-tls-and-jfr-redaction",
+        "time": "8 min"
+      }
+    ]
   }
 ];

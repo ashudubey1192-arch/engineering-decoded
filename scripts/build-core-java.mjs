@@ -58,6 +58,7 @@ for (const section of sections) {
     const mode = lesson.mode ?? "run";
     if (!["run", "compile", "show"].includes(mode)) fail(where, `bad mode ${mode}`);
     if (mode !== "run" && !lesson.sample) fail(where, "sample output required");
+    if (lesson.release && !(lesson.release >= 8 && lesson.release <= 27)) fail(where, `bad release ${lesson.release}`);
     const [animTitle, nodes = [], steps = []] = lesson.anim ?? [];
     if (!animTitle) fail(where, "animation title missing");
     if (nodes.length < 3 || nodes.length > 6) fail(where, "animation needs 3-6 nodes");
@@ -158,10 +159,13 @@ async function runLesson(lesson) {
   const temp = await mkdtemp(path.join(tmpdir(), "core-java-"));
   try {
     await writeFile(path.join(temp, "Main.java"), lesson.code);
-    const compiled = await exec("javac", ["--release", "21", "-g", "-Xlint:none", "-nowarn", "Main.java"], { cwd: temp });
+    // Lessons default to Java 21; `release` targets a newer JDK and `preview` turns on preview features.
+    const release = String(lesson.release ?? 21);
+    const preview = lesson.preview ? ["--enable-preview"] : [];
+    const compiled = await exec("javac", ["--release", release, ...preview, "-g", "-Xlint:none", "-nowarn", "Main.java"], { cwd: temp });
     if (compiled.code !== 0) throw new Error(`javac failed\n${compiled.stderr}${compiled.stdout}`);
     if (mode === "compile") return null;
-    const result = await exec("java", ["-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8", ...(lesson.jvm ?? []), "-cp", ".", "Main"], {
+    const result = await exec("java", ["-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8", ...preview, ...(lesson.jvm ?? []), "-cp", ".", "Main"], {
       cwd: temp,
       input: lesson.stdin,
     });
@@ -234,6 +238,7 @@ if (check && !problems.length) {
         const html = renderToStaticMarkup(createElement(Article));
         for (const id of ["overview", "concepts", "example", "mistakes", "interview", "check"])
           if (!html.includes(`id="${id}"`)) problems.push(`${lesson.slug}: missing section ${id}`);
+        if (!html.includes('class="coreJavaDiagram"')) problems.push(`${lesson.slug}: diagram not rendered`);
         if (!html.includes("ANIMATED WALKTHROUGH")) problems.push(`${lesson.slug}: animation not rendered`);
         if (html.includes("(no output)") && (lesson.mode ?? "run") === "run")
           problems.push(`${lesson.slug}: empty output`);

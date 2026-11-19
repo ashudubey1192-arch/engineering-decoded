@@ -18,6 +18,10 @@
 //   sample:   expected output for "compile"/"show" lessons
 //   varies:   true when thread scheduling makes the output order differ between runs
 //   jvm:      extra JVM arguments, stdin: text piped to System.in
+//   release:  javac --release level (default 21), preview: true adds --enable-preview
+//   note:     custom note shown above the output (e.g. why a sample run is shown)
+//
+// Large sections keep their lessons in ./parts/*.js (arrays of lesson(...)) and spread them in.
 // })
 export const slugify = (value) =>
   value
