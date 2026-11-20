@@ -8,7 +8,10 @@ import { javaSections, javaArticles } from '../src/data/java.js';
 const chapters = JSON.parse(readFileSync('src/data/javaInterviewContent.json', 'utf8'));
 const section = javaSections.filter(item => item.slug === 'java-interview');
 assert.equal(section.length, 1);
-assert.equal(section[0].lessons.length, 27);
+// The one interview section holds all 27 guide chapters plus every other interview lesson.
+for (const chapter of chapters) assert.ok(section[0].lessons.some(l => l.slug === chapter.slug), `${chapter.slug} missing from Interview`);
+assert.ok(!javaSections.some(item => item.slug !== 'java-interview' && /interview/i.test(item.slug + item.title)), 'interview content outside the Interview section');
+assert.ok(!javaSections.some(item => item.slug !== 'java-interview' && item.lessons.some(l => /interview-questions/.test(l.slug))), 'interview lesson left in a topic section');
 assert.equal(new Set(javaArticles.map(a => a.slug)).size, javaArticles.length);
 for (const [guide, prefix, count] of [['corejava', 'Q', 200], ['java8', 'Q', 100], ['java8', 'P', 34], ['collections', 'Q', 43], ['collections', 'Problem ', 10]]) {
   const numbers = chapters.filter(c => c.guide === guide).flatMap(c => c.blocks).map(b => b.text.match(new RegExp(`^${prefix}(\\d+)[.:]`))).filter(Boolean).map(m => Number(m[1]));

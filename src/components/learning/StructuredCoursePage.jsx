@@ -41,7 +41,7 @@ export default function StructuredCoursePage({ module, track, sections, navigate
                   <h3 className="structuredLessonGroup" key={`group-${lesson.group}`}>
                     {lesson.group}
                     <small>
-                      {group.lessons.filter((item) => item.group === lesson.group).length} pages
+                      {(count => `${count} ${count === 1 ? "page" : "pages"}`)(group.lessons.filter((item) => item.group === lesson.group).length)}
                     </small>
                   </h3>
                 ),

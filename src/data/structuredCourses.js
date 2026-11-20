@@ -152,6 +152,16 @@ export const getStructuredCourse = (moduleId, trackSlug) => {
   if (!enrichedCourses.has(key)) {
     const addition = makeInterviewCourse(key, interviewLessons[key]);
     const base = newInterviewCourseKeys.has(key) ? null : getBaseCourse(moduleId, trackSlug);
+    // A course that already has its own interview section (Java) gets the labs as one more
+    // group inside it instead of a separate menu entry.
+    const home = base?.sections.find(section => section.slug === "java-interview");
+    if (home) {
+      const group = "Interview labs: worked scenarios";
+      const labs = addition.articles.map(article => ({ ...article, group, folder: article.folder || article.sectionSlug, sectionSlug: home.slug }));
+      const sections = base.sections.map(section => section === home ? { ...home, groups: [...(home.groups || []), group], lessons: [...home.lessons, ...labs] } : section);
+      enrichedCourses.set(key, { ...base, sections, articles: sections.flatMap(section => section.lessons) });
+      return enrichedCourses.get(key);
+    }
     enrichedCourses.set(key, base ? {
       ...base,
       sections: [...base.sections, ...addition.sections],
