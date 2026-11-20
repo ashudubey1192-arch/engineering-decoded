@@ -9,3 +9,6 @@
 .javaInterviewTable { overflow-x: auto; margin: 1.25rem 0; }
 .javaInterviewTable table { width: 100%; border-collapse: collapse; }
 .javaInterviewTable :is(th, td) { padding: .75rem; text-align: left; border: 1px solid var(--line); min-width: 8rem; }
+.javaInterviewDiagram { margin: 1.5rem 0; }
+.javaInterviewDiagram img { display: block; width: 100%; height: auto; background: white; border-radius: .4rem; }
+.javaInterviewDiagram figcaption { font-size: .875rem; margin-top: .6rem; color: var(--muted); }

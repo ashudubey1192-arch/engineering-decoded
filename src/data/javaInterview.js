@@ -175,7 +175,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-1",
-      "title": "01 Java Basics & JVM",
+      "title": "Java Basics & JVM",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 9,
@@ -184,7 +184,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-2",
-      "title": "02 Object-Oriented Programming",
+      "title": "Object-Oriented Programming",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 21,
@@ -193,7 +193,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-3",
-      "title": "03 Strings",
+      "title": "Strings",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 32,
@@ -202,7 +202,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-4",
-      "title": "04 Exception Handling",
+      "title": "Exception Handling",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 39,
@@ -211,7 +211,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-5",
-      "title": "05 Collections Framework",
+      "title": "Collections Framework",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 48,
@@ -220,7 +220,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-6",
-      "title": "06 Multithreading & Concurrency",
+      "title": "Multithreading & Concurrency",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 64,
@@ -229,7 +229,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-7",
-      "title": "07 Java 8+ Features",
+      "title": "Java 8+ Features",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 82,
@@ -238,7 +238,7 @@ export const javaInterviewSection = {
     },
     {
       "slug": "java-interview--corejava-8",
-      "title": "08 Memory, GC & Advanced Topics",
+      "title": "Memory, GC & Advanced Topics",
       "group": "Core Java: Top 200 Interview Questions",
       "guide": "corejava",
       "page": 90,

@@ -85,7 +85,7 @@ with pymupdf.open(sys.argv[3]) as core_pdf:
             text = '\n'.join(''.join(s['text'].replace('\ufffd', '•' if s['font'] == 'Helvetica' else '—') for s in line['spans']) for line in block['lines'])
             if any(23 <= s['size'] <= 25 for s in spans):
                 number = len([c for c in chapters if c['guide'] == 'corejava']) + 1
-                current = {'slug': f'java-interview--corejava-{number}', 'title': ' '.join(text.split()), 'guide': 'corejava', 'group': 'Core Java: Top 200 Interview Questions', 'page': page_number, 'blocks': []}
+                current = {'slug': f'java-interview--corejava-{number}', 'title': re.sub(r'^\d+\s+', '', ' '.join(text.split())), 'guide': 'corejava', 'group': 'Core Java: Top 200 Interview Questions', 'page': page_number, 'blocks': []}
                 chapters.append(current)
                 continue
             if not current or any(s['size'] >= 40 for s in spans):
@@ -98,6 +98,30 @@ with pymupdf.open(sys.argv[3]) as core_pdf:
                     emitted_tables.add(table_index)
                 continue
             mono = all('Mono' in s['font'] or not s['text'].strip() for s in spans)
+            # The source comparison tables have aligned text columns but no grid.
+            # Preserve their cells instead of flattening each row into prose.
+            if max(s['size'] for s in spans) <= 9 and (not mono or current['blocks'] and current['blocks'][-1].get('rawRows')):
+                columns = {}
+                for line in block['lines']:
+                    x = round(line['bbox'][0])
+                    columns.setdefault(x, []).append(''.join(s['text'].replace('\ufffd', '—') for s in line['spans']))
+                previous = current['blocks'][-1] if current['blocks'] else None
+                adjacent = previous and previous.get('rawRows') and previous['page'] == page_number and block['bbox'][1] - previous['bottom'] <= 14
+                if len(columns) >= 2 or adjacent:
+                    cells = {x: ' '.join(parts) for x, parts in columns.items()}
+                    if adjacent:
+                        last = previous['rawRows'][-1]
+                        if block['bbox'][1] <= last['bottom'] + 2:
+                            for x, value in cells.items():
+                                last['cells'][x] = (last['cells'].get(x, '') + ' ' + value).strip()
+                            last['bottom'] = max(last['bottom'], block['bbox'][3])
+                        else:
+                            previous['rawRows'].append({'cells': cells, 'bottom': block['bbox'][3]})
+                        previous['bottom'] = max(previous['bottom'], block['bbox'][3])
+                        previous['text'] += ' ' + ' '.join(cells.values())
+                    else:
+                        current['blocks'].append({'type': 'table', 'rawRows': [{'cells': cells, 'bottom': block['bbox'][3]}], 'bottom': block['bbox'][3], 'text': ' '.join(cells.values()), 'page': page_number})
+                    continue
             heading = all('Bold' in s['font'] or not s['text'].strip() for s in spans)
             kind = 'code' if mono else 'heading' if heading else 'text'
             match = re.match(r'^Q(\d+)\s*(\D.+)', text, re.S)
@@ -116,6 +140,12 @@ core_text = [b['text'] for c in chapters if c['guide'] == 'corejava' for b in c[
 core_numbers = [int(m[1]) for text in core_text if (m := re.match(r'^Q(\d+)\.', text))]
 assert core_numbers == list(range(1, 201)), f'Missing: {set(range(1, 201)) - set(core_numbers)}; count: {len(core_numbers)}'
 assert diagram_count == 47, f'Expected 47 diagrams, got {diagram_count}'
+for chapter in chapters:
+    for block in chapter['blocks']:
+        if 'rawRows' in block:
+            xs = sorted({x for row in block['rawRows'] for x in row['cells']})
+            block['rows'] = [[row['cells'].get(x, '') for x in xs] for row in block.pop('rawRows')]
+            block.pop('bottom')
 collections = [b['text'] for c in chapters if c['guide'] == 'collections' for b in c['blocks']]
 assert [int(m[1]) for text in collections if (m := re.match(r'^Q(\d+)\.', text))] == list(range(1, 44))
 assert [int(m[1]) for text in collections if (m := re.match(r'^Problem (\d+):', text))] == list(range(1, 11))
@@ -130,4 +160,4 @@ for chapter in chapters:
     folder = root / 'src/components/backend/java/java-interview/articles' / chapter['slug'] / 'jsx'
     folder.mkdir(parents=True, exist_ok=True)
     (folder / 'Article.jsx').write_text('import JavaInterview from "../../../../jsx/JavaInterview";\nexport default function Article() { return <JavaInterview slug="' + chapter['slug'] + '" />; }\n', encoding='utf-8')
-print(f'Imported {len(chapters)} chapters, Java 8 Q1-Q100 and P1-P34 verified.')
+print(f'Imported {len(chapters)} chapters; 343 questions, 44 coding problems and 47 Core Java diagrams verified.')

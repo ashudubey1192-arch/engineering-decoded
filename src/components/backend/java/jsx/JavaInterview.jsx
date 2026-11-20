@@ -18,12 +18,17 @@ export default function JavaInterview({ slug }) {
   const [query, setQuery] = useState('');
   const groups = useMemo(() => questionGroups(chapter.blocks), [chapter]);
   const matching = groups.filter(group => group.some(block => block.text.toLowerCase().includes(query.trim().toLowerCase())));
-  const pdf = chapter.guide === 'java8' ? 'java8-top100.pdf' : 'java-collections-equality.pdf';
+  const guides = {
+    java8: { pdf: 'java8-top100.pdf', description: 'This guide targets Java 8. Its full interview collection includes Q1–Q100 and stream coding problems P1–P34.' },
+    collections: { pdf: 'java-collections-equality.pdf', description: 'This guide includes 43 questions and 10 coding problems about custom collections and equality contracts. Its examples target Java 17 or later.' },
+    corejava: { pdf: 'core-java-top200.pdf', description: 'This guide includes 200 Core Java questions and 47 diagrams, covering Java basics, OOP, strings, exceptions, collections, concurrency, Java 8+ features, memory and garbage collection. Examples span Java 8 through Java 21/25; use the version required by each example.' },
+  };
+  const { pdf, description } = guides[chapter.guide];
   return <div className="dedicatedStructuredArticle coreJavaLesson javaInterview">
     <section id="overview">
       <p className="lead">{chapter.group} · {chapter.title}</p>
       <p>Interview questions, explanations, code examples and recorded outputs from the supplied guide. Source page references are preserved for comparison.</p>
-      <p>{chapter.guide === 'java8' ? 'This guide targets Java 8. Its full interview collection includes Q1–Q100 and stream coding problems P1–P34.' : 'This guide includes 43 questions and 10 coding problems about custom collections and equality contracts. Its examples target Java 17 or later.'} Code blocks may be excerpts that belong inside a class or method. Outputs below are reported by the source guide.</p>
+      <p>{description} Code blocks may be excerpts that belong inside a class or method. Outputs below are reported by the source guide.</p>
       <a href={`/java-interview/${pdf}#page=${chapter.page}`} target="_blank" rel="noreferrer">Open the attached guide at page {chapter.page}</a>
     </section>
     <section id="concepts" className="javaInterviewSearch">
@@ -36,6 +41,7 @@ export default function JavaInterview({ slug }) {
         <small>Source: page {group[0].page}</small>
         {group.map((block, index) => block.type === 'code' || block.type === 'output'
           ? <pre key={index} tabIndex={0} aria-label={block.type === 'output' ? 'Recorded output' : 'Java code example'}><JavaCode output={block.type === 'output'}>{block.text}</JavaCode></pre>
+          : block.type === 'image' ? <figure className="javaInterviewDiagram" key={index}><img src={block.src} alt={block.text} loading="lazy" /><figcaption>{block.text} · Source page {block.page}</figcaption></figure>
           : block.type === 'table' ? <div className="javaInterviewTable" key={index} tabIndex={0} role="region" aria-label={`Comparison table from page ${block.page}`}><table><thead><tr>{block.rows[0].map((cell, i) => <th scope="col" key={i}>{cell || 'Feature'}</th>)}</tr></thead><tbody>{block.rows.slice(1).map((row, r) => <tr key={r}>{row.map((cell, c) => <td key={c}>{cell}</td>)}</tr>)}</tbody></table></div>
           : block.type === 'heading' ? <h3 key={index}>{block.text}</h3> : <p key={index}>{block.text}</p>)}
       </article>)}

@@ -4501,7 +4501,7 @@
   },
   {
     "slug": "java-interview--corejava-1",
-    "title": "01 Java Basics & JVM",
+    "title": "Java Basics & JVM",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 9,
@@ -4751,34 +4751,41 @@
         "page": 12
       },
       {
-        "type": "heading",
-        "text": "Stack Heap",
-        "page": 12
-      },
-      {
-        "type": "text",
-        "text": "Stores method frames, local primitives, references all objects and arrays",
-        "page": 12
-      },
-      {
-        "type": "text",
-        "text": "Scope one per thread shared by all threads",
-        "page": 12
-      },
-      {
-        "type": "text",
-        "text": "Lifetime frame popped when method returns until garbage collected",
-        "page": 12
-      },
-      {
-        "type": "text",
-        "text": "Speed very fast (LIFO) slower (allocation + GC)",
-        "page": 12
-      },
-      {
-        "type": "text",
-        "text": "Error StackOverflowError OutOfMemoryError",
-        "page": 12
+        "type": "table",
+        "text": "Stack Heap Stores method frames, local primitives, references all objects and arrays Scope one per thread shared by all threads Lifetime frame popped when method returns until garbage collected Speed very fast (LIFO) slower (allocation + GC) Error StackOverflowError OutOfMemoryError",
+        "page": 12,
+        "rows": [
+          [
+            "",
+            "Stack",
+            "Heap"
+          ],
+          [
+            "Stores",
+            "method frames, local primitives, references",
+            "all objects and arrays"
+          ],
+          [
+            "Scope",
+            "one per thread",
+            "shared by all threads"
+          ],
+          [
+            "Lifetime",
+            "frame popped when method returns",
+            "until garbage collected"
+          ],
+          [
+            "Speed",
+            "very fast (LIFO)",
+            "slower (allocation + GC)"
+          ],
+          [
+            "Error",
+            "StackOverflowError",
+            "OutOfMemoryError"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -4843,49 +4850,65 @@
         "page": 14
       },
       {
-        "type": "heading",
-        "text": "Type Size Default Range / Example",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "byte 1 byte 0 -128 to 127",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "short 2 bytes 0 -32,768 to 32,767",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "int 4 bytes 0 about ±2.1 billion",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "long 8 bytes 0L about ±9.2 x 10^18",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "float 4 bytes 0.0f ~7 decimal digits",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "double 8 bytes 0.0d ~15 decimal digits",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "char 2 bytes '\\u0000' UTF-16 code unit 0–65535",
-        "page": 14
-      },
-      {
-        "type": "text",
-        "text": "boolean JVM-dependent false true / false",
-        "page": 14
+        "type": "table",
+        "text": "Type Size Default Range / Example byte 1 byte 0 -128 to 127 short 2 bytes 0 -32,768 to 32,767 int 4 bytes 0 about ±2.1 billion long 8 bytes 0L about ±9.2 x 10^18 float 4 bytes 0.0f ~7 decimal digits double 8 bytes 0.0d ~15 decimal digits char 2 bytes '\\u0000' UTF-16 code unit 0–65535 boolean JVM-dependent false true / false",
+        "page": 14,
+        "rows": [
+          [
+            "Type",
+            "Size",
+            "Default",
+            "Range / Example"
+          ],
+          [
+            "byte",
+            "1 byte",
+            "0",
+            "-128 to 127"
+          ],
+          [
+            "short",
+            "2 bytes",
+            "0",
+            "-32,768 to 32,767"
+          ],
+          [
+            "int",
+            "4 bytes",
+            "0",
+            "about ±2.1 billion"
+          ],
+          [
+            "long",
+            "8 bytes",
+            "0L",
+            "about ±9.2 x 10^18"
+          ],
+          [
+            "float",
+            "4 bytes",
+            "0.0f",
+            "~7 decimal digits"
+          ],
+          [
+            "double",
+            "8 bytes",
+            "0.0d",
+            "~15 decimal digits"
+          ],
+          [
+            "char",
+            "2 bytes",
+            "'\\u0000'",
+            "UTF-16 code unit 0–65535"
+          ],
+          [
+            "boolean",
+            "JVM-dependent",
+            "false",
+            "true / false"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -5123,34 +5146,35 @@
         "page": 17
       },
       {
-        "type": "heading",
-        "text": "final finally finalize()",
-        "page": 17
-      },
-      {
-        "type": "text",
-        "text": "What keyword block method in Object",
-        "page": 17
-      },
-      {
-        "type": "text",
-        "text": "Purpose restrict change/override/in heritance",
-        "page": 17
-      },
-      {
-        "type": "text",
-        "text": "cleanup code that always runs after try/catch",
-        "page": 17
-      },
-      {
-        "type": "text",
-        "text": "called by GC before reclaiming an object",
-        "page": 17
-      },
-      {
-        "type": "text",
-        "text": "Status widely used widely used deprecated since Java 9, removal planned",
-        "page": 17
+        "type": "table",
+        "text": "final finally finalize() What keyword block method in Object Purpose restrict change/override/in heritance cleanup code that always runs after try/catch called by GC before reclaiming an object Status widely used widely used deprecated since Java 9, removal planned",
+        "page": 17,
+        "rows": [
+          [
+            "",
+            "final",
+            "finally",
+            "finalize()"
+          ],
+          [
+            "What",
+            "keyword",
+            "block",
+            "method in Object"
+          ],
+          [
+            "Purpose",
+            "restrict change/override/in heritance",
+            "cleanup code that always runs after try/catch",
+            "called by GC before reclaiming an object"
+          ],
+          [
+            "Status",
+            "widely used",
+            "widely used",
+            "deprecated since Java 9, removal planned"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -5243,34 +5267,35 @@
         "page": 18
       },
       {
-        "type": "heading",
-        "text": "Constructor Method",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "same name as class any name",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "no return type must declare a return type (or void)",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "called implicitly by new called explicitly",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "not inherited inherited (unless private)",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "compiler supplies a default no default",
-        "page": 18
+        "type": "table",
+        "text": "Constructor Method same name as class any name no return type must declare a return type (or void) called implicitly by new called explicitly not inherited inherited (unless private) compiler supplies a default no default",
+        "page": 18,
+        "rows": [
+          [
+            "Constructor",
+            "Method"
+          ],
+          [
+            "same name as class",
+            "any name"
+          ],
+          [
+            "no return type",
+            "must declare a return type (or void)"
+          ],
+          [
+            "called implicitly by new",
+            "called explicitly"
+          ],
+          [
+            "not inherited",
+            "inherited (unless private)"
+          ],
+          [
+            "compiler supplies a default",
+            "no default"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -5353,29 +5378,46 @@
         "page": 18
       },
       {
-        "type": "heading",
-        "text": "Modifier Class Package Subclass World",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "private yes no no no",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "default (none) yes yes no no",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "protected yes yes yes no",
-        "page": 18
-      },
-      {
-        "type": "text",
-        "text": "public yes yes yes yes",
-        "page": 18
+        "type": "table",
+        "text": "Modifier Class Package Subclass World private yes no no no default (none) yes yes no no protected yes yes yes no public yes yes yes yes",
+        "page": 18,
+        "rows": [
+          [
+            "Modifier",
+            "Class",
+            "Package",
+            "Subclass",
+            "World"
+          ],
+          [
+            "private",
+            "yes",
+            "no",
+            "no",
+            "no"
+          ],
+          [
+            "default (none)",
+            "yes",
+            "yes",
+            "no",
+            "no"
+          ],
+          [
+            "protected",
+            "yes",
+            "yes",
+            "yes",
+            "no"
+          ],
+          [
+            "public",
+            "yes",
+            "yes",
+            "yes",
+            "yes"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -5498,50 +5540,49 @@
         "page": 20
       },
       {
-        "type": "heading",
-        "text": "Java C++",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "platform independent (bytecode) compiled to native, platform dependent",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "no explicit pointers pointers & pointer arithmetic",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "automatic garbage collection manual memory (new/delete), RAII",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "single class inheritance + interfaces multiple inheritance",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "no operator overloading operator overloading",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "everything inside classes global functions allowed",
-        "page": 20
-      },
-      {
-        "type": "text",
-        "text": "built-in threads threads via library (std::thread)",
-        "page": 20
+        "type": "table",
+        "text": "Java C++ platform independent (bytecode) compiled to native, platform dependent no explicit pointers pointers & pointer arithmetic automatic garbage collection manual memory (new/delete), RAII single class inheritance + interfaces multiple inheritance no operator overloading operator overloading everything inside classes global functions allowed built-in threads threads via library (std::thread)",
+        "page": 20,
+        "rows": [
+          [
+            "Java",
+            "C++"
+          ],
+          [
+            "platform independent (bytecode)",
+            "compiled to native, platform dependent"
+          ],
+          [
+            "no explicit pointers",
+            "pointers & pointer arithmetic"
+          ],
+          [
+            "automatic garbage collection",
+            "manual memory (new/delete), RAII"
+          ],
+          [
+            "single class inheritance + interfaces",
+            "multiple inheritance"
+          ],
+          [
+            "no operator overloading",
+            "operator overloading"
+          ],
+          [
+            "everything inside classes",
+            "global functions allowed"
+          ],
+          [
+            "built-in threads",
+            "threads via library (std::thread)"
+          ]
+        ]
       }
     ]
   },
   {
     "slug": "java-interview--corejava-2",
-    "title": "02 Object-Oriented Programming",
+    "title": "Object-Oriented Programming",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 21,
@@ -5730,44 +5771,51 @@
         "page": 24
       },
       {
-        "type": "heading",
-        "text": "Overloading Overriding",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "where same class (or subclass) parent and child class",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "signature same name, different parameters same name and parameters",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "return type can be anything same or covariant (subtype)",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "binding compile time runtime",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "access any cannot be more restrictive",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "exceptions any cannot throw broader checked exceptions",
-        "page": 24
-      },
-      {
-        "type": "text",
-        "text": "static/private/final can be overloaded cannot be overridden",
-        "page": 24
+        "type": "table",
+        "text": "Overloading Overriding where same class (or subclass) parent and child class signature same name, different parameters same name and parameters return type can be anything same or covariant (subtype) binding compile time runtime access any cannot be more restrictive exceptions any cannot throw broader checked exceptions static/private/final can be overloaded cannot be overridden",
+        "page": 24,
+        "rows": [
+          [
+            "",
+            "Overloading",
+            "Overriding"
+          ],
+          [
+            "where",
+            "same class (or subclass)",
+            "parent and child class"
+          ],
+          [
+            "signature",
+            "same name, different parameters",
+            "same name and parameters"
+          ],
+          [
+            "return type",
+            "can be anything",
+            "same or covariant (subtype)"
+          ],
+          [
+            "binding",
+            "compile time",
+            "runtime"
+          ],
+          [
+            "access",
+            "any",
+            "cannot be more restrictive"
+          ],
+          [
+            "exceptions",
+            "any",
+            "cannot throw broader checked exceptions"
+          ],
+          [
+            "static/private/final",
+            "can be overloaded",
+            "cannot be overridden"
+          ]
+        ]
       },
       {
         "type": "image",
@@ -6443,7 +6491,7 @@
   },
   {
     "slug": "java-interview--corejava-3",
-    "title": "03 Strings",
+    "title": "Strings",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 32,
@@ -6592,29 +6640,41 @@
         "page": 34
       },
       {
-        "type": "heading",
-        "text": "String StringBuilder StringBuffer",
-        "page": 34
-      },
-      {
-        "type": "text",
-        "text": "mutable no yes yes",
-        "page": 34
-      },
-      {
-        "type": "text",
-        "text": "thread-safe yes (immutable) no yes (synchronized)",
-        "page": 34
-      },
-      {
-        "type": "text",
-        "text": "performance slow for repeated changes fastest slower than StringBuilder",
-        "page": 34
-      },
-      {
-        "type": "text",
-        "text": "since 1.0 1.5 1.0",
-        "page": 34
+        "type": "table",
+        "text": "String StringBuilder StringBuffer mutable no yes yes thread-safe yes (immutable) no yes (synchronized) performance slow for repeated changes fastest slower than StringBuilder since 1.0 1.5 1.0",
+        "page": 34,
+        "rows": [
+          [
+            "",
+            "String",
+            "StringBuilder",
+            "StringBuffer"
+          ],
+          [
+            "mutable",
+            "no",
+            "yes",
+            "yes"
+          ],
+          [
+            "thread-safe",
+            "yes (immutable)",
+            "no",
+            "yes (synchronized)"
+          ],
+          [
+            "performance",
+            "slow for repeated changes",
+            "fastest",
+            "slower than StringBuilder"
+          ],
+          [
+            "since",
+            "1.0",
+            "1.5",
+            "1.0"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -6827,64 +6887,71 @@
         "page": 38
       },
       {
-        "type": "heading",
-        "text": "Method Example Result",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "length() \"Java\".length() 4",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "charAt(i) \"Java\".charAt(1) 'a'",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "substring(b, e) \"Interview\".substring(0, 5) \"Inter\"",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "indexOf(s) \"banana\".indexOf(\"an\") 1",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "contains(s) \"Java\".contains(\"av\") true",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "replace(a, b) \"a-b\".replace('-', '+') \"a+b\"",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "split(regex) \"a,b,c\".split(\",\") [a, b, c]",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "trim() / strip() \" hi \".strip() \"hi\"",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "isBlank() (11) \" \".isBlank() true",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "repeat(n) (11) \"ab\".repeat(3) \"ababab\"",
-        "page": 38
-      },
-      {
-        "type": "text",
-        "text": "join String.join(\"-\", \"a\", \"b\") \"a-b\"",
-        "page": 38
+        "type": "table",
+        "text": "Method Example Result length() \"Java\".length() 4 charAt(i) \"Java\".charAt(1) 'a' substring(b, e) \"Interview\".substring(0, 5) \"Inter\" indexOf(s) \"banana\".indexOf(\"an\") 1 contains(s) \"Java\".contains(\"av\") true replace(a, b) \"a-b\".replace('-', '+') \"a+b\" split(regex) \"a,b,c\".split(\",\") [a, b, c] trim() / strip() \" hi \".strip() \"hi\" isBlank() (11) \" \".isBlank() true repeat(n) (11) \"ab\".repeat(3) \"ababab\" join String.join(\"-\", \"a\", \"b\") \"a-b\"",
+        "page": 38,
+        "rows": [
+          [
+            "Method",
+            "Example",
+            "Result"
+          ],
+          [
+            "length()",
+            "\"Java\".length()",
+            "4"
+          ],
+          [
+            "charAt(i)",
+            "\"Java\".charAt(1)",
+            "'a'"
+          ],
+          [
+            "substring(b, e)",
+            "\"Interview\".substring(0, 5)",
+            "\"Inter\""
+          ],
+          [
+            "indexOf(s)",
+            "\"banana\".indexOf(\"an\")",
+            "1"
+          ],
+          [
+            "contains(s)",
+            "\"Java\".contains(\"av\")",
+            "true"
+          ],
+          [
+            "replace(a, b)",
+            "\"a-b\".replace('-', '+')",
+            "\"a+b\""
+          ],
+          [
+            "split(regex)",
+            "\"a,b,c\".split(\",\")",
+            "[a, b, c]"
+          ],
+          [
+            "trim() / strip()",
+            "\" hi \".strip()",
+            "\"hi\""
+          ],
+          [
+            "isBlank() (11)",
+            "\" \".isBlank()",
+            "true"
+          ],
+          [
+            "repeat(n) (11)",
+            "\"ab\".repeat(3)",
+            "\"ababab\""
+          ],
+          [
+            "join",
+            "String.join(\"-\", \"a\", \"b\")",
+            "\"a-b\""
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -6940,7 +7007,7 @@
   },
   {
     "slug": "java-interview--corejava-4",
-    "title": "04 Exception Handling",
+    "title": "Exception Handling",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 39,
@@ -7027,34 +7094,41 @@
         "page": 40
       },
       {
-        "type": "heading",
-        "text": "Checked Unchecked",
-        "page": 40
-      },
-      {
-        "type": "text",
-        "text": "checked by compiler not checked at compile time",
-        "page": 40
-      },
-      {
-        "type": "text",
-        "text": "must handle? yes – catch or declare with throws optional",
-        "page": 40
-      },
-      {
-        "type": "text",
-        "text": "extends Exception (not RuntimeException) RuntimeException or Error",
-        "page": 40
-      },
-      {
-        "type": "text",
-        "text": "usually means recoverable external problem programming bug",
-        "page": 40
-      },
-      {
-        "type": "text",
-        "text": "examples IOException, SQLException NullPointerException, IllegalArgumentException",
-        "page": 40
+        "type": "table",
+        "text": "Checked Unchecked checked by compiler not checked at compile time must handle? yes – catch or declare with throws optional extends Exception (not RuntimeException) RuntimeException or Error usually means recoverable external problem programming bug examples IOException, SQLException NullPointerException, IllegalArgumentException",
+        "page": 40,
+        "rows": [
+          [
+            "",
+            "Checked",
+            "Unchecked"
+          ],
+          [
+            "checked by",
+            "compiler",
+            "not checked at compile time"
+          ],
+          [
+            "must handle?",
+            "yes – catch or declare with throws",
+            "optional"
+          ],
+          [
+            "extends",
+            "Exception (not RuntimeException)",
+            "RuntimeException or Error"
+          ],
+          [
+            "usually means",
+            "recoverable external problem",
+            "programming bug"
+          ],
+          [
+            "examples",
+            "IOException, SQLException",
+            "NullPointerException, IllegalArgumentException"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -7208,34 +7282,31 @@
         "page": 42
       },
       {
-        "type": "heading",
-        "text": "throw throws",
-        "page": 42
-      },
-      {
-        "type": "text",
-        "text": "statement that actually throws an exception object",
-        "page": 42
-      },
-      {
-        "type": "text",
-        "text": "clause in the method signature declaring possible exceptions",
-        "page": 42
-      },
-      {
-        "type": "text",
-        "text": "used inside a method body used in the method declaration",
-        "page": 42
-      },
-      {
-        "type": "text",
-        "text": "followed by one instance followed by one or more class names",
-        "page": 42
-      },
-      {
-        "type": "code",
-        "text": "throw new IllegalArgumentException(\"age\")\nvoid read() throws IOException, SQLException",
-        "page": 42
+        "type": "table",
+        "text": "throw throws statement that actually throws an exception object clause in the method signature declaring possible exceptions used inside a method body used in the method declaration followed by one instance followed by one or more class names throw new IllegalArgumentException(\"age\") void read() throws IOException, SQLException",
+        "page": 42,
+        "rows": [
+          [
+            "throw",
+            "throws"
+          ],
+          [
+            "statement that actually throws an exception object",
+            "clause in the method signature declaring possible exceptions"
+          ],
+          [
+            "used inside a method body",
+            "used in the method declaration"
+          ],
+          [
+            "followed by one instance",
+            "followed by one or more class names"
+          ],
+          [
+            "throw new IllegalArgumentException(\"age\")",
+            "void read() throws IOException, SQLException"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -7535,29 +7606,27 @@
         "page": 46
       },
       {
-        "type": "heading",
-        "text": "ClassNotFoundException NoClassDefFoundError",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "checked Exception Error",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "thrown when loading a class by name at runtime (Class.forName, loadClass) and it's not on the classpath",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "class was present at compile time but missing (or failed static init) at runtime",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "e.g. JDBC driver jar missing e.g. dependency jar removed after compiling",
-        "page": 46
+        "type": "table",
+        "text": "ClassNotFoundException NoClassDefFoundError checked Exception Error thrown when loading a class by name at runtime (Class.forName, loadClass) and it's not on the classpath class was present at compile time but missing (or failed static init) at runtime e.g. JDBC driver jar missing e.g. dependency jar removed after compiling",
+        "page": 46,
+        "rows": [
+          [
+            "ClassNotFoundException",
+            "NoClassDefFoundError"
+          ],
+          [
+            "checked Exception",
+            "Error"
+          ],
+          [
+            "thrown when loading a class by name at runtime (Class.forName, loadClass) and it's not on the classpath",
+            "class was present at compile time but missing (or failed static init) at runtime"
+          ],
+          [
+            "e.g. JDBC driver jar missing",
+            "e.g. dependency jar removed after compiling"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -7610,54 +7679,51 @@
         "page": 46
       },
       {
-        "type": "heading",
-        "text": "Exception Cause",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "NullPointerException using a null reference",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "ArithmeticException integer division by zero",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "ArrayIndexOutOfBoundsException invalid array index",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "ClassCastException invalid downcast",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "NumberFormatException Integer.parseInt(\"abc\")",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "IllegalArgumentException invalid argument value",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "IllegalStateException method called at wrong time",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "ConcurrentModificationException collection modified while iterating",
-        "page": 46
-      },
-      {
-        "type": "text",
-        "text": "UnsupportedOperationException modifying an unmodifiable list",
-        "page": 46
+        "type": "table",
+        "text": "Exception Cause NullPointerException using a null reference ArithmeticException integer division by zero ArrayIndexOutOfBoundsException invalid array index ClassCastException invalid downcast NumberFormatException Integer.parseInt(\"abc\") IllegalArgumentException invalid argument value IllegalStateException method called at wrong time ConcurrentModificationException collection modified while iterating UnsupportedOperationException modifying an unmodifiable list",
+        "page": 46,
+        "rows": [
+          [
+            "Exception",
+            "Cause"
+          ],
+          [
+            "NullPointerException",
+            "using a null reference"
+          ],
+          [
+            "ArithmeticException",
+            "integer division by zero"
+          ],
+          [
+            "ArrayIndexOutOfBoundsException",
+            "invalid array index"
+          ],
+          [
+            "ClassCastException",
+            "invalid downcast"
+          ],
+          [
+            "NumberFormatException",
+            "Integer.parseInt(\"abc\")"
+          ],
+          [
+            "IllegalArgumentException",
+            "invalid argument value"
+          ],
+          [
+            "IllegalStateException",
+            "method called at wrong time"
+          ],
+          [
+            "ConcurrentModificationException",
+            "collection modified while iterating"
+          ],
+          [
+            "UnsupportedOperationException",
+            "modifying an unmodifiable list"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -7798,7 +7864,7 @@
   },
   {
     "slug": "java-interview--corejava-5",
-    "title": "05 Collections Framework",
+    "title": "Collections Framework",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 48,
@@ -7925,39 +7991,47 @@
         "page": 49
       },
       {
-        "type": "heading",
-        "text": "List Set Map",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "duplicates allowed not allowed keys unique, values may repeat",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "order insertion/indexed depends (Hash: none, Linked: insertion, Tree: sorted)",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "depends on implementation",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "null multiple nulls one null (HashSet) one null key (HashMap)",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "access by index get(i) iterate / contains by key get(k)",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "examples ArrayList, LinkedList HashSet, TreeSet HashMap, TreeMap",
-        "page": 49
+        "type": "table",
+        "text": "List Set Map duplicates allowed not allowed keys unique, values may repeat order insertion/indexed depends (Hash: none, Linked: insertion, Tree: sorted) depends on implementation null multiple nulls one null (HashSet) one null key (HashMap) access by index get(i) iterate / contains by key get(k) examples ArrayList, LinkedList HashSet, TreeSet HashMap, TreeMap",
+        "page": 49,
+        "rows": [
+          [
+            "",
+            "List",
+            "Set",
+            "Map"
+          ],
+          [
+            "duplicates",
+            "allowed",
+            "not allowed",
+            "keys unique, values may repeat"
+          ],
+          [
+            "order",
+            "insertion/indexed",
+            "depends (Hash: none, Linked: insertion, Tree: sorted)",
+            "depends on implementation"
+          ],
+          [
+            "null",
+            "multiple nulls",
+            "one null (HashSet)",
+            "one null key (HashMap)"
+          ],
+          [
+            "access",
+            "by index get(i)",
+            "iterate / contains",
+            "by key get(k)"
+          ],
+          [
+            "examples",
+            "ArrayList, LinkedList",
+            "HashSet, TreeSet",
+            "HashMap, TreeMap"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -7970,39 +8044,46 @@
         "page": 49
       },
       {
-        "type": "heading",
-        "text": "ArrayList LinkedList",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "structure dynamic array doubly linked list",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "get(i) O(1) O(n)",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "add at end O(1) amortized O(1)",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "add/remove in middle O(n) – shift elements O(1) once node is found (finding is O(n))",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "memory compact extra prev/next pointers per node",
-        "page": 49
-      },
-      {
-        "type": "text",
-        "text": "implements List, RandomAccess List, Deque",
-        "page": 49
+        "type": "table",
+        "text": "ArrayList LinkedList structure dynamic array doubly linked list get(i) O(1) O(n) add at end O(1) amortized O(1) add/remove in middle O(n) – shift elements O(1) once node is found (finding is O(n)) memory compact extra prev/next pointers per node implements List, RandomAccess List, Deque",
+        "page": 49,
+        "rows": [
+          [
+            "",
+            "ArrayList",
+            "LinkedList"
+          ],
+          [
+            "structure",
+            "dynamic array",
+            "doubly linked list"
+          ],
+          [
+            "get(i)",
+            "O(1)",
+            "O(n)"
+          ],
+          [
+            "add at end",
+            "O(1) amortized",
+            "O(1)"
+          ],
+          [
+            "add/remove in middle",
+            "O(n) – shift elements",
+            "O(1) once node is found (finding is O(n))"
+          ],
+          [
+            "memory",
+            "compact",
+            "extra prev/next pointers per node"
+          ],
+          [
+            "implements",
+            "List, RandomAccess",
+            "List, Deque"
+          ]
+        ]
       },
       {
         "type": "image",
@@ -8057,29 +8138,31 @@
         "page": 51
       },
       {
-        "type": "heading",
-        "text": "ArrayList Vector",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "not synchronized all methods synchronized",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "faster slower due to locking",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "grows by 50% grows by 100% (doubles)",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "Java 1.2 legacy (Java 1.0)",
-        "page": 51
+        "type": "table",
+        "text": "ArrayList Vector not synchronized all methods synchronized faster slower due to locking grows by 50% grows by 100% (doubles) Java 1.2 legacy (Java 1.0)",
+        "page": 51,
+        "rows": [
+          [
+            "ArrayList",
+            "Vector"
+          ],
+          [
+            "not synchronized",
+            "all methods synchronized"
+          ],
+          [
+            "faster",
+            "slower due to locking"
+          ],
+          [
+            "grows by 50%",
+            "grows by 100% (doubles)"
+          ],
+          [
+            "Java 1.2",
+            "legacy (Java 1.0)"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -8097,34 +8180,35 @@
         "page": 51
       },
       {
-        "type": "heading",
-        "text": "Array ArrayList",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "fixed size resizable",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "primitives and objects objects only (autoboxing for primitives)",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "length field size() method",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "supports multi-dimension directly list of lists",
-        "page": 51
-      },
-      {
-        "type": "text",
-        "text": "slightly faster, less memory rich API (add, remove, contains, iterator)",
-        "page": 51
+        "type": "table",
+        "text": "Array ArrayList fixed size resizable primitives and objects objects only (autoboxing for primitives) length field size() method supports multi-dimension directly list of lists slightly faster, less memory rich API (add, remove, contains, iterator)",
+        "page": 51,
+        "rows": [
+          [
+            "Array",
+            "ArrayList"
+          ],
+          [
+            "fixed size",
+            "resizable"
+          ],
+          [
+            "primitives and objects",
+            "objects only (autoboxing for primitives)"
+          ],
+          [
+            "length field",
+            "size() method"
+          ],
+          [
+            "supports multi-dimension directly",
+            "list of lists"
+          ],
+          [
+            "slightly faster, less memory",
+            "rich API (add, remove, contains, iterator)"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -8213,29 +8297,31 @@
         "page": 52
       },
       {
-        "type": "heading",
-        "text": "Iterator ListIterator",
-        "page": 52
-      },
-      {
-        "type": "text",
-        "text": "works on any Collection only on List",
-        "page": 52
-      },
-      {
-        "type": "text",
-        "text": "forward only forward and backward (hasPrevious, previous)",
-        "page": 52
-      },
-      {
-        "type": "text",
-        "text": "remove() remove(), add(), set()",
-        "page": 52
-      },
-      {
-        "type": "text",
-        "text": "no index info nextIndex(), previousIndex()",
-        "page": 52
+        "type": "table",
+        "text": "Iterator ListIterator works on any Collection only on List forward only forward and backward (hasPrevious, previous) remove() remove(), add(), set() no index info nextIndex(), previousIndex()",
+        "page": 52,
+        "rows": [
+          [
+            "Iterator",
+            "ListIterator"
+          ],
+          [
+            "works on any Collection",
+            "only on List"
+          ],
+          [
+            "forward only",
+            "forward and backward (hasPrevious, previous)"
+          ],
+          [
+            "remove()",
+            "remove(), add(), set()"
+          ],
+          [
+            "no index info",
+            "nextIndex(), previousIndex()"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -8294,29 +8380,41 @@
         "page": 53
       },
       {
-        "type": "heading",
-        "text": "HashSet LinkedHashSet TreeSet",
-        "page": 53
-      },
-      {
-        "type": "text",
-        "text": "backed by HashMap LinkedHashMap TreeMap (Red-Black tree)",
-        "page": 53
-      },
-      {
-        "type": "text",
-        "text": "order none insertion order sorted (natural or Comparator)",
-        "page": 53
-      },
-      {
-        "type": "text",
-        "text": "add/contains O(1) O(1) O(log n)",
-        "page": 53
-      },
-      {
-        "type": "text",
-        "text": "null one null one null not allowed (NPE on compare)",
-        "page": 53
+        "type": "table",
+        "text": "HashSet LinkedHashSet TreeSet backed by HashMap LinkedHashMap TreeMap (Red-Black tree) order none insertion order sorted (natural or Comparator) add/contains O(1) O(1) O(log n) null one null one null not allowed (NPE on compare)",
+        "page": 53,
+        "rows": [
+          [
+            "",
+            "HashSet",
+            "LinkedHashSet",
+            "TreeSet"
+          ],
+          [
+            "backed by",
+            "HashMap",
+            "LinkedHashMap",
+            "TreeMap (Red-Black tree)"
+          ],
+          [
+            "order",
+            "none",
+            "insertion order",
+            "sorted (natural or Comparator)"
+          ],
+          [
+            "add/contains",
+            "O(1)",
+            "O(1)",
+            "O(log n)"
+          ],
+          [
+            "null",
+            "one null",
+            "one null",
+            "not allowed (NPE on compare)"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -8526,34 +8624,35 @@
         "page": 56
       },
       {
-        "type": "heading",
-        "text": "HashMap Hashtable",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "not synchronized synchronized (every method)",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "one null key, many null values no null key or value",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "fail-fast iterator Enumerator (not fail-fast) + iterator",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "faster slower, legacy",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "extends AbstractMap extends Dictionary",
-        "page": 56
+        "type": "table",
+        "text": "HashMap Hashtable not synchronized synchronized (every method) one null key, many null values no null key or value fail-fast iterator Enumerator (not fail-fast) + iterator faster slower, legacy extends AbstractMap extends Dictionary",
+        "page": 56,
+        "rows": [
+          [
+            "HashMap",
+            "Hashtable"
+          ],
+          [
+            "not synchronized",
+            "synchronized (every method)"
+          ],
+          [
+            "one null key, many null values",
+            "no null key or value"
+          ],
+          [
+            "fail-fast iterator",
+            "Enumerator (not fail-fast) + iterator"
+          ],
+          [
+            "faster",
+            "slower, legacy"
+          ],
+          [
+            "extends AbstractMap",
+            "extends Dictionary"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -8571,34 +8670,47 @@
         "page": 56
       },
       {
-        "type": "heading",
-        "text": "HashMap LinkedHashMap TreeMap",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "order none insertion (or access order) sorted by key",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "get/put O(1) O(1) O(log n)",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "null key one one no (natural ordering)",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "structure hash table hash table + doubly linked list Red-Black tree",
-        "page": 56
-      },
-      {
-        "type": "text",
-        "text": "extra API – removeEldestEntry (LRU) firstKey, floorKey, headMap, subMap",
-        "page": 56
+        "type": "table",
+        "text": "HashMap LinkedHashMap TreeMap order none insertion (or access order) sorted by key get/put O(1) O(1) O(log n) null key one one no (natural ordering) structure hash table hash table + doubly linked list Red-Black tree extra API – removeEldestEntry (LRU) firstKey, floorKey, headMap, subMap",
+        "page": 56,
+        "rows": [
+          [
+            "",
+            "HashMap",
+            "LinkedHashMap",
+            "TreeMap"
+          ],
+          [
+            "order",
+            "none",
+            "insertion (or access order)",
+            "sorted by key"
+          ],
+          [
+            "get/put",
+            "O(1)",
+            "O(1)",
+            "O(log n)"
+          ],
+          [
+            "null key",
+            "one",
+            "one",
+            "no (natural ordering)"
+          ],
+          [
+            "structure",
+            "hash table",
+            "hash table + doubly linked list",
+            "Red-Black tree"
+          ],
+          [
+            "extra API",
+            "–",
+            "removeEldestEntry (LRU)",
+            "firstKey, floorKey, headMap, subMap"
+          ]
+        ]
       },
       {
         "type": "image",
@@ -8738,24 +8850,31 @@
         "page": 58
       },
       {
-        "type": "heading",
-        "text": "Operation throws exception returns special value",
-        "page": 58
-      },
-      {
-        "type": "text",
-        "text": "insert add(e) – IllegalStateException if full offer(e) – false",
-        "page": 58
-      },
-      {
-        "type": "text",
-        "text": "remove remove() – NoSuchElementException if empty poll() – null",
-        "page": 58
-      },
-      {
-        "type": "text",
-        "text": "examine element() – NoSuchElementException peek() – null",
-        "page": 58
+        "type": "table",
+        "text": "Operation throws exception returns special value insert add(e) – IllegalStateException if full offer(e) – false remove remove() – NoSuchElementException if empty poll() – null examine element() – NoSuchElementException peek() – null",
+        "page": 58,
+        "rows": [
+          [
+            "Operation",
+            "throws exception",
+            "returns special value"
+          ],
+          [
+            "insert",
+            "add(e) – IllegalStateException if full",
+            "offer(e) – false"
+          ],
+          [
+            "remove",
+            "remove() – NoSuchElementException if empty",
+            "poll() – null"
+          ],
+          [
+            "examine",
+            "element() – NoSuchElementException",
+            "peek() – null"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -8865,34 +8984,41 @@
         "page": 60
       },
       {
-        "type": "heading",
-        "text": "List.of() (Java 9) Arrays.asList() unmodifiableList()",
-        "page": 60
-      },
-      {
-        "type": "text",
-        "text": "add/remove UnsupportedOperatio nException",
-        "page": 60
-      },
-      {
-        "type": "text",
-        "text": "UnsupportedOperationExceptio n (fixed size) UnsupportedOperationException",
-        "page": 60
-      },
-      {
-        "type": "text",
-        "text": "set(i) not allowed allowed (writes through to the array) not allowed",
-        "page": 60
-      },
-      {
-        "type": "text",
-        "text": "nulls not allowed (NPE) allowed allowed",
-        "page": 60
-      },
-      {
-        "type": "text",
-        "text": "backed by source no yes – the array yes – a view: changes to the original show through",
-        "page": 60
+        "type": "table",
+        "text": "List.of() (Java 9) Arrays.asList() unmodifiableList() add/remove UnsupportedOperatio nException UnsupportedOperationExceptio n (fixed size) UnsupportedOperationException set(i) not allowed allowed (writes through to the array) not allowed nulls not allowed (NPE) allowed allowed backed by source no yes – the array yes – a view: changes to the original show through",
+        "page": 60,
+        "rows": [
+          [
+            "",
+            "List.of() (Java 9)",
+            "Arrays.asList()",
+            "unmodifiableList()"
+          ],
+          [
+            "add/remove",
+            "UnsupportedOperatio nException",
+            "UnsupportedOperationExceptio n (fixed size)",
+            "UnsupportedOperationException"
+          ],
+          [
+            "set(i)",
+            "not allowed",
+            "allowed (writes through to the array)",
+            "not allowed"
+          ],
+          [
+            "nulls",
+            "not allowed (NPE)",
+            "allowed",
+            "allowed"
+          ],
+          [
+            "backed by source",
+            "no",
+            "yes – the array",
+            "yes – a view: changes to the original show through"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -8985,44 +9111,59 @@
         "page": 61
       },
       {
-        "type": "heading",
-        "text": "Collection add remove get / contains",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "ArrayList O(1)* O(n) O(1) by index, O(n) contains",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "LinkedList O(1) at ends O(1) at ends O(n)",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "HashSet / HashMap O(1) O(1) O(1) average, O(log n) worst (treeified)",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "LinkedHashMap O(1) O(1) O(1)",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "TreeSet / TreeMap O(log n) O(log n) O(log n)",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "PriorityQueue O(log n) O(log n) poll O(1) peek",
-        "page": 61
-      },
-      {
-        "type": "text",
-        "text": "ArrayDeque O(1)* both ends O(1) both ends O(n) contains",
-        "page": 61
+        "type": "table",
+        "text": "Collection add remove get / contains ArrayList O(1)* O(n) O(1) by index, O(n) contains LinkedList O(1) at ends O(1) at ends O(n) HashSet / HashMap O(1) O(1) O(1) average, O(log n) worst (treeified) LinkedHashMap O(1) O(1) O(1) TreeSet / TreeMap O(log n) O(log n) O(log n) PriorityQueue O(log n) O(log n) poll O(1) peek ArrayDeque O(1)* both ends O(1) both ends O(n) contains",
+        "page": 61,
+        "rows": [
+          [
+            "Collection",
+            "add",
+            "remove",
+            "get / contains"
+          ],
+          [
+            "ArrayList",
+            "O(1)*",
+            "O(n)",
+            "O(1) by index, O(n) contains"
+          ],
+          [
+            "LinkedList",
+            "O(1) at ends",
+            "O(1) at ends",
+            "O(n)"
+          ],
+          [
+            "HashSet / HashMap",
+            "O(1)",
+            "O(1)",
+            "O(1) average, O(log n) worst (treeified)"
+          ],
+          [
+            "LinkedHashMap",
+            "O(1)",
+            "O(1)",
+            "O(1)"
+          ],
+          [
+            "TreeSet / TreeMap",
+            "O(log n)",
+            "O(log n)",
+            "O(log n)"
+          ],
+          [
+            "PriorityQueue",
+            "O(log n)",
+            "O(log n) poll",
+            "O(1) peek"
+          ],
+          [
+            "ArrayDeque",
+            "O(1)* both ends",
+            "O(1) both ends",
+            "O(n) contains"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -9209,7 +9350,7 @@
   },
   {
     "slug": "java-interview--corejava-6",
-    "title": "06 Multithreading & Concurrency",
+    "title": "Multithreading & Concurrency",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 64,
@@ -9240,29 +9381,31 @@
         "page": 64
       },
       {
-        "type": "heading",
-        "text": "Process Thread",
-        "page": 64
-      },
-      {
-        "type": "text",
-        "text": "own memory space shares process memory",
-        "page": 64
-      },
-      {
-        "type": "text",
-        "text": "heavyweight to create lightweight",
-        "page": 64
-      },
-      {
-        "type": "text",
-        "text": "inter-process communication is expensive (pipes, sockets) communicate via shared objects",
-        "page": 64
-      },
-      {
-        "type": "text",
-        "text": "crash isolated one thread can corrupt shared state",
-        "page": 64
+        "type": "table",
+        "text": "Process Thread own memory space shares process memory heavyweight to create lightweight inter-process communication is expensive (pipes, sockets) communicate via shared objects crash isolated one thread can corrupt shared state",
+        "page": 64,
+        "rows": [
+          [
+            "Process",
+            "Thread"
+          ],
+          [
+            "own memory space",
+            "shares process memory"
+          ],
+          [
+            "heavyweight to create",
+            "lightweight"
+          ],
+          [
+            "inter-process communication is expensive (pipes, sockets)",
+            "communicate via shared objects"
+          ],
+          [
+            "crash isolated",
+            "one thread can corrupt shared state"
+          ]
+        ]
       },
       {
         "type": "image",
@@ -9396,29 +9539,31 @@
         "page": 66
       },
       {
-        "type": "heading",
-        "text": "Runnable Callable<V>",
-        "page": 66
-      },
-      {
-        "type": "code",
-        "text": "void run()\nV call()",
-        "page": 66
-      },
-      {
-        "type": "text",
-        "text": "cannot return a result returns a result",
-        "page": 66
-      },
-      {
-        "type": "text",
-        "text": "cannot throw checked exceptions can throw checked exceptions",
-        "page": 66
-      },
-      {
-        "type": "text",
-        "text": "Thread or executor executor only, returns a Future",
-        "page": 66
+        "type": "table",
+        "text": "Runnable Callable<V> void run() V call() cannot return a result returns a result cannot throw checked exceptions can throw checked exceptions Thread or executor executor only, returns a Future",
+        "page": 66,
+        "rows": [
+          [
+            "Runnable",
+            "Callable<V>"
+          ],
+          [
+            "void run()",
+            "V call()"
+          ],
+          [
+            "cannot return a result",
+            "returns a result"
+          ],
+          [
+            "cannot throw checked exceptions",
+            "can throw checked exceptions"
+          ],
+          [
+            "Thread or executor",
+            "executor only, returns a Future"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -9482,34 +9627,35 @@
         "page": 67
       },
       {
-        "type": "heading",
-        "text": "sleep() wait()",
-        "page": 67
-      },
-      {
-        "type": "text",
-        "text": "static method of Thread instance method of Object",
-        "page": 67
-      },
-      {
-        "type": "text",
-        "text": "does not release the lock releases the monitor lock",
-        "page": 67
-      },
-      {
-        "type": "text",
-        "text": "can be called anywhere must be called inside synchronized (else IllegalMonitorStateException)",
-        "page": 67
-      },
-      {
-        "type": "text",
-        "text": "wakes after time elapses wakes on notify()/notifyAll(), timeout or spurious wakeup",
-        "page": 67
-      },
-      {
-        "type": "text",
-        "text": "used to pause used for inter-thread communication",
-        "page": 67
+        "type": "table",
+        "text": "sleep() wait() static method of Thread instance method of Object does not release the lock releases the monitor lock can be called anywhere must be called inside synchronized (else IllegalMonitorStateException) wakes after time elapses wakes on notify()/notifyAll(), timeout or spurious wakeup used to pause used for inter-thread communication",
+        "page": 67,
+        "rows": [
+          [
+            "sleep()",
+            "wait()"
+          ],
+          [
+            "static method of Thread",
+            "instance method of Object"
+          ],
+          [
+            "does not release the lock",
+            "releases the monitor lock"
+          ],
+          [
+            "can be called anywhere",
+            "must be called inside synchronized (else IllegalMonitorStateException)"
+          ],
+          [
+            "wakes after time elapses",
+            "wakes on notify()/notifyAll(), timeout or spurious wakeup"
+          ],
+          [
+            "used to pause",
+            "used for inter-thread communication"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -9775,34 +9921,35 @@
         "page": 70
       },
       {
-        "type": "heading",
-        "text": "volatile synchronized",
-        "page": 70
-      },
-      {
-        "type": "text",
-        "text": "variable-level method/block level",
-        "page": 70
-      },
-      {
-        "type": "text",
-        "text": "visibility + ordering only visibility + atomicity (mutual exclusion)",
-        "page": 70
-      },
-      {
-        "type": "text",
-        "text": "never blocks threads may block",
-        "page": 70
-      },
-      {
-        "type": "text",
-        "text": "cannot protect count++ protects compound actions",
-        "page": 70
-      },
-      {
-        "type": "text",
-        "text": "lighter heavier (but optimized by JVM)",
-        "page": 70
+        "type": "table",
+        "text": "volatile synchronized variable-level method/block level visibility + ordering only visibility + atomicity (mutual exclusion) never blocks threads may block cannot protect count++ protects compound actions lighter heavier (but optimized by JVM)",
+        "page": 70,
+        "rows": [
+          [
+            "volatile",
+            "synchronized"
+          ],
+          [
+            "variable-level",
+            "method/block level"
+          ],
+          [
+            "visibility + ordering only",
+            "visibility + atomicity (mutual exclusion)"
+          ],
+          [
+            "never blocks",
+            "threads may block"
+          ],
+          [
+            "cannot protect count++",
+            "protects compound actions"
+          ],
+          [
+            "lighter",
+            "heavier (but optimized by JVM)"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -10023,39 +10170,39 @@
         "page": 75
       },
       {
-        "type": "heading",
-        "text": "Factory method Behaviour",
-        "page": 75
-      },
-      {
-        "type": "text",
-        "text": "newFixedThreadPool(n) n threads, unbounded queue",
-        "page": 75
-      },
-      {
-        "type": "text",
-        "text": "newCachedThreadPool() creates threads as needed, reuses idle ones (60s), unbounded thread count",
-        "page": 75
-      },
-      {
-        "type": "text",
-        "text": "newSingleThreadExecutor() one thread, tasks run sequentially",
-        "page": 75
-      },
-      {
-        "type": "text",
-        "text": "newScheduledThreadPool(n) run tasks after a delay or periodically",
-        "page": 75
-      },
-      {
-        "type": "text",
-        "text": "newWorkStealingPool() ForkJoinPool using all cores",
-        "page": 75
-      },
-      {
-        "type": "text",
-        "text": "newVirtualThreadPerTaskExecutor() (21) a new virtual thread for every task",
-        "page": 75
+        "type": "table",
+        "text": "Factory method Behaviour newFixedThreadPool(n) n threads, unbounded queue newCachedThreadPool() creates threads as needed, reuses idle ones (60s), unbounded thread count newSingleThreadExecutor() one thread, tasks run sequentially newScheduledThreadPool(n) run tasks after a delay or periodically newWorkStealingPool() ForkJoinPool using all cores newVirtualThreadPerTaskExecutor() (21) a new virtual thread for every task",
+        "page": 75,
+        "rows": [
+          [
+            "Factory method",
+            "Behaviour"
+          ],
+          [
+            "newFixedThreadPool(n)",
+            "n threads, unbounded queue"
+          ],
+          [
+            "newCachedThreadPool()",
+            "creates threads as needed, reuses idle ones (60s), unbounded thread count"
+          ],
+          [
+            "newSingleThreadExecutor()",
+            "one thread, tasks run sequentially"
+          ],
+          [
+            "newScheduledThreadPool(n)",
+            "run tasks after a delay or periodically"
+          ],
+          [
+            "newWorkStealingPool()",
+            "ForkJoinPool using all cores"
+          ],
+          [
+            "newVirtualThreadPerTaskExecutor() (21)",
+            "a new virtual thread for every task"
+          ]
+        ]
       },
       {
         "type": "text",
@@ -10219,34 +10366,35 @@
         "page": 77
       },
       {
-        "type": "heading",
-        "text": "synchronized ReentrantLock",
-        "page": 77
-      },
-      {
-        "type": "text",
-        "text": "implicit lock/unlock explicit lock() / unlock() in finally",
-        "page": 77
-      },
-      {
-        "type": "text",
-        "text": "cannot time out tryLock(), tryLock(timeout)",
-        "page": 77
-      },
-      {
-        "type": "text",
-        "text": "not interruptible while waiting lockInterruptibly()",
-        "page": 77
-      },
-      {
-        "type": "text",
-        "text": "unfair optional fairness",
-        "page": 77
-      },
-      {
-        "type": "text",
-        "text": "one wait set multiple Condition objects",
-        "page": 77
+        "type": "table",
+        "text": "synchronized ReentrantLock implicit lock/unlock explicit lock() / unlock() in finally cannot time out tryLock(), tryLock(timeout) not interruptible while waiting lockInterruptibly() unfair optional fairness one wait set multiple Condition objects",
+        "page": 77,
+        "rows": [
+          [
+            "synchronized",
+            "ReentrantLock"
+          ],
+          [
+            "implicit lock/unlock",
+            "explicit lock() / unlock() in finally"
+          ],
+          [
+            "cannot time out",
+            "tryLock(), tryLock(timeout)"
+          ],
+          [
+            "not interruptible while waiting",
+            "lockInterruptibly()"
+          ],
+          [
+            "unfair",
+            "optional fairness"
+          ],
+          [
+            "one wait set",
+            "multiple Condition objects"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -10558,7 +10706,7 @@
   },
   {
     "slug": "java-interview--corejava-7",
-    "title": "07 Java 8+ Features",
+    "title": "Java 8+ Features",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 82,
@@ -10720,29 +10868,36 @@
         "page": 83
       },
       {
-        "type": "heading",
-        "text": "Type Syntax Lambda equivalent",
-        "page": 83
-      },
-      {
-        "type": "text",
-        "text": "static method Integer::parseInt s -> Integer.parseInt(s)",
-        "page": 83
-      },
-      {
-        "type": "text",
-        "text": "instance method of a particular object System.out::println x -> System.out.println(x)",
-        "page": 83
-      },
-      {
-        "type": "text",
-        "text": "instance method of an arbitrary object String::toUpperCase s -> s.toUpperCase()",
-        "page": 83
-      },
-      {
-        "type": "text",
-        "text": "constructor ArrayList::new () -> new ArrayList<>()",
-        "page": 83
+        "type": "table",
+        "text": "Type Syntax Lambda equivalent static method Integer::parseInt s -> Integer.parseInt(s) instance method of a particular object System.out::println x -> System.out.println(x) instance method of an arbitrary object String::toUpperCase s -> s.toUpperCase() constructor ArrayList::new () -> new ArrayList<>()",
+        "page": 83,
+        "rows": [
+          [
+            "Type",
+            "Syntax",
+            "Lambda equivalent"
+          ],
+          [
+            "static method",
+            "Integer::parseInt",
+            "s -> Integer.parseInt(s)"
+          ],
+          [
+            "instance method of a particular object",
+            "System.out::println",
+            "x -> System.out.println(x)"
+          ],
+          [
+            "instance method of an arbitrary object",
+            "String::toUpperCase",
+            "s -> s.toUpperCase()"
+          ],
+          [
+            "constructor",
+            "ArrayList::new",
+            "() -> new ArrayList<>()"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -11106,39 +11261,39 @@
         "page": 88
       },
       {
-        "type": "heading",
-        "text": "Collection Stream",
-        "page": 88
-      },
-      {
-        "type": "text",
-        "text": "stores data does not store data – computes on demand",
-        "page": 88
-      },
-      {
-        "type": "text",
-        "text": "eager lazy",
-        "page": 88
-      },
-      {
-        "type": "text",
-        "text": "can be iterated many times consumed once",
-        "page": 88
-      },
-      {
-        "type": "text",
-        "text": "external iteration (for loop) internal iteration",
-        "page": 88
-      },
-      {
-        "type": "text",
-        "text": "can add/remove elements never modifies the source",
-        "page": 88
-      },
-      {
-        "type": "text",
-        "text": "finite can be infinite (Stream.iterate, Stream.generate)",
-        "page": 88
+        "type": "table",
+        "text": "Collection Stream stores data does not store data – computes on demand eager lazy can be iterated many times consumed once external iteration (for loop) internal iteration can add/remove elements never modifies the source finite can be infinite (Stream.iterate, Stream.generate)",
+        "page": 88,
+        "rows": [
+          [
+            "Collection",
+            "Stream"
+          ],
+          [
+            "stores data",
+            "does not store data – computes on demand"
+          ],
+          [
+            "eager",
+            "lazy"
+          ],
+          [
+            "can be iterated many times",
+            "consumed once"
+          ],
+          [
+            "external iteration (for loop)",
+            "internal iteration"
+          ],
+          [
+            "can add/remove elements",
+            "never modifies the source"
+          ],
+          [
+            "finite",
+            "can be infinite (Stream.iterate, Stream.generate)"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -11166,54 +11321,51 @@
         "page": 89
       },
       {
-        "type": "heading",
-        "text": "Version Feature",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "9 Module system (JPMS), JShell, List.of/Set.of/Map.of, private interface methods",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "10 var local type inference",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "11 (LTS) HttpClient, String.isBlank/strip/lines/repeat, run single-file programs",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "14 switch expressions, helpful NullPointerExceptions",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "15 text blocks",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "16 records, pattern matching for instanceof, Stream.toList()",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "17 (LTS) sealed classes",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "21 (LTS) virtual threads, pattern matching for switch, record patterns, sequenced collections",
-        "page": 89
-      },
-      {
-        "type": "text",
-        "text": "25 (LTS) scoped values, compact source files and instance main methods, flexible constructor bodies",
-        "page": 89
+        "type": "table",
+        "text": "Version Feature 9 Module system (JPMS), JShell, List.of/Set.of/Map.of, private interface methods 10 var local type inference 11 (LTS) HttpClient, String.isBlank/strip/lines/repeat, run single-file programs 14 switch expressions, helpful NullPointerExceptions 15 text blocks 16 records, pattern matching for instanceof, Stream.toList() 17 (LTS) sealed classes 21 (LTS) virtual threads, pattern matching for switch, record patterns, sequenced collections 25 (LTS) scoped values, compact source files and instance main methods, flexible constructor bodies",
+        "page": 89,
+        "rows": [
+          [
+            "Version",
+            "Feature"
+          ],
+          [
+            "9",
+            "Module system (JPMS), JShell, List.of/Set.of/Map.of, private interface methods"
+          ],
+          [
+            "10",
+            "var local type inference"
+          ],
+          [
+            "11 (LTS)",
+            "HttpClient, String.isBlank/strip/lines/repeat, run single-file programs"
+          ],
+          [
+            "14",
+            "switch expressions, helpful NullPointerExceptions"
+          ],
+          [
+            "15",
+            "text blocks"
+          ],
+          [
+            "16",
+            "records, pattern matching for instanceof, Stream.toList()"
+          ],
+          [
+            "17 (LTS)",
+            "sealed classes"
+          ],
+          [
+            "21 (LTS)",
+            "virtual threads, pattern matching for switch, record patterns, sequenced collections"
+          ],
+          [
+            "25 (LTS)",
+            "scoped values, compact source files and instance main methods, flexible constructor bodies"
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -11244,7 +11396,7 @@
   },
   {
     "slug": "java-interview--corejava-8",
-    "title": "08 Memory, GC & Advanced Topics",
+    "title": "Memory, GC & Advanced Topics",
     "guide": "corejava",
     "group": "Core Java: Top 200 Interview Questions",
     "page": 90,
@@ -11331,34 +11483,41 @@
         "page": 91
       },
       {
-        "type": "heading",
-        "text": "Collector Flag Best for",
-        "page": 91
-      },
-      {
-        "type": "text",
-        "text": "Serial -XX:+UseSerialGC small heaps, single core",
-        "page": 91
-      },
-      {
-        "type": "text",
-        "text": "Parallel -XX:+UseParallelGC maximum throughput, batch jobs",
-        "page": 91
-      },
-      {
-        "type": "text",
-        "text": "G1 (default since 9) -XX:+UseG1GC balanced latency/throughput, large heaps; region-based",
-        "page": 91
-      },
-      {
-        "type": "text",
-        "text": "ZGC -XX:+UseZGC very low pause (< 1 ms) for huge heaps; generational since 21",
-        "page": 91
-      },
-      {
-        "type": "text",
-        "text": "Shenandoah -XX:+UseShenandoah GC low pause, concurrent compaction",
-        "page": 91
+        "type": "table",
+        "text": "Collector Flag Best for Serial -XX:+UseSerialGC small heaps, single core Parallel -XX:+UseParallelGC maximum throughput, batch jobs G1 (default since 9) -XX:+UseG1GC balanced latency/throughput, large heaps; region-based ZGC -XX:+UseZGC very low pause (< 1 ms) for huge heaps; generational since 21 Shenandoah -XX:+UseShenandoah GC low pause, concurrent compaction",
+        "page": 91,
+        "rows": [
+          [
+            "Collector",
+            "Flag",
+            "Best for"
+          ],
+          [
+            "Serial",
+            "-XX:+UseSerialGC",
+            "small heaps, single core"
+          ],
+          [
+            "Parallel",
+            "-XX:+UseParallelGC",
+            "maximum throughput, batch jobs"
+          ],
+          [
+            "G1 (default since 9)",
+            "-XX:+UseG1GC",
+            "balanced latency/throughput, large heaps; region-based"
+          ],
+          [
+            "ZGC",
+            "-XX:+UseZGC",
+            "very low pause (< 1 ms) for huge heaps; generational since 21"
+          ],
+          [
+            "Shenandoah",
+            "-XX:+UseShenandoah GC",
+            "low pause, concurrent compaction"
+          ]
+        ]
       },
       {
         "type": "text",
