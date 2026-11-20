@@ -1,3 +1,6 @@
+import JavaCode from "./JavaCode";
+import JavaTopicVisual from "../visuals/JavaTopicVisual";
+import JavaVisuals from "../visuals/JavaVisuals";
 import { useState } from "react";
 import { javaNetworkLessons } from "../../../../data/javaNetworkLessons";
 import { javaNetworkPrograms } from "../../../../data/javaNetworkPrograms";
@@ -205,13 +208,14 @@ export default function JavaNetworkLesson({ lessonId }) {
         </p>
       </section>
       <section id="concepts">
+        <JavaVisuals key={lesson.slug} slug={lesson.slug} />
         <h2>1. Reason about correctness</h2>
         <div className="jnInvariant">
           <strong>Invariant</strong>
           <p>{lesson.invariant}</p>
         </div>
         <h3>Time and space</h3>
-        <p>{lesson.complexity}</p>
+        <p>{lesson.complexity}</p><JavaTopicVisual title={lesson.title} text={lesson.concept + "\n\n" + lesson.invariant + "\n\n" + lesson.complexity} />
       </section>
       <section id="example">
         <h2>2. Walk through the example</h2>
@@ -227,12 +231,12 @@ export default function JavaNetworkLesson({ lessonId }) {
         <details className="jnSource" open>
           <summary>Complete Java source</summary>
           <pre>
-            <code>{javaNetworkPrograms[lesson.id]}</code>
+            <JavaCode>{javaNetworkPrograms[lesson.id]}</JavaCode>
           </pre>
         </details>
         <h3>Expected output</h3>
         <pre>
-          <code>{lesson.expected}</code>
+          <JavaCode output>{lesson.expected}</JavaCode>
         </pre>
         <p>
           Trace the variables by hand, run the example, then change one input and predict the result

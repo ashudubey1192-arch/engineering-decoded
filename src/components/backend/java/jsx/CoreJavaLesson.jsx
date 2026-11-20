@@ -1,3 +1,7 @@
+import { useId } from "react";
+import JavaCode from "./JavaCode";
+import JavaTopicVisual from "../visuals/JavaTopicVisual";
+import JavaVisuals from "../visuals/JavaVisuals";
 import ReactMotion from "../../../frontend/react/ReactMotion";
 import "../../../frontend/react/css/ReactLesson.css";
 import "../../../frontend/react/css/ReactPractice.css";
@@ -65,6 +69,7 @@ const anchor = (index) => `topic-${index + 1}`;
 // Static picture of the same walkthrough the animation plays: one lifeline per participant
 // and one numbered arrow per step, with the numbered notes as a legend underneath.
 function StepDiagram({ title, nodes, steps }) {
+  const arrowId = useId();
   const column = 150;
   const width = Math.max(nodes.length * column, 460);
   const gap = (width - nodes.length * column) / 2;
@@ -79,7 +84,7 @@ function StepDiagram({ title, nodes, steps }) {
       </figcaption>
       <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Diagram: ${title}`}>
         <defs>
-          <marker id="cjArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0 0 L10 5 L0 10 z" className="cjArrowHead" />
           </marker>
         </defs>
@@ -106,9 +111,9 @@ function StepDiagram({ title, nodes, steps }) {
           return (
             <g key={index}>
               {self ? (
-                <path className="cjEdge" d={`M${x1} ${y - 6} h34 v14 h-30`} markerEnd="url(#cjArrow)" fill="none" />
+                <path className="cjEdge" d={`M${x1} ${y - 6} h34 v14 h-30`} markerEnd={`url(#${arrowId})`} fill="none" />
               ) : (
-                <line className="cjEdge" x1={x1} x2={x2 + (x2 > x1 ? -4 : 4)} y1={y} y2={y} markerEnd="url(#cjArrow)" />
+                <line className="cjEdge" x1={x1} x2={x2 + (x2 > x1 ? -4 : 4)} y1={y} y2={y} markerEnd={`url(#${arrowId})`} />
               )}
               <circle className="cjBadge" cx={x1} cy={y} r={9} />
               <text className="cjBadgeText" x={x1} y={y + 4} textAnchor="middle">
@@ -183,20 +188,20 @@ export default function CoreJavaLesson({ section, slug, output }) {
             <h3>
               <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span> {title}
             </h3>
-            <Prose text={text} />
+            <Prose text={text} /><JavaTopicVisual title={title} text={text} />
             {snippet && (
               <pre tabIndex={0} aria-label={`${title} snippet`}>
-                <code>{snippet}</code>
+                <JavaCode>{snippet}</JavaCode>
               </pre>
             )}
           </div>
         ))}
-        <StepDiagram title={animTitle} nodes={nodes} steps={steps} />
+        <JavaVisuals slug={slug} /><StepDiagram title={animTitle} nodes={nodes} steps={steps} />
         <ReactMotion key={slug} animation={animation} />
       </section>
 
       <section id="example">
-        <h2>2. Complete Java program</h2>
+        <h2>2. Complete Java program</h2><p className="javaColorKey">Purple keywords · blue types · gold strings · teal comments · red exceptions/errors · green output.</p>
         <p>
           Save this as <code>Main.java</code>, then run <code>{runCommands(lesson)[0]}</code> and{" "}
           <code>{runCommands(lesson)[1]}</code>
@@ -208,7 +213,7 @@ export default function CoreJavaLesson({ section, slug, output }) {
           .
         </p>
         <pre tabIndex={0} aria-label="Complete Java program">
-          <code>{lesson.code}</code>
+          <JavaCode>{lesson.code}</JavaCode>
         </pre>
         <h3>Output</h3>
         {(lesson.note || modeNote[lesson.mode]) && (
@@ -220,7 +225,7 @@ export default function CoreJavaLesson({ section, slug, output }) {
           </p>
         )}
         <pre className="coreJavaOutput" tabIndex={0} aria-label="Program output">
-          <code>{shownOutput || "(no output)"}</code>
+          <JavaCode output>{shownOutput || "(no output)"}</JavaCode>
         </pre>
         <h3>How the program works</h3>
         <Prose text={lesson.walk} />
@@ -250,6 +255,7 @@ export default function CoreJavaLesson({ section, slug, output }) {
         ))}
       </section>
 
+      {lesson.references && <section><h2>Further reading</h2><ul>{lesson.references.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul></section>}
       <section id="check">
         <h2>5. Practice</h2>
         <div className="quiz">

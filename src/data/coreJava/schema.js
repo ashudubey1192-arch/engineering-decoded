@@ -1,3 +1,4 @@
+import { depthTopics, completableLesson, customLesson } from "./enrichment.js";
 // Core Java course content helpers.
 //
 // Each file in ./sections exports `section(slug, title, [lesson(...), ...])` as its default.
@@ -34,5 +35,9 @@ export const lesson = (title, content) => ({ title, ...content });
 export const section = (slug, title, lessons) => ({
   slug,
   title,
-  lessons: lessons.map((item) => ({ ...item, slug: `${slug}--${slugify(item.title)}` })),
+  lessons: [...lessons, ...(slug === "concurrency" ? [completableLesson] : slug === "collections" ? [customLesson] : [])].map((item, index) => ({
+    ...item,
+    topics: index === 0 && depthTopics[slug] ? [...item.topics, ...depthTopics[slug]] : item.topics,
+    slug: `${slug}--${slugify(item.title)}`,
+  })),
 });

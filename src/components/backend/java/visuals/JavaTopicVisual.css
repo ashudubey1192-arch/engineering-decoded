@@ -1,0 +1,13 @@
+.javaTopicMap { margin: 1.25rem 0; padding: 1rem; border: 1px solid var(--line, #475569); border-radius: 12px; background: var(--surface); }
+.javaTopicMap figcaption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+.javaTopicMap figcaption span { font-size: .875rem; }
+.javaTopicTrack { display: flex; overflow-x: auto; gap: .5rem; padding: 1rem 0; }
+.javaTopicTrack button { flex: 0 0 140px; background: transparent; color: inherit; border: 1px solid transparent; border-radius: 8px; padding: .5rem; font: inherit; font-size: .875rem; }
+.javaTopicTrack button[aria-pressed=true] { border-color: #38bdf8; background: #0c4a6e22; }
+.javaTopicTrack svg { width: 100%; height: 58px; fill: var(--surface, #172033); stroke: #38bdf8; stroke-width: 2; }
+.javaTopicTrack svg text { fill: currentColor; stroke: none; font-size: 18px; }
+.javaTopicControls { display: flex; flex-wrap: wrap; gap: .5rem; }
+.javaTopicControls button { padding: .5rem .8rem; color: inherit; background: var(--surface); border: 1px solid var(--line, #64748b); border-radius: 6px; cursor: pointer; }
+.javaTopicNote { animation: javaNoteIn .3s ease-out; line-height: 1.7; }
+@keyframes javaNoteIn { from { opacity: .4; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@media(prefers-reduced-motion: reduce) { .javaTopicNote { animation: none; } }

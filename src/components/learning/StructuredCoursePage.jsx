@@ -36,7 +36,15 @@ export default function StructuredCoursePage({ module, track, sections, navigate
               <small>{group.lessons.length} pages</small>
             </summary>
             <nav>
-              {group.lessons.map((lesson, lessonIndex) => (
+              {group.lessons.map((lesson, lessonIndex) => [
+                lesson.group && lesson.group !== group.lessons[lessonIndex - 1]?.group && (
+                  <h3 className="structuredLessonGroup" key={`group-${lesson.group}`}>
+                    {lesson.group}
+                    <small>
+                      {group.lessons.filter((item) => item.group === lesson.group).length} pages
+                    </small>
+                  </h3>
+                ),
                 <button
                   key={lesson.slug}
                   onMouseEnter={() => preloadArticleComponent(module.id, track.slug, lesson.slug)}
@@ -51,8 +59,8 @@ export default function StructuredCoursePage({ module, track, sections, navigate
                   <b>{lesson.title}</b>
                   <small>{lesson.time}</small>
                   <i>→</i>
-                </button>
-              ))}
+                </button>,
+              ])}
             </nav>
           </details>
         ))}

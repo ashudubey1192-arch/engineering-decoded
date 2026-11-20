@@ -1,3 +1,6 @@
+import JavaCode from "../backend/java/jsx/JavaCode";
+import JavaTopicVisual from "../backend/java/visuals/JavaTopicVisual";
+import JavaVisuals from "../backend/java/visuals/JavaVisuals";
 import { useState } from "react";
 import { javaStructureLessons } from "../../data/javaStructureLessons.js";
 import "./JavaStructureArticle.css";
@@ -57,10 +60,11 @@ export default function JavaStructureArticle({ lessonSlug }) {
         </p>
       </section>
       <section id="concepts">
+        <JavaVisuals key={lessonSlug} slug={lessonSlug} />
         <h2>Reason about correctness</h2>
         <blockquote>{lesson.invariant}</blockquote>
         <h3>Time and space</h3>
-        <p>{lesson.complexity}</p>
+        <p>{lesson.complexity}</p><JavaTopicVisual title={lesson.title} text={lesson.concept + "\n\n" + lesson.invariant + "\n\n" + lesson.complexity} />
       </section>
       <section id="example">
         <h2>Step-by-step visual walkthrough</h2>
@@ -75,11 +79,11 @@ export default function JavaStructureArticle({ lessonSlug }) {
           <code>java Main</code>. Examples run locally, not in this browser.
         </p>
         <pre>
-          <code>{lesson.code}</code>
+          <JavaCode>{lesson.code}</JavaCode>
         </pre>
         <h3>Expected output</h3>
         <pre>
-          <code>{lesson.output}</code>
+          <JavaCode output>{lesson.output}</JavaCode>
         </pre>
       </section>
       <section id="mistakes">

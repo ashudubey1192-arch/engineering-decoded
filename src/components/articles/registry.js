@@ -25,7 +25,7 @@ function getArticlePath(moduleId, trackSlug, articleSlug) {
     const canonicalSlug = structuredCourse.aliases?.[articleSlug] || articleSlug;
     const article = structuredCourse.articles.find((item) => item.slug === canonicalSlug);
     return article
-      ? `../${structuredCourse.componentPath}/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`
+      ? `../${structuredCourse.componentPath}/${article.folder || article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`
       : null;
   }
   const file = Object.entries(slugByFile).find(([, slug]) => slug === articleSlug)?.[0];

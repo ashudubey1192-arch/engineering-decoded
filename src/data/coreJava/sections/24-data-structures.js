@@ -1,6 +1,6 @@
 import { lesson, section } from "../schema.js";
 
-export default section("data-structures", "Data Structures in Java", [
+export default section("data-structures", "Java Data Structures", [
   lesson("Stack: Array-Based, Generic and a Stack of Employee Objects", {
     intro:
       "A stack is a last-in, first-out (LIFO) collection: the last element pushed is the first popped, like a pile of plates. Stacks power undo features, expression evaluation, backtracking and the JVM's own call stack. This lesson implements an array-based int stack, a resizable generic stack, uses it for Employee objects, and solves a classic problem with it.",

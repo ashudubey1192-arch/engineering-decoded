@@ -1,0 +1,188 @@
+/* Java visuals: hierarchy diagrams, animated data structures and flow diagrams.
+   Colours come from the site theme (--text, --surface, --line, --course-accent) so the
+   pictures work in both dark and light mode. */
+.jv {
+  --jv-accent: var(--course-accent, #22c55e);
+  --jv-iface: #60a5fa;
+  --jv-legacy: #a78bfa;
+  --jv-hot: #f59e0b;
+  --jv-bad: #ef4444;
+  --jv-ok: #22c55e;
+  --jv-ink: var(--text);
+  --jv-soft: var(--muted);
+  --jv-fill: var(--surface);
+  --jv-fill-2: var(--surface-2, var(--surface));
+  margin: 22px 0;
+  padding: 16px 18px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--jv-accent) 5%, var(--surface)), var(--surface));
+}
+.jvStack { display: grid; gap: 4px; }
+.jv figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 10px; }
+.jv figcaption small { color: var(--jv-accent); font: 700 10px/1.6 var(--font-mono); letter-spacing: 0.1em; }
+.jv figcaption strong { font-size: 1.02rem; }
+.jvTabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.jvTabs button,
+.jvControls button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--jv-fill-2);
+  color: var(--jv-ink);
+  padding: 5px 12px;
+  font: 600 12px var(--font-sans);
+  cursor: pointer;
+}
+.jvTabs button.on { border-color: var(--jv-accent); background: color-mix(in srgb, var(--jv-accent) 18%, var(--surface)); color: var(--jv-ink); }
+.jvControls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+.jvControls button:disabled { opacity: 0.4; cursor: default; }
+.jvControls .jvPlay { background: var(--jv-accent); border-color: var(--jv-accent); color: #08110b; min-width: 84px; }
+.jvDots { display: inline-flex; flex-wrap: wrap; gap: 4px; margin: 0 6px; }
+.jvDots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); cursor: pointer; transition: transform 0.2s, background 0.2s; }
+.jvDots i.done { background: color-mix(in srgb, var(--jv-accent) 45%, var(--line)); }
+.jvDots i.on { background: var(--jv-accent); transform: scale(1.35); }
+.jvCount { margin-left: auto; color: var(--jv-soft); font: 12px var(--font-mono); }
+.jvNote { margin: 10px 0 0; padding: 10px 12px; border-left: 3px solid var(--jv-accent); background: var(--jv-fill-2); border-radius: 0 8px 8px 0; font-size: 0.94rem; min-height: 3.2em; }
+.jvCanvas { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.jvSvg, .jvHier { display: block; width: 100%; height: auto; }
+.jvLegend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; color: var(--jv-soft); font-size: 12px; }
+.jvLegend span { display: inline-flex; align-items: center; gap: 6px; }
+.jvSwatch { display: inline-block; width: 18px; height: 12px; border-radius: 3px; border: 1.5px solid var(--jv-ink); }
+.jvOp { margin-bottom: 6px; }
+.jvOp code, .jvCalc code { font-size: 12.5px; }
+.jvCalc { margin-bottom: 6px; padding: 6px 10px; border: 1px dashed var(--line); border-radius: 6px; overflow-x: auto; white-space: nowrap; }
+.jvInfo { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--jv-fill); min-height: 4.4em; }
+.jvInfo strong { font-size: 1rem; }
+.jvInfo em { margin-left: 6px; color: var(--jv-accent); font: 600 11px var(--font-mono); font-style: normal; text-transform: uppercase; letter-spacing: 0.06em; }
+.jvInfo p { margin: 4px 0; }
+.jvInfo small { color: var(--jv-soft); }
+.jvAdj { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 8px 0 0; font-size: 12px; color: var(--jv-soft); }
+
+/* shared SVG text */
+.jv svg text { fill: var(--jv-ink); font-family: var(--font-sans); }
+.jvCellText { font: 700 14px var(--font-mono); }
+.jvSmall { font-size: 11.5px; fill: var(--jv-soft) !important; }
+.jvSmallStrong { font: 600 11px var(--font-mono); }
+.jvTiny { font-size: 10px; fill: var(--jv-soft) !important; }
+.jvNull { font: italic 12px var(--font-mono); fill: var(--jv-soft) !important; }
+.jvLabel { font: 700 12px var(--font-mono); fill: var(--jv-accent) !important; }
+.jvLabel.t-cur, .jvLabel.t-slow, .jvLabel.t-head { fill: var(--jv-hot) !important; }
+.jvLabel.t-next, .jvLabel.t-fast, .jvLabel.t-tail { fill: var(--jv-iface) !important; }
+.jvEdgeLabel { font: 600 10.5px var(--font-mono); fill: var(--jv-soft) !important; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
+
+/* arrows and links */
+.jvArrowHead { fill: var(--jv-soft); }
+.jvTriHead { fill: var(--surface); stroke: var(--jv-soft); stroke-width: 1.3; }
+.jvLink { stroke: var(--jv-soft); stroke-width: 1.6; fill: none; }
+.jvLink.hot { stroke: var(--jv-hot); stroke-width: 2; }
+.jvLink.back { stroke-dasharray: 3 3; }
+.jvDivider { stroke: var(--line); }
+.jvBin { fill: none; stroke: var(--jv-soft); stroke-width: 2; }
+.jvRing { fill: none; stroke: var(--line); stroke-width: 2; stroke-dasharray: 4 6; }
+
+/* cells */
+.jvCell { fill: var(--jv-fill-2); stroke: var(--jv-soft); stroke-width: 1.4; transition: fill 0.35s, stroke 0.35s, opacity 0.35s; }
+.jvCell.empty { fill: transparent; stroke-dasharray: 4 3; stroke: var(--line); }
+.jvCell.new, .jvLNode.new .jvCell { fill: color-mix(in srgb, var(--jv-accent) 28%, var(--surface)); stroke: var(--jv-accent); }
+.jvCell.moved { fill: color-mix(in srgb, var(--jv-iface) 24%, var(--surface)); stroke: var(--jv-iface); }
+.jvCell.hit, .jvLNode.hit .jvCell { fill: color-mix(in srgb, var(--jv-hot) 30%, var(--surface)); stroke: var(--jv-hot); stroke-width: 2.2; }
+.jvCell.fade { opacity: 0.45; }
+.jvCell.del, .jvLNode.del .jvCell { fill: color-mix(in srgb, var(--jv-bad) 22%, var(--surface)); stroke: var(--jv-bad); stroke-dasharray: 5 3; }
+.jvCell.done { fill: color-mix(in srgb, var(--jv-accent) 16%, var(--surface)); }
+.jvCell.ring { stroke: var(--jv-hot); }
+.jvLNode.new, .jvPopIn { animation: jvPop 0.45s ease-out both; }
+.jvLNode.del { opacity: 0.75; }
+
+/* moving things */
+.jvTag, .jvStackItem, .jvQItem, .jvOrderItem, .jvObj, .jvToken { transition: transform 0.55s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.jvStackItem.drop { animation: jvDrop 0.5s ease-out both; }
+.jvQItem.join { animation: jvJoin 0.5s ease-out both; }
+.jvPopped, .jvLeave { animation: jvLeave 0.9s ease-out both; }
+.jvToken { fill: var(--jv-hot); stroke: var(--surface); stroke-width: 2; filter: drop-shadow(0 0 6px var(--jv-hot)); }
+
+/* hierarchy diagrams */
+.jvEdge { fill: none; stroke: var(--jv-soft); stroke-width: 1.4; transition: stroke 0.3s, opacity 0.3s; }
+.jvEdge.dashed { stroke-dasharray: 5 4; }
+.jvEdge.on { stroke: var(--jv-hot); stroke-width: 2.4; }
+.jvEdge.dim { opacity: 0.25; }
+.jvHNode { cursor: pointer; transition: opacity 0.3s; }
+.jvHNode rect { fill: var(--jv-fill-2); stroke: var(--jv-ink); stroke-width: 1.4; transition: fill 0.3s, stroke 0.3s; }
+.jvHNode text { font: 600 12.5px var(--font-mono); pointer-events: none; }
+.jvHNode:hover rect, .jvHNode:focus-visible rect { stroke-width: 2.4; }
+.jvHNode:focus-visible { outline: none; }
+.jvHNode.k-i rect, .jvSwatch.k-i { fill: color-mix(in srgb, var(--jv-iface) 20%, var(--surface)); stroke: var(--jv-iface); border-color: var(--jv-iface); background: color-mix(in srgb, var(--jv-iface) 20%, var(--surface)); border-radius: 8px; }
+.jvHNode.k-i text { font-style: italic; }
+.jvHNode.k-c rect, .jvSwatch.k-c { fill: color-mix(in srgb, var(--jv-accent) 16%, var(--surface)); stroke: var(--jv-accent); border-color: var(--jv-accent); background: color-mix(in srgb, var(--jv-accent) 16%, var(--surface)); }
+.jvHNode.k-l rect, .jvSwatch.k-l { fill: color-mix(in srgb, var(--jv-legacy) 16%, var(--surface)); stroke: var(--jv-legacy); stroke-dasharray: 4 3; border-color: var(--jv-legacy); border-style: dashed; }
+.jvHNode.k-a rect, .jvSwatch.k-a { fill: var(--jv-fill-2); stroke: var(--jv-soft); stroke-dasharray: 2 2; border-color: var(--jv-soft); border-style: dotted; }
+.jvHNode.k-root rect { fill: var(--jv-fill-2); stroke: var(--jv-ink); stroke-width: 2; }
+.jvHNode.k-error rect, .jvSwatch.k-error { fill: color-mix(in srgb, var(--jv-legacy) 18%, var(--surface)); stroke: var(--jv-legacy); border-color: var(--jv-legacy); }
+.jvHNode.k-checked rect, .jvSwatch.k-checked { fill: color-mix(in srgb, var(--jv-hot) 16%, var(--surface)); stroke: var(--jv-hot); border-color: var(--jv-hot); }
+.jvHNode.k-unchecked rect, .jvSwatch.k-unchecked { fill: color-mix(in srgb, var(--jv-bad) 15%, var(--surface)); stroke: var(--jv-bad); border-color: var(--jv-bad); }
+.jvHNode.dim { opacity: 0.32; }
+.jvHNode.on rect { stroke-width: 2.4; }
+.jvHNode.sel rect { stroke: var(--jv-hot); stroke-width: 3; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--jv-hot) 70%, transparent)); }
+
+/* trees and graphs */
+.jvTreeEdge { stroke: var(--line); stroke-width: 2.4; transition: stroke 0.35s; }
+.jvTreeEdge.on { stroke: var(--jv-accent); stroke-width: 3.2; }
+.jvTreeNode circle { fill: var(--jv-fill-2); stroke: var(--jv-soft); stroke-width: 1.8; transition: fill 0.35s, stroke 0.35s, transform 0.35s; transform-box: fill-box; transform-origin: center; }
+.jvTreeNode text { font: 700 14px var(--font-mono); }
+.jvTreeNode.seen circle { fill: color-mix(in srgb, var(--jv-accent) 26%, var(--surface)); stroke: var(--jv-accent); }
+.jvTreeNode.queued circle { fill: color-mix(in srgb, var(--jv-iface) 22%, var(--surface)); stroke: var(--jv-iface); stroke-dasharray: 4 3; }
+.jvTreeNode.cur circle { fill: color-mix(in srgb, var(--jv-hot) 40%, var(--surface)); stroke: var(--jv-hot); stroke-width: 3; transform: scale(1.14); }
+.jvStrip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; min-height: 30px; }
+.jvStrip small { width: 76px; color: var(--jv-soft); font: 700 10px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.jvStrip b { padding: 3px 10px; border: 1px solid var(--jv-iface); border-radius: 6px; background: color-mix(in srgb, var(--jv-iface) 16%, var(--surface)); font: 700 13px var(--font-mono); }
+.jvStrip b.done { border-color: var(--jv-accent); background: color-mix(in srgb, var(--jv-accent) 16%, var(--surface)); }
+.jvStrip em { color: var(--jv-soft); font-size: 12px; }
+
+/* flow diagrams */
+.jvGroup { fill: color-mix(in srgb, var(--jv-iface) 6%, transparent); stroke: var(--line); stroke-dasharray: 6 4; }
+.jvGroupLabel { font-weight: 700; letter-spacing: 0.08em; }
+.jvFlowEdge path { fill: none; stroke: var(--jv-soft); stroke-width: 1.6; opacity: 0.6; transition: stroke 0.3s, opacity 0.3s; }
+.jvFlowEdge.dashed path { stroke-dasharray: 6 4; }
+.jvFlowEdge.on path { stroke: var(--jv-hot); stroke-width: 2.6; opacity: 1; stroke-dasharray: 8 5; animation: jvFlow 0.8s linear infinite; }
+.jvFlowNode rect { fill: var(--jv-fill-2); stroke: var(--jv-soft); stroke-width: 1.4; transition: fill 0.35s, stroke 0.35s, opacity 0.35s; }
+.jvFlowNode { transition: opacity 0.35s; }
+.jvFlowLabel { font: 700 12.5px var(--font-mono); }
+.jvFlowSub { font-size: 10.5px; fill: var(--jv-soft) !important; }
+.jvFlowNode.on rect { fill: color-mix(in srgb, var(--jv-accent) 20%, var(--surface)); stroke: var(--jv-accent); stroke-width: 2.2; }
+.jvFlowNode.bad rect { fill: color-mix(in srgb, var(--jv-bad) 22%, var(--surface)); stroke: var(--jv-bad); stroke-width: 2.2; }
+.jvFlowNode.ok rect { fill: color-mix(in srgb, var(--jv-ok) 24%, var(--surface)); stroke: var(--jv-ok); stroke-width: 2.2; }
+.jvFlowNode.dead { opacity: 0.3; }
+.jvFlowNode.dead rect { stroke-dasharray: 4 3; }
+.jvFlowNode.ghost { opacity: 0.18; }
+
+/* JDK layers and heap */
+.jvLayer > rect { fill: transparent; stroke: var(--line); stroke-width: 1.6; transition: fill 0.4s, stroke 0.4s; }
+.jvLayer.on > rect { stroke-width: 2.4; }
+.jvLayer.l-jdk.on > rect { fill: color-mix(in srgb, var(--jv-iface) 10%, transparent); stroke: var(--jv-iface); }
+.jvLayer.l-jre.on > rect { fill: color-mix(in srgb, var(--jv-hot) 10%, transparent); stroke: var(--jv-hot); }
+.jvLayer.l-jvm.on > rect { fill: color-mix(in srgb, var(--jv-accent) 14%, transparent); stroke: var(--jv-accent); }
+.jvLayerTitle { font: 800 16px var(--font-mono); }
+.jvChip { fill: var(--jv-fill-2); stroke: var(--line); }
+.jvRegion rect { fill: var(--jv-fill-2); stroke: var(--jv-soft); stroke-width: 1.3; }
+.jvRegion.r-eden rect { fill: color-mix(in srgb, var(--jv-accent) 12%, var(--surface)); }
+.jvRegion.r-s0 rect, .jvRegion.r-s1 rect { fill: color-mix(in srgb, var(--jv-iface) 12%, var(--surface)); }
+.jvRegion.r-old rect { fill: color-mix(in srgb, var(--jv-hot) 12%, var(--surface)); }
+.jvRegion.r-meta rect { fill: transparent; stroke-dasharray: 5 4; }
+.jvObj circle { fill: var(--jv-accent); stroke: var(--surface); stroke-width: 2; transition: fill 0.35s, opacity 0.35s; }
+.jvObj text { font: 700 12px var(--font-mono); fill: #08110b !important; }
+.jvObj text.jvTiny { fill: var(--jv-soft) !important; }
+.jvObj.dead circle { fill: var(--jv-soft); opacity: 0.45; }
+
+@keyframes jvPop { from { opacity: 0; transform: translateY(-10px) scale(0.85); } to { opacity: 1; transform: none; } }
+@keyframes jvDrop { from { opacity: 0; translate: 0 -60px; } to { opacity: 1; translate: 0 0; } }
+@keyframes jvJoin { from { opacity: 0; translate: 60px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes jvLeave { 0% { opacity: 1; translate: 0 0; } 100% { opacity: 0.25; translate: -14px 0; } }
+@keyframes jvFlow { to { stroke-dashoffset: -26; } }
+
+@media (max-width: 640px) {
+  .jv { padding: 12px 10px; }
+  .jvCount { margin-left: 0; }
+  .jvWide .jvCanvas svg { min-width: 680px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jv *, .jv *::before, .jv *::after { animation: none !important; transition: none !important; }
+}

@@ -116,7 +116,12 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
                   </button>
                   {isExpanded && (
                     <div>
-                      {section.lessons.map((item, lessonIndex) => (
+                      {section.lessons.map((item, lessonIndex) => [
+                        item.group && item.group !== section.lessons[lessonIndex - 1]?.group && (
+                          <em className="chapterNavGroup" key={`group-${item.group}`}>
+                            {item.group}
+                          </em>
+                        ),
                         <button
                           className={item.slug === article.slug ? "active" : ""}
                           key={item.slug}
@@ -127,8 +132,8 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
                         >
                           <span>{String(lessonIndex + 1).padStart(2, "0")}</span>
                           <b>{item.title}</b>
-                        </button>
-                      ))}
+                        </button>,
+                      ])}
                     </div>
                   )}
                 </section>

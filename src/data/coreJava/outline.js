@@ -730,6 +730,11 @@ export default [
         "title": "Collection Framework Interview Questions",
         "slug": "collections--collection-framework-interview-questions",
         "time": "8 min"
+      },
+      {
+        "title": "Build Your Own ArrayList, Vector, HashMap, LinkedHashMap, HashSet and LinkedHashSet",
+        "slug": "collections--build-your-own-arraylist-vector-hashmap-linkedhashmap-hashset-and-linkedhashset",
+        "time": "12 min"
       }
     ]
   },
@@ -917,6 +922,11 @@ export default [
         "title": "Concurrency Interview Questions",
         "slug": "concurrency--concurrency-interview-questions",
         "time": "8 min"
+      },
+      {
+        "title": "CompletableFuture: From First Result to Reliable Pipelines",
+        "slug": "concurrency--completablefuture-from-first-result-to-reliable-pipelines",
+        "time": "10 min"
       }
     ]
   },
@@ -1390,7 +1400,7 @@ export default [
   },
   {
     "slug": "data-structures",
-    "title": "Data Structures in Java",
+    "title": "Java Data Structures",
     "lessons": [
       {
         "title": "Stack: Array-Based, Generic and a Stack of Employee Objects",

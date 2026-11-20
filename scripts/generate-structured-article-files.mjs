@@ -106,7 +106,8 @@ for (const course of courses) {
     await rm(resolve(sectionRoot, "css/Article.css"), { force: true });
 
     for (const article of section.lessons) {
-      const articleRoot = resolve(sectionRoot, "articles", article.slug);
+      // Merged sections (e.g. Java Data Structures) keep each lesson in its original folder.
+      const articleRoot = resolve(root, course.componentPath, article.folder || section.slug, "articles", article.slug);
       const jsxDirectory = resolve(articleRoot, "jsx");
       const cssDirectory = resolve(articleRoot, "css");
       await mkdir(jsxDirectory, { recursive: true });

@@ -1,3 +1,4 @@
+import JavaCode from "../backend/java/jsx/JavaCode";
 import { useId, useState } from "react";
 import {
   javaAlgorithmTechniques,
@@ -92,13 +93,13 @@ function TechniqueDetail({ item }) {
         <code>java Main</code>. Requires Java 8 or newer. The browser does not compile Java.
       </p>
       <pre className="dsaSource">
-        <code>{javaTechniqueSource(item)}</code>
+        <JavaCode>{javaTechniqueSource(item)}</JavaCode>
       </pre>
       <p>
         <strong>Expected output</strong>
       </p>
       <pre>
-        <code>{item.expected}</code>
+        <JavaCode output>{item.expected}</JavaCode>
       </pre>
       <h4>Use it in project development</h4>
       <p>{item.project}</p>
@@ -113,7 +114,7 @@ function TechniqueDetail({ item }) {
           and throw <code>AssertionError</code> when a condition is false.
         </p>
         <pre>
-          <code>{item.checks.join("\n")}</code>
+          <JavaCode output>{item.checks.join("\n")}</JavaCode>
         </pre>
       </details>
     </div>

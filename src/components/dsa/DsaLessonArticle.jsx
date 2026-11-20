@@ -1,3 +1,4 @@
+import JavaCode from "../backend/java/jsx/JavaCode";
 import { runDsaAlgorithm } from "../../data/dsaAlgorithms.js";
 import { dsaAlgorithmSources } from "../../data/dsaAlgorithmSources.js";
 import { dsaLessons, getDsaLesson } from "../../data/dsaLessons.js";
@@ -119,11 +120,11 @@ export default function DsaLessonArticle({ courseSlug, lessonSlug }) {
           </p>
         )}
         <pre className="dsaSource">
-          <code>{source}</code>
+          {lesson.java ? <JavaCode>{source}</JavaCode> : <code>{source}</code>}
         </pre>
         <h3>Expected result for the original input</h3>
         <pre>
-          <code>{JSON.stringify(result, null, 2)}</code>
+          {lesson.java ? <JavaCode output>{JSON.stringify(result, null, 2)}</JavaCode> : <code>{JSON.stringify(result, null, 2)}</code>}
         </pre>
         <p className="dsaTraceCost">
           Complexity describes the algorithm as explained above. Recording and displaying snapshots

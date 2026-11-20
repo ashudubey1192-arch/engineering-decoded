@@ -464,3 +464,12 @@
     grid-template-columns: 95px 1fr 20px;
   }
 }
+.chapterNav .groupedChapterNav .chapterNavGroup {
+  display: block;
+  margin: 8px 6px 3px;
+  color: var(--course-accent);
+  font: 700 9px/1.4 var(--font-sans);
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

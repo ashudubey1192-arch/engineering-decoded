@@ -1,3 +1,4 @@
+import JavaCode from "../backend/java/jsx/JavaCode";
 import { useEffect, useState, useRef } from "react";
 import { dsaJavaPractice } from "../../data/dsaJavaPractice.js";
 import { api, getSession } from "../../services/api.js";
@@ -125,7 +126,7 @@ function JavaEditor({ problem }) {
             {results.map((r) => (
               <li key={r.label}>
                 {r.passed ? "✓" : "✗"} {r.label}
-                <pre>{r.error || `Expected: ${r.expected}\nOutput: ${r.actual}`}</pre>
+                <pre><JavaCode output>{r.error ? `Error: ${r.error}` : `Expected: ${r.expected}\nOutput: ${r.actual}`}</JavaCode></pre>
               </li>
             ))}
           </ul>
@@ -134,13 +135,13 @@ function JavaEditor({ problem }) {
       <details>
         <summary>Input and expected output</summary>
         {problem.tests.map((t) => (
-          <pre key={t.label}>{`${t.label}\nInput:\n${t.input}\nExpected: ${t.expected}`}</pre>
+          <pre key={t.label}><JavaCode output>{`${t.label}\nInput:\n${t.input}\nExpected: ${t.expected}`}</JavaCode></pre>
         ))}
       </details>
       <details>
         <summary>Java reference solution</summary>
         <pre>
-          <code>{problem.solution}</code>
+          <JavaCode>{problem.solution}</JavaCode>
         </pre>
       </details>
       <p>

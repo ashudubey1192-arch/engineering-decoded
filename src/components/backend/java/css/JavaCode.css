@@ -1,0 +1,7 @@
+.javaCode { color: #e2e8f0; background: #101827; }
+pre:has(> .javaCode) { background: #101827 !important; color: #e2e8f0; padding: 1rem; overflow: auto; line-height: 1.65; }
+.javaCode .java-keyword { color: #c4b5fd; } .javaCode .java-string { color: #fcd34d; }
+.javaCode .java-comment { color: #94b8c4; font-style: italic; } .javaCode .java-number { color: #fdba74; }
+.javaCode .java-type { color: #67e8f9; } .javaCode .java-error { color: #fda4af; }
+.javaCode .java-output { color: #86efac; }
+.javaColorKey { font-size: .875rem; color: var(--muted); }
