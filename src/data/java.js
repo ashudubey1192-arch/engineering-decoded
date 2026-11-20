@@ -2,6 +2,7 @@ import { javaStructureSections } from "./javaStructureLessons.js";
 import { javaNetworkSections } from "./javaNetworkLessons.js";
 import coreJavaOutline from "./coreJava/outline.js";
 import { coreJavaAliases } from "./coreJava/aliases.js";
+import { javaInterviewSection } from './javaInterview.js';
 
 // Core Java sections are generated from src/data/coreJava/sections/*.js by
 // scripts/build-core-java.mjs. The Core Java "Data Structures" section, the hand-built
@@ -81,6 +82,7 @@ export const javaSections = [
   dataStructuresSection,
   ...networkingSections,
   ...coreSections.slice(at).filter((section) => section.slug !== "data-structures"),
+  javaInterviewSection,
 ];
 
 export const javaArticles = javaSections.flatMap((item) => item.lessons);

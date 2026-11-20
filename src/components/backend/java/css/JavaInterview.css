@@ -1,0 +1,11 @@
+.javaInterviewSearch { display: grid; gap: .65rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: .5rem; }
+.javaInterviewSearch input { width: 100%; min-width: 0; padding: .8rem; border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: .4rem; font: inherit; }
+.javaInterviewSearch p { margin: 0; }
+.javaInterviewQuestion { padding: 1.25rem 0; border-top: 1px solid var(--line); min-width: 0; }
+.javaInterviewQuestion > small { color: var(--muted); font-size: .875rem; }
+.javaInterviewQuestion h3 { line-height: 1.5; overflow-wrap: anywhere; }
+.javaInterviewQuestion pre { max-width: 100%; overflow: auto; white-space: pre; padding: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: .5rem; }
+.javaInterview :is(input, a, pre):focus-visible { outline: 2px solid var(--course-accent); outline-offset: 3px; }
+.javaInterviewTable { overflow-x: auto; margin: 1.25rem 0; }
+.javaInterviewTable table { width: 100%; border-collapse: collapse; }
+.javaInterviewTable :is(th, td) { padding: .75rem; text-align: left; border: 1px solid var(--line); min-width: 8rem; }
