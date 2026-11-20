@@ -82,7 +82,6 @@ const at = insertAt === -1 ? coreSections.length : insertAt;
 // lessons that used to sit at the end of topic sections. Lessons keep their slugs and their
 // component folder (`folder`), so old links still work.
 const INTERVIEW_SECTIONS = new Set([
-  "interview-and-libraries",
   "interview-core-java",
   "interview-additional",
   "interview-collections",
@@ -95,6 +94,7 @@ const INTERVIEW_SECTIONS = new Set([
   "interview-jdk-versions",
 ]);
 const TOPIC_INTERVIEW_LESSONS = {
+  "interview-and-libraries--core-java-top-interview-questions": "Q&A: Core Java",
   "collections--collection-framework-interview-questions": "Q&A: Collections, equals and hashCode",
   "equals-and-hashcode--equals-and-hashcode-interview-questions": "Q&A: Collections, equals and hashCode",
   "exceptions--exception-handling-interview-questions-and-output-puzzles": "Q&A: Exception handling",
@@ -113,11 +113,10 @@ const guide = (key) => javaInterviewSection.lessons.filter((lesson) => lesson.gu
 
 // [group title, lessons] in study order.
 const interviewGroups = [
-  ["Start here: interview prep and popular libraries", coreBySlug["interview-and-libraries"]],
   ["Guide: Core Java Top 200 questions", guide("corejava")],
   ["Guide: Collections, hashCode and equals", guide("collections")],
   ["Guide: Java 8 Top 100 questions", guide("java8")],
-  ["Q&A: Core Java", [...coreBySlug["interview-core-java"], ...coreBySlug["interview-additional"]]],
+  ["Q&A: Core Java", [...topicLessons("Q&A: Core Java"), ...coreBySlug["interview-core-java"], ...coreBySlug["interview-additional"]]],
   ["Q&A: Collections, equals and hashCode", [...coreBySlug["interview-collections"], ...coreBySlug["interview-equals-hashcode"], ...topicLessons("Q&A: Collections, equals and hashCode")]],
   ["Q&A: Exception handling", [...coreBySlug["interview-exceptions"], ...topicLessons("Q&A: Exception handling")]],
   ["Q&A: Multithreading and concurrency", [...coreBySlug["interview-threads"], ...coreBySlug["interview-concurrency"], ...topicLessons("Q&A: Multithreading and concurrency")]],
@@ -155,6 +154,15 @@ export const javaSections = [
       ? { ...section, lessons: section.lessons.filter((lesson) => !movedSlugs.has(lesson.slug)) }
       : section,
   )
+  // What is left of "Core Java Interview Prep and Popular Libraries" is library tutorials
+  // (iText PDFs, MongoDB); show them as their own section right after JDBC.
+  .map((section) => (section.slug === "interview-and-libraries" ? { ...section, title: "Popular Java Libraries" } : section))
+  .reduce((list, section, index, all) => {
+    if (section.slug === "interview-and-libraries") return list;
+    list.push(section);
+    if (section.slug === "jdbc") list.push(all.find((item) => item.slug === "interview-and-libraries"));
+    return list;
+  }, [])
   .concat(interviewSection);
 
 export const javaArticles = javaSections.flatMap((item) => item.lessons);
