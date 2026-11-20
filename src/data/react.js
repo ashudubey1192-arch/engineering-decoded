@@ -1,3 +1,7 @@
+import { interviewSection } from './reactInterview.js';
+import { optimizationSections } from './reactOptimizationExpansion.js';
+import { expansionSections } from './reactLearnExpansion.js';
+
 const section = (slug, title, lessons) => ({
   slug,
   title,
@@ -70,4 +74,5 @@ export const reactSections = [
   ]),
 ];
 
+reactSections.push(...expansionSections, ...optimizationSections, interviewSection);
 export const reactArticles = reactSections.flatMap((item) => item.lessons);

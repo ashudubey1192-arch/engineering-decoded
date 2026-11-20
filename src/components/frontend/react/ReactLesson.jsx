@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import { reactLessons } from "../../../data/reactLessons";
+import { reactLearnCoverage, reactLearnCoverageNote } from '../../../data/reactLearnExpansion';
 import ReactMotion from "./ReactMotion";
 import PracticeLab from "./ReactPracticeLabs";
 import "./css/ReactLesson.css";
@@ -285,6 +286,18 @@ export default function ReactLesson({ slug }) {
         <p className="lead">{content.intro}</p>
         <p className="reactLessonEyebrow">REACT JS · CONCEPT → EXAMPLE → PRACTICE</p>
       </section>
+      {slug === 'welcome--course-introduction' && <section aria-label="Source coverage map">
+        <h2>React course coverage</h2>
+        <p>{reactLearnCoverageNote}</p>
+        <p>The Episode 09 companion chapter covers the public Namaste React optimization topics. Its login-only video has not been verified. The interview chapter preserves all 200 questions from the supplied PDF.</p>
+        <details><summary>Browse the source-to-lesson topic checklist</summary>
+          {reactLearnCoverage.map(item => <div className="reactDeepDive" key={item.url}>
+            <h3><a href={item.url} target="_blank" rel="noreferrer">{item.url.split('/').filter(Boolean).at(-1).replaceAll('-', ' ')}</a></h3>
+            <p>{item.subtopics.join(' · ')}</p>
+            <ul>{item.lessons.map(lessonSlug => <li key={lessonSlug}><a href={`/learn/frontend/react/${lessonSlug}`}>{lessonSlug.split('--').at(-1).replaceAll('-', ' ')}</a></li>)}</ul>
+          </div>)}
+        </details>
+      </section>}
       <section id="concepts">
         <h2>1. Core concepts</h2>
         {content.concepts.map((concept, index) => (
@@ -359,6 +372,11 @@ export default function ReactLesson({ slug }) {
           </details>
         </div>
       </section>
+      {content.sources?.length > 0 && <section aria-label="Lesson sources">
+        <h2>Sources and further reading</h2>
+        {content.sourceNote && <p>{content.sourceNote}</p>}
+        <ul>{content.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a></li>)}</ul>
+      </section>}
     </div>
   );
 }

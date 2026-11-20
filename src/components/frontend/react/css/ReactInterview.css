@@ -1,0 +1,16 @@
+.reactInterviewToolbar { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; padding: 1.25rem; border: 1px solid var(--line); background: var(--surface); }
+.reactInterviewToolbar label { display: grid; gap: .5rem; font-size: 1rem; }
+.reactInterviewToolbar input, .reactInterviewToolbar select { min-width: 0; width: 100%; padding: .75rem; color: inherit; background: var(--bg, #101827); border: 1px solid var(--line); border-radius: .4rem; font: inherit; }
+.reactInterviewToolbar p { grid-column: 1 / -1; margin: 0; }
+.reactInterviewCard { border: 1px solid var(--line); border-radius: .75rem; padding: 1.5rem; margin: 1.25rem 0; scroll-margin-top: 5rem; }
+.reactInterviewCard header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; font-size: .875rem; }
+.reactInterviewCard header span { color: var(--course-accent); font-weight: 700; }
+.reactInterviewCard h3 { font-size: 1.3rem; line-height: 1.5; }
+.reactInterviewCard h4 { font-size: 1.1rem; margin-top: 1.5rem; }
+.reactInterview button { font: inherit; padding: .6rem 1rem; border-radius: .4rem; background: var(--surface); color: inherit; border: 1px solid var(--line); cursor: pointer; }
+.reactInterview button:hover { border-color: var(--course-accent); }
+.reactInterview button:disabled { opacity: .45; cursor: default; }
+.reactInterview button:focus-visible, .reactInterview input:focus-visible, .reactInterview select:focus-visible { outline: 2px solid var(--course-accent); outline-offset: 3px; }
+.reactInterviewPagination { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.reactInterview pre { white-space: pre; overflow: auto; max-width: 100%; font-size: .875rem; }
+@media (max-width: 650px) { .reactInterviewToolbar { grid-template-columns: 1fr; } .reactInterviewCard { padding: 1rem; } }

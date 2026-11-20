@@ -5,6 +5,16 @@ const HEIGHT = 250;
 const NODE_W = 116;
 const NODE_H = 46;
 
+function labelLines(label) {
+  const lines = [''];
+  for (const word of label.split(' ')) {
+    const index = lines.length - 1;
+    if (lines[index] && `${lines[index]} ${word}`.length > 17) lines.push(word);
+    else lines[index] += `${lines[index] ? ' ' : ''}${word}`;
+  }
+  return lines;
+}
+
 // Default layout: one row, or two rows when the diagram has more than four nodes.
 function layout(nodes) {
   if (nodes.every((node) => node.x !== undefined && node.y !== undefined)) {
@@ -129,6 +139,7 @@ export default function ReactMotion({ animation }) {
             );
           })}
           {nodes.map((node) => {
+            const lines = labelLines(node.label);
             const state =
               node.id === current.to ? " isTarget" : node.id === current.from ? " isSource" : "";
             return (
@@ -138,8 +149,8 @@ export default function ReactMotion({ animation }) {
                 transform={`translate(${node.cx - NODE_W / 2} ${node.cy - NODE_H / 2})`}
               >
                 <rect width={NODE_W} height={NODE_H} rx="8" />
-                <text x={NODE_W / 2} y={node.sub ? 20 : 28}>
-                  {node.label}
+                <text x={NODE_W / 2} y={node.sub ? 15 : 27 - (lines.length - 1) * 6}>
+                  {lines.map((line, index) => <tspan key={index} x={NODE_W / 2} dy={index === 0 ? 0 : 12}>{line}</tspan>)}
                 </text>
                 {node.sub && (
                   <text className="reactMotionSub" x={NODE_W / 2} y={35}>

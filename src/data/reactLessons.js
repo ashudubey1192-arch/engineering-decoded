@@ -7,8 +7,12 @@ import { internalsLessons } from "./reactLessonsInternals.js";
 import { storeLessons } from "./reactLessonsStore.js";
 import { featureLessons } from "./reactLessonsFeatures.js";
 import { lesson } from "./reactLessonSchema.js";
+import { optimizationLessons } from './reactOptimizationExpansion.js';
+import { expansionLessons } from './reactLearnExpansion.js';
 
 export const reactLessons = {
+  ...expansionLessons,
+  ...optimizationLessons,
   ...stateLessons,
   ...applicationLessons,
   ...advancedLessons,

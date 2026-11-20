@@ -6,14 +6,15 @@ import { reactArticles } from "../src/data/react.js";
 import { reactLessons } from "../src/data/reactLessons.js";
 
 // Check content coverage and render each real route entry, not just the shared reader.
-assert.equal(Object.keys(reactLessons).length, reactArticles.length);
+const lessons = reactArticles.filter(article => !article.interview);
+assert.equal(Object.keys(reactLessons).length, lessons.length);
 const server = await createServer({
   optimizeDeps: { noDiscovery: true, include: [] }, server: { middlewareMode: true, hmr: false },
   appType: "custom",
 });
 let compiled = 0;
 try {
-  for (const article of reactArticles) {
+  for (const article of lessons) {
     const content = reactLessons[article.slug];
     assert.ok(content, `Missing content: ${article.slug}`);
     for (const field of ["intro", "code", "walkthrough", "mistake", "exercise", "answer"]) {
@@ -22,8 +23,8 @@ try {
         `${article.slug}: incomplete ${field}`,
       );
     }
-    assert.equal(content.concepts.length, 3, `${article.slug}: missing concepts`);
-    assert.equal(content.flow.length, 3, `${article.slug}: missing visual`);
+    assert.ok(content.concepts.length >= 3, `${article.slug}: missing concepts`);
+    assert.ok(content.flow.length >= 3, `${article.slug}: missing visual`);
     assert.equal(content.reference, null);
     const path = `/src/components/frontend/react/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`;
     const { default: Article } = await server.ssrLoadModule(path);
@@ -43,12 +44,12 @@ try {
       !content.code.startsWith("#") &&
       !content.code.includes("playwright.config")
     ) {
-      await transformWithOxc(content.code, `${article.slug}.jsx`, { lang: "jsx" });
+      await transformWithOxc(content.code, `${article.slug}.${content.language || 'jsx'}`, { lang: content.language || "jsx" });
       compiled += 1;
     }
   }
   console.log(
-    `PASS: ${reactArticles.length} route entries rendered with complete content and visuals; ${compiled} standalone JSX examples parsed.`,
+    `PASS: ${lessons.length} route entries rendered with complete content and visuals; ${compiled} standalone JSX examples parsed.`,
   );
 } finally {
   await server.close();
