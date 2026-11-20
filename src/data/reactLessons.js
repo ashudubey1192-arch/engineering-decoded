@@ -9,6 +9,7 @@ import { featureLessons } from "./reactLessonsFeatures.js";
 import { lesson } from "./reactLessonSchema.js";
 import { optimizationLessons } from './reactOptimizationExpansion.js';
 import { expansionLessons } from './reactLearnExpansion.js';
+import { reactLessonVisuals } from './reactLessonVisuals.js';
 
 export const reactLessons = {
   ...expansionLessons,
@@ -373,3 +374,11 @@ export default function CourseList() {
     null,
   ),
 };
+
+// Add an animated flow diagram and a step-by-step deep dive to lessons that don't have one.
+for (const [slug, extra] of Object.entries(reactLessonVisuals)) {
+  const target = reactLessons[slug];
+  if (!target) throw new Error(`reactLessonVisuals: unknown lesson ${slug}`);
+  if (!target.animation) target.animation = extra.animation;
+  if (!target.deepDive) target.deepDive = extra.deepDive;
+}

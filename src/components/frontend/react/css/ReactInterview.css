@@ -14,3 +14,18 @@
 .reactInterviewPagination { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .reactInterview pre { white-space: pre; overflow: auto; max-width: 100%; font-size: .875rem; }
 @media (max-width: 650px) { .reactInterviewToolbar { grid-template-columns: 1fr; } .reactInterviewCard { padding: 1rem; } }
+
+/* Step-by-step flow for each interview answer: a vertical timeline of numbered steps,
+   revealed one after another. */
+.reactStepFlow { margin: 18px 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--course-accent) 5%, var(--surface)); }
+.reactStepFlow figcaption { margin-bottom: 12px; color: var(--course-accent); font: 700 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+.reactStepFlow ol { position: relative; display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.reactStepFlow ol::before { content: ""; position: absolute; left: 14px; top: 14px; bottom: 14px; width: 2px; background: color-mix(in srgb, var(--course-accent) 45%, var(--line)); }
+.reactStepFlow li { position: relative; display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start; animation: reactStepIn .45s ease-out both; animation-delay: calc(var(--i) * .35s); }
+.reactStepFlow li b { position: relative; z-index: 1; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--course-accent); color: #08110b; font: 800 13px var(--font-mono); box-shadow: 0 0 0 4px var(--surface); }
+.reactStepFlow li span { padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: .94rem; line-height: 1.55; }
+.reactPitfall { border-left-color: #ef4444; }
+.reactFollowUp { margin: 12px 0; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 8px; }
+.reactFollowUp summary { cursor: pointer; font-weight: 600; }
+@keyframes reactStepIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .reactStepFlow li { animation: none; } }

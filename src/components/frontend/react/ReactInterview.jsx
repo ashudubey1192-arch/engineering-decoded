@@ -2,13 +2,20 @@ import { useMemo, useState } from 'react';
 import { reactInterviewQuestions, interviewCategories } from '../../../data/reactInterview';
 import { interviewVisual, interviewClarifications } from '../../../data/reactInterviewVisuals';
 import ReactMotion from './ReactMotion';
+import { reactInterviewDeep } from '../../../data/reactInterviewDeep';
 import './css/ReactLesson.css';
 import './css/ReactPractice.css';
 import './css/ReactInterview.css';
 
+// Renders `code` spans inside short explanation strings.
+function Code({ text }) {
+  return text.split(/(`[^`]+`)/).map((part, i) => (part.startsWith('`') && part.endsWith('`') ? <code key={i}>{part.slice(1, -1)}</code> : part));
+}
+
 export function InterviewQuestion({ question, defaultRevealed = false }) {
   const [revealed, setRevealed] = useState(defaultRevealed);
   const clarification = interviewClarifications[question.id];
+  const deep = reactInterviewDeep[question.id];
   return <article className="reactInterviewCard" id={`question-${question.id}`}>
     <header><span>QUESTION {question.id} / 200</span><small>{question.category} · PDF page {question.page}</small></header>
     <h3>{question.title}</h3>
@@ -21,9 +28,15 @@ export function InterviewQuestion({ question, defaultRevealed = false }) {
       {question.blocks.map((block, i) => block.type === 'code'
         ? <pre key={i} tabIndex={0} aria-label={`Question ${question.id} code example`}><code>{block.text}</code></pre>
         : <p key={i}>{block.text}</p>)}
+      {deep && <figure className="reactStepFlow" aria-label={`Question ${question.id} explained step by step`}>
+        <figcaption>Explained step by step</figcaption>
+        <ol>{deep.steps.map((step, i) => <li key={i} style={{ '--i': i }}><b>{i + 1}</b><span><Code text={step} /></span></li>)}</ol>
+      </figure>}
+      {deep && <aside className="reactTakeaway reactPitfall"><strong>Common pitfall</strong><p><Code text={deep.pitfall} /></p></aside>}
       {clarification && <aside className="reactTakeaway"><strong>Technical clarification</strong><p>{clarification.text}</p><a href={clarification.url} target="_blank" rel="noreferrer">Check the official reference</a></aside>}
       <h4>Follow the mechanism step by step</h4>
       <ReactMotion animation={interviewVisual(question)} />
+      {deep && <details className="reactFollowUp"><summary>Follow-up the interviewer may ask: <Code text={deep.follow[0]} /></summary><p><Code text={deep.follow[1]} /></p></details>}
       <details><summary>Practice explaining this answer</summary>
         <p>Explain “{question.title}” in your own words. Trace the example with one concrete input, predict the visible result, then change one input and explain why the result changes. Use the diagram’s step buttons to check your reasoning.</p>
       </details>
