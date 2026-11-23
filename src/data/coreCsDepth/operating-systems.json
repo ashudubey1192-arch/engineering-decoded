@@ -1,0 +1,152 @@
+{
+  "what-is-an-operating-system": [
+    {
+      "title": "Abstraction, isolation, and multiplexing",
+      "body": "A CPU runs instructions, but it does not understand files, users, or applications. The OS builds those abstractions from hardware mechanisms. A process receives a virtual address space; a descriptor names an open resource; a scheduler divides CPU time. Isolation requires both hardware permissions and correct kernel checks. Multiplexing is the reuse of one physical resource by several logical owners."
+    },
+    {
+      "title": "Worked example: one CPU, three applications",
+      "body": "Suppose an editor needs 2 ms of CPU and then waits 10 ms for storage. A player needs 1 ms every 5 ms to replenish audio. Running the editor until its I/O finishes would waste the CPU and delay playback. Blocking the editor and scheduling the player allows useful overlap. This is concurrency; simultaneous execution would require another execution unit. The policy must also prevent a third CPU-heavy process from starving the player."
+    }
+  ],
+  "what-happens-when-you-run-a-program": [
+    {
+      "title": "From pathname to execution",
+      "body": "The shell resolves the command and arranges input, output, and environment. On a typical Unix path it creates a child, which calls execve. The kernel validates the executable, replaces mappings, and prepares arguments and auxiliary metadata. A dynamic loader resolves required libraries before language startup calls main. A failed exec returns an error to the existing process instead of magically creating a running program."
+    },
+    {
+      "title": "Demand loading and termination",
+      "body": "Mapping a 20 MiB executable does not require reading all 20 MiB immediately. First instruction and data accesses can fault pages into RAM. When main returns, runtime cleanup precedes the exit system call; the kernel closes descriptors and retains waitable status. Compare a cold launch and warm launch separately: the second may benefit from cached file pages without changing program semantics."
+    }
+  ],
+  "course-environment": [
+    {
+      "title": "A reproducible experiment",
+      "body": "Use a disposable Linux environment and record uname -a, compiler version, and whether the process is inside a VM or container. Save source and exact build flags together. Start with one variable: compare a single-threaded program with a two-threaded version using identical inputs. Repeat timings, because page-cache state, CPU frequency, and other processes affect results."
+    },
+    {
+      "title": "Interpreting the environment",
+      "body": "A container shares the host kernel, while a VM runs a guest kernel. Therefore a missing syscall cannot be fixed merely by changing a container's user-space packages. WSL behavior depends on its architecture and integration with Windows. Keep exercise files in a dedicated directory and bound memory, thread counts, and execution time so an experiment measures the intended mechanism rather than exhausting the machine."
+    }
+  ],
+  "c-survival-guide-for-os": [
+    {
+      "title": "Pointers, lengths, and ownership",
+      "body": "Represent a buffer with both its address and capacity. A pointer may refer to a stack object, static storage, or a heap allocation, and each has a different lifetime. Passing a stack address to a worker that outlives the function is invalid even if the bytes appear unchanged. Ownership answers who releases an allocation; borrowing answers how long another function may access it."
+    },
+    {
+      "title": "Partial I/O example",
+      "body": "If read(fd, buf, 16) returns 5, only buf[0] through buf[4] contain newly read bytes. A return of zero indicates end-of-file for an ordinary stream read; a negative return indicates failure. A loop must accumulate progress, handle interruption according to the API contract, and avoid retrying a permanent error forever. Writing 16 bytes after reading 5 can leak stale buffer contents. Text termination requires separate capacity and explicit handling."
+    }
+  ],
+  "essential-system-tools": [
+    {
+      "title": "Choose an observation before a command",
+      "body": "Use ps to identify a process, top to see changing CPU use, and vmstat to distinguish runnable demand from blocked work. Use ss for socket state and iostat for device observations when available. strace answers which system calls occurred, not why application code chose them. Sampling a CPU profile answers where on-CPU time went, not which remote dependency consumed wall time."
+    },
+    {
+      "title": "Compare rates and intervals",
+      "body": "A counter increasing from 1,000 to 1,600 in 10 seconds means 60 events per second. Compare that rate against completed requests during the same interval. If requests fall while retries rise, additional system activity may represent wasted work. Repeat a baseline and a changed configuration with equal workloads; retain timestamps so process, application, and device measurements can be correlated."
+    }
+  ],
+  "how-the-cpu-executes-instructions": [
+    {
+      "title": "Architectural state versus implementation",
+      "body": "The instruction set specifies observable register and memory effects. Internally, a CPU may pipeline decoding, predict branches, and execute independent operations before earlier ones finish. Retirement preserves the required architectural behavior. A long dependent load chain cannot exploit the same parallelism as several independent loads because the address of the next load is not yet known."
+    },
+    {
+      "title": "Worked comparison",
+      "body": "In an array sum, adjacent elements often share cache lines and hardware prefetching can anticipate access. In a pointer-linked list, each node reveals the next address only after its load completes. Both algorithms visit n elements, yet the list can take much longer. Measure cycles and cache misses across multiple runs; source-code line count is not an execution-cost model."
+    }
+  ],
+  "privilege-levels": [
+    {
+      "title": "Authority belongs to the kernel",
+      "body": "User code cannot install arbitrary page-table mappings or directly control protected devices. A trap enters a known handler with defined saved state. The handler interprets syscall arguments, validates user pointers, and checks the caller's identity. Kernel execution on behalf of a user is still constrained by that user's permitted operation; entering privileged mode is not an authorization grant."
+    },
+    {
+      "title": "Mode switch versus task switch",
+      "body": "If getpid completes immediately, execution may enter and leave the kernel while the same task stays scheduled. If read must wait for disk, the kernel can block the caller and schedule another task. The first is a privilege transition; the second additionally changes scheduled execution context. Counting syscalls as context switches therefore gives the wrong performance diagnosis."
+    }
+  ],
+  "the-memory-hierarchy": [
+    {
+      "title": "Locality and cache lines",
+      "body": "Temporal locality reuses a recently accessed item; spatial locality uses nearby items brought in with it. A cache line is the transfer unit between levels, so using one byte may fetch neighboring bytes too. Associativity and replacement policy influence which lines survive. Capacity misses, conflicts, and coherence traffic are distinct reasons a useful line might be unavailable."
+    },
+    {
+      "title": "A concrete traversal",
+      "body": "For a row-major matrix, traversing consecutive columns within one row usually consumes nearby addresses. Traversing one column across many rows jumps by a row stride. If that stride repeatedly lands on different pages or conflicting cache sets, identical arithmetic produces more stalls. Blocking the matrix into tiles can retain a working region in cache, at the cost of more complicated loop structure."
+    }
+  ],
+  "interrupts-exceptions-and-traps": [
+    {
+      "title": "Cause and restart behavior",
+      "body": "A device interrupt reports an asynchronous event such as receive completion. An exception arises while executing an instruction, such as a division error or failed address translation. A deliberate trap requests a controlled service. Whether an instruction is retried, skipped, or terminates execution depends on the architecture and event; these events are not interchangeable merely because each enters a handler."
+    },
+    {
+      "title": "Following a demand fault",
+      "body": "A load touches a valid mapped page that is not resident. The handler checks the region, arranges a frame and any necessary I/O, updates translation state, and resumes the faulting instruction. If the same address lies outside every valid region, allocating memory would hide a bug; the OS instead reports an invalid access. A recoverable fault may still block long enough to affect request latency."
+    }
+  ],
+  "what-the-kernel-manages": [
+    {
+      "title": "Objects and references",
+      "body": "A task points to an address space, credentials, descriptor table, and scheduling state. A descriptor table entry refers to an open file description or another kernel object. Multiple tasks may share some of those objects while owning others independently. This graph of references explains why closing one descriptor does not necessarily destroy the underlying resource."
+    },
+    {
+      "title": "Resource accounting",
+      "body": "A server's memory includes user allocations, stacks, mapped pages, and kernel-side buffers. Opening sockets consumes more than integer descriptor slots. Increasing an application concurrency limit can therefore exhaust kernel resources before the heap reaches its configured maximum. Diagnose the specific exhausted object and its lifecycle instead of treating every failure as a lack of RAM."
+    }
+  ],
+  "kernel-architectures": [
+    {
+      "title": "Where services execute",
+      "body": "A monolithic kernel places major services in privileged kernel space, allowing direct internal calls. A microkernel moves more services into isolated processes and communicates through messages. Hybrid designs combine choices rather than occupying a precise middle point. Modules can make a monolithic kernel extensible without turning those modules into isolated user processes."
+    },
+    {
+      "title": "Failure and performance trade-offs",
+      "body": "Moving a driver out of the kernel can limit the damage from its crash, but adds communication and scheduling boundaries. Keeping it inside can reduce call overhead while enlarging the trusted failure domain. Compare concrete paths: how many messages, copies, privilege transitions, and recovery steps does one I/O operation need? Architecture names alone do not determine speed or reliability."
+    }
+  ],
+  "system-calls": [
+    {
+      "title": "The API boundary",
+      "body": "A library wrapper packages arguments in the platform's syscall convention, enters the kernel, and translates results into its language interface. The kernel treats all user-controlled pointers, lengths, paths, and flags as untrusted. Validation includes authorization and consistency, not merely checking that an address is nonzero. API contracts define which partial effects can occur before an error."
+    },
+    {
+      "title": "Library calls are not syscall counts",
+      "body": "printf may format into a user-space buffer and make no immediate write syscall. A later flush can combine many calls into one write. Conversely one library operation can trigger several kernel operations. Use a trace to distinguish formatting time, buffering, kernel entry, and blocking. Batching reduces boundary overhead but may delay when output becomes visible."
+    }
+  ],
+  "inside-a-system-call": [
+    {
+      "title": "Entry, dispatch, and return",
+      "body": "The CPU switches to a defined entry path, the kernel saves required state, and dispatch selects the implementation. The implementation validates arguments and performs or queues the operation. Before returning, the kernel may process pending work such as signals. The return convention communicates a value or error to the wrapper, which restores the user-facing interface."
+    },
+    {
+      "title": "Fast and blocking paths",
+      "body": "A read satisfied from cached pages can copy bytes and return without waiting for storage. A cache miss may enqueue I/O and put the task to sleep. Both calls have the same API, yet radically different latency. Separate time spent executing kernel code from time spent descheduled; adding CPU capacity will not remove a slow device wait."
+    }
+  ],
+  "boot-elf-and-the-abi": [
+    {
+      "title": "Bootstrapping layers",
+      "body": "Firmware selects a boot path, a bootloader loads a kernel, and the kernel initializes enough memory and devices to start user space. The first user-space service then starts other services. Details differ across platforms; the essential dependency is that each stage establishes the environment required by the next. A running shell is near the end of that sequence, not the boot mechanism itself."
+    },
+    {
+      "title": "Executable format versus calling convention",
+      "body": "ELF describes segments, symbols, and metadata needed to load a program on relevant Unix platforms. An ABI also defines register use, stack alignment, argument passing, and binary interfaces. Two functions with the same source signature can still be incompatible if compiled against different conventions. Dynamic linking additionally requires compatible symbol names and versions; merely finding a library file is insufficient."
+    }
+  ],
+  "linux-windows-and-macos": [
+    {
+      "title": "Comparable concepts, different contracts",
+      "body": "All three platforms provide processes, virtual memory, files, and protected kernel services, but their object models and APIs differ. Unix descriptors and Windows handles are not identical. Linux epoll reports readiness, while Windows IOCP reports completion. Porting requires preserving the intended operation and lifecycle, not replacing function names mechanically."
+    },
+    {
+      "title": "A portability exercise",
+      "body": "Write down what a server assumes about path syntax, case sensitivity, signal delivery, thread cancellation, and socket closure. Then identify which assumptions belong to a language runtime and which require native APIs. Test shutdown while requests are active: a program that works on the happy path can still leak handles or lose output when its platform's termination behavior differs."
+    }
+  ]
+}

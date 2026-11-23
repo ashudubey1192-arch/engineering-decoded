@@ -45,6 +45,13 @@ const V = {
   failFast: () => <FlowVisual flow="failfast" />,
   markSweep: () => <FlowVisual flow="marksweep" />,
   heap: () => <HeapVisual />,
+  concPar: () => <FlowVisual flow="concpar" />,
+  jmm: () => <FlowVisual flow="jmm" />,
+  pool: () => <FlowVisual flow="pool" />,
+  cas: () => <FlowVisual flow="cas" />,
+  forkJoin: () => <FlowVisual flow="forkjoin" />,
+  cfuture: () => <FlowVisual flow="cfuture" />,
+  vthreads: () => <FlowVisual flow="vthreads" />,
 };
 
 export const JAVA_VISUALS = {
@@ -92,6 +99,18 @@ export const JAVA_VISUALS = {
   "threads--wait-notify-and-notifyall": ["lifecycle"],
   "threads--deadlock-creation-detection-and-avoidance": ["deadlock"],
   "threads--thread-interview-questions": ["lifecycle"],
+
+  // Interview: top 100 concurrency and parallelism
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q1-q10-the-fundamentals-amdahl-s-law-and-sizing-thread-pools": ["concPar"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q11-q20-the-java-memory-model-happens-before-volatile-and-safe-publication": ["jmm"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q21-q30-synchronized-reentrantlock-read-write-and-stamped-locks-conditions": ["lifecycle"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q31-q40-race-conditions-deadlock-livelock-starvation-and-thread-confinement": ["deadlock"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q41-q50-cas-the-aba-problem-longadder-varhandle-and-lock-free-structures": ["cas"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q51-q60-threadpoolexecutor-internals-queues-rejection-shutdown-and-scheduling": ["pool"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q61-q70-concurrenthashmap-copy-on-write-blocking-queues-and-synchronizers": ["hashMap", "queue"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q71-q80-fork-join-work-stealing-parallel-streams-and-their-pitfalls": ["forkJoin"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q81-q90-completablefuture-pipelines-composition-errors-and-timeouts": ["cfuture"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q91-q100-virtual-threads-pinning-structured-concurrency-scoped-values-testing-and-debugging": ["vthreads", "lifecycle"],
 
   // Java Data Structures: core lessons
   "data-structures--singly-linked-list-insert-delete-sorted-insert-and-objects": ["singly"],

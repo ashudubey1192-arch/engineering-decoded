@@ -4,6 +4,22 @@ import { coreCsRoadmaps, coreCsRoadmapSections } from "../src/data/coreCsCourses
 import { interviewLessons, makeInterviewCourse } from "../src/data/interviewCourses.js";
 import { osRoadmapContent } from "../src/data/osRoadmapContent.js";
 import { networkRoadmapContent } from "../src/data/networkRoadmapContent.js";
+import osDepth from "../src/data/coreCsDepth/operating-systems.json" with { type: "json" };
+
+test("expanded OS foundations reach their existing lessons without replacing their walkthroughs", () => {
+  const lessons = coreCsRoadmapSections["core-cs/operating-systems"].flatMap(section => section.lessons);
+  assert.equal(Object.keys(osDepth).length, 15);
+  for (const [id, explanations] of Object.entries(osDepth)) {
+    const lesson = lessons.find(item => item.roadmap.id === id);
+    assert.ok(lesson, `Unreachable expansion: ${id}`);
+    assert.deepEqual(lesson.lab.explanations, explanations);
+    assert.equal(lesson.lab.concept, osRoadmapContent[id].concept);
+    assert.equal(lesson.lab.states.length, 3);
+    assert.equal(new Set(explanations.map(item => item.title)).size, explanations.length);
+    assert.ok(explanations.length >= 2);
+    assert.ok(explanations.every(item => item.title && item.body.split(/\s+/).length >= 40));
+  }
+});
 
 // Curriculum totals and section sizes established 2026-10-18.
 const expected = {

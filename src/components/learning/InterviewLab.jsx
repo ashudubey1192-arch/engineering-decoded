@@ -42,6 +42,7 @@ export default function InterviewLab({ article }) {
       <div className="tutorialGoal"><strong>Your objective</strong><p>Explain the mechanism, predict each state transition, and defend the design when the interviewer changes a constraint. These are original practice scenarios, not claims about questions asked by a particular company.</p></div>
     </section>
     <section id="concepts"><h2>Understand the mechanism</h2><p>{lab.concept}</p>
+      {lab.explanations?.map(({ title, body }) => <section key={title} className="roadmapExplanation"><h3>{title}</h3><p>{body}</p></section>)}
       {lab.links && <nav aria-label="Related course resources"><ul>{lab.links.map(link => <li key={link.href}><a href={link.href}>{link.title}</a></li>)}</ul></nav>}
     </section>
     <section id="example">

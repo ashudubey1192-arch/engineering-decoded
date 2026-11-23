@@ -1950,5 +1950,61 @@ export default [
         "time": "8 min"
       }
     ]
+  },
+  {
+    "slug": "interview-concurrency-parallelism",
+    "title": "Interview Q&A: Top 100 Concurrency and Parallelism Questions",
+    "lessons": [
+      {
+        "title": "Concurrency and Parallelism Q1-Q10: The Fundamentals, Amdahl's Law and Sizing Thread Pools",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q1-q10-the-fundamentals-amdahl-s-law-and-sizing-thread-pools",
+        "time": "15 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q11-Q20: The Java Memory Model, happens-before, volatile and Safe Publication",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q11-q20-the-java-memory-model-happens-before-volatile-and-safe-publication",
+        "time": "18 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q21-Q30: synchronized, ReentrantLock, Read-Write and Stamped Locks, Conditions",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q21-q30-synchronized-reentrantlock-read-write-and-stamped-locks-conditions",
+        "time": "21 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q31-Q40: Race Conditions, Deadlock, Livelock, Starvation and Thread Confinement",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q31-q40-race-conditions-deadlock-livelock-starvation-and-thread-confinement",
+        "time": "18 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q41-Q50: CAS, the ABA Problem, LongAdder, VarHandle and Lock-Free Structures",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q41-q50-cas-the-aba-problem-longadder-varhandle-and-lock-free-structures",
+        "time": "21 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q51-Q60: ThreadPoolExecutor Internals, Queues, Rejection, Shutdown and Scheduling",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q51-q60-threadpoolexecutor-internals-queues-rejection-shutdown-and-scheduling",
+        "time": "15 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q61-Q70: ConcurrentHashMap, Copy-on-Write, Blocking Queues and Synchronizers",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q61-q70-concurrenthashmap-copy-on-write-blocking-queues-and-synchronizers",
+        "time": "16 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q71-Q80: Fork/Join, Work Stealing, Parallel Streams and Their Pitfalls",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q71-q80-fork-join-work-stealing-parallel-streams-and-their-pitfalls",
+        "time": "17 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q81-Q90: CompletableFuture Pipelines, Composition, Errors and Timeouts",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q81-q90-completablefuture-pipelines-composition-errors-and-timeouts",
+        "time": "17 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q91-Q100: Virtual Threads, Pinning, Structured Concurrency, Scoped Values, Testing and Debugging",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q91-q100-virtual-threads-pinning-structured-concurrency-scoped-values-testing-and-debugging",
+        "time": "19 min"
+      }
+    ]
   }
 ];

@@ -106,9 +106,14 @@ export function Frame({ title, kicker = "VISUAL", tabs, tab, onTab, legend, cont
 
 // Inline `code` in notes.
 export function Rich({ text }) {
+  // `code` and **bold**
   return String(text)
-    .split(/(`[^`]+`)/)
-    .map((part, index) => (part.startsWith("`") && part.endsWith("`") ? <code key={index}>{part.slice(1, -1)}</code> : part));
+    .split(/(`[^`]+`|\*\*[^*]+\*\*)/)
+    .map((part, index) => {
+      if (part.length > 1 && part.startsWith("`") && part.endsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
+      if (part.length > 4 && part.startsWith("**") && part.endsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
+      return part;
+    });
 }
 
 export const textWidth = (label, size = 12) => Math.round(label.length * size * 0.62 + 22);
