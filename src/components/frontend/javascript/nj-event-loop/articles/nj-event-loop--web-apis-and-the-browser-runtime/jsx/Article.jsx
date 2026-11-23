@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-event-loop--web-apis-and-the-browser-runtime" />;
+  return <JsInternalsLesson slug="nj-event-loop--web-apis-and-the-browser-runtime" />;
 }

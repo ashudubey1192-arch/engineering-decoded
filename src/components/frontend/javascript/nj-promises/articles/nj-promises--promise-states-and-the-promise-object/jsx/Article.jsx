@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-promises--promise-states-and-the-promise-object" />;
+  return <JsInternalsLesson slug="nj-promises--promise-states-and-the-promise-object" />;
 }

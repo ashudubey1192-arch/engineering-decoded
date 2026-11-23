@@ -1,4 +1,4 @@
-// Shape of one Namaste JavaScript lesson. scripts/build-namaste-js.mjs --check enforces it.
+// Shape of one JavaScript Internals lesson. scripts/build-js-internals.mjs --check enforces it.
 //   snapshot:  a static "image" of the runtime at one moment (memory, call stack, queues...)
 //              { title, panes: [[heading, [row, ...]], ...], caption }
 //   animation: same compact format as the Frontend System Design course

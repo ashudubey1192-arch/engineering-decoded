@@ -1,6 +1,6 @@
-// Namaste JavaScript course: validate content, run every example, write outputs + routes.
-//   node scripts/build-namaste-js.mjs          validate, run examples, write outputs.json + Article.jsx
-//   node scripts/build-namaste-js.mjs --check  validate, re-run examples, compare, SSR-render every route
+// JavaScript Internals course: validate content, run every example, write outputs + routes.
+//   node scripts/build-js-internals.mjs          validate, run examples, write outputs.json + Article.jsx
+//   node scripts/build-js-internals.mjs --check  validate, re-run examples, compare, SSR-render every route
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -8,24 +8,24 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
-import { namasteJsArticles } from "../src/data/namasteJs/outline.js";
-import { namasteJsLessons } from "../src/data/namasteJs/lessons.js";
+import { jsInternalsArticles } from "../src/data/jsInternals/outline.js";
+import { jsInternalsLessons } from "../src/data/jsInternals/lessons.js";
 
 const run = promisify(execFile);
 const check = process.argv.includes("--check");
-const outputsPath = "src/data/namasteJs/outputs.json";
+const outputsPath = "src/data/jsInternals/outputs.json";
 const base = "src/components/frontend/javascript";
-const preload = pathToFileURL(resolve("scripts/namaste-js-console.mjs")).href;
+const preload = pathToFileURL(resolve("scripts/js-internals-console.mjs")).href;
 
 // ---------- content shape ----------
-const slugs = namasteJsArticles.map((article) => article.slug);
+const slugs = jsInternalsArticles.map((article) => article.slug);
 assert.equal(new Set(slugs).size, slugs.length, "duplicate lesson slugs");
-assert.deepEqual(Object.keys(namasteJsLessons).sort(), [...slugs].sort(), "lesson content and outline differ");
+assert.deepEqual(Object.keys(jsInternalsLessons).sort(), [...slugs].sort(), "lesson content and outline differ");
 
 const rowLimit = { 2: 38, 3: 24, 4: 16 };
 let animationSteps = 0;
 for (const slug of slugs) {
-  const c = namasteJsLessons[slug];
+  const c = jsInternalsLessons[slug];
   const where = slug;
   assert.ok(c.intro?.length > 200, `${where}: intro too short`);
   for (const field of ["code", "walkthrough", "exercise", "answer"]) {
@@ -74,15 +74,15 @@ for (const slug of slugs) {
 }
 
 // ---------- run every node example ----------
-const dir = mkdtempSync(join(tmpdir(), "namaste-js-"));
+const dir = mkdtempSync(join(tmpdir(), "js-internals-"));
 const outputs = {};
 try {
-  const runnable = slugs.filter((slug) => namasteJsLessons[slug].mode === "node");
+  const runnable = slugs.filter((slug) => jsInternalsLessons[slug].mode === "node");
   for (let index = 0; index < runnable.length; index += 8) {
     await Promise.all(
       runnable.slice(index, index + 8).map(async (slug) => {
         const file = join(dir, `${slug}.cjs`);
-        writeFileSync(file, namasteJsLessons[slug].code);
+        writeFileSync(file, jsInternalsLessons[slug].code);
         try {
           const { stdout, stderr } = await run(process.execPath, ["--import", preload, file], { timeout: 15000 });
           assert.equal(stderr, "", `${slug}: wrote to stderr`);
@@ -99,26 +99,26 @@ try {
 const sorted = Object.fromEntries(Object.keys(outputs).sort().map((key) => [key, outputs[key]]));
 for (const [slug, text] of Object.entries(sorted)) assert.ok(text.length > 0, `${slug}: example prints nothing`);
 
-const articleSource = (slug) => `import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+const articleSource = (slug) => `import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="${slug}" />;
+  return <JsInternalsLesson slug="${slug}" />;
 }
 `;
 
 if (!check) {
   writeFileSync(outputsPath, `${JSON.stringify(sorted, null, 2)}\n`);
-  for (const article of namasteJsArticles) {
+  for (const article of jsInternalsArticles) {
     const folder = `${base}/${article.sectionSlug}/articles/${article.slug}/jsx`;
     mkdirSync(folder, { recursive: true });
     writeFileSync(`${folder}/Article.jsx`, articleSource(article.slug));
   }
   console.log(
-    `Wrote ${namasteJsArticles.length} Namaste JavaScript routes and ${Object.keys(sorted).length} recorded outputs (${animationSteps} animation steps).`,
+    `Wrote ${jsInternalsArticles.length} JavaScript Internals routes and ${Object.keys(sorted).length} recorded outputs (${animationSteps} animation steps).`,
   );
 } else {
   const recorded = JSON.parse(readFileSync(outputsPath, "utf8"));
-  assert.deepEqual(recorded, sorted, "outputs.json is stale: run npm run generate:namaste-js");
+  assert.deepEqual(recorded, sorted, "outputs.json is stale: run npm run generate:js-internals");
 
   const { createServer } = await import("vite");
   const { createElement } = await import("react");
@@ -130,7 +130,7 @@ if (!check) {
     appType: "custom",
   });
   try {
-    for (const article of namasteJsArticles) {
+    for (const article of jsInternalsArticles) {
       const path = `${base}/${article.sectionSlug}/articles/${article.slug}/jsx/Article.jsx`;
       assert.ok(existsSync(path), `${article.slug}: missing ${path}`);
       assert.equal(readFileSync(path, "utf8"), articleSource(article.slug), `${article.slug}: stale Article.jsx`);
@@ -147,6 +147,6 @@ if (!check) {
     await server.close();
   }
   console.log(
-    `PASS: ${namasteJsArticles.length} Namaste JavaScript lessons, ${Object.keys(sorted).length} examples re-run and matched, ${animationSteps} animation steps, every route rendered.`,
+    `PASS: ${jsInternalsArticles.length} JavaScript Internals lessons, ${Object.keys(sorted).length} examples re-run and matched, ${animationSteps} animation steps, every route rendered.`,
   );
 }

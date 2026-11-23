@@ -1,4 +1,4 @@
-// All Namaste JavaScript lesson content, keyed by outline slug (see outline.js).
+// All JavaScript Internals lesson content, keyed by outline slug (see outline.js).
 import { executionLessons } from "./lessonsExecution.js";
 import { scopeLessons } from "./lessonsScope.js";
 import { functionLessons } from "./lessonsFunctions.js";
@@ -8,7 +8,7 @@ import { promiseLessons } from "./lessonsPromises.js";
 import { asyncLessons } from "./lessonsAsync.js";
 import { thisLessons } from "./lessonsThis.js";
 
-export const namasteJsLessons = {
+export const jsInternalsLessons = {
   ...executionLessons,
   ...scopeLessons,
   ...functionLessons,

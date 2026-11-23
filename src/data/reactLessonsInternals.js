@@ -22,7 +22,7 @@ export const internalsLessons = {
       import { createElement as h } from "https://esm.sh/react@19";
       import { createRoot } from "https://esm.sh/react-dom@19/client";
 
-      const heading = h("h1", { id: "title" }, "Namaste from React");
+      const heading = h("h1", { id: "title" }, "Hello from React");
       const list = h("ul", null,
         h("li", { key: "a" }, "No bundler"),
         h("li", { key: "b" }, "No JSX compiler"),

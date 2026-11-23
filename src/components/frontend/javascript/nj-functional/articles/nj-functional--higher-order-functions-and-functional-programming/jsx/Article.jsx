@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-functional--higher-order-functions-and-functional-programming" />;
+  return <JsInternalsLesson slug="nj-functional--higher-order-functions-and-functional-programming" />;
 }

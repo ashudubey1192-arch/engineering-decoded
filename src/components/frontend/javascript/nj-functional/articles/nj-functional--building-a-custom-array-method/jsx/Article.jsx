@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-functional--building-a-custom-array-method" />;
+  return <JsInternalsLesson slug="nj-functional--building-a-custom-array-method" />;
 }

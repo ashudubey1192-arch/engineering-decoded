@@ -1461,7 +1461,7 @@ public class Main {
         Properties config = new Properties();
         config.setProperty("db.url", "jdbc:postgresql://localhost:5432/shop");
         config.setProperty("db.pool.size", "10");
-        config.setProperty("greeting", "Namaste \u20B9 users");
+        config.setProperty("greeting", "Hello \u20B9 users");
         config.setProperty("path with spaces", "C:\\data\\files");
         try (Writer w = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
             config.store(w, "Shop configuration");
@@ -1791,7 +1791,7 @@ public class Main {
             out.writeFloat(3.14f);
             out.writeDouble(2.718281828459045);
             out.writeBoolean(true);
-            out.writeUTF("namaste");
+            out.writeUTF("welcome");
             System.out.println("bytes written: " + out.size() + " (1+2+2+4+8+4+8+1 + 2+7 for the string)");
         }
 
@@ -2244,7 +2244,7 @@ public class Main {
         Path dir = Files.createTempDirectory("proc");
         Files.writeString(dir.resolve("Hi.java"), "public class Hi { public static void main(String[] a) { System.out.println(\"HI=\" + System.getenv(\"GREETING\") + \" in \" + new java.io.File(\".\").getAbsoluteFile().getParentFile().getName()); System.exit(3); } }");
         ProcessBuilder pb = new ProcessBuilder(java, "Hi.java").directory(dir.toFile());
-        pb.environment().put("GREETING", "namaste");          // environment for the child only
+        pb.environment().put("GREETING", "welcome");          // environment for the child only
         System.out.println("custom dir, env and exit code: " + run(pb).replace(dir.getFileName().toString(), "<tempdir>"));
 
         Files.writeString(dir.resolve("Slow.java"), "public class Slow { public static void main(String[] a) throws Exception { Thread.sleep(30_000); } }");

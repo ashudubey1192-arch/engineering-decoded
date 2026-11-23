@@ -1,4 +1,4 @@
-// Season 1, episodes 15-17: Web APIs, event loop, queues, JS engine, V8, setTimeout.
+// Web APIs, event loop, queues, JS engine, V8, setTimeout.
 import { njs } from "./schema.js";
 
 export const eventLoopLessons = {
@@ -68,7 +68,7 @@ console.log("End");`,
     ],
     mistakes: [
       "Calling `setTimeout`, `fetch` or `console` 'part of JavaScript'. They are host APIs; the language specification does not define them.",
-      "Assuming the delay passed to `setTimeout` is exact; it is a minimum (see 'Trust issues with setTimeout').",
+      "Assuming the delay passed to `setTimeout` is exact; it is a minimum (see 'Why setTimeout Delays Are Not Exact').",
     ],
     interview: [
       ["Is setTimeout part of JavaScript?", "No. It is a Web API provided by the browser (and a similar API provided by Node.js). The ECMAScript language itself has no timers."],

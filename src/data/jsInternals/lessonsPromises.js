@@ -1,4 +1,4 @@
-// Season 2, episodes 1-3: callback hell, inversion of control, promises, chaining, errors.
+// callback hell, inversion of control, promises, chaining, errors.
 import { njs } from "./schema.js";
 
 // Simulated e-commerce APIs shared by several examples (small delays keep them quick).
@@ -254,14 +254,14 @@ promise
   .then((summary) => console.log(summary));
 
 // The same data source as fetch would give: a promise you attach to.
-const fakeFetch = () => wait(5).then(() => ({ json: () => Promise.resolve({ login: "akshay" }) }));
+const fakeFetch = () => wait(5).then(() => ({ json: () => Promise.resolve({ login: "octocat" }) }));
 fakeFetch().then((res) => res.json()).then((data) => console.log("user:", data.login));`,
     walkthrough:
       "`createOrder` returns a promise at once; nothing has happened yet. The chain runs each step when the previous promise fulfils, passing results down. Compare it with the pyramid from Callback Hell: same steps, but flat. `fakeFetch` mirrors `fetch(url).then(res => res.json())`, which resolves twice: once for the response, once for the parsed body.",
     deepDive: [
       {
         heading: "fetch returns a promise",
-        code: `const GITHUB_API = "https://api.github.com/users/akshaymarch7";
+        code: `const GITHUB_API = "https://api.github.com/users/octocat";
 const user = fetch(GITHUB_API);
 console.log(user);              // Promise {<pending>}
 user.then((res) => res.json())

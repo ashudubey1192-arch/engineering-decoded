@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-functions--anonymous-and-named-function-expressions" />;
+  return <JsInternalsLesson slug="nj-functions--anonymous-and-named-function-expressions" />;
 }

@@ -72,7 +72,7 @@ try {
           assert.ok(html.length > 3000, `${route}: incomplete lesson`);
           if (article.roadmap?.course === "computer-networks" && article.lab.explanations) {
             assert.ok(html.includes("COMPUTER NETWORKS LESSON"), `${route}: wrong course label`);
-            assert.ok(html.includes(": illustrated scenario</title>"), `${route}: missing diagram`);
+            assert.ok(html.includes(article.lab.modelJourney ? "data-model-node=" : ": illustrated scenario</title>"), `${route}: missing diagram`);
             assert.ok(html.includes('aria-label="Interactive scenario walkthrough"'), `${route}: missing animation controls`);
             for (const { title, body } of article.lab.explanations) {
               assert.ok(html.includes(escapeHtml(title)), `${route}: hidden explanation heading`);

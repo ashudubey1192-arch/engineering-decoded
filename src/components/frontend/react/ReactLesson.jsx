@@ -289,7 +289,7 @@ export default function ReactLesson({ slug }) {
       {slug === 'welcome--course-introduction' && <section aria-label="Source coverage map">
         <h2>React course coverage</h2>
         <p>{reactLearnCoverageNote}</p>
-        <p>The Episode 09 companion chapter covers the public Namaste React optimization topics. Its login-only video has not been verified. The interview chapter preserves all 200 questions from the supplied PDF.</p>
+        <p>The app-optimization chapter adds companion lessons on performance topics, cross-checked against the React documentation. The interview chapter preserves all 200 questions from the supplied PDF.</p>
         <details><summary>Browse the source-to-lesson topic checklist</summary>
           {reactLearnCoverage.map(item => <div className="reactDeepDive" key={item.url}>
             <h3><a href={item.url} target="_blank" rel="noreferrer">{item.url.split('/').filter(Boolean).at(-1).replaceAll('-', ' ')}</a></h3>

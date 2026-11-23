@@ -22,7 +22,7 @@ import {
 } from "./cleanArchitecture";
 import { designPatternsArticles, designPatternsSections } from "./designPatterns";
 import { dddArticles, dddSections } from "./ddd";
-import { namasteJsArticles, namasteJsSections } from "./namasteJs/outline.js";
+import { jsInternalsArticles, jsInternalsSections } from "./jsInternals/outline.js";
 import {
   cssArticles, cssSections, htmlArticles, htmlSections, javascriptArticles,
   javascriptSections, materialUiArticles, materialUiSections, nextJsArticles,
@@ -95,10 +95,10 @@ const courses = {
   },
   html: { sections: htmlSections, articles: htmlArticles, componentPath: "frontend/html" },
   css: { sections: cssSections, articles: cssArticles, componentPath: "frontend/css" },
-  // Namaste JavaScript (Season 1 + 2, 64 lessons) comes first, then the original topic sections.
+  // JavaScript Internals (Season 1 + 2, 64 lessons) comes first, then the original topic sections.
   javascript: {
-    sections: [...namasteJsSections, ...javascriptSections],
-    articles: [...namasteJsArticles, ...javascriptArticles],
+    sections: [...jsInternalsSections, ...javascriptSections],
+    articles: [...jsInternalsArticles, ...javascriptArticles],
     componentPath: "frontend/javascript",
   },
   typescript: { sections: typescriptSections, articles: typescriptArticles, componentPath: "frontend/typescript" },

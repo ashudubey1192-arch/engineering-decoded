@@ -1,4 +1,4 @@
-// Season 1, episodes 13-14: function forms, first-class functions, callbacks, event listeners.
+// function forms, first-class functions, callbacks, event listeners.
 import { njs } from "./schema.js";
 
 export const functionLessons = {
@@ -434,7 +434,7 @@ console.log([1, 2, 3].map((n) => n * 10));`,
   if (error) return handle(error);
   use(data);
 });`,
-        paragraphs: ["Before Promises, Node APIs passed an error as the first callback argument. Promises and async/await replaced most of this style (Season 2)."],
+        paragraphs: ["Before Promises, Node APIs passed an error as the first callback argument. Promises and async/await replaced most of this style (see the Promises section)."],
       },
     ],
     mistakes: [

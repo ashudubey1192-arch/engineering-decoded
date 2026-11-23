@@ -1,0 +1,110 @@
+{
+  "osi-7-layer-model": [
+    {
+      "title": "Start with the complete seven-layer model",
+      "body": "OSI means Open Systems Interconnection. Its seven layers, from lowest to highest, are Physical, Data Link, Network, Transport, Session, Presentation, and Application. Layer numbers identify responsibilities, not phases of one troubleshooting recipe. Each layer offers a service to the layer above while relying on services below; corresponding entities on different systems follow a protocol. An implementation may combine responsibilities in one component. The model helps explain interfaces and guarantees, but it does not require every Internet exchange to contain seven separately visible headers. The earlier three-box Link/Transport/Application troubleshooting picture was not the OSI model."
+    },
+    {
+      "title": "Layer 1 — physical signaling, symbols, and transmission",
+      "body": "The physical layer concerns the medium and the representation of transmitted bits: voltages on copper, light in fiber, or radio modulation, together with timing and physical-interface rules. A symbol is a measurable signaling state; some schemes encode multiple bits per symbol, so symbol rate and bit rate are not interchangeable. Attenuation, interference, damaged cabling, and incompatible transceivers can prevent correct reception. A repeater regenerates signals without making an IP routing decision. A link-up indicator establishes only limited physical evidence. It cannot prove that a VLAN, IP prefix, gateway, DNS resolver, or application is configured correctly."
+    },
+    {
+      "title": "Layer 2 — frames, MAC addressing, and link-local delivery",
+      "body": "The data-link layer organizes transmission into frames for the current link. On Ethernet, a frame carries destination and source MAC addresses, protocol identification, payload, and an error-detecting frame check sequence. A learning switch records the source MAC and ingress port, then uses the destination MAC to choose forwarding. Broadcast and unknown-destination behavior occurs within the relevant broadcast domain. A VLAN partitions such domains on shared switching infrastructure. Error detection does not inherently repair an error; local retransmission depends on the link protocol. Ethernet and Wi-Fi each include both physical and data-link specifications, so assigning the entire technology to only one layer loses detail."
+    },
+    {
+      "title": "Layer 3 — logical addresses, routes, and next hops",
+      "body": "The network layer provides delivery across connected networks. In the Internet, IP addresses identify network-layer endpoints and routing tables choose a next hop using the destination and applicable policy. A router receives a link frame, examines the enclosed IP packet, updates forwarding-related fields such as TTL or Hop Limit, and sends the packet using the outgoing link's framing. It generally does not need to decrypt the application message to forward ordinary IP traffic. IP permits loss, duplication, and reordering; transport or application protocols must supply any stronger guarantees. A routing entry is a forwarding decision, not proof that the entire forward and return paths work."
+    },
+    {
+      "title": "Layer 4 — ports, multiplexing, reliability, and flow",
+      "body": "Transport distinguishes communications for applications sharing the same host. A TCP connection is identified by endpoint addresses and ports in its protocol context; a port by itself is not a globally unique connection. TCP numbers bytes, acknowledges received stream positions, retransmits when needed, and delivers an ordered byte stream. Its receive window protects the receiver, while congestion control regulates pressure on the path. UDP supplies datagrams without TCP's reliability and ordering machinery. Applications must therefore select the service they need. One write need not equal one TCP segment or one read, and a TCP acknowledgment does not establish durable application processing."
+    },
+    {
+      "title": "Layer 5 — session dialogue and synchronization",
+      "body": "The session layer describes organization of an ongoing dialogue: establishing and releasing the association, coordinating exchange, and managing synchronization or resynchronization where the service supports it. A checkpointed activity illustrates the responsibility: both peers agree on a recovery position before resuming interrupted work. Simply reconnecting transport cannot reconstruct an agreed application state. Modern Internet applications often put dialogue management in an application protocol or library rather than a separate session implementation. A cookie-based login session is an application mechanism, and a TCP connection is a transport mechanism; neither is a universal implementation of every OSI session service."
+    },
+    {
+      "title": "Layer 6 — representation, serialization, compression, and encryption",
+      "body": "The presentation layer concerns preserving information while choosing a representation both peers understand. A number might be serialized in a specified byte order; text needs a character encoding; a structured record needs an agreed schema and transfer syntax. Compression changes the representation to use fewer bytes and requires a corresponding decoder. Cryptographic protection is commonly discussed as a representation transformation in introductory mappings, but real TLS sits between application protocols and its carrier and spans several responsibilities. JSON is a data format, not a network transport. Correct byte delivery still fails at this level when the receiver uses the wrong encoding, schema, or decoder."
+    },
+    {
+      "title": "Layer 7 — application protocol meaning",
+      "body": "The application layer specifies network-service behavior visible to communicating applications: HTTP requests and statuses, DNS questions and records, SMTP mail exchange, or other protocol operations. It is not the whole browser user interface or every line of business logic. A browser uses an HTTP implementation to obtain a representation, and the application decides how to interpret and display it. DNS belongs here despite supporting other applications before they can connect. A 403 response can mean the network and transport worked correctly while authorization refused the request. Distinguish successful delivery from an application result that satisfies the user's goal."
+    },
+    {
+      "title": "Service, protocol, interface, SDU, and PDU",
+      "body": "A service describes what a layer offers its local user; a protocol describes rules followed by corresponding peer entities; an interface is how adjacent local components request that service. A service data unit, or SDU, is the data given to a layer. The layer can combine it with protocol-control information to construct a protocol data unit, or PDU, for its peer. The enclosing lower layer then treats that PDU as data. Do not assume one SDU always becomes exactly one PDU: segmentation, aggregation, and framing can alter boundaries. The familiar data/segment/packet/frame/bits labels are useful examples, not universal formal PDU names for every OSI protocol."
+    },
+    {
+      "title": "Encapsulation at the sender and decapsulation at the receiver",
+      "body": "Consider HTTP over TLS over TCP over IPv4 over Ethernet. HTTP constructs an application message. TLS protects records. TCP carries the resulting bytes in an ordered stream and can split them into segments. IPv4 encloses each TCP segment in an IP packet, and Ethernet carries the IP packet in a frame transmitted as physical symbols. At the receiving endpoint, each applicable protocol interprets its control information and hands the remaining data upward. The receiver reconstructs TCP stream order before TLS and HTTP interpret their own framing. This is a concrete Internet stack mapped to OSI responsibilities; it deliberately does not invent separate session and presentation headers that this exchange does not contain."
+    },
+    {
+      "title": "Worked encapsulation budget: 1,000 bytes of TCP payload",
+      "body": "Assume an Ethernet link with IP MTU 1,500, IPv4 without options, TCP without options, no VLAN tag, and 1,000 bytes already ready as TCP payload. TCP adds 20 bytes, producing 1,020. IPv4 adds 20, producing a 1,040-byte IP packet. Ethernet adds a 14-byte header and 4-byte frame check sequence, giving 1,058 bytes from destination MAC through FCS. Preamble, start delimiter, and inter-frame spacing are additional wire-time costs rather than IP-MTU payload. Under these assumptions the maximum TCP payload in a 1,500-byte IP packet is 1,460 bytes. TLS overhead, TCP options, IPv6, and tunnels change the application-byte budget."
+    },
+    {
+      "title": "Worked delivery: laptop, switch, router, and server",
+      "body": "Let a laptop be 192.0.2.10/24, its gateway 192.0.2.1, and a server 198.51.100.20. These are documentation addresses. The server is outside the local prefix, so the laptop sends an Ethernet frame to the gateway's MAC, while the enclosed IP packet still names 198.51.100.20. A local switch forwards by the frame destination within the VLAN. The router selects an outgoing route and replaces the link framing. In this no-NAT example the source and destination IP addresses remain the laptop and server, while TTL changes at routing hops. The server's MAC is not something the remote laptop discovers through ordinary local ARP."
+    },
+    {
+      "title": "What switches, routers, and proxies actually inspect",
+      "body": "A basic Ethernet switch forwards using layer-2 information; a router ordinarily forwards using layer-3 information; a transport-aware firewall or load balancer can additionally inspect ports and connection state. An application proxy may terminate transport and TLS and create another connection to an origin, making it an endpoint at several layers. Product names do not confine a device to one layer: a multilayer switch can route, and a router may run a management web server. State which forwarding function you are discussing. A transit router does not normally need to process a user's HTTP request as an application, but a reverse proxy intentionally does."
+    },
+    {
+      "title": "OSI and TCP/IP: a comparison, not two competing wire formats",
+      "body": "The common four-layer TCP/IP teaching model uses Application, Transport, Internet, and Link. It groups representation and dialogue responsibilities with Internet application facilities and includes physical transmission in Link. A five-layer teaching variant separates Data Link and Physical. Neither changes the seven names in the OSI reference model. Internet protocols were not designed to obey a strict one-to-one OSI mapping: TLS, ARP, routing protocols, and tunneling expose boundaries that a simplistic classification can hide. Use the models to identify what a protocol provides and what it depends on, then consult that protocol's actual specification for its behavior."
+    },
+    {
+      "title": "Layer-specific debugging with evidence",
+      "body": "At Physical, examine carrier and link errors. At Data Link, examine the correct VLAN, MAC learning, and neighbor delivery. At Network, check addresses, prefixes, routes, return paths, and MTU-related signals. At Transport, check listeners, connection establishment, loss, resets, and windows. For session-like behavior, check reconnection and synchronization state. For presentation responsibilities, check decoding, format negotiation, and security negotiation or identity. At Application, check protocol responses, authorization, and dependencies. This is a menu of hypotheses rather than a requirement to run seven tests in order. A successful ping is not proof that TCP port 443, TLS validation, or the application is healthy."
+    },
+    {
+      "title": "Failure exercise: identify what each observation proves",
+      "body": "Suppose the cable is connected, ARP finds the gateway, the TCP handshake succeeds, the TLS certificate matches the hostname, and HTTP returns 500. These observations establish progressively more of this particular path, while the final failure is an application or upstream service outcome. Now change the symptom: small responses succeed but large transfers stall. That can indicate MTU or loss handling rather than an application parser alone. Finally, a readable 200 response containing mojibake points toward a representation mismatch. A symptom appears at one layer but its cause may be elsewhere; explain the evidence before assigning blame."
+    },
+    {
+      "title": "Common misconceptions and the limits of the model",
+      "body": "Seven layers do not mean seven devices, seven packets, or seven independent programs. A physical symbol is not always one bit. A MAC address is not the end-to-end Internet destination. IP delivery is not inherently reliable, and transport reception is not a committed business transaction. Encryption does not automatically provide the correct peer identity without authentication. A named OSI layer does not prove that a familiar protocol belongs exclusively to it. A diagram of three debugging stages must be labeled as an example workflow rather than presented as the complete architecture. Always distinguish a reference model, an actual protocol stack, and the sequence chosen for one example."
+    },
+    {
+      "title": "Practice: explain the whole path without skipping layers",
+      "body": "Draw seven boxes and label both their number and name. Next to each, write the responsibility, applicable data unit, a concrete example, and one failure it helps explain. Trace sending downward and receiving upward, then place a switch and router between the hosts and explain which information each uses. Repeat for HTTP/3: QUIC supplies transport and security functions over UDP rather than reusing the ordinary TLS-over-TCP path. Your answer should preserve all seven reference-model responsibilities while admitting that their implementation boundaries differ. Explain why no additional imaginary session header is needed just to make the diagram fit."
+    }
+  ],
+  "tcp-ip-4-layer-model": [
+    {
+      "title": "All four layers and the five-layer teaching variant",
+      "body": "This lesson uses four layers: Application, Transport, Internet, and Link. The Link layer includes the framing and physical transmission needed for a directly connected network. Many textbooks use five layers by separating Physical from Data Link; that is a different explanatory grouping of the same responsibilities. The OSI model independently has seven layers. Always name the model before quoting its layer count. The Internet suite does not require separate session and presentation modules just because those responsibilities are distinguished in OSI. Real software often implements several responsibilities inside one library or process."
+    },
+    {
+      "title": "Application: user protocols and supporting protocols",
+      "body": "HTTP defines web exchanges, SMTP transfers mail, SSH supports protected remote operations, and DNS resolves naming questions. DNS is still at the application layer even when another application depends on it before sending a request. Representations, message framing, authentication, and dialogue recovery can be handled by application protocols or supporting libraries. Application protocols choose transport services; that choice can evolve, as HTTP/3 uses QUIC over UDP. A successful exchange requires agreement about message meaning as well as byte delivery. A timeout does not reveal whether the peer completed the intended action."
+    },
+    {
+      "title": "Transport: endpoints and service choices",
+      "body": "TCP provides an ordered byte stream, while UDP exposes datagrams with fewer delivery guarantees. Both use ports to help demultiplex traffic to endpoint handling on a host. TCP's segmentation and reassembly do not preserve application message boundaries; a parser must accumulate enough bytes according to its framing rules. UDP does not require the same connection handshake, even when a local API calls a socket connected. Flow control, congestion response, recovery, and application acknowledgment must be distinguished. QUIC demonstrates that a protocol can implement transport functions above UDP rather than inheriting those functions from UDP itself."
+    },
+    {
+      "title": "Internet: best-effort packets across networks",
+      "body": "The Internet layer uses IP to address and forward packets across different link technologies. A router chooses an outgoing interface and next hop based on its routing information and policy. Each router can update the packet's hop budget, and failures can produce ICMP information when permitted. IP itself does not guarantee delivery order or that any packet will arrive. Routes and neighbor reachability can change independently. A destination outside the local prefix is ordinarily sent through a suitable next hop rather than resolved directly to a remote MAC address by the originating host."
+    },
+    {
+      "title": "Link: delivery through a specific attached network",
+      "body": "The Link layer adapts IP packets to the directly attached network. Ethernet uses frames and MAC delivery; Wi-Fi adds radio-specific media access and link mechanisms; a point-to-point technology has different local addressing needs. A route selects an interface and neighbor before the host can construct appropriate link delivery. Link errors and local retransmissions are not the same as end-to-end transport recovery. A VLAN mismatch can prevent neighboring devices from communicating despite plausible IP configuration. Physical transmission belongs to this grouping in the four-layer model, so it has not disappeared merely because there is no fifth box."
+    },
+    {
+      "title": "Worked stack: DNS lookup and an HTTP connection are separate exchanges",
+      "body": "A laptop first sends a DNS query using the configured resolver and transport, perhaps UDP, TCP, or an encrypted DNS mode. Those query bytes travel through IP and the current link. The resulting address then helps the application create a different exchange with the web server. An HTTP-over-TCP request travels as application data inside TCP, IP, and link framing. This dependency does not mean DNS sits underneath IP. Draw two stacks with different peer endpoints, then connect their results at the application level. Connection reuse and caches can skip parts of the sequence without changing protocol layering."
+    },
+    {
+      "title": "Encapsulation, demultiplexing, and protocol selectors",
+      "body": "On reception, link metadata identifies the enclosed network protocol, the IP protocol or next-header information guides upper-layer handling, and transport ports help find the receiving endpoint. Those selectors are not interchangeable identities. A socket is an operating-system interface to communication, not an extra layer or an on-wire header. Tunnels deliberately put one protocol inside another, so the same kind of header may appear multiple times. To analyze a capture, identify outer and inner layers explicitly instead of assuming a single fixed header sequence. Some fields may also be hidden by encryption or affected by capture offloads."
+    },
+    {
+      "title": "Exercise: diagnose a working IP path with a failed service",
+      "body": "A host reaches a numeric destination with an ICMP probe, but its browser reports that the name cannot be resolved. Investigate the configured resolver, actual query name, record type, and DNS response; IP reachability to another destination does not establish that resolution succeeded. If DNS resolves and TCP establishment fails, inspect the listener, selected address family, filtering, and path. If transport works but a protocol response denies access, examine application credentials and policy. Report exactly which exchange succeeded. Four conceptual layers make diagnosis organized, but do not collapse every possible error into four mandatory chronological steps."
+    }
+  ]
+}

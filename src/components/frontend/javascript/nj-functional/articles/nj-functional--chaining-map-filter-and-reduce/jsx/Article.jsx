@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-functional--chaining-map-filter-and-reduce" />;
+  return <JsInternalsLesson slug="nj-functional--chaining-map-filter-and-reduce" />;
 }

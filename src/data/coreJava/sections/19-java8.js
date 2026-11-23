@@ -1202,7 +1202,7 @@ public class Main {
         engine.eval("print('print() from JavaScript')");
         engine.eval("java.lang.System.out.println('System.out from JavaScript')");
 
-        engine.eval("function greet(name) { return 'Namaste, ' + name.trim() + '!'; }"
+        engine.eval("function greet(name) { return 'Hello, ' + name.trim() + '!'; }"
                 + "function square(n) { return n * n; }");
         Invocable invocable = (Invocable) engine;
         System.out.println("invokeFunction greet: " + invocable.invokeFunction("greet", "   Asha   "));
@@ -1224,7 +1224,7 @@ public class Main {
     sample: String.raw`eval result: 42 (Integer)
 print() from JavaScript
 System.out from JavaScript
-invokeFunction greet: Namaste, Asha!
+invokeFunction greet: Hello, Asha!
 invokeFunction square: 144
 JSON via ScriptObjectMirror: name=Ravi, age=31
 trim functions: [padded  ] [  padded]

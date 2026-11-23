@@ -1,0 +1,33 @@
+.coreCsModel { margin: 28px 0; padding: clamp(14px, 3vw, 24px); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.coreCsModel figcaption > strong { font-size: 1.15rem; color: var(--text); }
+.coreCsModel figcaption > p { font-size: 1rem; line-height: 1.7; }
+.coreCsModelNodes { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 24px; }
+.coreCsModelNodes > li { position: relative; margin: 0; padding: 0; min-width: 0; }
+.coreCsModelNodes > li > div, .coreCsModelNodes > li > button { display: block; box-sizing: border-box; width: 100%; border: 1px solid var(--lab-accent, #38bdf8); border-radius: 10px; padding: 16px; background: var(--surface-2); color: var(--text); text-align: left; font: inherit; }
+.coreCsModelNodes strong, .coreCsModelNodes span { display: block; }
+.coreCsModelNodes strong { font-size: 1.05rem; }
+.coreCsModelNodes span { font-size: 1rem; line-height: 1.6; margin-top: 7px; }
+.coreCsModelNodes button { cursor: pointer; }
+.coreCsModelNodes button:hover { border-color: var(--text); }
+.coreCsModelNodes button:focus-visible { outline: 3px solid var(--lab-accent, #38bdf8); outline-offset: 4px; }
+.coreCsModelActive > button { box-shadow: inset 5px 0 0 var(--lab-accent, #38bdf8); background: color-mix(in srgb, var(--lab-accent, #38bdf8) 15%, var(--surface)) !important; }
+.coreCsModelConnector { width: 24px; height: 24px; position: absolute; left: calc(50% - 12px); bottom: -24px; color: var(--lab-accent, #38bdf8); }
+.coreCsModel--conditions .coreCsModelNodes, .coreCsModel--collection .coreCsModelNodes { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 14px; }
+.coreCsModelTransitions { margin-top: 24px; }
+.coreCsModelTransitions li { margin: 10px 0; }
+.coreCsLayerCard { padding: 20px; margin: 20px 0; border: 1px solid var(--line); border-radius: 12px; }
+.coreCsLayerCard h4 { margin: 0; font-size: 1.15rem; }
+.coreCsLayerCard dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px; }
+.coreCsLayerCard dt { font-weight: 700; }
+.coreCsLayerCard dd { margin: 5px 0 0; font-size: 1rem; line-height: 1.6; overflow-wrap: anywhere; }
+.coreCsSectionIndex { margin: 20px 0; padding: 18px; border: 1px solid var(--line); border-radius: 10px; }
+.coreCsSectionIndex summary { cursor: pointer; font-weight: 700; }
+.coreCsSectionIndex li { margin: 8px 0; line-height: 1.6; }
+.coreCsSectionIndex a { color: var(--lab-accent); }
+.roadmapExplanation { scroll-margin-top: 100px; }
+.interviewLab .labTimeline { flex-wrap: wrap; }
+.interviewLab .labTimeline li { flex: 1 0 65px; }
+.interviewLab .labTimeline button { padding: 0; }
+.coreCsComparison table { font-size: 1rem; min-width: 560px; }
+.coreCsComparison .simulationTable:focus-visible { outline: 2px solid var(--lab-accent); outline-offset: 3px; }
+.coreCsReadingPath { margin: 20px 0; padding: 16px; border-left: 3px solid var(--lab-accent); }

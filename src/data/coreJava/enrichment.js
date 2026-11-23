@@ -79,10 +79,8 @@ public class Main {
             System.out.println("virtual=" + CompletableFuture.supplyAsync(() -> Thread.currentThread().isVirtual(), io).join());
         }
     }
-}`, 'Build a small checkout pipeline while learning how futures represent pending results, connect dependent work, combine independent calls and report failures. This guide uses original examples and covers the API families in the linked reading guides, including the Java 9 additions and modern execution choices.');
+}`, 'Build a small checkout pipeline while learning how futures represent pending results, connect dependent work, combine independent calls and report failures. This guide uses original examples and covers every CompletableFuture API family, including the Java 9 additions and modern execution choices.');
 completableLesson.references = [
- ['Code Wiz: CompletableFuture guide', 'https://medium.com/@code.wizzard01/java-completable-future-deep-dive-a-comprehensive-guide-869acd8fe83d'],
- ['Baeldung: Guide to CompletableFuture', 'https://www.baeldung.com/java-completablefuture'],
  ['Java 21 CompletableFuture API contract', 'https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html']
 ];
 export const customLesson = makeLesson('Build Your Own ArrayList, Vector, HashMap, LinkedHashMap, HashSet and LinkedHashSet', [
@@ -213,5 +211,4 @@ public class Main {
         System.out.println("All six custom collection checks passed");
         System.out.println("ordered set="+ordered.values());
     }
-}`, 'Implement six familiar collection designs with original, small Java classes. Learn which invariants make growth, collision handling, insertion order and uniqueness work. The reference provides the topic checklist; this code is an independent teaching implementation with explicit limits and executable checks.');
-customLesson.references = [['Custom implementation topic index', 'https://www.javamadesoeasy.com/p/custom-implementation-of-data-structures.html']];
+}`, 'Implement six familiar collection designs with original, small Java classes. Learn which invariants make growth, collision handling, insertion order and uniqueness work. Each one is a small teaching implementation with explicit limits and executable checks.');

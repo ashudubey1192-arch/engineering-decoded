@@ -1,4 +1,4 @@
-// Season 1, episodes 1-6: execution context, call stack, hoisting, functions, global object.
+// execution context, call stack, hoisting, functions, global object.
 import { njs } from "./schema.js";
 
 export const executionLessons = {
@@ -288,7 +288,7 @@ try {
       title: "Memory after phase 1, before line 1",
       panes: [
         ["Memory", ["x : undefined", "*getName : ƒ getName() {…}"]],
-        ["What line 1-3 print", ["getName() → Namaste JS", "x → undefined", "y → ReferenceError"]],
+        ["What line 1-3 print", ["getName() → Hello JS", "x → undefined", "y → ReferenceError"]],
       ],
       caption: "The function exists in full and x exists as undefined, which is why the first two calls work even though they come before the declarations.",
     },
@@ -304,7 +304,7 @@ try {
       steps: [
         ["scan", "fn", "function", "The scan finds the function declaration and stores the entire function."],
         ["scan", "v", "var", "It finds var x and stores the placeholder undefined."],
-        ["run", "fn", "call", "Line 1 calls getName(), which already exists, so it prints Namaste JS."],
+        ["run", "fn", "call", "Line 1 calls getName(), which already exists, so it prints Hello JS."],
         ["run", "v", "read", "Line 2 reads x and gets undefined because the assignment has not run."],
         ["run", "err", "throw", "Reading y fails: it is not in memory at all, so it is not defined."],
       ],
@@ -322,7 +322,7 @@ try {
 var x = 7;
 
 function getName() {
-  console.log("Namaste JavaScript");
+  console.log("Hello JS");
 }
 
 console.log(x);            // 7 after the assignment ran`,

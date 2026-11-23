@@ -744,7 +744,7 @@ const lines = [
   "What editor is that?",
   "🔥🔥",
   "Can you share the repo?",
-  "Namaste!",
+  "Hello!",
 ];
 
 function ChatLab() {

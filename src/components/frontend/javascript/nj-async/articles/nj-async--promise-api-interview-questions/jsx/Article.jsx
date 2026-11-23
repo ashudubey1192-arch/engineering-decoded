@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-async--promise-api-interview-questions" />;
+  return <JsInternalsLesson slug="nj-async--promise-api-interview-questions" />;
 }

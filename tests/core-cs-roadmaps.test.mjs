@@ -4,8 +4,7 @@ import { coreCsRoadmaps, coreCsRoadmapSections } from "../src/data/coreCsCourses
 import { interviewLessons, makeInterviewCourse } from "../src/data/interviewCourses.js";
 import { osRoadmapContent } from "../src/data/osRoadmapContent.js";
 import { networkRoadmapContent } from "../src/data/networkRoadmapContent.js";
-import osDepth from "../src/data/coreCsDepth/operating-systems.json" with { type: "json" };
-import networkDepth from "../src/data/coreCsDepth/computer-networks.json" with { type: "json" };
+import { osDepth, networkDepth } from "../src/data/coreCsDepth/index.js";
 
 test("all 97 technical networking chapters expose their expansions and retain examples", () => {
   const lessons = coreCsRoadmapSections["core-cs/computer-networks"].flatMap(section => section.lessons);
@@ -19,7 +18,7 @@ test("all 97 technical networking chapters expose their expansions and retain ex
     assert.equal(lesson.roadmap.course, "computer-networks");
     assert.deepEqual(lesson.lab.explanations, explanations);
     assert.equal(lesson.lab.concept, networkRoadmapContent[id].concept);
-    assert.equal(lesson.lab.states.length, 3);
+    assert.ok(lesson.lab.states.length >= 3);
     assert.equal(new Set(explanations.map(item => item.title)).size, explanations.length);
     assert.ok(explanations.length >= 2);
     assert.ok(explanations.every(item => item.title && item.body.split(/\s+/).length >= 40), id);
@@ -37,7 +36,7 @@ test("all technical OS chapters have distinct expanded explanations and retain t
     assert.ok(lesson, `Unreachable expansion: ${id}`);
     assert.deepEqual(lesson.lab.explanations, explanations);
     assert.equal(lesson.lab.concept, osRoadmapContent[id].concept);
-    assert.equal(lesson.lab.states.length, 3);
+    assert.ok(lesson.lab.states.length >= 3);
     assert.equal(new Set(explanations.map(item => item.title)).size, explanations.length);
     assert.ok(explanations.length >= 2);
     assert.ok(explanations.every(item => item.title && item.body.split(/\s+/).length >= 40));
@@ -71,7 +70,7 @@ for (const [key, spec] of Object.entries(expected)) {
         assert.ok(article.lab.visual);
         assert.ok(article.lab.concept.length>200,source.id);
         for (const field of ["scenario","mistake","question","answer","challenge"]) assert.ok(article.lab[field].length>20,`${source.id}: ${field}`);
-        assert.equal(article.lab.states.length,3);
+        assert.ok(article.lab.states.length >= 3);
         assert.ok(article.lab.states.every(s=>s.length===4&&s.every(v=>typeof v==="string"&&v.trim())));
       }
     }

@@ -1,8 +1,11 @@
 import roadmaps from "./coreCsRoadmaps.json" with { type: "json" };
 import { osRoadmapContent } from "./osRoadmapContent.js";
 import { networkRoadmapContent } from "./networkRoadmapContent.js";
-import osDepth from "./coreCsDepth/operating-systems.json" with { type: "json" };
-import networkDepth from "./coreCsDepth/computer-networks.json" with { type: "json" };
+import { osDepth, networkDepth } from "./coreCsDepth/index.js";
+import { getCoreCsModel } from "./coreCsModels.js";
+import { getCoreCsWalkthrough } from "./coreCsWalkthroughs.js";
+import { coreCsComparisons } from "./coreCsComparisons.js";
+import { coreCsAssessments, coreCsReferences } from "./coreCsAssessments.js";
 
 export const coreCsRoadmaps = roadmaps;
 const content = {
@@ -48,19 +51,25 @@ function review(key, section) {
 function makeArticle(key, section, chapter, data) {
   if (!data) throw new Error(`Missing original roadmap content: ${key}/${chapter.id}`);
   const explanations = key === "core-cs/operating-systems" ? osDepth[chapter.id] : networkDepth[chapter.id];
-  const states = data.trace.split(";").map((row, i) => {
+  const course = key.split("/")[1];
+  const model = getCoreCsModel(course, chapter.id);
+  const walkthrough = getCoreCsWalkthrough(course, chapter.id);
+  const scenario = walkthrough?.scenario || data.scenario;
+  const states = walkthrough?.states || data.trace.split(";").map((row, i) => {
     const values = row.split("|");
     if (values.length !== 3 || values.some(v => !v.trim())) throw new Error(`Invalid trace: ${key}/${chapter.id}`);
     return [`Step ${i + 1}: ${values[0]}`, ...values];
   });
+  const wordCount = [data.concept, scenario, ...(explanations || []).map(s => s.body), ...(model?.layers || []).map(l => l.detail)].join(" ").split(/\s+/).length;
   return {
     slug: `roadmap--${chapter.id}`, sectionSlug: section.slug, title: chapter.title,
-    time: data.questions ? "15 min" : explanations ? "10 min" : "8 min",
+    time: data.questions ? "15 min" : explanations ? `${Math.max(10, Math.ceil(wordCount / 180) + 5)} min` : "8 min",
     updated: explanations ? "Nov 2026" : "Oct 2026",
     roadmap: { id: chapter.id, section: section.title, course: key.split("/")[1] },
     lab: {
-      ...data, explanations, states, visual: true, codeLabel: "Worked reasoning trace",
-      code: ["Illustrative trace — not executable code", `Scenario: ${data.scenario}`, "", ...states.map(([label, actor, state, evidence]) => `${label}\n  Actor / stage: ${actor}\n  State / action: ${state}\n  Observation: ${evidence}`)].join("\n"),
+      ...data, scenario, explanations, states, model, comparison: coreCsComparisons[course]?.[chapter.id], modelJourney: walkthrough?.modelJourney, visual: true, codeLabel: "Worked reasoning trace",
+      checks: coreCsAssessments[course]?.[chapter.id], references: explanations ? coreCsReferences[course] : undefined,
+      code: ["Illustrative trace — not executable code", `Scenario: ${scenario}`, "", ...states.map(([label, actor, state, evidence]) => `${label}\n  Actor / stage: ${actor}\n  State / action: ${state}\n  Observation: ${evidence}`)].join("\n"),
       challenge: `Recreate the example for “${chapter.title}” on paper or in a disposable test environment. Record the state after each transition, then change one assumption and predict the result before observing it. Explain this follow-up in your own words: ${data.question}`,
     },
   };

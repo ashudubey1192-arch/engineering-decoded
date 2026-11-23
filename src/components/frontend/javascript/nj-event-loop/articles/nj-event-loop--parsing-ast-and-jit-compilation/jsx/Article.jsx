@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-event-loop--parsing-ast-and-jit-compilation" />;
+  return <JsInternalsLesson slug="nj-event-loop--parsing-ast-and-jit-compilation" />;
 }

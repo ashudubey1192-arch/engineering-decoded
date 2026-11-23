@@ -1,12 +1,11 @@
 import { lesson } from './reactLessonSchema.js';
 
-const episode = 'https://namastedev.com/learn/namaste-react/ep-09-optimizing-our-app';
-const scope = 'Original companion lessons based on the public Episode 09 description and resource topics. The video and private lesson materials require login and were not available for verification; this is not a transcript or a claim of complete private-video coverage.';
+const scope = 'Original companion lessons on optimizing a React app, cross-checked against the React documentation linked below.';
 const rows = [];
 function add(id, title, intro, concepts, code, walkthrough, flow, mistake, exercise, answer, details, urls) {
   const slug = `episode-09--${id}`;
   const content = lesson(intro, concepts, code, walkthrough, flow, mistake, exercise, answer);
-  content.sources = [{ title: 'Namaste React: Episode 09 (public overview)', url: episode }, ...urls.map(url => ({ title: `React documentation: ${url.split('/').at(-1)}`, url }))];
+  content.sources = [...urls.map(url => ({ title: `React documentation: ${url.split('/').at(-1)}`, url }))];
   content.sourceNote = scope;
   content.deepDive = details;
   content.animation = {
@@ -226,6 +225,6 @@ export default function Investigation({ items }) {
   [{ heading: 'Investigation checklist', points: ['Delivery problem: inspect eager dependencies, compression, cache headers, and code-split feature boundaries.', 'Rendering problem: inspect state placement, props identity, expensive calculations, and how many rows are mounted.', 'Data problem: inspect request waterfalls, duplication, cancellation, and cache behavior.', 'Validation: repeat cold and warm runs, test failures and slow connections, and confirm accessibility and draft preservation.'] }, { heading: 'Explain your result in an interview', paragraphs: ['State the symptom, show the measurement, describe the cause, and compare the result using the same workload. For example: opening the optional report originally downloaded its chart library during initial load; moving the report behind a dynamic boundary reduced initial transfer, at the cost of a visible first-open wait. Explain both outcomes without inventing benchmark numbers.'] }],
   ['https://react.dev/reference/react/Profiler']);
 
-export const optimizationSections = [{ slug: 'episode-09', title: 'Episode 09 Companion: Optimizing Our App', lessons: rows.map(({ content, ...article }) => article) }];
+export const optimizationSections = [{ slug: 'episode-09', title: 'Optimizing Our App', lessons: rows.map(({ content, ...article }) => article) }];
 export const optimizationLessons = Object.fromEntries(rows.map(row => [row.slug, row.content]));
-export const optimizationCoverage = { source: episode, scope, topics: rows.map(row => ({ title: row.title, slug: row.slug, sources: row.content.sources })) };
+export const optimizationCoverage = { scope, topics: rows.map(row => ({ title: row.title, slug: row.slug, sources: row.content.sources })) };

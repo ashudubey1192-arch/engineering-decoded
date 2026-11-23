@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-execution--hoisting-function-expressions-and-arrow-functions" />;
+  return <JsInternalsLesson slug="nj-execution--hoisting-function-expressions-and-arrow-functions" />;
 }

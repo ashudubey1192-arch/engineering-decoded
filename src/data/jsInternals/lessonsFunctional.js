@@ -1,11 +1,11 @@
-// Season 1, episodes 18-19: higher-order functions, map, filter, reduce.
+// higher-order functions, map, filter, reduce.
 import { njs } from "./schema.js";
 
 const users = `const users = [
-  { firstName: "Akshay", lastName: "Saini", age: 26 },
-  { firstName: "Donald", lastName: "Trump", age: 75 },
-  { firstName: "Elon", lastName: "Musk", age: 50 },
-  { firstName: "Deepika", lastName: "Padukone", age: 26 },
+  { firstName: "Asha", lastName: "Verma", age: 26 },
+  { firstName: "Ravi", lastName: "Kumar", age: 75 },
+  { firstName: "Meera", lastName: "Nair", age: 50 },
+  { firstName: "Kabir", lastName: "Malhotra", age: 26 },
 ];`;
 
 export const functionalLessons = {
@@ -299,7 +299,7 @@ console.log("fixed:", ["1", "7", "11"].map((s) => parseInt(s, 10)));`,
       ["Difference between map and forEach?", "map returns a new transformed array and is chainable; forEach just runs the callback for side effects and returns undefined."],
     ],
     exercise:
-      "From `users`, produce `[\"AKSHAY (26)\", \"DONALD (75)\", ...]` with a single `map`.",
+      "From `users`, produce `[\"ASHA (26)\", \"RAVI (75)\", ...]` with a single `map`.",
     answer:
       "`users.map((u) => u.firstName.toUpperCase() + \" (\" + u.age + \")\")`.",
   }),
@@ -383,7 +383,7 @@ users.filter(isAdult).filter(byCity("Pune"));`,
     exercise:
       "Get the first names of users whose last name has more than 5 letters.",
     answer:
-      "`users.filter((u) => u.lastName.length > 5).map((u) => u.firstName)` → `[\"Deepika\"]` (Padukone has 8 letters; Saini, Trump and Musk have 5 or fewer).",
+      "`users.filter((u) => u.lastName.length > 5).map((u) => u.firstName)` → `[\"Kabir\"]` (Malhotra has 8 letters; Verma, Kumar and Nair have 5 or fewer).",
   }),
 
   "nj-functional--reduce": njs({
@@ -477,7 +477,7 @@ cart.reduce((acc, item) => acc + item.price);     // "[object Object]5"`,
       ["Find the max of an array with reduce.", "`arr.reduce((acc, curr) => (curr > acc ? curr : acc), -Infinity)` or `arr.reduce((a, b) => Math.max(a, b))`."],
     ],
     exercise:
-      "With `reduce`, build `{ Akshay: 'Saini', Donald: 'Trump', ... }` from `users`.",
+      "With `reduce`, build `{ Asha: 'Verma', Ravi: 'Kumar', ... }` from `users`.",
     answer:
       "`users.reduce((acc, u) => { acc[u.firstName] = u.lastName; return acc; }, {})`.",
   }),
@@ -493,9 +493,9 @@ cart.reduce((acc, item) => acc + item.price);     // "[object Object]5"`,
     snapshot: {
       title: "users.filter(age < 30).map(firstName)",
       panes: [
-        ["users", ["Akshay 26", "Donald 75", "Elon 50", "Deepika 26"]],
-        ["after filter", ["*Akshay 26", "*Deepika 26"]],
-        ["after map", ["'Akshay'", "'Deepika'"]],
+        ["users", ["Asha 26", "Ravi 75", "Meera 50", "Kabir 26"]],
+        ["after filter", ["*Asha 26", "*Kabir 26"]],
+        ["after map", ["'Asha'", "'Kabir'"]],
       ],
       caption: "Every step produces a new array. The final array contains only first names of users under 30.",
     },
@@ -539,7 +539,7 @@ const youngNamesOnePass = users.reduce((acc, u) => {
 }, []);
 console.log("one pass:", youngNamesOnePass);`,
     walkthrough:
-      "The first chain keeps Akshay and Deepika and maps them to names. The second maps to ages and reduces to 177, averaging 44.25. The third filters to Donald and Elon, maps to initials and reduces to 'DT,EM'. The single `reduce` gives the same names as the first chain without creating an intermediate array.",
+      "The first chain keeps Asha and Kabir and maps them to names. The second maps to ages and reduces to 177, averaging 44.25. The third filters to Ravi and Meera, maps to initials and reduces to 'RK,MN'. The single `reduce` gives the same names as the first chain without creating an intermediate array.",
     deepDive: [
       {
         heading: "Formatting long chains",

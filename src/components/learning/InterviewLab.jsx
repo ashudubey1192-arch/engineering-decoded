@@ -4,6 +4,7 @@ import RoadmapTrace from "./RoadmapTrace.jsx";
 import OsConceptLab from "./OsConceptLab.jsx";
 import RoadmapMechanismDiagram from "./RoadmapMechanismDiagram.jsx";
 import NetworkConceptLab from "./NetworkConceptLab.jsx";
+import CoreCsModel, { LayerReference } from "./CoreCsModel.jsx";
 
 function QueueExperiment() {
   const [arrival, setArrival] = useState(100);
@@ -46,8 +47,11 @@ export default function InterviewLab({ article }) {
       <div className="tutorialGoal"><strong>Your objective</strong><p>Explain the mechanism, predict each state transition, and defend the design when the interviewer changes a constraint. These are original practice scenarios, not claims about questions asked by a particular company.</p></div>
     </section>
     <section id="concepts"><h2>Understand the mechanism</h2><p>{lab.concept}</p>
-      {lab.explanations && <RoadmapMechanismDiagram title={article.title} states={lab.states} />}
-      {lab.explanations?.map(({ title, body }) => <section key={title} className="roadmapExplanation"><h3>{title}</h3><p>{body}</p></section>)}
+      {lab.model && <CoreCsModel model={lab.model} />}
+      {lab.explanations && <details className="coreCsSectionIndex"><summary>Topics explained in this chapter ({lab.explanations.length})</summary><ol>{lab.explanations.map(({ title }, index) => <li key={title}><a href={`#explanation-${index + 1}`}>{title}</a></li>)}</ol></details>}
+      {lab.model?.layers && <LayerReference model={lab.model} />}
+      {lab.comparison && <section className="coreCsComparison"><h3>{lab.comparison.title}</h3><div className="simulationTable" role="region" tabIndex={0} aria-label={lab.comparison.title}><table><thead><tr>{lab.comparison.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead><tbody>{lab.comparison.rows.map(([name, ...values]) => <tr key={name}><th scope="row">{name}</th>{values.map((value, i) => <td key={i}>{value}</td>)}</tr>)}</tbody></table></div><p>{lab.comparison.note}</p></section>}
+      {lab.explanations?.map(({ title, body }, index) => <section key={title} id={`explanation-${index + 1}`} className="roadmapExplanation"><h3>{title}</h3><p>{body}</p></section>)}
       {lab.links && <nav aria-label="Related course resources"><ul>{lab.links.map(link => <li key={link.href}><a href={link.href}>{link.title}</a></li>)}</ul></nav>}
     </section>
     {lab.explanations && (isNetwork
@@ -55,10 +59,11 @@ export default function InterviewLab({ article }) {
       : <OsConceptLab key={article.slug} topic={article.roadmap.id} />)}
     <section id="example">
       <h2>Visual walkthrough</h2>
-      <p>Predict the next state before stepping forward. The walkthrough models the stated scenario; it does not execute the sample code.</p>
+      <p>{lab.modelJourney ? "Step through every part of the model shown above. Select a box or use the playback controls. Read the model's assumptions: a layer or message responsibility is not necessarily one packet or one round trip." : "This is one worked scenario, not a complete list of the subject's layers, states, algorithms, or components. Predict each transition before stepping forward. The walkthrough does not execute the sample code."}</p>
+      {lab.explanations && !lab.modelJourney && <RoadmapMechanismDiagram title={article.title} states={lab.states} />}
       <div className="labPlayer" aria-label="Interactive scenario walkthrough">
         <div className="labPlayerHeading"><span>STATE {step + 1} / {lab.states.length}</span><strong>{lab.states[step][0]}</strong></div>
-        {lab.visual && <RoadmapTrace states={lab.states} step={step} />}
+        {lab.modelJourney ? <CoreCsModel model={lab.model} activeId={lab.model.nodes[step].id} onSelect={move} /> : lab.visual && <RoadmapTrace states={lab.states} step={step} />}
         <div className="labStateGrid" aria-live={playing ? "off" : "polite"} aria-atomic="true">
           {lab.states[step].slice(1).map((value, index) => <div className={`labState ${step && value !== lab.states[step - 1][index + 1] ? "changed" : ""}`} key={`${step}-${index}`}>
             <span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong>
@@ -87,6 +92,8 @@ export default function InterviewLab({ article }) {
       <details><summary>Interview evaluation checklist</summary><ul><li>Clarify inputs, constraints, and the required result.</li><li>Explain the invariant or responsibility that makes the approach work.</li><li>Trace a concrete example and an edge case.</li><li>Discuss costs, alternatives, and how to verify the outcome.</li></ul></details>
       <h3>Hands-on extension</h3><p>{lab.challenge}</p>
       {lab.questions && <div className="roadmapQuestions"><h3>Section interview question bank</h3><p>Answer each question aloud before expanding the model answer.</p>{lab.questions.map(item => <details key={item.href}><summary>{item.question}</summary><p>{item.answer}</p><a href={item.href}>Review: {item.topic}</a></details>)}</div>}
+      {lab.checks && <div className="roadmapQuestions"><h3>Check the complete model</h3>{lab.checks.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div>}
+      {lab.references && <aside className="coreCsReadingPath"><h3>Primary reference library for this course</h3><p>These specifications and platform manuals support further study. Implementations and supported features can differ; use the document for the actual protocol or platform being investigated.</p><ul>{lab.references.map(reference => <li key={reference.href}><a href={reference.href}>{reference.title}</a></li>)}</ul></aside>}
     </section>
   </div>;
 }

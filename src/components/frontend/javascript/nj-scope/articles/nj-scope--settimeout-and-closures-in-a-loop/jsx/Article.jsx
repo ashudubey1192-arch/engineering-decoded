@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-scope--settimeout-and-closures-in-a-loop" />;
+  return <JsInternalsLesson slug="nj-scope--settimeout-and-closures-in-a-loop" />;
 }

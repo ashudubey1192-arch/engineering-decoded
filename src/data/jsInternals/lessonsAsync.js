@@ -1,4 +1,4 @@
-// Season 2, episodes 4-5: async/await and the Promise combinators.
+// async/await and the Promise combinators.
 import { njs } from "./schema.js";
 
 // Simulated requests: settle after `ms` with a value or an error.
@@ -10,14 +10,14 @@ export const asyncLessons = {
     intro:
       "`async` is a keyword you put before a function. An async function always returns a promise. If you return a plain value, JavaScript wraps it in a fulfilled promise; if you return a promise, that promise is followed; if you throw, the returned promise is rejected. `async` and `await` together are the modern, readable way to consume promises.",
     concepts: [
-      "`async function getData() { return \"Namaste\"; }` returns `Promise<\"Namaste\">`, not the string. Callers use `.then` or `await` to get the value.",
+      "`async function getData() { return \"Hello\"; }` returns `Promise<\"Hello\">`, not the string. Callers use `.then` or `await` to get the value.",
       "Returning a promise from an async function does not double-wrap it: the result promise adopts the returned one.",
       "A `throw` inside an async function becomes a rejected promise. `await` can only be used inside async functions (and at the top level of ES modules).",
     ],
     snapshot: {
       title: "What an async function gives back",
       panes: [
-        ["return 'Namaste'", ["→ Promise", "*fulfilled: 'Namaste'"]],
+        ["return 'Hello'", ["→ Promise", "*fulfilled: 'Hello'"]],
         ["return promise p", ["→ follows p", "same outcome as p"]],
         ["throw new Error()", ["→ Promise", "*rejected: Error"]],
       ],
@@ -39,7 +39,7 @@ export const asyncLessons = {
       ],
     },
     code: `async function getData() {
-  return "Namaste";                  // wrapped automatically
+  return "Hello";                    // wrapped automatically
 }
 
 const data = getData();
@@ -234,7 +234,7 @@ const [a2, b2] = await Promise.all([fetchA(), fetchB()]);`,
 
 async function loadProfile(shouldFail) {
   try {
-    const user = await (shouldFail ? fail("User API is down", 10) : ok({ name: "Akshay" }, 10));
+    const user = await (shouldFail ? fail("User API is down", 10) : ok({ name: "Asha" }, 10));
     return "profile of " + user.name;
   } catch (err) {
     return "fallback profile (" + err.message + ")";
@@ -537,9 +537,9 @@ main();`,
 async function loadDashboard() {
   const widgets = ["profile", "orders", "recommendations"];
   const results = await Promise.allSettled([
-    ok({ name: "Akshay" }, 30),
+    ok({ name: "Asha" }, 30),
     fail("Orders service unavailable", 10),
-    ok(["Namaste React", "Namaste Node"], 20),
+    ok(["React Basics", "Node Basics"], 20),
   ]);
 
   results.forEach((result, i) => {

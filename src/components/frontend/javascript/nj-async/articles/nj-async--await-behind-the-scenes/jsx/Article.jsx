@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-async--await-behind-the-scenes" />;
+  return <JsInternalsLesson slug="nj-async--await-behind-the-scenes" />;
 }

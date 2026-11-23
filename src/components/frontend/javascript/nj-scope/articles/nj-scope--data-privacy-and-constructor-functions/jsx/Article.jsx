@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-scope--data-privacy-and-constructor-functions" />;
+  return <JsInternalsLesson slug="nj-scope--data-privacy-and-constructor-functions" />;
 }

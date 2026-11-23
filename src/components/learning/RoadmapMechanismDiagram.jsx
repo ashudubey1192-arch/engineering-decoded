@@ -30,6 +30,6 @@ export default function RoadmapMechanismDiagram({ title, states }) {
         {index < boxes.length - 1 && <path d={`M220 ${box.y + box.height + 4} v18 m-5 -5 l5 5 5 -5`} fill="none" stroke="var(--lab-accent, #38bdf8)" strokeWidth="2" />}
       </g>)}
     </svg>
-    <figcaption>Read the complete scenario from top to bottom, then use the animated walkthrough below to inspect each transition. This illustration models the example, not every possible execution.</figcaption>
+    <figcaption>Worked-example sequence only. These boxes are selected events in this scenario; they are not the subject's complete layers, components, or state model. Use the walkthrough controls to inspect the transitions.</figcaption>
   </figure>;
 }

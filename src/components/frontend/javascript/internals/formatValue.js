@@ -1,5 +1,5 @@
 // A small, deterministic console formatter shared by the in-page playground and the
-// generator (scripts/namaste-js-console.mjs), so recorded output and live output match.
+// generator (scripts/js-internals-console.mjs), so recorded output and live output match.
 function formatKey(key) {
   return /^[A-Za-z_$][\w$]*$/.test(key) ? key : `'${key}'`;
 }

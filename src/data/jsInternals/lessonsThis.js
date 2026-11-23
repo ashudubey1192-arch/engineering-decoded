@@ -1,4 +1,4 @@
-// Season 2, episode 6: the this keyword in every context, call/apply/bind, bind polyfill.
+// the this keyword in every context, call/apply/bind, bind polyfill.
 import { njs } from "./schema.js";
 
 export const thisLessons = {
@@ -96,7 +96,7 @@ console.log(this);               // undefined`,
     snapshot: {
       title: "Same function, different calls",
       panes: [
-        ["student.printName()", ["*this → student", "→ 'Akshay'"]],
+        ["student.printName()", ["*this → student", "→ 'Asha'"]],
         ["detached f()", ["f = student.printName", "this → undefined", "→ TypeError (strict)"]],
         ["as a callback", ["setTimeout(student", "  .printName)", "plain call: this lost"]],
       ],
@@ -112,19 +112,19 @@ console.log(this);               // undefined`,
       ],
       steps: [
         ["call", "obj", "receiver", "The call student.printName() has student before the dot."],
-        ["obj", "m", "this = student", "So this inside printName is student and this.name is Akshay."],
+        ["obj", "m", "this = student", "So this inside printName is student and this.name is Asha."],
         ["m", "lost", "extract", "Storing the method in a variable keeps the function but not the object."],
         ["lost", "lost", "this lost", "Calling f() plainly gives this = undefined in strict mode."],
       ],
     },
     code: `"use strict";
 const student = {
-  name: "Akshay",
+  name: "Asha",
   printName() {
     return "Name: " + this.name;
   },
   address: {
-    city: "Dehradun",
+    city: "Jaipur",
     printCity() { return "City: " + this.city; },  // this = student.address
   },
 };
@@ -132,7 +132,7 @@ const student = {
 console.log(student.printName());
 console.log(student.address.printCity());
 
-const student2 = { name: "Deepika" };
+const student2 = { name: "Kabir" };
 student2.printName = student.printName;          // borrow the method
 console.log(student2.printName());
 
@@ -149,7 +149,7 @@ try { runCallback(student.printName); } catch (e) { console.log("as callback:", 
 const arrowObject = { name: "Arrow", print: () => typeof this };
 console.log("arrow method this is:", arrowObject.print());`,
     walkthrough:
-      "`student.printName()` and `student.address.printCity()` bind `this` to the object before the dot. Copying the method to `student2` and calling it there gives 'Deepika', because binding happens at the call. Calling the detached method or passing it as a callback is a plain call, so in strict mode `this` is `undefined` and reading `this.name` throws. The arrow property takes `this` from the module scope, where it is `module.exports`, an object, not `arrowObject`.",
+      "`student.printName()` and `student.address.printCity()` bind `this` to the object before the dot. Copying the method to `student2` and calling it there gives 'Kabir', because binding happens at the call. Calling the detached method or passing it as a callback is a plain call, so in strict mode `this` is `undefined` and reading `this.name` throws. The arrow property takes `this` from the module scope, where it is `module.exports`, an object, not `arrowObject`.",
     deepDive: [
       {
         heading: "Fixing lost this",
@@ -204,8 +204,8 @@ setTimeout(student.printName.bind(student), 0); // bind it permanently`,
       title: "Method borrowing",
       nodes: [
         ["fn", "printFullName", "shared function"],
-        ["n1", "name1", "Akshay Saini"],
-        ["n2", "name2", "Sachin Tendulkar"],
+        ["n1", "name1", "Asha Verma"],
+        ["n2", "name2", "Kabir Malhotra"],
         ["bound", "bound fn", "this fixed"],
       ],
       steps: [
@@ -215,22 +215,22 @@ setTimeout(student.printName.bind(student), 0); // bind it permanently`,
         ["bound", "n2", "later", "Calling the bound function later still uses name2."],
       ],
     },
-    code: `const name1 = { firstName: "Akshay", lastName: "Saini" };
-const name2 = { firstName: "Sachin", lastName: "Tendulkar" };
+    code: `const name1 = { firstName: "Asha", lastName: "Verma" };
+const name2 = { firstName: "Kabir", lastName: "Malhotra" };
 
 function printFullName(hometown, state) {
   return this.firstName + " " + this.lastName + " from " + hometown + ", " + state;
 }
 
-console.log("call :", printFullName.call(name1, "Dehradun", "Uttarakhand"));
+console.log("call :", printFullName.call(name1, "Jaipur", "Rajasthan"));
 console.log("apply:", printFullName.apply(name2, ["Mumbai", "Maharashtra"]));
 
-const printSachin = printFullName.bind(name2, "Mumbai");   // this + first arg fixed
-console.log("bind :", printSachin("Maharashtra"));
-console.log("bind returns a function:", typeof printSachin);
+const printKabir = printFullName.bind(name2, "Mumbai");   // this + first arg fixed
+console.log("bind :", printKabir("Maharashtra"));
+console.log("bind returns a function:", typeof printKabir);
 
 // A bound function's this cannot be overridden:
-console.log("rebind attempt:", printSachin.call(name1, "ignored?"));
+console.log("rebind attempt:", printKabir.call(name1, "ignored?"));
 
 // apply is handy with arrays; spread is the modern equivalent
 const scores = [72, 95, 61];
@@ -273,7 +273,7 @@ double(21);                              // 42`,
     exercise:
       "Create `greetIn = greet.bind(user, 'Hindi')` for `function greet(lang, punct) { return this.name + ':' + lang + punct; }` and call it with '!'. What is the result?",
     answer:
-      "With `user = { name: 'Akshay' }`, `greetIn('!')` returns `'Akshay:Hindi!'`. `this` is `user`, `lang` was pre-filled, and `punct` comes from the call.",
+      "With `user = { name: 'Asha' }`, `greetIn('!')` returns `'Asha:Hindi!'`. `this` is `user`, `lang` was pre-filled, and `punct` comes from the call.",
   }),
 
   "nj-this--this-in-arrow-functions": njs({
@@ -369,7 +369,7 @@ console.log("arrow callback this.count:", counter.arrow());`,
       ["Can call/apply/bind change an arrow function's this?", "No. The thisArg is ignored for arrows (arguments are still passed)."],
     ],
     exercise:
-      "Inside `const user = { name: 'Akshay', greetLater() { setTimeout(/* ? */, 10); } }`, write the callback so it logs the name.",
+      "Inside `const user = { name: 'Asha', greetLater() { setTimeout(/* ? */, 10); } }`, write the callback so it logs the name.",
     answer:
       "Use an arrow: `setTimeout(() => console.log(this.name), 10)`. It inherits `greetLater`'s `this`, which is `user` when called as `user.greetLater()`.",
   }),
@@ -475,9 +475,9 @@ button.remove();`,
     snapshot: {
       title: "What mybind's closure remembers",
       panes: [
-        ["Closure", ["*fn : printName", "obj : name", "preset : ['Dehradun']"]],
-        ["Later call", ["printMyName('UK')", "later : ['UK']"]],
-        ["Result", ["fn.apply(obj,", "  ['Dehradun', 'UK'])"]],
+        ["Closure", ["*fn : printName", "obj : name", "preset : ['Jaipur']"]],
+        ["Later call", ["printMyName('RJ')", "later : ['RJ']"]],
+        ["Result", ["fn.apply(obj,", "  ['Jaipur', 'RJ'])"]],
       ],
       caption: "The returned function is a closure over the original function, the target object and the preset arguments.",
     },
@@ -497,7 +497,7 @@ button.remove();`,
         ["clo", "apply", "merge", "It merges preset and new arguments and calls fn.apply(obj, merged)."],
       ],
     },
-    code: `const name = { firstName: "Akshay", lastName: "Saini" };
+    code: `const name = { firstName: "Asha", lastName: "Verma" };
 
 function printName(hometown, state) {
   return this.firstName + " " + this.lastName + ", " + hometown + ", " + state;
@@ -512,9 +512,9 @@ Function.prototype.mybind = function (thisArg, ...preset) {
   };
 };
 
-const printMyName = printName.mybind(name, "Dehradun");
-console.log("mybind:", printMyName("Uttarakhand"));
-console.log("native:", printName.bind(name, "Dehradun")("Uttarakhand"));
+const printMyName = printName.mybind(name, "Jaipur");
+console.log("mybind:", printMyName("Rajasthan"));
+console.log("native:", printName.bind(name, "Jaipur")("Rajasthan"));
 
 // Full polyfill: also works with new
 Function.prototype.mybindFull = function (thisArg, ...preset) {
@@ -537,7 +537,7 @@ try { Function.prototype.mybind.call({}, null); } catch (e) { console.log(e.name
 delete Function.prototype.mybind;
 delete Function.prototype.mybindFull;`,
     walkthrough:
-      "`printName.mybind(name, 'Dehradun')` returns a closure; calling it with 'Uttarakhand' merges the arguments and applies `printName` with `this = name`, matching native `bind`. The full version detects `new` with `instanceof`, so `new PointAtX5(9)` builds a real `Point` with x = 5, y = 9, ignoring the bound object. Calling `mybind` on a non-function throws a TypeError. The prototype additions are removed at the end.",
+      "`printName.mybind(name, 'Jaipur')` returns a closure; calling it with 'Rajasthan' merges the arguments and applies `printName` with `this = name`, matching native `bind`. The full version detects `new` with `instanceof`, so `new PointAtX5(9)` builds a real `Point` with x = 5, y = 9, ignoring the bound object. Calling `mybind` on a non-function throws a TypeError. The prototype additions are removed at the end.",
     deepDive: [
       {
         heading: "Polyfill for call (no apply allowed)",

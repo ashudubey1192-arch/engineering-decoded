@@ -1,12 +1,12 @@
-import { namasteJsLessons } from "../../../../data/namasteJs/lessons.js";
-import { namasteJsArticles } from "../../../../data/namasteJs/outline.js";
-import outputs from "../../../../data/namasteJs/outputs.json";
+import { jsInternalsLessons } from "../../../../data/jsInternals/lessons.js";
+import { jsInternalsArticles } from "../../../../data/jsInternals/outline.js";
+import outputs from "../../../../data/jsInternals/outputs.json";
 import ReactMotion from "../../react/ReactMotion";
 import JsSnapshot from "./JsSnapshot";
 import JsPlayground from "./JsPlayground";
 import "../../react/css/ReactLesson.css";
 import "../../react/css/ReactPractice.css";
-import "./NamasteJs.css";
+import "./JsInternals.css";
 
 // Inline `code` spans inside prose.
 function Rich({ text }) {
@@ -21,9 +21,9 @@ function Rich({ text }) {
 
 // Reading order: idea → runtime image → animation → runnable example → sub-topics →
 // mistakes → interview questions → practice.
-export default function NamasteJsLesson({ slug }) {
-  const content = namasteJsLessons[slug];
-  const article = namasteJsArticles.find((item) => item.slug === slug);
+export default function JsInternalsLesson({ slug }) {
+  const content = jsInternalsLessons[slug];
+  const article = jsInternalsArticles.find((item) => item.slug === slug);
   const output = content.mode === "browser" ? content.sample : outputs[slug];
   return (
     <div className="dedicatedStructuredArticle reactLesson njsLesson">
@@ -31,7 +31,7 @@ export default function NamasteJsLesson({ slug }) {
         <p className="lead">
           <Rich text={content.intro} />
         </p>
-        <p className="reactLessonEyebrow">NAMASTE JAVASCRIPT · {article.episode.toUpperCase()}</p>
+        <p className="reactLessonEyebrow">JAVASCRIPT INTERNALS · {article.topic.toUpperCase()}</p>
       </section>
 
       <section id="concepts">

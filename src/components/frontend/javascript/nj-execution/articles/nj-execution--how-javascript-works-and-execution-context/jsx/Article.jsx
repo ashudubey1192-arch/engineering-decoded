@@ -1,5 +1,5 @@
-import NamasteJsLesson from "../../../../namaste/NamasteJsLesson";
+import JsInternalsLesson from "../../../../internals/JsInternalsLesson";
 
 export default function Article() {
-  return <NamasteJsLesson slug="nj-execution--how-javascript-works-and-execution-context" />;
+  return <JsInternalsLesson slug="nj-execution--how-javascript-works-and-execution-context" />;
 }

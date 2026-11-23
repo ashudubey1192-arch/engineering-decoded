@@ -1,4 +1,4 @@
-// Season 1, episodes 7-12: scope, lexical environment, TDZ, block scope, closures.
+// scope, lexical environment, TDZ, block scope, closures.
 import { njs } from "./schema.js";
 
 export const scopeLessons = {
@@ -610,8 +610,8 @@ console.log(outer()()());`,
     return greeting + ", " + name;
   };
 }
-const hi = makeGreeter("Namaste");
-hi("JavaScript"); // "Namaste, JavaScript"`,
+const hi = makeGreeter("Hello");
+hi("JavaScript"); // "Hello, JavaScript"`,
         paragraphs: ["Parameters are part of the environment too, so `greeting` is captured just like a local variable."],
       },
     ],
