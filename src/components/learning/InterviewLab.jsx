@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./InterviewLab.css";
 import RoadmapTrace from "./RoadmapTrace.jsx";
+import OsConceptLab from "./OsConceptLab.jsx";
+import OsMechanismDiagram from "./OsMechanismDiagram.jsx";
 
 function QueueExperiment() {
   const [arrival, setArrival] = useState(100);
@@ -37,14 +39,16 @@ export default function InterviewLab({ article }) {
   const move = (value) => { setPlaying(false); setStep(value); };
   return <div className="interviewLab tutorialLesson">
     <section id="overview">
-      <div className="labEyebrow">INTERVIEW WORKSHOP <span>Explain · Trace · Apply</span></div>
+      <div className="labEyebrow">{lab.explanations ? "OPERATING SYSTEMS LESSON" : "INTERVIEW WORKSHOP"} <span>Explain · Trace · Apply</span></div>
       <p className="lead">{lab.scenario}</p>
       <div className="tutorialGoal"><strong>Your objective</strong><p>Explain the mechanism, predict each state transition, and defend the design when the interviewer changes a constraint. These are original practice scenarios, not claims about questions asked by a particular company.</p></div>
     </section>
     <section id="concepts"><h2>Understand the mechanism</h2><p>{lab.concept}</p>
+      {lab.explanations && <OsMechanismDiagram title={article.title} states={lab.states} />}
       {lab.explanations?.map(({ title, body }) => <section key={title} className="roadmapExplanation"><h3>{title}</h3><p>{body}</p></section>)}
       {lab.links && <nav aria-label="Related course resources"><ul>{lab.links.map(link => <li key={link.href}><a href={link.href}>{link.title}</a></li>)}</ul></nav>}
     </section>
+    {lab.explanations && <OsConceptLab key={article.slug} topic={article.roadmap.id} />}
     <section id="example">
       <h2>Visual walkthrough</h2>
       <p>Predict the next state before stepping forward. The walkthrough models the stated scenario; it does not execute the sample code.</p>

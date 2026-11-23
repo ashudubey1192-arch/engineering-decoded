@@ -1,0 +1,21 @@
+.osConceptLab { margin: 28px 0; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.osConceptLab label { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 16px 0; }
+.osConceptLab input[type=range] { flex: 1; min-width: 140px; accent-color: var(--lab-accent, #38bdf8); }
+.osConceptLab button, .osConceptLab select { padding: 9px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+.osConceptLab button:disabled { opacity: .4; cursor: default; }
+.osConceptLab .selected { border-color: var(--lab-accent, #38bdf8); background: color-mix(in srgb, #38bdf8 18%, var(--surface)); }
+.osConceptLab button:focus-visible, .osConceptLab input:focus-visible, .osConceptLab select:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
+.osSchedule, .osExperimentControls, .osReferences, .osFrames { display: flex; gap: 8px; margin: 18px 0; }
+.osSchedule { overflow-x: auto; padding: 4px; }
+.osSchedule button { min-width: 52px; }
+.osSchedule small { display: block; white-space: nowrap; margin-top: 5px; }
+.osExperimentControls, .osReferences, .osFrames { flex-wrap: wrap; }
+.osFrames > div { flex: 1; min-width: 100px; padding: 15px; border: 1px solid var(--lab-accent, #38bdf8); border-radius: 8px; }
+.osFrames small, .osFrames strong { display: block; }
+.osFrames strong { margin-top: 8px; font-size: 1.1rem; overflow-wrap: anywhere; }
+.osConceptLab table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.osConceptLab th, .osConceptLab td { text-align: left; padding: 9px 5px; border-bottom: 1px solid var(--line); }
+.osMechanism { margin: 24px auto; max-width: 530px; }
+.osMechanism svg { width: 100%; height: auto; display: block; }
+.osMechanism figcaption { font-size: .85rem; color: var(--muted); }
+@media (max-width: 500px) { .osConceptLab { padding: 14px; } }

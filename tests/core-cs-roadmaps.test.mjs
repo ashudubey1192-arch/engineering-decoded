@@ -6,9 +6,12 @@ import { osRoadmapContent } from "../src/data/osRoadmapContent.js";
 import { networkRoadmapContent } from "../src/data/networkRoadmapContent.js";
 import osDepth from "../src/data/coreCsDepth/operating-systems.json" with { type: "json" };
 
-test("expanded OS foundations reach their existing lessons without replacing their walkthroughs", () => {
+test("all technical OS chapters have distinct expanded explanations and retain their walkthroughs", () => {
   const lessons = coreCsRoadmapSections["core-cs/operating-systems"].flatMap(section => section.lessons);
-  assert.equal(Object.keys(osDepth).length, 15);
+  assert.deepEqual(Object.keys(osDepth).sort(), Object.keys(osRoadmapContent).sort());
+  assert.equal(Object.keys(osDepth).length, 135);
+  const bodies = Object.values(osDepth).flat().map(item => item.body);
+  assert.equal(new Set(bodies).size, bodies.length, "Do not repeat generic paragraphs across topics");
   for (const [id, explanations] of Object.entries(osDepth)) {
     const lesson = lessons.find(item => item.roadmap.id === id);
     assert.ok(lesson, `Unreachable expansion: ${id}`);
