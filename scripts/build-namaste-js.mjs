@@ -35,7 +35,7 @@ for (const slug of slugs) {
   for (const concept of c.concepts) assert.ok(concept.length > 80, `${where}: thin concept`);
   assert.ok(c.deepDive.length >= 2, `${where}: needs at least 2 deep-dive sub-topics`);
   for (const part of c.deepDive) {
-    assert.ok(part.heading && (part.paragraphs?.length || part.points?.length), `${where}: empty deep dive`);
+    assert.ok(part.heading && (part.paragraphs?.length || part.points?.length || part.code), `${where}: empty deep dive`);
   }
   assert.ok(c.mistakes.length >= 2, `${where}: needs at least 2 mistakes`);
   assert.ok(c.interview.length >= 3, `${where}: needs at least 3 interview questions`);

@@ -211,8 +211,8 @@ setTimeout(() => console.log("order:", flow.join(", ")), 60);`,
     snapshot: {
       title: "The promise object over time",
       panes: [
-        ["Immediately", ["*[[PromiseState]]: pending", "[[PromiseResult]]: undefined"]],
-        ["After the API", ["*[[PromiseState]]: fulfilled", "[[PromiseResult]]: ORD-3"]],
+        ["Immediately", ["*state: pending", "result: undefined"]],
+        ["After the API", ["*state: fulfilled", "result: 'ORD-3'"]],
         ["Handlers", [".then(proceedToPayment)", "runs once with ORD-3"]],
       ],
       caption: "DevTools shows these internal slots when you log a promise. The handler you attached runs when the state turns fulfilled.",

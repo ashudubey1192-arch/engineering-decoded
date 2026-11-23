@@ -14,6 +14,8 @@
     "generate:core-java": "node scripts/build-core-java.mjs",
     "check:core-java": "node scripts/build-core-java.mjs --check",
     "generate:frontend-system-design": "node scripts/generate-fsd-articles.mjs",
+    "generate:namaste-js": "node scripts/build-namaste-js.mjs",
+    "check:namaste-js": "node scripts/build-namaste-js.mjs --check",
     "check:interview-courses": "node scripts/check-interview-courses.mjs",
     "check:lesson-depth": "node scripts/audit-lesson-depth.mjs",
     "test:workshop": "node --test tests/workshop.test.mjs",

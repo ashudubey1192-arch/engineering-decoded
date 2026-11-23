@@ -434,7 +434,7 @@ console.log("max:", max);
 
 ${users}
 
-// Group into an object: { 26: 2, 75: 1, 50: 1 }
+// Group into an object (integer-like keys print in ascending order)
 const countByAge = users.reduce((acc, user) => {
   acc[user.age] = (acc[user.age] ?? 0) + 1;
   return acc;
@@ -447,7 +447,7 @@ console.log("under 30:", youngNames);
 
 try { [].reduce((a, b) => a + b); } catch (e) { console.log(e.name + ":", e.message); }`,
     walkthrough:
-      "The loop and `reduce` both sum to 17. The max reducer keeps the bigger of `acc` and `curr`, giving 6. Grouping returns an object keyed by age (two people are 26). The last reducer does filter and map in one pass. Reducing an empty array without an initial value throws a TypeError.",
+      "The loop and `reduce` both sum to 17. The max reducer keeps the bigger of `acc` and `curr`, giving 6. Grouping returns an object keyed by age (two people are 26); integer-like keys are always listed in ascending order. The last reducer does filter and map in one pass. Reducing an empty array without an initial value throws a TypeError.",
     deepDive: [
       {
         heading: "Always pass an initial value",
