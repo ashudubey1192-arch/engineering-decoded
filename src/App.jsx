@@ -12,8 +12,10 @@ import RecoveryPage from "./components/auth/RecoveryPage";
 import AccountPage from "./components/auth/AccountPage";
 import { getCourseComponent, getModuleComponent } from "./components/registry";
 import useRouter from "./hooks/useRouter";
-import { getModule, getTrack, modules } from "./data/catalog";
+import { getModule, getTrack } from "./data/catalog";
 import { restoreSession, getSession } from "./services/api";
+
+import { searchLibrary } from "./data/librarySearch";
 
 export default function App() {
   const { path, navigate, isNavigating } = useRouter();
@@ -60,22 +62,7 @@ export default function App() {
     localStorage.setItem("theme", next);
   };
 
-  const results = useMemo(
-    () =>
-      modules
-        .flatMap((module) =>
-          module.groups.flatMap((group) =>
-            group.tracks.map((track) => ({ module, track, group: group.name })),
-          ),
-        )
-        .filter((item) =>
-          `${item.module.name} ${item.group} ${item.track.name}`
-            .toLowerCase()
-            .includes(query.toLowerCase()),
-        )
-        .slice(0, 12),
-    [query],
-  );
+  const results = useMemo(() => searchLibrary(query), [query]);
 
   const parts = path.split("/").filter(Boolean);
   // Accept the singular course URL while preserving existing links and progress keys.
@@ -186,7 +173,8 @@ export default function App() {
                 autoFocus
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search modules, categories, and courses..."
+                placeholder="Search courses, articles, and modules..."
+                aria-label="Search courses, articles, and modules"
               />
               <kbd>ESC</kbd>
             </header>
@@ -195,11 +183,14 @@ export default function App() {
               <span>{results.length} results</span>
             </div>
             <div className="commandResults">
-              {results.map(({ module, track, group }) => (
+              {results.length === 0 && (
+                <p role="status">No matching courses, articles, or modules.</p>
+              )}
+              {results.map(({ module, title, type, path: resultPath, context }) => (
                 <button
-                  key={`${module.id}-${track.slug}`}
+                  key={resultPath}
                   onClick={() => {
-                    navigate(`/learn/${module.id}/${track.slug}`);
+                    navigate(resultPath);
                     closeSearch();
                   }}
                 >
@@ -208,9 +199,9 @@ export default function App() {
                   </span>
                   <span>
                     <small>
-                      {module.name} · {group}
+                      {type} · {context}
                     </small>
-                    <b>{track.name}</b>
+                    <b>{title}</b>
                   </span>
                   <i>↗</i>
                 </button>

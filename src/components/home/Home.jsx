@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { preloadModuleComponent } from "../registry";
 import { modules } from "../../data/catalog";
 import "./Home.css";
+import { searchLibrary } from "../../data/librarySearch";
 import { api, getSession } from "../../services/api";
 
 export default function Home({ navigate }) {
@@ -37,11 +38,8 @@ export default function Home({ navigate }) {
       total + module.groups.reduce((count, group) => count + group.tracks.length, 0),
     0,
   );
-  const filteredModules = useMemo(
-    () =>
-      modules.filter((module) =>
-        `${module.name} ${module.description}`.toLowerCase().includes(moduleQuery.toLowerCase()),
-      ),
+  const searchResults = useMemo(
+    () => (moduleQuery.trim() ? searchLibrary(moduleQuery) : []),
     [moduleQuery],
   );
   const greeting =
@@ -87,24 +85,48 @@ export default function Home({ navigate }) {
           <input
             value={moduleQuery}
             onChange={(event) => setModuleQuery(event.target.value)}
-            placeholder="Find a module"
+            placeholder="Search courses, articles…"
+            aria-label="Search courses, articles, and modules"
           />
         </label>
         <nav aria-label="Learning modules">
-          {filteredModules.map((module) => (
-            <button
-              key={module.id}
-              onPointerEnter={() => preloadModuleComponent(module.id)}
-              onPointerDown={() => preloadModuleComponent(module.id)}
-              onFocus={() => preloadModuleComponent(module.id)}
-              onClick={() => openModule(module.id)}
-              style={{ "--module-accent": module.accent }}
-            >
-              <i>{module.icon}</i>
-              <span>{module.name}</span>
-              <b>›</b>
-            </button>
-          ))}
+          {moduleQuery.trim() ? (
+            searchResults.length ? (
+              searchResults.map((result) => (
+                <button
+                  key={result.path}
+                  onClick={() => navigate(result.path)}
+                  style={{ "--module-accent": result.module.accent }}
+                >
+                  <i>{result.module.icon}</i>
+                  <span>
+                    {result.title}
+                    <small className="sidebarSearchContext">
+                      {result.type} · {result.context}
+                    </small>
+                  </span>
+                  <b>›</b>
+                </button>
+              ))
+            ) : (
+              <p role="status">No matching courses, articles, or modules.</p>
+            )
+          ) : (
+            modules.map((module) => (
+              <button
+                key={module.id}
+                onPointerEnter={() => preloadModuleComponent(module.id)}
+                onPointerDown={() => preloadModuleComponent(module.id)}
+                onFocus={() => preloadModuleComponent(module.id)}
+                onClick={() => openModule(module.id)}
+                style={{ "--module-accent": module.accent }}
+              >
+                <i>{module.icon}</i>
+                <span>{module.name}</span>
+                <b>›</b>
+              </button>
+            ))
+          )}
         </nav>
       </aside>
 
