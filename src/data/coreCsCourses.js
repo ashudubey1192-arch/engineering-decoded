@@ -2,6 +2,7 @@ import roadmaps from "./coreCsRoadmaps.json" with { type: "json" };
 import { osRoadmapContent } from "./osRoadmapContent.js";
 import { networkRoadmapContent } from "./networkRoadmapContent.js";
 import osDepth from "./coreCsDepth/operating-systems.json" with { type: "json" };
+import networkDepth from "./coreCsDepth/computer-networks.json" with { type: "json" };
 
 export const coreCsRoadmaps = roadmaps;
 const content = {
@@ -46,7 +47,7 @@ function review(key, section) {
 
 function makeArticle(key, section, chapter, data) {
   if (!data) throw new Error(`Missing original roadmap content: ${key}/${chapter.id}`);
-  const explanations = key === "core-cs/operating-systems" ? osDepth[chapter.id] : undefined;
+  const explanations = key === "core-cs/operating-systems" ? osDepth[chapter.id] : networkDepth[chapter.id];
   const states = data.trace.split(";").map((row, i) => {
     const values = row.split("|");
     if (values.length !== 3 || values.some(v => !v.trim())) throw new Error(`Invalid trace: ${key}/${chapter.id}`);
@@ -56,7 +57,7 @@ function makeArticle(key, section, chapter, data) {
     slug: `roadmap--${chapter.id}`, sectionSlug: section.slug, title: chapter.title,
     time: data.questions ? "15 min" : explanations ? "10 min" : "8 min",
     updated: explanations ? "Nov 2026" : "Oct 2026",
-    roadmap: { id: chapter.id, section: section.title },
+    roadmap: { id: chapter.id, section: section.title, course: key.split("/")[1] },
     lab: {
       ...data, explanations, states, visual: true, codeLabel: "Worked reasoning trace",
       code: ["Illustrative trace — not executable code", `Scenario: ${data.scenario}`, "", ...states.map(([label, actor, state, evidence]) => `${label}\n  Actor / stage: ${actor}\n  State / action: ${state}\n  Observation: ${evidence}`)].join("\n"),

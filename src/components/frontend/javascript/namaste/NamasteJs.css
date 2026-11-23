@@ -1,0 +1,141 @@
+.njsLesson code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--course-accent) 10%, var(--surface));
+}
+.njsSnapshot {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.njsSnapshot figcaption small,
+.njsOutput small,
+.njsPlayground header small,
+.njsConsole small {
+  display: block;
+  color: var(--course-accent);
+  font: 700 10px var(--font-mono);
+  letter-spacing: 0.09em;
+}
+.njsSnapshot figcaption strong {
+  display: block;
+  margin: 4px 0 12px;
+  color: var(--text);
+  font-size: 17px;
+}
+.njsSnapshot svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.njsPane {
+  fill: var(--bg);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.njsPaneHead {
+  fill: var(--course-accent);
+  font: 700 11px var(--font-mono);
+  text-anchor: middle;
+  letter-spacing: 0.06em;
+}
+.njsRow {
+  fill: var(--surface);
+  stroke: var(--line);
+}
+.njsRow.isHot {
+  fill: color-mix(in srgb, var(--course-accent) 20%, var(--surface));
+  stroke: var(--course-accent);
+  stroke-width: 1.5;
+}
+.njsRowText {
+  fill: var(--text);
+  font: 11px var(--font-mono);
+}
+.njsCaption,
+.njsNote {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 12px 0 0;
+}
+.njsOutput {
+  margin: 12px 0 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--course-accent);
+  background: var(--surface);
+}
+.njsOutput pre,
+.njsConsole pre {
+  margin: 8px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: pre-wrap;
+}
+.njsPlayground {
+  margin: 24px 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.njsPlayground header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.njsPlayground header strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+}
+.njsPlayground textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.55 var(--font-mono);
+  resize: vertical;
+  tab-size: 2;
+}
+.njsConsole {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px dashed var(--line);
+}
+.njsConsole p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.njsQa {
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+}
+.njsQa summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.njsQa p {
+  margin: 10px 0 0;
+}
+.njsLesson .reactTakeaway ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.njsLesson .reactTakeaway li + li {
+  margin-top: 6px;
+}

@@ -70,6 +70,19 @@ try {
           assert.ok(html.includes("Expected result"), `${route}: no verification criterion`);
           assert.ok(!starterCopy.test(html), `${route}: starter content`);
           assert.ok(html.length > 3000, `${route}: incomplete lesson`);
+          if (article.roadmap?.course === "computer-networks" && article.lab.explanations) {
+            assert.ok(html.includes("COMPUTER NETWORKS LESSON"), `${route}: wrong course label`);
+            assert.ok(html.includes(": illustrated scenario</title>"), `${route}: missing diagram`);
+            assert.ok(html.includes('aria-label="Interactive scenario walkthrough"'), `${route}: missing animation controls`);
+            for (const { title, body } of article.lab.explanations) {
+              assert.ok(html.includes(escapeHtml(title)), `${route}: hidden explanation heading`);
+              assert.ok(html.includes(escapeHtml(body)), `${route}: missing explanation`);
+            }
+            if (["subnetting-and-cidr", "bandwidth-delay-product", "flow-control-sliding-window", "dns-caching-and-ttls"].includes(article.roadmap.id)) {
+              assert.ok(html.includes('aria-label="Interactive networking experiment"'), `${route}: missing experiment`);
+              assert.ok(html.includes('type="range"'), `${route}: missing experiment controls`);
+            }
+          }
           sharedLessons++;
         }
         lessons++;

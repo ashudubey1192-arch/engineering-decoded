@@ -10,7 +10,7 @@ function wrap(text, length = 48) {
   return lines;
 }
 
-export default function OsMechanismDiagram({ title, states }) {
+export default function RoadmapMechanismDiagram({ title, states }) {
   const id = useId();
   let y = 12;
   const boxes = states.map(([, actor, action, result]) => {
@@ -21,7 +21,7 @@ export default function OsMechanismDiagram({ title, states }) {
   });
   return <figure className="osMechanism">
     <svg viewBox={`0 0 440 ${y}`} role="img" aria-labelledby={`${id}-title ${id}-desc`}>
-      <title id={`${id}-title`}>{title}: illustrated scenario</title>
+      <title id={`${id}-title`}>{`${title}: illustrated scenario`}</title>
       <desc id={`${id}-desc`}>{states.map(([, actor, action, result], index) => `${index + 1}. ${actor}: ${action}. ${result}.`).join(" ")}</desc>
       {boxes.map((box, index) => <g key={index}>
         <rect x="10" y={box.y} width="420" height={box.height} rx="12" fill="var(--surface-2, #17212b)" stroke="var(--lab-accent, #38bdf8)" />

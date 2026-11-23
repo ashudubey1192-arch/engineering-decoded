@@ -1,0 +1,980 @@
+{
+  "20-must-know-networking-concepts": [
+    {
+      "title": "Follow a message through twenty anchors",
+      "body": "A host runs an application through a socket and port. Its interface uses a MAC address on a local link and an IP address for routed delivery. A subnet determines which destinations are on-link; a gateway forwards others. Switches move frames locally, routers move packets between networks, DNS resolves names, and DHCP can supply configuration. These concepts describe different identities and responsibilities rather than interchangeable addresses."
+    },
+    {
+      "title": "Reliability, security, and performance",
+      "body": "TCP supplies an ordered byte stream; UDP carries independent datagrams. TLS protects a channel and authenticates peers according to configuration. HTTP defines request and response meaning. MTU constrains packet size; bandwidth describes capacity; latency describes delay; loss describes missing delivery. NAT translates addressing. Together these twenty anchors help isolate failures: a working IP path does not prove DNS, TLS, or the application is healthy."
+    },
+    {
+      "title": "Example: a reachable server with a broken website",
+      "body": "A laptop can ping an address but cannot open its HTTPS site. First check the hostname resolves to the intended service, then transport establishment, then TLS identity and HTTP response. A successful ping tests a different exchange, potentially governed by different firewall rules. Name the guarantee established by each observation before changing configurations; otherwise a DNS mistake can be misdiagnosed as low bandwidth."
+    }
+  ],
+  "what-happens-when-you-type-a-url": [
+    {
+      "title": "Several caches and connections can change the path",
+      "body": "The browser interprets the scheme, hostname, port, and resource path. It may consult local caches, resolve the name, establish or reuse transport, negotiate security, and send an HTTP request. A proxy or service worker can change the path. HTTPS over HTTP/3 uses QUIC rather than the TCP sequence often drawn in introductory diagrams, so state the assumed protocol."
+    },
+    {
+      "title": "Example: measuring the first visit",
+      "body": "Separate DNS lookup, connection establishment, security negotiation, time to first byte, and response transfer. A second visit may reuse a connection or cached resource and skip much of the first path. A slow first byte can originate in server queueing or application work rather than transit. Rendering then introduces additional resource fetches and CPU work after the initial response arrives."
+    }
+  ],
+  "osi-7-layer-model": [
+    {
+      "title": "Responsibilities, not seven mandatory software modules",
+      "body": "The physical layer carries signals; data link delivers local frames; network routes packets; transport manages endpoint communication; session concerns dialogue coordination; presentation concerns representation; application defines service meaning. Real protocol stacks do not always expose these as separate components. Use the model to locate responsibilities and dependencies instead of forcing every library into exactly one box."
+    },
+    {
+      "title": "Example: diagnose from evidence",
+      "body": "A link indicator confirms limited physical connectivity, not a working IP configuration. A successful route lookup does not prove packets return. A successful TCP connection does not prove TLS authentication or a valid HTTP result. Move between layers as evidence suggests rather than mechanically running every possible test. Some failures cross boundaries, such as an MTU problem appearing only during a larger TLS exchange."
+    }
+  ],
+  "tcp-ip-4-layer-model": [
+    {
+      "title": "Encapsulation across four responsibilities",
+      "body": "The application layer gives messages meaning; transport connects application endpoints; the internet layer delivers IP packets across routed networks; the link layer handles local transmission. Routers usually replace link framing at each routed hop while forwarding the IP packet. Ports identify transport endpoints, while link addresses identify next-hop delivery on the current network rather than the final application."
+    },
+    {
+      "title": "Example: DNS is an application protocol",
+      "body": "DNS asks and answers naming questions even though many other applications depend on it before communicating. That dependency does not place DNS below IP in the protocol stack. A DNS query itself requires a suitable transport and path. Separating service dependency from encapsulation explains how a browser can need DNS while DNS packets still travel through the same underlying network layers."
+    }
+  ],
+  "packet-structure-and-encapsulation": [
+    {
+      "title": "Headers consume capacity and carry separate identities",
+      "body": "An application message becomes transport payload, which becomes IP payload, which is carried in a link frame. Each wrapper has fields for its own responsibility. A link MTU commonly limits the IP packet, not just application bytes. TCP segmentation, IP fragmentation, and application framing are different operations, even when all appear to divide large data into smaller pieces."
+    },
+    {
+      "title": "Worked byte budget",
+      "body": "With an IP MTU of 1,500 bytes, a 20-byte IPv4 header and 20-byte TCP header leave 1,460 bytes of TCP payload when no options are present. Ethernet overhead is additional to that IP budget. IPv6, TCP options, tunnels, and encryption change the calculation. A tunnel adding overhead may require a smaller inner packet; blocked path-MTU feedback can cause small requests to work while large transfers stall."
+    }
+  ],
+  "network-types-lan-wan-vpn": [
+    {
+      "title": "Geography, administration, and overlays",
+      "body": "A LAN usually serves a local administrative area, while a WAN connects wider regions through routed infrastructure. The Internet joins independently operated networks. A VPN creates an overlay with selected routing and security properties across another network. Private addresses and private names do not inherently encrypt traffic, and tunnel endpoints still need authentication and correct access policies."
+    },
+    {
+      "title": "Example: remote access has several failure domains",
+      "body": "A remote laptop reaches a service through Wi-Fi, a broadband link, an Internet path, a VPN gateway, and an internal route. Test these boundaries independently. The VPN can change effective MTU, DNS configuration, and route selection as well as encryption. A connected tunnel icon proves less than successful application communication; the service may still reject the user or be unreachable beyond the gateway."
+    }
+  ],
+  "ethernet-and-frames": [
+    {
+      "title": "Local delivery includes detection, not end-to-end recovery",
+      "body": "An Ethernet frame carries destination and source link addresses, a type or length interpretation, payload, and a frame check sequence. Error detection helps identify damaged frames; it is not an application-level acknowledgment. Switches learn where source addresses appear and forward according to their tables. Unknown destination forwarding and broadcast behavior depend on the local broadcast domain."
+    },
+    {
+      "title": "Example: one routed exchange, different frames",
+      "body": "A laptop sends an IP packet for a remote server inside a frame addressed to its local gateway. The router removes that framing and creates new framing for the next link. The remote server's MAC address is not needed on the laptop's LAN. Capturing at different links therefore shows different frame addresses even when the logical IP conversation is the same."
+    }
+  ],
+  "mac-vs-ip-addresses": [
+    {
+      "title": "Different scopes of identity",
+      "body": "A MAC address participates in local-link delivery, while an IP address participates in routing across networks. Addresses may be configured, changed, translated, or scoped; neither is a permanent proof of a person's identity. A host can have multiple interfaces and multiple addresses. Routing chooses the next hop first, then neighbor resolution determines the local delivery address needed to reach that hop."
+    },
+    {
+      "title": "Example: an off-subnet destination",
+      "body": "For a destination outside its local prefix, a host sends the frame to a gateway's MAC while keeping the intended remote IP destination in the packet, absent translation. Confusing those fields leads to expecting ARP to find every Internet host. ARP normally resolves a neighbor on the local link, not an arbitrary remote endpoint several routers away."
+    }
+  ],
+  "switches-hubs-routers": [
+    {
+      "title": "Forwarding decisions use different information",
+      "body": "A hub repeats signals across its shared medium; a learning switch forwards frames using link-layer information; a router forwards packets between IP networks using routing information. Modern devices can combine functions, so product names alone do not identify the forwarding path. Broadcast domains, collision behavior, and routing boundaries must be reasoned about separately."
+    },
+    {
+      "title": "Example: separating departments",
+      "body": "Putting two departments on different switch ports does not necessarily isolate their broadcast traffic if both ports belong to the same VLAN. Separate VLANs create different link domains; communication between them typically requires routing and policy enforcement. A router can then permit selected services. The security property comes from the actual configuration and policies, not from calling a device a switch or router."
+    }
+  ],
+  "arp-protocol": [
+    {
+      "title": "Resolve an on-link IPv4 neighbor",
+      "body": "ARP associates an IPv4 next-hop address with a local-link address. A host can broadcast a request, receive a reply, and cache the mapping. Routing decides whether to resolve the final destination or a gateway. ARP entries expire and can change, so caching saves repeated discovery but creates state that can become stale or maliciously manipulated."
+    },
+    {
+      "title": "Example: reaching a new gateway",
+      "body": "A host knows its default gateway's IP but has no cached MAC. It asks on the local link and then sends frames to the learned address. If the gateway changes hardware, stale state may briefly disrupt delivery until refreshed. ARP does not authenticate an ordinary reply by itself; operational defenses and higher-layer protection address different risks from merely learning a mapping."
+    }
+  ],
+  "vlans-and-segmentation": [
+    {
+      "title": "Separate broadcast domains on shared hardware",
+      "body": "VLANs partition a switching fabric into logical link domains. Access ports associate endpoint traffic with a VLAN, while tagged trunk links can carry several VLANs. Routing is required between distinct IP networks associated with those domains. VLAN membership is a forwarding configuration, not encryption; a misconfigured trunk or permissive inter-VLAN policy can undermine expected separation."
+    },
+    {
+      "title": "Example: guest Wi-Fi and internal services",
+      "body": "Guest and employee traffic can share switches while belonging to different VLANs. A router or firewall controls communication across them. Test both intended reachability and denied paths, including management interfaces. Moving a device into another VLAN can require new IP configuration; retaining an address from the old subnet does not make the new network deliver packets according to the old topology."
+    }
+  ],
+  "wifi-802-11-basics": [
+    {
+      "title": "A shared radio medium has variable service",
+      "body": "Wi-Fi stations contend for airtime, and interference, signal quality, channel width, retransmissions, and rate adaptation influence useful throughput. Advertised physical rates are not application throughput. Access points bridge or route traffic according to their design. Association, link security, IP configuration, and Internet reachability are separate stages, so a strong signal icon does not prove a healthy end-to-end path."
+    },
+    {
+      "title": "Example: a slow station consumes airtime",
+      "body": "A low-rate or retry-heavy station may use substantial airtime for a modest amount of data, affecting other stations sharing the channel. Adding backhaul capacity cannot remove radio contention. Compare signal, retries, channel utilization, and wired tests before blaming the remote server. Roaming can also change delays and address reachability independently of the application's request semantics."
+    }
+  ],
+  "ipv4-addressing": [
+    {
+      "title": "Prefixes describe routing regions",
+      "body": "IPv4 uses 32-bit addresses, commonly written as four decimal octets. A prefix length determines how many leading bits identify a network. Public and private address ranges serve different purposes, and private addresses are not globally unique. Address scarcity encourages reuse and translation, but those mechanisms introduce state and reachability constraints rather than making the original address space larger."
+    },
+    {
+      "title": "Example: overlapping private networks",
+      "body": "Two offices both use 10.0.0.0/24 and later connect through a VPN. The same destination address can refer to different hosts, making route selection ambiguous without redesign or translation. Private addressing avoided public allocation needs but did not guarantee uniqueness across organizations. Plan prefixes for expected interconnection and distinguish address management from authentication or encryption."
+    }
+  ],
+  "ipv6": [
+    {
+      "title": "More addresses and different local mechanisms",
+      "body": "IPv6 uses 128-bit addresses and supports compact hexadecimal notation. Neighbor Discovery uses ICMPv6 rather than ARP, and hosts may learn configuration through router advertisements, SLAAC, DHCPv6, or combinations. Routers do not fragment IPv6 packets in transit; endpoints must handle appropriate size discovery and adaptation. IPv6 connectivity still needs routing, DNS, filtering, and observability."
+    },
+    {
+      "title": "Example: dual-stack hides a one-family failure",
+      "body": "A hostname resolves to IPv4 and IPv6 addresses, but one path is broken. Different clients may choose or race the alternatives and show different symptoms. Test each family explicitly and compare routes and security policy. Disabling IPv6 globally hides the broken path instead of diagnosing it, and assuming IPv6 removes the need for firewalls confuses addressing with authorization."
+    }
+  ],
+  "subnetting-and-cidr": [
+    {
+      "title": "Prefix bits divide network and host space",
+      "body": "CIDR describes a prefix as an address plus a length. In IPv4, a /26 leaves six host bits and spans 64 addresses. Subnet boundaries follow powers of two rather than arbitrary decimal groups. Traditional multi-access subnets reserve network and broadcast addresses, but /31 point-to-point and /32 host routes are important exceptions to the simple subtract-two rule."
+    },
+    {
+      "title": "Worked subnet",
+      "body": "For 192.168.10.77/26, the final-octet blocks begin at 0, 64, 128, and 192. Address 77 belongs to 192.168.10.64/26, ending at .127. Conventional usable addresses are .65 through .126, giving 62 hosts. The mask is 255.255.255.192. Recompute after changing the prefix: an address's subnet is determined by both the address and prefix length, not the address alone."
+    }
+  ],
+  "how-routing-works": [
+    {
+      "title": "Choose the most specific matching route",
+      "body": "A forwarding table maps destination prefixes to next hops or local interfaces. Longest-prefix match selects the most specific matching prefix; metrics and policy resolve eligible alternatives under the routing system's rules. A default route matches destinations without a more specific route. Each router decides its own next hop, so the sender does not ordinarily prescribe every intermediate forwarding decision."
+    },
+    {
+      "title": "Worked route lookup",
+      "body": "Given 10.0.0.0/8 via A, 10.2.0.0/16 via B, and 0.0.0.0/0 via C, destination 10.2.3.4 chooses B. The /16 wins because it matches more leading bits, not because B is necessarily geographically closer. Missing return routes can still break communication. Verify both directions and relevant policy rather than declaring success from the client's forward lookup alone."
+    }
+  ],
+  "bgp-and-ospf": [
+    {
+      "title": "Routing protocols optimize under different scopes",
+      "body": "OSPF is a link-state interior routing protocol: participants distribute topology information and compute paths within an administrative routing domain. BGP exchanges reachability between autonomous systems and applies policy using attributes such as path information. BGP's chosen path is not simply the lowest-latency path. Convergence, filtering, and policy changes can influence availability beyond individual link failures."
+    },
+    {
+      "title": "Example: a preferred commercial path",
+      "body": "An operator may prefer a longer path because of routing policy or commercial relationships. Applications observe changed latency without any change to their own hosts. Distinguish control-plane route selection from data-plane packet forwarding. A route announcement alone does not prove usable forwarding, and overly broad advertisements or missing filters can affect traffic far beyond the originating network."
+    }
+  ],
+  "nat-and-pat": [
+    {
+      "title": "Translation creates a stateful boundary",
+      "body": "NAT changes addresses; port-address translation additionally uses transport ports to distinguish flows sharing an external address. Return packets must match suitable state or explicit mappings. Translation can ease IPv4 reuse but complicates inbound reachability, logging, and connection lifetimes. It is not encryption, and its incidental lack of unsolicited mappings is not a substitute for a deliberate firewall policy."
+    },
+    {
+      "title": "Example: many clients share one public address",
+      "body": "Two private clients connect to the same remote service. The gateway assigns distinct external port mappings so replies return to the correct internal sockets. Idle mappings can expire, and port capacity can be exhausted under high churn. Record both sides and timestamps when debugging: a public address alone may identify a gateway serving many clients rather than one application instance."
+    }
+  ],
+  "icmp-ping-traceroute": [
+    {
+      "title": "Control feedback is not the application protocol",
+      "body": "ICMP carries errors and diagnostic messages. Ping uses an echo exchange; traceroute commonly varies TTL or hop limit to elicit responses from successive routers. Replies may be filtered, rate-limited, or follow different return paths. A missing diagnostic response is therefore not conclusive proof the device fails to forward ordinary traffic or that the application is unavailable."
+    },
+    {
+      "title": "Example: one silent intermediate hop",
+      "body": "Traceroute shows no reply at hop 5 but receives replies from hops 6 onward and the destination. Forwarding clearly continued beyond hop 5, so its silence likely concerns diagnostic responses rather than complete path failure. Compare end-to-end loss and latency over multiple samples. Load balancing can also make consecutive probes observe different paths instead of one stable linear chain."
+    }
+  ],
+  "dhcp": [
+    {
+      "title": "Configuration is leased and stateful",
+      "body": "DHCPv4 can provide an address, prefix information, gateway, DNS servers, and lease timing. Discovery, offer, request, and acknowledgment describe a common initial exchange. Renewal and rebinding keep a lease valid later. A configured IP address does not guarantee every supplied setting is correct, and a lease should not be treated as permanent authorization or a stable user identity."
+    },
+    {
+      "title": "Example: an incorrect DNS option",
+      "body": "A laptop obtains an address and can reach numeric IP destinations but fails to resolve names. The DHCP address assignment may have succeeded while its supplied resolver configuration is wrong. Check the received options and renewal state before changing routes. An address conflict or exhausted lease pool produces different evidence, so inspect the exchange rather than labeling every connectivity problem a DHCP outage."
+    }
+  ],
+  "tcp-vs-udp": [
+    {
+      "title": "Choose the contract the application needs",
+      "body": "TCP provides a reliable ordered byte stream with congestion and receiver-flow control. UDP preserves datagram boundaries but does not itself supply delivery, ordering, retransmission, or congestion control. An application using UDP must provide any necessary behavior above it. Reliability is not automatically undesirable for real-time applications; the important question is whether late data still has value and where recovery belongs."
+    },
+    {
+      "title": "Example: control messages and live media",
+      "body": "A live media player may discard a late frame while requiring reliable delivery of session setup or payment instructions. Different data can justify different transports or application channels. UDP alone does not make a system faster: oversized datagrams, missing congestion control, and excessive retries can make it fragile. TCP reliability also does not prove the receiving application committed a requested transaction."
+    }
+  ],
+  "tcp-three-way-handshake": [
+    {
+      "title": "Establish state in both directions",
+      "body": "The handshake establishes connection state and exchanges initial sequence information and negotiated options. SYN and FIN consume sequence space even without application payload. A client reaching an established state and the server application accepting a connection are distinct milestones. Queueing, filtering, retransmission, and server overload can affect the path before any application request is processed."
+    },
+    {
+      "title": "Worked sequence numbers",
+      "body": "Let the client begin at sequence 100 and the server at 700. The client sends SYN 100; the server replies SYN 700, ACK 101; the client acknowledges 701. Application bytes then advance sequence numbers by their lengths. If a handshake packet is lost, retransmission can add delay. This example omits TCP extensions and assumes ordinary active and passive establishment, not every possible handshake variant."
+    }
+  ],
+  "tcp-connection-termination": [
+    {
+      "title": "Each direction can finish independently",
+      "body": "A graceful close indicates no more bytes will be sent in one direction; the other direction can still have data to deliver. FIN acknowledgment and application consumption are different events. A reset aborts rather than performing the same orderly sequence. TIME_WAIT exists for protocol correctness and delayed segments; its presence alone is not a leak requiring aggressive removal."
+    },
+    {
+      "title": "Example: half-close a request stream",
+      "body": "A client sends a request body and shuts down its write direction while continuing to read the server's result. Closing the entire socket too early would prevent receiving that result. Servers must distinguish end-of-stream from a malformed partial message according to framing. During shutdown, account for pending output and deadlines instead of assuming a close call proves every response was received."
+    }
+  ],
+  "tcp-header-anatomy": [
+    {
+      "title": "Fields describe endpoints and stream state",
+      "body": "Ports identify transport endpoints; sequence and acknowledgment numbers track byte positions; flags signal control events; the receive window advertises capacity; the checksum detects certain corruption. The header length accounts for options. A packet capture shows advertised window state, not the sender's congestion window as a direct TCP header field. Interpret scaled windows using the connection's negotiation context."
+    },
+    {
+      "title": "Example: interpret an acknowledgment",
+      "body": "An ACK of 2,001 ordinarily reports the next byte expected in the cumulative sequence, not that packet number 2,001 arrived. If a segment starts at 1,501 and carries 500 bytes, acknowledging 2,001 covers those bytes. Options, retransmission, and sequence wrap complicate real traces. Work with relative sequence numbers and actual payload lengths rather than treating packet count as byte count."
+    }
+  ],
+  "reliability-acks-retransmission": [
+    {
+      "title": "Recover missing bytes without duplicating the stream",
+      "body": "TCP uses sequence information, acknowledgments, timers, and loss-detection mechanisms to recover data. A retransmitted segment can overlap bytes already received, so packet duplication need not duplicate the delivered byte stream. Selective acknowledgment can describe received ranges beyond a gap. An acknowledgment confirms transport reception under the protocol, not durable application processing or successful business validation."
+    },
+    {
+      "title": "Example: a missing middle range",
+      "body": "A receiver gets bytes 1,001–1,500 and 2,001–2,500 but lacks 1,501–2,000. Cumulative progress remains at the gap even if later bytes are buffered. Recovery fills the missing range and permits ordered delivery to advance. Packet reordering can resemble loss, so real senders use more than a simplistic one-packet timeout rule. Capture location and offloads also affect the packets an observer sees."
+    }
+  ],
+  "flow-control-sliding-window": [
+    {
+      "title": "Protect the receiver's capacity",
+      "body": "The receiver advertises how much additional stream data it can accept according to TCP's window rules. As the application consumes buffered data, more capacity becomes available. The sender is also constrained by congestion control, so the smaller effective limit matters. A zero receive window indicates a receiver-side capacity condition, not automatically network congestion or packet loss."
+    },
+    {
+      "title": "Worked allowance",
+      "body": "If the receive window is 48 KiB, congestion window 80 KiB, and 32 KiB is already in flight, a simplified remaining allowance is 16 KiB. Enlarging congestion capacity does not help while the receiver is limiting progress. Investigate why the receiving application is not draining data. Actual sending also depends on available application bytes, pacing, retransmission state, and protocol details omitted from this arithmetic."
+    }
+  ],
+  "congestion-control": [
+    {
+      "title": "Discover path capacity through feedback",
+      "body": "Congestion control regulates demand on a shared path. Slow start probes quickly; AIMD combines cautious increase with substantial reduction after congestion. Reno provides a useful reference model. CUBIC uses a time-based growth curve around a remembered congestion point, while BBR uses a model built from delivery-rate and delay observations. Implementations and versions differ; no algorithm universally wins every workload."
+    },
+    {
+      "title": "Worked window trace",
+      "body": "In a simplified round-based model with initial window 4 segments and threshold 16, slow start progresses 4, 8, 16. Congestion avoidance then increases more cautiously, such as 17, 18, 19 under an idealized Reno interpretation. A loss-triggered reduction and timeout recovery are different events. State assumptions about acknowledgments and available data before presenting this trace as a prediction of real packet timing."
+    },
+    {
+      "title": "Window volume and pacing rate",
+      "body": "A window limits outstanding volume, whereas pacing controls when packets leave. The same volume can be emitted as a burst or spread over time. ECN can signal congestion without requiring packet loss, while rising delay may indicate queues. Wireless corruption and route changes can also cause loss. Observe throughput, queueing delay, fairness, and recovery together rather than selecting a controller from throughput alone."
+    }
+  ],
+  "head-of-line-blocking": [
+    {
+      "title": "Ordering can delay unrelated useful work",
+      "body": "Head-of-line blocking occurs when progress waits behind earlier work in an ordered structure. At an HTTP/1.1 response pipeline, an earlier response can block later ones. With HTTP/2 over TCP, a missing TCP byte can stall delivery of later bytes belonging to multiple HTTP streams. Multiplexing at one layer does not necessarily remove ordering dependencies at another."
+    },
+    {
+      "title": "Example: two resources share a connection",
+      "body": "An image stream and a stylesheet stream share a TCP connection. Loss affecting the byte stream can delay both even if their HTTP frames are logically independent. QUIC provides independent stream delivery, reducing this cross-stream transport dependency, but each stream remains ordered and streams still share path congestion. Avoid claiming HTTP/3 eliminates all waiting, loss costs, or application dependency chains."
+    }
+  ],
+  "udp-internals": [
+    {
+      "title": "Datagrams are the application-visible unit",
+      "body": "UDP adds source and destination ports, a length, and checksum information around a datagram. It does not establish a TCP-style session first. A receive buffer too small for a datagram may truncate it under the API's rules. Large datagrams can trigger fragmentation or fail size constraints; losing a fragment can prevent delivery of the entire original datagram."
+    },
+    {
+      "title": "Example: request identifiers matter",
+      "body": "A client sends two independent UDP requests and receives responses out of order. Match replies using explicit application identifiers rather than assuming receive order equals send order. Add bounded retry and duplicate handling only where needed, and avoid amplifying load under loss. A successful send call means the local system accepted the datagram, not that a peer is listening or a response will arrive."
+    }
+  ],
+  "tcp-tuning-knobs": [
+    {
+      "title": "Tune a measured bottleneck",
+      "body": "Socket buffer sizing, keepalive behavior, Nagle-related settings, connection backlogs, and congestion-controller selection affect different mechanisms. TCP_NODELAY changes small-write coalescing; it is not a general low-latency guarantee. Larger buffers can help a window-limited path but increase queueing and memory use. Kernel defaults and available controls vary, so connect every proposed setting to a measured symptom."
+    },
+    {
+      "title": "Example: tiny interactive writes",
+      "body": "An application sends several tiny pieces of one logical response. Consolidating them at the application layer may reduce overhead without changing transport behavior globally. If small-write delay remains a problem, test the relevant option under realistic traffic. Compare tail latency, packet rate, CPU, and throughput, and retain a baseline. Copying an Internet tuning checklist can make an unrelated bottleneck worse."
+    }
+  ],
+  "dns-hierarchy": [
+    {
+      "title": "Authority is delegated down a naming tree",
+      "body": "DNS distributes authority across zones. Root information directs resolvers toward top-level domains, which delegate to authoritative servers for lower zones. A resolver can cache answers and delegations, so every lookup does not visit every level. A domain's registrar, DNS hosting provider, and application hosting provider can be different organizations with different failure modes."
+    },
+    {
+      "title": "Example: delegation and data disagree",
+      "body": "A team updates records on a new DNS provider but leaves the parent delegation pointing to the old provider. Clients continue consulting the authoritative servers they were directed to use, regardless of the new dashboard's contents. Check the delegation chain and authoritative answer separately. A correct record in the wrong zone or provider does not establish public resolvability."
+    }
+  ],
+  "recursive-vs-iterative": [
+    {
+      "title": "Who performs the next lookup?",
+      "body": "A recursive client asks a resolver to obtain an answer on its behalf. An iterative exchange can return a referral that directs the querying resolver onward. A recursive resolver may itself perform several iterative queries, reuse caches, or forward to another resolver. These are roles in a resolution path, not permanent categories meaning every DNS server behaves in only one way."
+    },
+    {
+      "title": "Example: laptop to authoritative server",
+      "body": "A laptop asks its configured resolver for a hostname. On a cache miss, that resolver follows relevant delegations or uses a forwarder, then returns the result. The laptop need not contact every authoritative layer itself. Debug the path actually configured, including local stubs and enterprise resolvers, rather than assuming a diagram of an uncached public lookup describes every request."
+    }
+  ],
+  "dns-record-types": [
+    {
+      "title": "Record types answer different questions",
+      "body": "A and AAAA provide address data; CNAME aliases a name; MX identifies mail exchangers; NS delegates authority; SOA describes zone administration; TXT carries text used by several protocols; PTR supports reverse naming. Records have distinct interpretation and coexistence rules. A DNS answer is not a general-purpose redirect: browser redirection and URL paths belong to higher-layer protocols."
+    },
+    {
+      "title": "Example: alias versus HTTP redirect",
+      "body": "A CNAME can cause name resolution to follow another DNS name while the browser still requests the original hostname. TLS identity and virtual-host routing must still handle that hostname. An HTTP redirect instead tells the client to request another URL. Using an alias alone does not transfer certificates, configure the application's Host handling, or choose a new path inside the website."
+    }
+  ],
+  "dns-caching-and-ttls": [
+    {
+      "title": "TTL is a reuse budget, not a broadcast update",
+      "body": "Resolvers can reuse cached records while their remaining lifetimes permit it. Updating an authoritative record does not push an immediate invalidation to every existing cache. Negative answers can also be cached under DNS rules. Operating systems and applications can introduce additional caching behavior, so observed cutover timing must be diagnosed across the actual resolution chain."
+    },
+    {
+      "title": "Example: plan an address migration",
+      "body": "A record previously had a one-hour lifetime. Lowering it to one minute immediately before moving the service does not shorten copies already cached for the old lifetime. Lower it sufficiently in advance, keep old and new endpoints available through the transition, and inspect answers from relevant resolvers. Very short TTLs increase query load and do not guarantee instantaneous service discovery."
+    }
+  ],
+  "anycast-and-geodns": [
+    {
+      "title": "Routing location and answer selection differ",
+      "body": "Anycast advertises one address from multiple locations and lets routing policy select a path. GeoDNS chooses answers using location or policy signals visible to the DNS system. Neither guarantees the geographically nearest or least-loaded application server. Resolver location, routing changes, caching, and health signals affect the result, and long-lived connections can complicate changes in endpoint selection."
+    },
+    {
+      "title": "Example: a distant resolver",
+      "body": "A user in one region queries a resolver in another. GeoDNS may choose an endpoint based on information associated with that resolver rather than the user's exact position. Anycast instead relies on network path selection to the advertised address. Measure actual client latency and failure behavior; a map of server locations is not enough to prove users reach the best-performing site."
+    }
+  ],
+  "doh-and-dot": [
+    {
+      "title": "Protect the query transport",
+      "body": "DNS over HTTPS and DNS over TLS encrypt communication between the client and its chosen resolver. This protects that segment from straightforward observation and tampering but does not make the resolver unable to see queries. It also differs from DNSSEC, which authenticates DNS data. Resolver selection, bootstrap, enterprise policy, and fallback behavior remain part of the system."
+    },
+    {
+      "title": "Example: privacy boundaries",
+      "body": "A client sends encrypted DNS to a resolver, which performs further resolution through its own upstream path. The client's local observer sees less query content, while the resolver remains a trust point. A fallback to plaintext can change the privacy guarantee during failures. Document which threat the configuration addresses instead of describing encrypted DNS as complete anonymity or proof that an answer is authoritative."
+    }
+  ],
+  "dnssec": [
+    {
+      "title": "Validate signed DNS data",
+      "body": "DNSSEC supports validation of DNS data through signed records and a chain of trust. It detects certain forged or altered answers when validation is correctly configured. It does not encrypt queries, hide requested names, or make the destination application trustworthy. Signing and key management introduce operational responsibilities: a broken chain can make otherwise reachable services appear unresolvable to validating clients."
+    },
+    {
+      "title": "Example: an incomplete key transition",
+      "body": "A zone changes signing keys without coordinating the necessary parent information and timing. Some clients fail validation even though the records look correct on an unsigned inspection. Check signatures, delegation-related trust data, and cached lifetimes. Treat a validation failure as a specific integrity-chain problem rather than immediately disabling validation or assuming all resolvers are malfunctioning."
+    }
+  ],
+  "debugging-dns": [
+    {
+      "title": "Ask the right server the right question",
+      "body": "Tools such as dig and nslookup reveal answers, response codes, selected servers, and related metadata. Compare recursive and authoritative responses, specify record types, and examine delegation when necessary. A cached answer can differ from a fresh authoritative view without either query being fabricated. Search domains and local overrides can make short-name behavior differ from fully qualified names."
+    },
+    {
+      "title": "Example: compare address families",
+      "body": "A hostname's A record points to a healthy service while its AAAA record points to an obsolete address. Clients preferring IPv6 may fail while IPv4-only checks pass. Query both record types and test actual connectivity separately. Include timestamps and remaining TTLs when comparing resolver output so a normal cache transition is not mistaken for a permanent split in authoritative data."
+    }
+  ],
+  "http-request-response-anatomy": [
+    {
+      "title": "Messages define application intent",
+      "body": "An HTTP request identifies a method, target, and metadata, optionally with content. A response carries status, metadata, and often content. HTTP versions encode these ideas differently, but request semantics remain recognizable. Message framing is separate from TCP packet boundaries: intermediaries must agree where one message ends before interpreting the next request on a reused connection."
+    },
+    {
+      "title": "Example: stream reads are not messages",
+      "body": "A server receives half the headers in one socket read and the remainder plus body bytes in another. Parsing must accumulate according to HTTP framing rather than assuming one read equals one request. Conflicting framing interpretation across intermediaries can be dangerous. Use a maintained protocol implementation and apply explicit size and time limits instead of inventing a partial parser for production traffic."
+    }
+  ],
+  "http-methods-and-idempotency": [
+    {
+      "title": "Safe and idempotent describe intended semantics",
+      "body": "Safe methods are intended not to request state changes; idempotent methods have the same intended effect when repeated as when applied once. Response codes and bodies can still differ between repetitions. GET should not trigger a purchase. PUT and DELETE have idempotent semantics, while arbitrary POST operations need application-specific handling before retries can be assumed safe."
+    },
+    {
+      "title": "Example: retrying a timed-out create",
+      "body": "A POST creates an order but its response is lost. Retrying blindly can create a second order. A client-generated operation identifier and server-side deduplication can make the intended workflow retry-safe. Merely changing the method name does not fix a flawed implementation; the server must actually enforce the relevant semantics and store enough state to resolve ambiguous outcomes."
+    }
+  ],
+  "status-codes": [
+    {
+      "title": "Classify outcomes before deciding recovery",
+      "body": "Informational, successful, redirect, client-error, and server-error classes communicate broad outcomes, but specific codes have distinct meanings. Authentication, authorization, rate limiting, and unavailable dependencies should not all be treated as generic failure. A 200 response can still carry an application-level problem in a poorly designed API, so the documented contract matters beyond the numeric class."
+    },
+    {
+      "title": "Example: different errors need different actions",
+      "body": "A malformed request should be corrected rather than retried forever. Rate limiting may justify waiting according to the service's instructions and the caller's deadline. A transient gateway error might permit a bounded retry if the operation is safe. Record status, attempt count, and elapsed budget so automated recovery does not turn a small failure into a retry storm."
+    }
+  ],
+  "http-headers": [
+    {
+      "title": "Metadata influences routing, caching, and representation",
+      "body": "Headers carry information such as authority, accepted formats, authentication, cache policy, and content characteristics. Some fields are specific to one connection or hop and must be handled appropriately by intermediaries. A trusted proxy's forwarded identity information is not equivalent to the same header supplied directly by an arbitrary client. Trust boundaries matter as much as syntax."
+    },
+    {
+      "title": "Example: selecting a representation",
+      "body": "A server returns compressed content when the client supports it. Shared caches need the correct variation metadata so a response selected for one request is not incorrectly reused for another. Similarly, authorization-sensitive content needs deliberate caching policy. Audit how proxies modify fields and which values the application trusts rather than assuming all headers survive unchanged end to end."
+    }
+  ],
+  "http-1-vs-2-vs-3": [
+    {
+      "title": "Shared semantics, different transport behavior",
+      "body": "HTTP/1.1 commonly serializes responses on each connection. HTTP/2 multiplexes framed streams over TCP and compresses headers. HTTP/3 maps HTTP onto QUIC streams over UDP. These changes affect setup, loss interactions, and connection management, but do not remove server-side work or make unsafe retries safe. Negotiation and deployment support determine which protocol is actually used."
+    },
+    {
+      "title": "Example: many small resources",
+      "body": "A page fetching many resources can benefit from multiplexing rather than opening numerous connections. If the server bottleneck is a slow database, changing HTTP versions may barely affect first-byte time. Compare negotiated protocol, loss, request concurrency, and backend timings. A benchmark on a lossless local network does not capture all advantages or costs experienced by mobile clients."
+    }
+  ],
+  "persistent-connections": [
+    {
+      "title": "Reuse avoids repeated setup",
+      "body": "Persistent connections serve multiple exchanges without rebuilding transport and security state every time. Pipelining allows requests to be sent before earlier responses arrive, but HTTP/1.1 response order imposes constraints. Multiplexing uses independent protocol streams. Reuse saves setup costs while requiring idle timeouts, bounded pools, stale-connection handling, and careful framing so one exchange does not corrupt another."
+    },
+    {
+      "title": "Example: a pool returns an idle connection",
+      "body": "The server closed a connection during its idle period, but the client discovers that only when attempting reuse. The pool must discard the stale connection and handle the request outcome safely. A failed reuse does not always prove no request bytes reached the server. Combine pool lifecycle rules with operation-specific retry semantics instead of treating all connection errors as interchangeable."
+    }
+  ],
+  "http-2-internals": [
+    {
+      "title": "Frames share one transport connection",
+      "body": "HTTP/2 divides communication into frames associated with streams and includes stream and connection-level flow control. Header compression maintains protocol state rather than simply compressing each request independently. Stream resets can cancel one stream without necessarily closing the connection. TCP remains an ordered transport underneath, so loss can still delay bytes belonging to otherwise independent streams."
+    },
+    {
+      "title": "Example: one slow consumer",
+      "body": "A client stops consuming one large response while other streams continue. Proper stream-level limits constrain that response, while shared connection capacity can still affect all streams. Application buffering and scheduling must honor both levels. Increasing connection limits alone may allow a slow client to retain excessive memory; inspect flow-control behavior together with per-stream resource budgets."
+    }
+  ],
+  "http-3-and-quic": [
+    {
+      "title": "Streams and connection identity move into QUIC",
+      "body": "QUIC runs over UDP but supplies transport mechanisms rather than inheriting UDP's bare delivery contract. Independent streams reduce cross-stream ordered-delivery blocking, and connection identifiers support continuity across suitable path changes. Path validation, encryption, congestion control, and flow control remain essential. UDP reachability and implementation support affect whether HTTP/3 can be used on a particular network."
+    },
+    {
+      "title": "Example: a phone changes networks",
+      "body": "A phone moves from Wi-Fi to cellular, changing its address. A supported QUIC connection can validate a new path and preserve connection state rather than treating the transport as only a fixed address-and-port tuple. This does not promise uninterrupted application service: path quality, validation delay, policy, and server support still matter. Applications must continue handling deadlines and disconnections."
+    }
+  ],
+  "tls-handshake": [
+    {
+      "title": "Negotiate keys and verify the peer",
+      "body": "A TLS handshake negotiates compatible parameters, establishes traffic keys, and authenticates the peer under the selected mode. Certificate-based HTTPS requires identity validation as well as cryptographic exchange. TLS versions and resumption modes differ, so a fixed packet diagram needs explicit assumptions. Encryption without checking the intended service identity can protect a connection to the wrong peer."
+    },
+    {
+      "title": "Example: a TLS 1.3 connection",
+      "body": "A client offers supported parameters and key material; the server chooses compatible values and proves its identity where certificate authentication is used. Both sides verify handshake integrity before relying on the resulting channel. Session resumption can reduce work, while early data requires special replay-aware application handling. Use maintained TLS implementations rather than reproducing cryptographic details in application code."
+    }
+  ],
+  "certificates-and-pki": [
+    {
+      "title": "A certificate binds an identity to a key",
+      "body": "A certificate carries a public key and identity information authenticated by an issuer. Validation builds an acceptable trust path, checks the intended hostname and time validity, and applies relevant constraints and policy. Receiving any certificate is not enough. Trust stores, intermediates, and service-name configuration explain why the same endpoint can behave differently across clients."
+    },
+    {
+      "title": "Example: the chain is incomplete",
+      "body": "A server presents a leaf certificate but omits an intermediate needed by some clients. One browser may succeed using cached information while a clean client fails. Test with representative trust environments and inspect the served chain. Renewing a certificate also requires deploying it to every relevant endpoint; a valid new file on disk does not prove every load-balanced instance serves it."
+    }
+  ],
+  "http-caching": [
+    {
+      "title": "Storage, freshness, and validation are distinct",
+      "body": "A cache first decides whether it may store a response, then whether a stored response may be reused without contacting the origin. Once validation is required, conditional requests can avoid transferring an unchanged representation. no-cache permits storage but requires validation before reuse; no-store prohibits storage under the directive's rules. Private and shared caches have different responsibilities."
+    },
+    {
+      "title": "Example: unchanged content, smaller response",
+      "body": "A client retains a representation and its validator. On a later conditional request, the origin can report that the representation is unchanged, allowing reuse of the stored body. This saves payload transfer but still involves a request. Choose appropriate freshness and privacy policy, and include representation variation in the cache key so a user never receives another user's personalized response."
+    }
+  ],
+  "websockets": [
+    {
+      "title": "A long-lived bidirectional application channel",
+      "body": "WebSockets provide framed messages over a persistent connection after the appropriate protocol establishment. Either endpoint can send without creating a new HTTP request for every message. Persistent connection state brings duties: authentication expiry, heartbeats, bounded output queues, reconnect behavior, and message ordering. Transport connectivity alone does not prove the remote application processed the most recent message."
+    },
+    {
+      "title": "Example: reconnecting a chat client",
+      "body": "A client disconnects after the server accepts a chat message but before its acknowledgment arrives. Resending without a message identifier may duplicate it. Assign stable identifiers, define acknowledgment meaning, and resume from an agreed history position. A heartbeat detects some broken connections but does not replace application-level delivery tracking or provide unlimited buffering for a client that has stopped reading."
+    }
+  ],
+  "server-sent-events": [
+    {
+      "title": "Server-to-client events over an HTTP response",
+      "body": "SSE sends a text event stream from server to client and supports browser reconnection behavior. It is suited to notifications, progress, and feeds where the main continuous direction is toward the client. Client-to-server actions can use separate HTTP requests. Proxy buffering, idle timeouts, and event formatting influence whether events arrive promptly rather than being retained in intermediate buffers."
+    },
+    {
+      "title": "Example: resume a progress feed",
+      "body": "Events carry identifiers so a reconnecting client can indicate the last event it received. The server needs retained history or another recovery strategy to make that identifier useful. An ID alone does not guarantee replay availability or exactly-once effects. Send periodic appropriate activity when needed for idle paths and bound retention so a long-disconnected client cannot demand unbounded server memory."
+    }
+  ],
+  "long-polling-vs-sse-vs-websockets": [
+    {
+      "title": "Match direction and lifetime to the workload",
+      "body": "Long polling holds a request until data or a timeout, then the client reconnects. SSE maintains a server-to-client stream. WebSockets support bidirectional framed exchange. Compare event frequency, browser support, intermediaries, authentication, and operations rather than choosing the newest protocol automatically. Every design still needs deadlines, reconnection, backpressure, and a way to distinguish new events from repeated delivery."
+    },
+    {
+      "title": "Example: deployment progress versus a game",
+      "body": "Deployment progress may need only occasional server updates and fit SSE or long polling. A collaborative game sending frequent updates in both directions may benefit from WebSockets. The latter choice does not solve state synchronization after disconnects. Estimate open connections, update rates, and recovery history, then test the actual proxy chain and slow-client behavior under the expected workload."
+    }
+  ],
+  "grpc-and-protobuf": [
+    {
+      "title": "Schema and RPC semantics travel together",
+      "body": "Protocol Buffers define structured messages and evolution rules, while gRPC supplies RPC conventions including status, metadata, deadlines, and supported streaming forms. Common gRPC deployments use HTTP/2. Binary encoding is not automatically cheaper for every payload or easier to debug. Compatibility requires preserving field meanings and avoiding unsafe identifier reuse, not merely compiling both versions successfully."
+    },
+    {
+      "title": "Example: propagate a deadline",
+      "body": "A frontend RPC has 500 ms remaining and calls two downstream services. Pass the remaining budget rather than giving each call a fresh multi-second timeout. Cancellation should stop unnecessary work where supported, but may race with completion. A transport-level success does not replace the RPC's status and application result. Observe individual calls and streaming flow control rather than only the underlying connection."
+    }
+  ],
+  "graphql-networking": [
+    {
+      "title": "One endpoint can hide many different costs",
+      "body": "GraphQL lets clients describe requested fields, but network cost depends on resolver fan-out, result size, caching, and execution strategy. One HTTP request may generate dozens of backend operations. Authorization must apply to the requested data, not merely access to the endpoint. Query depth, complexity limits, pagination, and observability help bound work under variable client queries."
+    },
+    {
+      "title": "Example: a nested query expands dramatically",
+      "body": "A query requests 100 users, each with 100 orders and detailed line items. The network response and backend work can grow far beyond the compact query text. Use pagination, batching where appropriate, and explicit resource budgets. HTTP caching may require deliberate query identification and variation rules; a single endpoint URL is not enough to distinguish every representation safely."
+    }
+  ],
+  "mqtt": [
+    {
+      "title": "Brokered messaging with defined delivery levels",
+      "body": "MQTT uses publish/subscribe topics and a broker to decouple producers from subscribers. QoS levels describe protocol delivery behavior, not a universal guarantee of exactly-once business side effects. Retained messages, session state, and last-will behavior solve different lifecycle problems. Authentication and authorization should constrain topic access, particularly when many devices share one broker."
+    },
+    {
+      "title": "Example: a reconnecting sensor",
+      "body": "A sensor publishes a measurement and reconnects before knowing the delivery outcome. Depending on the chosen QoS and session behavior, messages can be redelivered. Include measurement identity or sequence information where deduplication matters. A retained value gives a new subscriber recent state, not a complete event history; use a suitable persistent history system when every reading must be recoverable."
+    }
+  ],
+  "smtp-ftp-ssh": [
+    {
+      "title": "Older protocols serve different workflows",
+      "body": "SMTP transfers mail through submission and relay stages; acceptance by one server is not proof a recipient read the message. FTP separates control and data connections, complicating firewalls and NAT, and its unprotected form exposes sensitive traffic. SSH provides authenticated encrypted remote access and related capabilities. SFTP runs over SSH and is not simply ordinary FTP with the same connection behavior."
+    },
+    {
+      "title": "Example: a transfer works only on one network",
+      "body": "An FTP control connection succeeds while its data channel fails because required connection establishment is blocked or translated incorrectly. Diagnose both channels rather than assuming the successful login proves transfer reachability. For SSH, verify the server identity rather than blindly accepting changed host keys. Protocol history does not justify disabling modern authentication or encryption requirements."
+    }
+  ],
+  "what-is-a-socket": [
+    {
+      "title": "A local handle to communication state",
+      "body": "A socket is an operating-system abstraction for communication using a selected address family, type, and protocol. Binding chooses a local endpoint; connecting establishes or records a peer relationship according to the protocol. A listening socket and an accepted connection are different objects. The application holds a local descriptor or handle, not a direct reference to memory on the remote machine."
+    },
+    {
+      "title": "Example: one listener, many connections",
+      "body": "A server binds one listening endpoint and accepts multiple clients. Each accepted connection has its own state and resource cost, while the listener remains available for new arrivals. Closing a client socket does not normally close the listener. Track each object's lifecycle explicitly, including failures during setup, so error paths do not leak descriptors or accidentally shut down unrelated clients."
+    }
+  ],
+  "tcp-socket-programming": [
+    {
+      "title": "Build a protocol on a byte stream",
+      "body": "TCP does not preserve application write boundaries. Define messages using a length prefix, delimiter with escaping, or another unambiguous framing rule. Reads and writes can make partial progress, so loops track offsets and accumulated bytes. Validate lengths before allocating, impose deadlines, and distinguish a clean end-of-stream from a truncated message according to the application protocol."
+    },
+    {
+      "title": "Example: a length-prefixed message",
+      "body": "A sender transmits a four-byte length followed by 1,000 payload bytes. The receiver may obtain two length bytes first, then the rest plus part of the payload. It must accumulate the header, validate the declared length, and read the complete body. One successful send does not prove the peer processed the message; define application acknowledgments when that outcome matters."
+    }
+  ],
+  "udp-socket-programming": [
+    {
+      "title": "Datagram boundaries do not provide a session protocol",
+      "body": "UDP receive operations expose individual datagrams and peer information under the platform API. Applications decide how to identify requests, handle missing or duplicated messages, and authenticate peers. A connected UDP socket can constrain local peer handling without performing a TCP-style handshake. Receive capacity and datagram size limits must be considered before choosing a payload format."
+    },
+    {
+      "title": "Example: a bounded request-response exchange",
+      "body": "Send a request with an unpredictable operation identifier and accept only a matching, validated response from the intended service. Use a deadline and a small bounded retry policy where appropriate. Retransmission can produce duplicate requests, so the server needs compatible behavior. Avoid using large responses to tiny unauthenticated requests, which can turn a public service into an amplification mechanism."
+    }
+  ],
+  "multi-client-with-threads": [
+    {
+      "title": "Concurrency needs bounded resource ownership",
+      "body": "A thread-per-client design can be easy to follow, but stacks, descriptors, buffers, and downstream limits bound its scale. A pool limits active execution while a queue determines overload behavior. Synchronize shared application state separately from per-connection parsing. Thread safety is not supplied by using independent sockets if handlers still modify a common registry or cache."
+    },
+    {
+      "title": "Example: slow clients exhaust a pool",
+      "body": "Ten workers serve ten clients that send one byte every few seconds. New clients wait even while CPU utilization stays low. Enforce read progress deadlines and admission limits, or use an event-driven design where appropriate. A larger pool only delays exhaustion if client lifetimes remain unbounded. Test disconnects and exceptions to ensure sockets close and worker capacity returns."
+    }
+  ],
+  "non-blocking-io-and-select": [
+    {
+      "title": "Readiness requires another operation",
+      "body": "Nonblocking I/O returns when it cannot progress rather than parking a dedicated thread indefinitely. select indicates descriptors that may be ready, after which the application performs reads or writes and still handles would-block. Descriptor sets and platform limits matter. Do not register writable interest continuously when there is no pending output, or the loop can wake repeatedly without useful work."
+    },
+    {
+      "title": "Example: a partial write queue",
+      "body": "A response is only partly accepted by send. Store the remainder and enable writable interest. On notification, continue from the saved offset; when the queue is empty, disable that interest. Also handle closure and errors before reusing the connection object. This state machine prevents lost bytes and busy looping while preserving service for other clients sharing the event loop."
+    }
+  ],
+  "epoll-kqueue-iocp": [
+    {
+      "title": "Platforms expose different event contracts",
+      "body": "epoll and kqueue commonly support readiness-oriented designs, with trigger and re-arming options that require careful state management. IOCP delivers completion notifications for submitted operations. A portable runtime can abstract these differences, but native implementations must honor buffer ownership and lifecycle rules. Treating a completion as merely permission to start an operation mixes two incompatible meanings."
+    },
+    {
+      "title": "Example: lifetime through completion",
+      "body": "An asynchronous receive is submitted using a buffer owned by the connection. If closure begins before completion arrives, freeing that buffer immediately can be unsafe. Keep state alive until the API's completion or cancellation contract permits cleanup. In a readiness design, use nonblocking calls and account for stale events. Both models need explicit identity when numeric handles can be reused."
+    }
+  ],
+  "async-networking": [
+    {
+      "title": "Suspension is not automatic parallel computation",
+      "body": "Async networking lets logical operations wait without dedicating one blocked thread to every wait. Python asyncio and Java NIO expose different programming interfaces around that goal. Blocking calls or long CPU work on the event-loop thread can still stall unrelated requests. Cancellation and deadlines must propagate through dependent operations rather than only cancelling the outermost future."
+    },
+    {
+      "title": "Example: async handler with blocking work",
+      "body": "An async handler performs a synchronous file read or expensive computation before awaiting its socket. Other tasks cannot progress on that loop during the blocking segment. Use suitable asynchronous facilities or a bounded executor, and account for work already running when cancellation occurs. Offloading to an unbounded queue relocates overload rather than fixing it; measure queue age and active work."
+    }
+  ],
+  "concurrent-tcp-server": [
+    {
+      "title": "An echo server still has real lifecycle problems",
+      "body": "A robust echo server accepts clients, reads bounded chunks, queues exactly the bytes received, handles partial sends, and closes on completion or error. Limit active connections and pending output. Add progress deadlines so a client cannot retain resources forever. The simple payload avoids application parsing complexity but does not remove transport or scheduling responsibilities."
+    },
+    {
+      "title": "Example: a slow reader",
+      "body": "A client sends quickly and reads echoed bytes very slowly. If the server buffers unlimited replies, memory grows despite doing almost no computation. Pause reads when pending output reaches a high-water mark and resume after draining, or close according to a documented limit. Test half-close, abrupt reset, empty reads, and shutdown while output is pending before calling the server concurrent and reliable."
+    }
+  ],
+  "wireshark-deep-dive": [
+    {
+      "title": "Capture location shapes the evidence",
+      "body": "Wireshark decodes captured traffic and helps follow conversations, timings, and protocol fields. Capture filters limit collected packets; display filters select what to inspect afterward. Encryption hides application content without suitable authorized decryption material. Offloads and capture loss can produce observations that differ from actual wire behavior, so an apparent checksum problem or large segment needs context."
+    },
+    {
+      "title": "Example: find a delayed response",
+      "body": "Identify one connection and separate handshake, request transmission, acknowledgment, server response, and retransmissions. Compare packet timestamps with application logs. A server-side capture can show when bytes reached the host, but not necessarily when a handler began work. Use multiple observation points when needed and avoid declaring a remote cause from a capture that only sees one side's symptoms."
+    }
+  ],
+  "tcpdump": [
+    {
+      "title": "Collect the smallest useful trace",
+      "body": "tcpdump captures packets using interface selection and filter expressions. Choose direction, hosts, ports, duration, and capture size for the question, and write a bounded capture when later analysis is needed. Packet captures may contain application data and credentials from unprotected protocols. Filtering improves both signal quality and resource use; capturing everything indefinitely is rarely a good diagnostic plan."
+    },
+    {
+      "title": "Example: a missing response",
+      "body": "Capture a controlled request on the relevant interface and look for outbound request traffic and inbound response traffic. If the response never appears there, that still does not locate the exact upstream failure. Compare another boundary or server evidence. Include DNS and connection establishment if the symptom occurs before the target connection exists; filtering only an assumed established socket can miss the real failure."
+    }
+  ],
+  "netstat-ss-lsof": [
+    {
+      "title": "Relate sockets to processes and states",
+      "body": "Socket-inspection tools expose listeners, connection states, queues, and sometimes process ownership, subject to permissions and platform behavior. lsof relates open objects to processes, while ss is commonly used for detailed Linux socket inspection. A listening port does not prove its handler is healthy, and a missing process name can reflect insufficient visibility rather than an ownerless socket."
+    },
+    {
+      "title": "Example: address already in use",
+      "body": "A server fails to bind. Determine the exact address, port, family, and existing listener rather than terminating an arbitrary process with a similar name. Wildcard binds and IPv4/IPv6 interactions can explain conflicts. Distinguish listeners from connection states such as TIME_WAIT, and inspect the application's intended reuse behavior before changing socket options or host configuration."
+    }
+  ],
+  "curl-and-wget": [
+    {
+      "title": "Inspect an actual application exchange",
+      "body": "HTTP clients can reveal status, response headers, redirects, negotiated behavior, and timing. Use the same hostname, scheme, and authentication context as the failing application where appropriate. Testing a numeric IP can change TLS identity and virtual-host routing. Follow redirects deliberately and avoid exposing credentials in shared command history or diagnostic output."
+    },
+    {
+      "title": "Example: split latency into stages",
+      "body": "Measure lookup, connect, TLS, first-byte, and total time for representative requests. A fast handshake with a slow first byte suggests a different investigation from a slow connection. Repeat with and without connection reuse only when the comparison is meaningful. Download throughput from one large file does not predict the latency of small authenticated API requests with backend work."
+    }
+  ],
+  "traceroute-mtr-ping": [
+    {
+      "title": "Probe results are conditional observations",
+      "body": "Ping estimates echo reachability and round-trip timing; traceroute explores responses at successive hop limits; mtr samples related observations repeatedly. Intermediate routers may rate-limit diagnostic replies while forwarding data normally. Paths can be asymmetric and load-balanced, so the displayed sequence is not necessarily the exact bidirectional path of every application packet."
+    },
+    {
+      "title": "Example: apparent loss at one router",
+      "body": "If an intermediate hop shows 40% unanswered probes but later hops and the destination show no corresponding loss, the router may be limiting replies rather than dropping transit traffic. Focus on end-to-end behavior and compare sustained intervals. Do not add per-hop round-trip times together; each includes its own return path and overlapping portions of the network."
+    }
+  ],
+  "iperf-bandwidth-testing": [
+    {
+      "title": "Test capacity under explicit conditions",
+      "body": "A bandwidth test measures a selected transport and path with controlled traffic. Results depend on duration, parallel streams, CPU, socket buffers, direction, and loss. The test itself consumes resources and can affect other users. Record units and whether a result is sender throughput, receiver throughput, or estimated loss; these are related but not interchangeable observations."
+    },
+    {
+      "title": "Example: reverse direction differs",
+      "body": "A path delivers high throughput from A to B but much less from B to A because access links, policies, or host processing differ. Run controlled tests in both directions and compare host utilization. Several parallel streams can hide a single-flow window limitation, so report stream count. A good bulk result does not prove low latency under loaded queues."
+    }
+  ],
+  "reading-a-real-pcap": [
+    {
+      "title": "Build a timeline before naming the bug",
+      "body": "Identify endpoints, capture position, connection establishment, request bytes, gaps, retries, and termination. Separate observed facts from inferred application behavior. Packet capture can show delivery and timing but may not show decrypted content or durable state changes. Match connection tuples and timestamps with logs, accounting for clock differences and proxy hops that create new connections."
+    },
+    {
+      "title": "Example: duplicate request after timeout",
+      "body": "The trace shows a request sent, a long pause, then another connection carrying a retry. Server logs reveal the first request committed before its reply was lost. The network symptom alone would not establish that outcome. Fix the ambiguous-result workflow with operation identity and safe retry handling, while separately investigating the lost reply; increasing timeouts alone does not prevent all duplicates."
+    }
+  ],
+  "latency-vs-throughput-vs-bandwidth": [
+    {
+      "title": "Delay and capacity answer different questions",
+      "body": "Latency measures elapsed time for an operation or path; throughput measures completed useful work per interval; bandwidth describes available transmission capacity. A high-capacity link can still have long propagation delay. Queueing, loss, application work, and protocol overhead reduce useful performance. Specify whether latency is one-way or round-trip and whether throughput counts payload or total transmitted bytes."
+    },
+    {
+      "title": "Worked transfer estimate",
+      "body": "Sending 10 MB over an ideal 100 Mb/s link takes about 0.8 seconds of serialization, before setup, propagation, queueing, and protocol costs. Increasing capacity to 1 Gb/s reduces that component to 0.08 seconds but does not remove a fixed 100 ms round trip. Small request-response workloads can therefore benefit more from fewer sequential round trips than from higher peak bandwidth."
+    }
+  ],
+  "bandwidth-delay-product": [
+    {
+      "title": "The path can hold data in flight",
+      "body": "Bandwidth-delay product estimates the volume needed in flight to keep a path busy at a specified rate and round-trip time. Use bits and seconds consistently, then convert to bytes when comparing windows. This model concerns steady-state transport utilization; it does not include every constraint from slow start, application availability, receiver speed, loss, or host processing."
+    },
+    {
+      "title": "Worked window limit",
+      "body": "At 100 Mb/s and 80 ms RTT, the bandwidth-delay product is 8 million bits, or 1,000,000 bytes. A usable 64 KiB window limits a simplified window/RTT rate to about 6.55 Mb/s, far below link capacity. Larger buffers may help that specific bottleneck, but cannot fix a slow application or loss-heavy path. Measure effective windows and throughput before changing global settings."
+    }
+  ],
+  "where-latency-comes-from": [
+    {
+      "title": "Decompose the critical path",
+      "body": "Propagation reflects travel distance, serialization reflects bytes and link rate, queueing reflects competition, and processing includes hosts and applications. DNS, transport, security, and application dependencies can add sequential round trips. Some stages overlap while others must wait. Adding all average component times without respecting dependencies can misrepresent the user's actual latency."
+    },
+    {
+      "title": "Example: a chatty application",
+      "body": "An operation makes five sequential remote calls, each requiring roughly one 50 ms round trip before useful work. Even with tiny payloads, that structure contributes about 250 ms before processing and queueing. Batching or parallelizing independent calls may help, but changing order can affect consistency. Identify true dependencies before parallelizing and compare tail behavior under load, not just a single idle request."
+    }
+  ],
+  "tcp-optimization": [
+    {
+      "title": "Find the active constraint",
+      "body": "TCP performance can be limited by path capacity, congestion, receiver window, application supply, CPU, or connection setup. Window growth matters for short transfers differently than for long steady-state transfers. Retransmissions may reflect loss, reordering, or measurement artifacts. Optimize the observed limiting mechanism instead of assuming a larger buffer or different congestion algorithm improves every workload."
+    },
+    {
+      "title": "Example: CPU-bound encryption",
+      "body": "A host saturates CPU while the network link remains underused. Increasing socket buffers adds memory without creating encryption or application-processing capacity. Profile the host, compare packet and byte rates, and inspect whether offloads or implementation choices affect the workload. Keep correctness and security guarantees intact; a faster unencrypted test does not justify removing required protection from production traffic."
+    }
+  ],
+  "connection-pooling": [
+    {
+      "title": "Reuse reduces setup but creates shared limits",
+      "body": "Pools amortize connection establishment and security negotiation. They also introduce admission queues, maximum lifetimes, idle eviction, and stale-connection failures. Pool size must match downstream capacity and protocol multiplexing rather than simply client thread count. A connection being technically open does not prove it remains eligible for use after credential changes, deployment, or server-side idle timeout."
+    },
+    {
+      "title": "Example: requests wait before sending",
+      "body": "An API appears network-slow, but most time is spent waiting for a free pooled connection. Trace acquisition time separately from DNS, connection, and response timing. Increasing the pool may help only if the downstream service has spare capacity; otherwise it shifts the queue and can worsen tail latency. Enforce acquisition deadlines so expired work does not begin after the caller has given up."
+    }
+  ],
+  "http-caching-strategies": [
+    {
+      "title": "Choose freshness according to data semantics",
+      "body": "Versioned static assets can often use long freshness lifetimes because a content change creates a new URL. Rapidly changing or personalized data needs different policy. Validation reduces retransferred bytes but not necessarily round trips. Invalidation, cache keys, stale-serving policy, and authorization must be designed together so improving hit rate does not serve the wrong representation or hide critical changes."
+    },
+    {
+      "title": "Example: hashed assets and account data",
+      "body": "A fingerprinted JavaScript bundle can be cached aggressively while an account balance must follow a stricter policy. Applying the bundle's headers to authenticated account responses risks incorrect or exposed data. Measure hit ratio and origin offload separately from freshness correctness. A cache that returns many hits is not successful if the entries are stale beyond the application's allowed window."
+    }
+  ],
+  "cdns-and-edge": [
+    {
+      "title": "Move reusable work closer to clients",
+      "body": "A CDN serves content through distributed points of presence, often combining caching, routing, security, and connection termination. Cache misses still reach an origin or upstream cache. Geographic proximity does not guarantee a hit or eliminate application dependencies. Cache-key design and purge propagation matter, particularly when headers, query parameters, language, or identity select different content."
+    },
+    {
+      "title": "Example: one URL, several representations",
+      "body": "An image endpoint varies output by format and size. If the cache key omits a relevant variation, a client may receive an incompatible representation even though edge latency is excellent. Conversely unnecessary key variation fragments the cache and reduces hit rate. Test both correctness and origin traffic after changes; placing a service behind a CDN does not automatically make every response safely cacheable."
+    }
+  ],
+  "compression": [
+    {
+      "title": "Trade computation for fewer bytes",
+      "body": "Compression can reduce transfer time for compressible content but consumes CPU and may add buffering latency. Already compressed formats often gain little. Algorithm and quality choices affect encoding cost, decoding cost, and size differently. Compression can also create security considerations when secrets and attacker-controlled data interact, so payload selection and protocol context matter."
+    },
+    {
+      "title": "Example: a small JSON response",
+      "body": "Compressing a tiny response may save few bytes while adding processing and headers. A larger repetitive JSON document can benefit substantially on a constrained link. Measure end-to-end latency, CPU, and size across representative payloads instead of choosing maximum compression universally. Streaming responses may require timely flushing; waiting to accumulate a large compression block can delay useful incremental delivery."
+    }
+  ],
+  "finding-bottlenecks": [
+    {
+      "title": "Measure stages and compare hypotheses",
+      "body": "Collect connection acquisition, DNS, transport setup, TLS, request upload, first-byte, and transfer timing where available. Correlate them with server queueing, dependency timing, host utilization, and network evidence. A single slow response is a symptom, not a location. Control workload and connection reuse when comparing experiments so changed conditions do not masquerade as an improvement."
+    },
+    {
+      "title": "Example: fast network, slow dependency",
+      "body": "Client traces show rapid setup and upload followed by a long first-byte wait. Server traces locate most of that interval in a database queue. Increasing network capacity cannot remove the queue. Bound downstream concurrency, investigate service time, and validate the effect on end-to-end percentiles. Keep checking for bottleneck migration after a fix instead of assuming one successful optimization solves every load level."
+    }
+  ],
+  "fallacies-of-distributed-computing": [
+    {
+      "title": "Replace optimistic assumptions with explicit limits",
+      "body": "Networks can fail, have nonzero latency, finite bandwidth, changing topology, multiple administrators, nonzero cost, heterogeneous components, and security threats. These are design constraints rather than reasons to avoid distribution entirely. Each remote boundary needs defined timeouts, failure handling, compatibility, and ownership. Local function-call intuition fails when a caller cannot immediately know whether the remote side completed an action."
+    },
+    {
+      "title": "Example: moving a helper into a service",
+      "body": "A helper previously returned in memory with ordinary exceptions. After becoming remote, calls can arrive late, be duplicated by recovery, or complete while the caller times out. Add an operation contract covering deadlines, idempotency, and observability. Serializing the old function arguments over HTTP is only the transport step; it does not automatically preserve the original failure semantics."
+    }
+  ],
+  "failure-modes-and-partitions": [
+    {
+      "title": "Failure is often partial and ambiguous",
+      "body": "A timeout means an expected result did not arrive within a budget. The request might never have arrived, might still be running, or might have committed with its response lost. A partition can prevent selected participants from communicating while others continue. Detection is based on delayed observations, so a slow service and an unreachable service can initially look similar."
+    },
+    {
+      "title": "Example: payment response lost",
+      "body": "The server commits a payment, then the return path fails. The client cannot safely infer failure and issue a new independent payment. Use a stable operation identifier and a way to retrieve the established outcome. Increasing the timeout changes the observation window but cannot eliminate ambiguity under every failure. Recovery must be designed around the operation's meaning, not only transport exceptions."
+    }
+  ],
+  "retries-and-backoff": [
+    {
+      "title": "Recovery consumes capacity too",
+      "body": "Retries can hide transient failures but amplify overload. Bound attempts by a total deadline and retry budget, use backoff with jitter where appropriate, and retry only operations whose semantics permit it. Several retrying layers can multiply attempts unexpectedly. A downstream overload signal should influence admission rather than causing every caller to immediately repeat the same failed work."
+    },
+    {
+      "title": "Worked amplification",
+      "body": "A client makes up to three attempts and a gateway independently makes up to three downstream attempts per incoming call. One user operation can generate nine downstream attempts. Four similarly configured layers could generate far more. Place retries deliberately, carry deadlines, and record attempt counts. Jitter spreads retry timing but does not reduce the total work unless budgets and admission rules also constrain it."
+    }
+  ],
+  "idempotency": [
+    {
+      "title": "Deduplicate an operation, not just a packet",
+      "body": "An idempotency key identifies one logical operation across retries. The server needs a defined scope, payload-consistency rule, retention period, and concurrent-request behavior. Recording the key separately from the operation without atomic coordination can still permit duplicates or lost results. Transport sequence numbers do not provide this application-level guarantee across new requests and connections."
+    },
+    {
+      "title": "Example: two simultaneous creates",
+      "body": "Two requests with the same key arrive together. A safe design prevents both from independently performing the side effect and returns the established outcome according to policy. If the same key is reused with a different payload, reject or otherwise handle the conflict explicitly. Expiration matters: retrying after the deduplication record has disappeared may no longer have the same protection."
+    }
+  ],
+  "circuit-breakers": [
+    {
+      "title": "Stop repeatedly calling a failing dependency",
+      "body": "A circuit breaker observes failures and can temporarily reject calls while a dependency appears unhealthy. A half-open phase permits limited probes before broader traffic resumes. This is distinct from a timeout, retry policy, and bulkhead limit, though they interact. Incorrect thresholds or shared state can block healthy traffic or reopen into another overload burst."
+    },
+    {
+      "title": "Example: recovery under a flood",
+      "body": "A dependency returns after an outage, but thousands of waiting callers immediately retry. A breaker with controlled probes and bounded admission can make recovery less abrupt. Decide whether rejection has a safe fallback and expose breaker state in telemetry. Returning cached data may be acceptable for a catalog but inappropriate for an operation requiring current authoritative account state."
+    }
+  ],
+  "load-balancing-l4-l7": [
+    {
+      "title": "Different layers expose different routing choices",
+      "body": "Layer-4 balancing makes decisions using transport-related information, while layer-7 balancing can inspect application metadata such as HTTP hostnames and paths when it terminates or otherwise understands the protocol. Connection persistence, multiplexing, affinity, and health policy influence distribution. Equal connection counts do not guarantee equal work when some connections carry far more requests than others."
+    },
+    {
+      "title": "Example: a few heavy multiplexed connections",
+      "body": "An L4 balancer assigns long-lived connections evenly, but one carries thousands of expensive streams while another is nearly idle. Backend load becomes uneven despite equal connection counts. Application-aware balancing may offer different choices, with added termination and operational responsibilities. Measure request cost, active work, and connection lifetime before blaming randomness or adding servers without changing the distribution problem."
+    }
+  ],
+  "health-checks-and-discovery": [
+    {
+      "title": "Reachability, readiness, and usefulness differ",
+      "body": "A process can be alive but unable to serve requests; a port can accept connections while every backend call fails. Health checks should reflect the intended routing decision without causing cascading removals under transient dependency failures. Service discovery publishes endpoints, but clients may cache them. Membership changes and health decisions therefore need bounded propagation and safe handling of stale endpoints."
+    },
+    {
+      "title": "Example: a new instance warms up",
+      "body": "A process starts listening before loading required data. Marking it ready immediately routes requests into predictable failures. Gate readiness on the minimum required serving state while keeping liveness focused on recoverable process health. During deployment, account for discovery caches and active connections; removing an endpoint from one registry does not instantly stop all clients from using it."
+    }
+  ],
+  "graceful-shutdown": [
+    {
+      "title": "Stop admission before destroying active work",
+      "body": "Graceful shutdown separates refusing new work, draining existing operations, notifying peers where the protocol allows, and closing after a bounded deadline. Listener closure, discovery removal, and active-connection handling are different steps. A process should not wait forever for a client that never finishes, but forced termination can leave ambiguous outcomes that retry logic must still handle."
+    },
+    {
+      "title": "Example: deploying behind a load balancer",
+      "body": "Mark an instance unavailable for new routing, allow propagation, stop accepting new requests appropriately, and finish bounded in-flight work. Multiplexed protocols may need explicit shutdown signaling rather than closing every connection immediately. Preserve a maximum drain period and observe unfinished requests. A successful deployment script does not prove every old request completed without interruption."
+    }
+  ],
+  "backpressure-and-rate-limiting": [
+    {
+      "title": "Control outstanding work and arrival rate",
+      "body": "Backpressure reacts to downstream capacity; rate limiting constrains admission over time. Concurrency limits cap simultaneous operations, while token buckets permit controlled bursts under a long-run rate. Queues must be bounded and have meaningful expiration. Applying one limit at a single layer does not protect every resource, especially when one admitted request triggers substantial fan-out."
+    },
+    {
+      "title": "Worked queue example",
+      "body": "Arrivals at 150 requests per second and service at 100 create 50 queued requests per second in a constant-rate model. A 500-request buffer fills in ten seconds. Doubling it postpones rejection but increases possible waiting without changing sustainable capacity. Reject, slow producers, or increase effective service according to semantics, and monitor oldest-request age rather than relying solely on queue length."
+    }
+  ],
+  "tls-deep-dive": [
+    {
+      "title": "Channel protection has defined boundaries",
+      "body": "TLS protects application traffic between its endpoints, with peer authentication according to configuration. Symmetric traffic keys protect records after establishment, and handshake integrity binds the negotiated session. Terminating TLS at a proxy creates a new trust boundary; a separate backend connection needs its own required protection. Encryption does not fix authorization mistakes or unsafe behavior after decryption."
+    },
+    {
+      "title": "Example: two encrypted segments",
+      "body": "A browser connects securely to an edge proxy, which connects securely to an origin. The proxy can access plaintext because it is an endpoint of both sessions. This may be intentional, but it is not one end-to-end opaque channel from browser to origin. Document who can decrypt, how peers are authenticated, and where logs or traces may expose decrypted application data."
+    }
+  ],
+  "certificate-validation": [
+    {
+      "title": "Verify identity as well as cryptography",
+      "body": "Certificate validation checks an acceptable trust path, intended service identity, validity period, and relevant constraints and policy. Clock errors, missing intermediates, wrong hostnames, or inconsistent deployment can cause failures. A certificate accepted for one hostname is not necessarily acceptable for another. Disabling verification changes the security property rather than fixing the original deployment problem."
+    },
+    {
+      "title": "Example: only some clients fail",
+      "body": "One client has a cached intermediate or a different trust store while another does not. A server can also present different certificates based on name indication or load-balanced instance. Compare the actual handshake and served chain, not just a certificate file on one machine. Reproduce using the intended hostname and a clean trust context before concluding the network path is broken."
+    }
+  ],
+  "mitm-replay-downgrade": [
+    {
+      "title": "Different attacks exploit different assumptions",
+      "body": "A man-in-the-middle attack interferes between peers; replay repeats previously valid material; downgrade attempts push peers toward weaker behavior. Authenticated encryption and negotiation protections address parts of this problem, while application freshness and authorization address others. A valid encrypted message can still be inappropriate to execute twice if the application does not bind it to a unique, current operation."
+    },
+    {
+      "title": "Example: replay-sensitive early actions",
+      "body": "An application receives an operation through a mode where replay risk must be considered. Restrict early actions to suitable semantics or enforce explicit anti-replay and operation identity controls. Do not assume encryption alone provides freshness for every application command. Also avoid silent fallback to weaker verification after errors; attackers may deliberately trigger the error path that changes the policy."
+    }
+  ],
+  "ddos": [
+    {
+      "title": "Exhaustion can target different resources",
+      "body": "SYN floods stress connection-establishment handling; amplification abuses services that send large replies to spoofed requests; slow-client attacks retain application resources with little traffic. Defenses must match the constrained resource, including upstream capacity, connection state, parsing work, and worker occupancy. Host-only limits cannot restore a saturated access link before traffic reaches the host."
+    },
+    {
+      "title": "Example: low bandwidth, high impact",
+      "body": "A small number of clients slowly send incomplete requests and occupy all workers. Traffic volume stays modest while legitimate users cannot progress. Progress deadlines, bounded headers and bodies, admission controls, and suitable connection handling address this path. A bandwidth threshold alone misses it. Validate mitigations against legitimate slow clients so availability protection does not indiscriminately reject normal usage."
+    }
+  ],
+  "dns-spoofing": [
+    {
+      "title": "False naming data redirects later trust decisions",
+      "body": "DNS spoofing and cache poisoning try to make clients or resolvers accept incorrect naming information. Query matching, resolver hardening, and DNSSEC validation address different parts of answer integrity. Encrypted DNS protects a transport segment but is not the same as signed-data validation. HTTPS identity checks provide another boundary even when an attacker influences a resolved address."
+    },
+    {
+      "title": "Example: an answer points to the wrong server",
+      "body": "A client receives an attacker-selected address for a legitimate hostname. If TLS identity validation remains correct, the attacker still needs an acceptable identity for that hostname to impersonate the HTTPS service. If verification is disabled, that additional protection disappears. Layer defenses deliberately, and investigate authoritative changes, resolver caches, and local overrides before assuming every unexpected answer is poisoning."
+    }
+  ],
+  "firewalls-and-ids": [
+    {
+      "title": "Enforcement and detection have different jobs",
+      "body": "A firewall permits or rejects traffic according to policy, often with connection-state tracking. Intrusion detection observes suspicious behavior; prevention systems can actively block selected patterns. Neither automatically understands every encrypted application action. Rules need an explicit trust model, correct placement, logging, and testing. A successful packet match does not establish application authorization or prove benign intent."
+    },
+    {
+      "title": "Example: a permitted port carries unwanted actions",
+      "body": "Allowing HTTPS to a service admits encrypted transport on the selected path, not every possible operation safely. The application must still authenticate users and authorize requests. Conversely an IDS alert is evidence requiring interpretation, not proof of compromise. Test allowed and denied paths in both directions and account for NAT and proxy boundaries that change the addresses visible to each control."
+    }
+  ],
+  "vpn-protocols": [
+    {
+      "title": "The tunnel is one part of a trust design",
+      "body": "IPsec, WireGuard, and OpenVPN provide different mechanisms and operational models for protected tunnels. Key distribution, peer identity, routing, endpoint policy, and renewal matter as much as encryption choice. Tunnel overhead changes effective packet size, and full-tunnel versus split-tunnel routing changes which traffic traverses the VPN. Being connected does not imply unrestricted authorization to every internal service."
+    },
+    {
+      "title": "Example: small traffic works, large traffic stalls",
+      "body": "A VPN establishes successfully and small requests succeed, but large transfers fail because encapsulation reduces usable MTU and required size feedback is unavailable. Investigate packet size and path handling rather than replacing credentials repeatedly. Also verify DNS and routes supplied to clients. A working encrypted tunnel can coexist with an incorrect internal route or application access denial."
+    }
+  ],
+  "zero-trust": [
+    {
+      "title": "Do not equate network location with authority",
+      "body": "Zero-trust designs evaluate access using identity, device or workload context, and resource-specific policy rather than granting broad trust solely from being on an internal network. It is an architectural approach, not one product or the absence of firewalls. Authentication, least privilege, segmentation, credential lifecycle, and monitoring need consistent enforcement across user and service interactions."
+    },
+    {
+      "title": "Example: a compromised internal workload",
+      "body": "A workload with valid network reachability should still be unable to call unrelated administrative APIs without the required identity and permission. Short-lived credentials and narrow authorization reduce the usefulness of stolen access, but require reliable issuance and revocation behavior. Test denied operations as well as successful ones; adding an identity proxy without removing bypass paths leaves the original trust gap intact."
+    }
+  ]
+}

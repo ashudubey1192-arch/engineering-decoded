@@ -1,0 +1,21 @@
+.networkConceptLab { margin: 28px 0; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.networkRange { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 18px 0; }
+.networkRange input { flex: 1; min-width: 150px; accent-color: var(--lab-accent, #38bdf8); }
+.networkConceptLab button { padding: 9px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+.networkConceptLab button:focus-visible, .networkConceptLab input:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; }
+.networkBits { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; margin: 20px 0; }
+.networkBits > span { text-align: center; border: 1px solid var(--line); border-radius: 7px; padding: 12px 2px; font: 700 20px ui-monospace, monospace; }
+.networkBits small { display: block; margin-top: 8px; font-size: 10px; }
+.networkBit { color: #38bdf8; background: color-mix(in srgb, #38bdf8 12%, var(--surface)); }
+.hostBit { color: #22c55e; background: color-mix(in srgb, #22c55e 12%, var(--surface)); }
+.networkMetrics { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0; }
+.networkMetrics > div { flex: 1; min-width: 160px; padding: 15px; border: 1px solid var(--line); border-radius: 8px; }
+.networkMetrics dt { font-size: .8rem; color: var(--muted); }
+.networkMetrics dd { margin: 8px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.networkCapacityTrack { height: 24px; border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+.networkCapacityTrack span { display: block; height: 100%; background: #38bdf8; transition: width .2s ease; }
+.networkWindowRows > div { display: grid; grid-template-columns: 90px minmax(50px, 1fr) 65px; gap: 10px; align-items: center; margin: 12px 0; font-size: .85rem; }
+.networkWindowRows meter { width: 100%; }
+.networkControls { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .networkCapacityTrack span { transition: none; } }
+@media (max-width: 500px) { .networkConceptLab { padding: 14px; } }

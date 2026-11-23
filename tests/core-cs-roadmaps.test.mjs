@@ -5,6 +5,26 @@ import { interviewLessons, makeInterviewCourse } from "../src/data/interviewCour
 import { osRoadmapContent } from "../src/data/osRoadmapContent.js";
 import { networkRoadmapContent } from "../src/data/networkRoadmapContent.js";
 import osDepth from "../src/data/coreCsDepth/operating-systems.json" with { type: "json" };
+import networkDepth from "../src/data/coreCsDepth/computer-networks.json" with { type: "json" };
+
+test("all 97 technical networking chapters expose their expansions and retain examples", () => {
+  const lessons = coreCsRoadmapSections["core-cs/computer-networks"].flatMap(section => section.lessons);
+  assert.deepEqual(Object.keys(networkDepth).sort(), Object.keys(networkRoadmapContent).sort());
+  assert.equal(Object.keys(networkDepth).length, 97);
+  const bodies = Object.values(networkDepth).flat().map(item => item.body);
+  assert.equal(new Set(bodies).size, bodies.length, "Do not repeat generic paragraphs across topics");
+  for (const [id, explanations] of Object.entries(networkDepth)) {
+    const lesson = lessons.find(item => item.roadmap.id === id);
+    assert.ok(lesson, `Unreachable expansion: ${id}`);
+    assert.equal(lesson.roadmap.course, "computer-networks");
+    assert.deepEqual(lesson.lab.explanations, explanations);
+    assert.equal(lesson.lab.concept, networkRoadmapContent[id].concept);
+    assert.equal(lesson.lab.states.length, 3);
+    assert.equal(new Set(explanations.map(item => item.title)).size, explanations.length);
+    assert.ok(explanations.length >= 2);
+    assert.ok(explanations.every(item => item.title && item.body.split(/\s+/).length >= 40), id);
+  }
+});
 
 test("all technical OS chapters have distinct expanded explanations and retain their walkthroughs", () => {
   const lessons = coreCsRoadmapSections["core-cs/operating-systems"].flatMap(section => section.lessons);
