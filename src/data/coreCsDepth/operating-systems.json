@@ -148,5 +148,1205 @@
       "title": "A portability exercise",
       "body": "Write down what a server assumes about path syntax, case sensitivity, signal delivery, thread cancellation, and socket closure. Then identify which assumptions belong to a language runtime and which require native APIs. Test shutdown while requests are active: a program that works on the happy path can still leak handles or lose output when its platform's termination behavior differs."
     }
+  ],
+  "program-vs-process": [
+    {
+      "title": "Code is a recipe; a process is an execution",
+      "body": "An executable file contains instructions and static metadata. A process combines those instructions with a current instruction pointer, registers, address mappings, credentials, and references to open resources. Starting the same executable twice creates two executions with independent lifetimes. Their read-only code pages can still share physical storage without making their mutable application variables shared."
+    },
+    {
+      "title": "Example: two copies of a counter",
+      "body": "Launch two programs whose variable starts at zero. Incrementing the first program's variable does not increment the second, even when a debugger displays the same virtual address in both. Each address is interpreted in its own address space. Explicit shared memory or another IPC mechanism is necessary to coordinate their counters; identical program text is not a communication channel."
+    }
+  ],
+  "the-process-control-block": [
+    {
+      "title": "The kernel's execution record",
+      "body": "The textbook process control block groups the information needed to manage execution: identity, state, saved registers, scheduling metadata, accounting, and references to memory and files. Real kernels distribute these responsibilities among linked structures. A task record should therefore be understood as an entry point into an object graph, not as a copy of every byte the process owns."
+    },
+    {
+      "title": "Example: suspending and resuming a worker",
+      "body": "A worker blocks while reading a socket. The kernel records where execution can resume and attaches the task to an appropriate wait mechanism. Its memory mappings and open socket remain alive. When data arrives, the task becomes runnable; only after a scheduler selects it do the saved context and kernel continuation actually resume. Waking and running are separate events."
+    }
+  ],
+  "process-states": [
+    {
+      "title": "Runnable, running, and blocked",
+      "body": "Running means a CPU is executing the task now. Runnable means the task could execute but is waiting for CPU service. Blocked means an event, such as data availability or a lock release, must occur first. A timer may move a running task back to the runnable queue; an I/O completion moves a blocked task to runnable, not directly onto a CPU."
+    },
+    {
+      "title": "Example: latency with an idle CPU",
+      "body": "A request spends 2 ms computing, 40 ms waiting for storage, and 3 ms runnable behind other work. Its elapsed time is 45 ms even though it uses only 2 ms of CPU. More cores might reduce the 3 ms queue delay but cannot remove the 40 ms device wait. Diagnose state durations before selecting a performance fix."
+    }
+  ],
+  "fork-exec-wait-exit": [
+    {
+      "title": "Separate creation, replacement, and collection",
+      "body": "fork creates a child execution; exec replaces a program image; wait collects a child's termination status; exit ends execution. Treating these as one operation hides important failure paths. The child must handle a failed exec, and the parent must eventually collect children it is responsible for. A shell also arranges descriptor redirection before starting the requested program."
+    },
+    {
+      "title": "Example: why output can appear twice",
+      "body": "Buffered output created before a fork can exist in both processes' user-space buffers afterward. If each process later flushes that buffer, the same text can be emitted twice even though the original print statement ran once. Flush deliberately before creation when appropriate, and use the correct child failure path after exec fails. Also close unused pipe ends so readers can observe end-of-file."
+    }
+  ],
+  "clone-and-what-fork-shares": [
+    {
+      "title": "Sharing is a set of choices",
+      "body": "Linux task creation can select which resources are shared, such as address space, descriptor table, and signal-handler configuration. Thread creation uses a coordinated combination of these choices rather than merely changing a task's name. Sharing an address space lets tasks see the same allocations, but each running thread still needs its own execution context and stack discipline."
+    },
+    {
+      "title": "Example: descriptor table versus open object",
+      "body": "Two tasks can have separate descriptor tables whose entries reference the same open file description, or they can share the descriptor table itself. In the first case closing one entry does not remove the other's entry, although file offsets may be shared. In the second, table mutations are visible to both. Always identify which layer is shared before predicting behavior."
+    }
+  ],
+  "zombies-and-orphans": [
+    {
+      "title": "Termination does not finish the parent's bookkeeping",
+      "body": "A zombie has stopped executing and released ordinary execution resources, but retains enough information for its parent to collect an exit status. It is not consuming CPU in an endless loop. An orphan is a child whose parent has exited; it may still be running. Adoption and reaping behavior depends on the process hierarchy, including subreapers and PID namespaces."
+    },
+    {
+      "title": "Example: a supervisor that never waits",
+      "body": "A supervisor launches a short-lived child every second but never collects results. Child execution ends normally while retained termination records accumulate. Killing an already terminated child cannot solve this leak. The supervisor must reap children and handle bursts of exits correctly, rather than assuming one signal corresponds to exactly one terminated child. Design shutdown and error paths to reap as well."
+    }
+  ],
+  "context-switching": [
+    {
+      "title": "Direct work and indirect disruption",
+      "body": "A switch preserves one execution context and restores another. Depending on the tasks and architecture, it may also change memory-translation context and other CPU state. Direct register bookkeeping is only part of the cost. The incoming task may need instructions and data that displaced the previous task's useful cache working set."
+    },
+    {
+      "title": "Example: more workers can reduce throughput",
+      "body": "Suppose eight CPU-heavy workers compete on two available CPUs. Adding another hundred workers does not create CPU capacity. It can increase runnable waiting, scheduler work, and cache churn. Measure completions, runnable delay, and switches together. A high switch count can also reflect productive I/O concurrency, so the counter alone does not prove a problem or justify reducing concurrency."
+    }
+  ],
+  "signals": [
+    {
+      "title": "Notification with restricted execution context",
+      "body": "A signal can request termination, report a fault, or notify a process of an event. Disposition determines whether the default action, a handler, or ignoring applies; masks control delivery to threads. Handlers interrupt normal control flow, so calling arbitrary library functions from them can deadlock or corrupt state. Use the platform's async-signal-safe operations or defer work to normal execution."
+    },
+    {
+      "title": "Example: graceful shutdown",
+      "body": "On a termination request, record a shutdown flag or notify the main event loop through a suitable mechanism. Stop accepting new work, finish bounded in-flight operations, and close resources in ordinary code. Do not perform complex logging, allocation, and mutex-heavy cleanup inside the handler. Standard signals may coalesce, so use durable state rather than treating deliveries as a reliable event count."
+    }
+  ],
+  "process-groups-sessions-and-jobs": [
+    {
+      "title": "Organizing a terminal workload",
+      "body": "A process group collects related processes, often the members of a shell pipeline. A session groups process groups and may own a controlling terminal. The foreground process group receives terminal-generated signals. These relationships are independent of whether a process is currently scheduled, and they are more expressive than assuming every child should receive every signal sent to its parent."
+    },
+    {
+      "title": "Example: stopping a pipeline",
+      "body": "For a command pipeline, the shell arranges the participating commands into a job. Pressing the terminal interrupt key targets the foreground group, allowing all pipeline members to react. A background job is a different group, not a lower-priority CPU class. A robust shell tracks group state and waits for all relevant children before declaring a job fully completed."
+    }
+  ],
+  "why-scheduling-exists": [
+    {
+      "title": "CPU service is a shared resource",
+      "body": "Runnable tasks compete for a finite number of execution slots. Scheduling selects who runs, for how long, and on which CPU. The objective depends on workload: interactive responsiveness, batch throughput, fairness, or deadline compliance. A policy that maximizes total work can still produce unacceptable pauses for a user-facing task, so there is no universal best ordering."
+    },
+    {
+      "title": "Example: overlap computation with waiting",
+      "body": "Task A computes for 3 ms and blocks for 20 ms; task B has 10 ms of independent CPU work. Scheduling B while A waits uses time that would otherwise be idle. When A becomes ready, preemption policy determines its response delay. This overlap improves utilization on one CPU without allowing the two instruction streams to execute simultaneously."
+    }
+  ],
+  "scheduling-metrics": [
+    {
+      "title": "Measure the right interval",
+      "body": "Turnaround is completion time minus arrival time. Response time is first execution time minus arrival time. Waiting time measures runnable time without CPU service; blocked time is separate. Throughput counts completions per interval, while utilization measures occupied capacity. Means hide outliers, so include latency distributions and distinguish a process-level CPU metric from the user's end-to-end request latency."
+    },
+    {
+      "title": "Worked calculation",
+      "body": "A CPU-only job arrives at time 2, first runs at 5, uses 4 time units, and finishes at 11 after preemption. Its turnaround is 9, response is 3, and total runnable waiting is 5. If it instead includes 2 units blocked on I/O, waiting becomes 3. Subtracting only CPU time from turnaround is valid only when other states are accounted for."
+    }
+  ],
+  "fcfs-sjf-and-srtf": [
+    {
+      "title": "Ordering and preemption",
+      "body": "First-come, first-served runs jobs in arrival order without preemption. Shortest-job-first chooses the smallest available CPU burst but needs a prediction of that duration. Shortest-remaining-time-first can preempt when a newly available job has less work remaining. Short-job policies can reduce average waiting while making a long job wait repeatedly under a stream of short arrivals."
+    },
+    {
+      "title": "Worked schedule",
+      "body": "Let A and B arrive at time 0 with bursts of 8 and 2, and C arrive at time 1 with burst 1. FCFS with A first completes A at 8, B at 10, and C at 11. Nonpreemptive SJF starts B, then C, then A, completing at 2, 3, and 11. Record the arrival assumptions and tie-break rule; otherwise two apparently conflicting schedules may both be valid."
+    }
+  ],
+  "round-robin": [
+    {
+      "title": "The quantum controls a trade-off",
+      "body": "Round robin rotates runnable tasks after a bounded quantum. A short quantum improves opportunities to respond but creates more switch overhead. A very long quantum approaches first-come behavior for short bursts. Blocking tasks normally leave the runnable rotation until their event completes. Fair turns are not necessarily equal useful work when tasks have different cache behavior or CPU requirements."
+    },
+    {
+      "title": "Worked schedule",
+      "body": "With all jobs arriving at zero, bursts A=5, B=3, C=1 and quantum 2 produce A:0–2, B:2–4, C:4–5, A:5–7, B:7–8, A:8–9, ignoring switch cost. Completion times are 9, 8, and 5. Change the quantum to 1 and recompute response and completion times. Then insert a fixed switch cost to see why smaller slices are not free."
+    }
+  ],
+  "priority-scheduling-and-aging": [
+    {
+      "title": "Urgency and starvation",
+      "body": "A priority scheduler favors higher-ranked runnable tasks. Static priorities are easy to reason about but can indefinitely delay low-priority work if higher-priority demand never stops. Aging increases waiting tasks' effective priority over time, providing a path toward service. The implementation must define whether aging resets after execution and how equal-priority tasks share CPU time."
+    },
+    {
+      "title": "Example: maintenance behind requests",
+      "body": "A server gives interactive requests priority over cleanup. During sustained traffic the cleanup never runs, so temporary files accumulate until requests fail too. Aging or a reserved service budget can keep background work progressing. Do not confuse this starvation problem with priority inversion: inversion involves a high-priority task waiting for a resource held by lower-priority work."
+    }
+  ],
+  "multilevel-queues-and-mlfq": [
+    {
+      "title": "Fixed classification versus feedback",
+      "body": "Multilevel queues divide work into classes with different scheduling rules. A feedback queue additionally moves tasks according to observed behavior. Tasks using a full quantum may move to a lower queue, while short interactive bursts can remain responsive. Periodic priority boosts help prevent starvation. Actual rules must account for total CPU use so tasks cannot game classification by yielding just before expiration."
+    },
+    {
+      "title": "Example: interactive and CPU-heavy jobs",
+      "body": "A text editor frequently waits for input, whereas a compiler consumes long CPU bursts. A feedback policy can give the editor quick service without making the compiler permanently ineligible. Track cumulative service across voluntary yields: otherwise a compute task can pretend to be interactive. Compare queue transitions over several bursts, not just the first scheduling decision."
+    }
+  ],
+  "multiprocessor-scheduling": [
+    {
+      "title": "Placement affects locality",
+      "body": "Multiple CPUs introduce a placement decision in addition to ordering. Per-CPU queues reduce shared-queue contention, but balancing may move tasks between CPUs. Migration can lose cache warmth and change memory locality. Affinity narrows eligible CPUs; it does not guarantee exclusive access. Simultaneous multithreading also means two logical CPUs can share important physical-core resources."
+    },
+    {
+      "title": "Example: an uneven machine",
+      "body": "Four workers are pinned to one CPU while three others are idle. Aggregate utilization looks low even though the workers experience a saturated run queue. Relaxing affinity may help, but moving a memory-heavy task far from its NUMA-local pages can add access latency. Inspect allowed CPUs, per-CPU demand, and memory placement before treating balancing as a purely numerical problem."
+    }
+  ],
+  "real-time-scheduling": [
+    {
+      "title": "A deadline is a correctness constraint",
+      "body": "Real-time scheduling reasons about completing work before deadlines, not merely running quickly on average. Hard deadlines cannot tolerate misses; soft deadlines permit degraded value. Fixed-priority and earliest-deadline policies require assumptions about execution cost, periods, blocking, and preemption. Admission control prevents accepting a workload whose required service exceeds available capacity under the model."
+    },
+    {
+      "title": "Worked utilization check",
+      "body": "For independent periodic tasks with execution/period pairs 1/5 and 2/10, utilization is 0.2+0.2=0.4. That leaves capacity in a simplified single-CPU model, but does not prove every real system will meet deadlines: interrupts, locks, nonpreemptible work, and underestimated execution cost matter. State assumptions before applying a utilization bound, and measure worst-case behavior rather than substituting average runtime."
+    }
+  ],
+  "linux-scheduling-classes": [
+    {
+      "title": "Policy names express different contracts",
+      "body": "Linux distinguishes ordinary fair scheduling from real-time policies such as FIFO and round robin and from deadline scheduling. A real-time task can outrank ordinary work even when ordinary tasks have waited a long time. Nice values adjust relative weighting within the appropriate ordinary policy; they do not turn a process into a deadline-guaranteed task."
+    },
+    {
+      "title": "Example: a busy high-priority thread",
+      "body": "A high-priority FIFO thread that never blocks can prevent lower-priority work from progressing on an eligible CPU, subject to configured controls. That includes the work needed to service the application itself. Test scheduling changes in a bounded environment and verify runtime limits. Kernel configuration, available policies, privilege checks, and container limits influence what is actually permitted."
+    }
+  ],
+  "fair-scheduling-cfs-to-eevdf": [
+    {
+      "title": "Virtual service and eligibility",
+      "body": "Fair scheduling tracks service relative to a task's weight rather than assigning every task identical elapsed slices. CFS organized decisions around virtual runtime. EEVDF adds eligibility based on whether a task is owed service and selects an eligible task with an early virtual deadline. The distinction allows responsiveness to be considered while retaining a model of fair long-term allocation."
+    },
+    {
+      "title": "Reason through a weighted example",
+      "body": "If two continuously runnable tasks have weights in a 2:1 ratio on one CPU, their long-run service target is roughly two thirds and one third, not equal halves. A newly waking task also needs a fair treatment of prior service. A short slice can improve responsiveness without granting unlimited extra CPU. Verify the running kernel's implementation before assuming a textbook CFS trace describes current behavior."
+    }
+  ],
+  "what-a-thread-is-to-the-kernel": [
+    {
+      "title": "Execution identity and shared ownership",
+      "body": "A kernel-scheduled thread has registers, a stack, scheduling state, and a thread identity. Threads in one process usually share the address space and many resource references. This sharing is why one thread can pass an allocation to another, but it is also why an invalid write can damage the entire application. Scheduling independence does not imply memory isolation."
+    },
+    {
+      "title": "Example: a blocked worker",
+      "body": "When one thread waits for a socket, another kernel thread in the same process may execute. They can simultaneously access shared heap objects on separate CPUs. A stack variable is not automatically inaccessible to other threads if its address escapes; its lifetime and synchronization still matter. Distinguish the convention of private stack ownership from hardware-enforced address-space protection."
+    }
+  ],
+  "processes-vs-threads": [
+    {
+      "title": "Isolation changes the failure boundary",
+      "body": "Processes provide separate address spaces by default, which makes accidental cross-process memory corruption harder. Threads make sharing cheap but put correctness responsibility on synchronization and ownership rules. IPC between processes introduces serialization, copying, or shared-memory coordination. Compare recovery needs and data-sharing patterns rather than choosing solely from the slogan that threads are lighter."
+    },
+    {
+      "title": "Example: plugin execution",
+      "body": "An untrusted or unstable plugin inside a thread can corrupt the host heap or terminate the process. Running it in a separate process creates a stronger crash boundary and permits restart, but the protocol must handle partial messages, deadlines, and plugin failure. Shared memory can improve throughput while reintroducing some shared-state complexity; it does not erase the process boundary's other benefits."
+    }
+  ],
+  "user-and-kernel-threads": [
+    {
+      "title": "Who makes the scheduling decision?",
+      "body": "A runtime can schedule many logical tasks onto fewer kernel threads. The kernel sees runnable carrier threads, while the runtime sees its own task queues. This reduces per-task overhead but makes blocking behavior important: a blocking call can occupy a carrier unless the runtime parks, replaces, or otherwise compensates for it. Mapping models vary by runtime and operation."
+    },
+    {
+      "title": "Example: one carrier, many tasks",
+      "body": "A cooperative runtime has one kernel thread and a thousand logical tasks. If one task performs long CPU work without yielding, the other tasks cannot progress even when the OS would happily schedule another kernel thread. Async I/O helps with waiting, not CPU computation. Offload bounded CPU work or provide more carriers according to the runtime's model."
+    }
+  ],
+  "thread-creation-and-teardown": [
+    {
+      "title": "Creation is only the start of a lifecycle",
+      "body": "A new thread needs a stack, runtime bookkeeping, and a start routine with valid arguments. The parent must not free or reuse those arguments before the child finishes reading them. Joinable threads require joining to collect completion and release relevant resources; detached threads need another reliable ownership strategy. Cancellation must not abandon locked resources or half-updated invariants."
+    },
+    {
+      "title": "Example: a loop-variable bug",
+      "body": "A loop starts workers and gives each the address of the same changing loop variable. Workers can observe later values rather than their intended index. Give each worker stable per-worker input and keep it alive until the worker no longer needs it. During shutdown, stop new submissions, signal existing workers, and join them before destroying their shared queue or synchronization objects."
+    }
+  ],
+  "what-a-context-switch-costs": [
+    {
+      "title": "Costs depend on what changes",
+      "body": "Switching between threads sharing an address space may avoid some address-space changes, but still requires execution-state bookkeeping and scheduler work. Cache, translation, and branch-prediction effects can dominate the direct path. A task with a large working set may recover slowly after displacement. There is no single nanosecond constant that accurately describes every switch on every machine."
+    },
+    {
+      "title": "Example: interpreting a benchmark",
+      "body": "A ping-pong test between two threads includes synchronization, wake-up, scheduling, and communication costs, not just saving registers. Place threads on the same CPU and on different CPUs to expose different paths, but record affinity and workload. Use the result to compare a specific design under stated conditions; do not present it as the universal hardware cost of a context switch."
+    }
+  ],
+  "thread-pools-and-sizing": [
+    {
+      "title": "Bound work, not only workers",
+      "body": "A pool amortizes thread creation and limits simultaneously executing tasks. A queue separates admission from execution; if it is unbounded, the pool can still consume unlimited memory and build extreme latency. Choose queue limits, rejection behavior, timeouts, and shutdown rules alongside worker count. Separate workloads that can block each other, such as CPU jobs and slow external calls."
+    },
+    {
+      "title": "Worked sizing estimate",
+      "body": "With four usable CPUs, a task using 5 ms CPU and waiting 15 ms has a rough saturation estimate of 4×(1+15/5)=16 workers, assuming independent waits and no other bottleneck. This is a starting hypothesis, not a guarantee. A database allowing only six concurrent queries or a strict memory limit may require fewer. Measure throughput and tail latency as concurrency changes."
+    }
+  ],
+  "runtime-threading-models": [
+    {
+      "title": "Language tasks do not all mean OS threads",
+      "body": "A language may expose native threads, virtual threads, coroutines, or async tasks. These abstractions differ in scheduling, suspension, cancellation, and interaction with blocking native calls. Runtime garbage collection and safepoints can also affect progress. Understand the particular runtime version and APIs instead of inferring kernel behavior from an object named Thread or Task."
+    },
+    {
+      "title": "Example: asynchronous versus parallel",
+      "body": "An async web handler can suspend while waiting for a response without occupying a dedicated thread for the entire wait. That does not make a CPU-heavy loop parallel or preemptible by other logical tasks on the same event loop. Use a bounded executor for expensive computation where appropriate, and propagate cancellation and deadlines so abandoned requests do not keep consuming capacity."
+    }
+  ],
+  "race-conditions-and-atomicity": [
+    {
+      "title": "An operation can contain several visible steps",
+      "body": "Incrementing a shared counter conceptually reads, computes, and writes. Two threads can both read 10, both compute 11, and both write 11, losing one increment. Atomic read-modify-write operations make that particular update indivisible, but do not automatically protect a multi-variable invariant. In languages such as C and C++, unsynchronized data races can invalidate ordinary reasoning through undefined behavior."
+    },
+    {
+      "title": "Example: transferring a balance",
+      "body": "Moving 10 units from account A to B must preserve the sum and avoid overdraft. Making each balance atomic does not make the combined check-and-transfer atomic. Use a lock covering the invariant, a correct transaction, or a carefully designed compare-and-swap protocol. Specify a consistent lock order when multiple accounts are involved, and test interleavings around validation as well as updates."
+    }
+  ],
+  "memory-ordering-and-false-sharing": [
+    {
+      "title": "Visibility, ordering, and cache ownership",
+      "body": "An atomic flag can coordinate publication only when its ordering establishes the required relationship with the published data. Release/acquire synchronization is one common pattern; a relaxed atomic alone does not publish unrelated writes. False sharing is different: independent variables occupy the same cache line and cause coherence traffic even though the program has no logical data dependency between them."
+    },
+    {
+      "title": "Example: two per-thread counters",
+      "body": "Two workers repeatedly update separate counters stored next to each other. If both lie in one cache line, ownership can bounce between cores on each write. Padding or separating hot data may improve throughput, at the cost of memory and cache capacity. First verify the access pattern and actual contention; padding every object can make locality worse rather than better."
+    }
+  ],
+  "mutexes-semaphores-and-condition-variables": [
+    {
+      "title": "Different primitives protect different facts",
+      "body": "A mutex gives one owner exclusive access to an invariant. A semaphore counts available permits and can allow several participants. A condition variable allows waiting for a predicate protected by a mutex; it is not a queue of durable notifications. Waiting releases the mutex atomically with entering the wait protocol and reacquires it before the caller checks shared state again."
+    },
+    {
+      "title": "Example: a bounded queue",
+      "body": "The consumer locks the queue and waits in a loop while it is empty. The producer inserts an item under the same lock and signals availability. The consumer rechecks because another consumer may win the item or the wake-up may be spurious. A signal sent before a waiter exists is harmless only if the actual predicate, such as a nonempty queue, remains recorded in shared state."
+    }
+  ],
+  "how-blocking-works": [
+    {
+      "title": "The lost-wake-up problem",
+      "body": "A naive waiter checks that no work exists, then goes to sleep. If a producer publishes work and signals between those two actions, the waiter can sleep forever. Correct wait protocols couple condition checking with registration for notification. Linux futex-based designs combine an atomic user-space state with kernel-assisted waiting when the expected state still holds."
+    },
+    {
+      "title": "Example: uncontended and contended locking",
+      "body": "On an uncontended fast path, an atomic update can acquire a mutex without a kernel wait. On contention, the implementation records waiting and parks through an appropriate kernel mechanism. Unlocking changes the state and may wake a waiter. Waking does not transfer CPU execution immediately and may not transfer ownership directly; the contender must follow the mutex's acquisition protocol."
+    }
+  ],
+  "spinlocks-and-interrupt-context": [
+    {
+      "title": "Spinning consumes the CPU while waiting",
+      "body": "A spinlock repeatedly checks for ownership instead of sleeping. It is suitable only when the expected wait is short and the holder can make progress. Interrupt and preemption constraints matter: an interrupt handler that spins on a lock held by the interrupted context on the same CPU can deadlock. Kernel lock variants encode these context-specific requirements."
+    },
+    {
+      "title": "Example: choosing the wrong wait",
+      "body": "If a critical section performs disk I/O, a spinning contender can waste a full CPU while storage takes milliseconds. A sleeping lock is usually appropriate in a context allowed to sleep. Conversely, a context that must not schedule cannot simply substitute a mutex. Keep critical sections short, document lock context, and reason about who can interrupt whom, not just how many threads exist."
+    }
+  ],
+  "deadlock": [
+    {
+      "title": "Four conditions form a cycle",
+      "body": "Deadlock needs mutual exclusion, holding resources while requesting more, lack of forced resource reclamation, and a circular dependency. Prevention breaks one of these conditions; avoidance reasons about safe allocation; detection finds cycles or equivalent evidence after they form. A timeout can limit waiting but does not automatically undo partially completed work or restore the application's invariant."
+    },
+    {
+      "title": "Worked lock-order example",
+      "body": "Thread A holds lock X and waits for Y; thread B holds Y and waits for X. Neither can reach its unlock. Requiring every path to acquire X before Y removes that particular cycle. Ordering must include callbacks and error paths too. If acquiring many resources dynamically, sort by a stable identity or use a protocol that releases and retries without leaving partial updates behind."
+    }
+  ],
+  "starvation-livelock-and-priority-inversion": [
+    {
+      "title": "Progress failures have different mechanisms",
+      "body": "Starvation means a task never receives the resource it needs while others progress. Livelock means tasks remain active but repeatedly undo or avoid each other without useful completion. Priority inversion means urgent work depends on a resource held by lower-priority work, potentially delayed by intermediate-priority tasks. Different mechanisms require different remedies; adding a timeout does not identify the cause."
+    },
+    {
+      "title": "Example: inversion across three tasks",
+      "body": "Low-priority L holds a mutex. High-priority H blocks on it. Medium-priority M remains runnable and prevents L from finishing, indirectly delaying H. Priority inheritance temporarily raises the relevant holder's priority so it can release the lock. It does not eliminate long critical sections or arbitrary dependency chains. For livelock in symmetric retries, randomized backoff may help where priority inheritance cannot."
+    }
+  ],
+  "pipes-and-fifos": [
+    {
+      "title": "A byte stream with endpoint lifetimes",
+      "body": "A pipe carries bytes between a read end and a write end. Reads do not necessarily correspond one-to-one with writes, so applications still need framing. A FIFO adds a filesystem name for connecting processes. Kernel buffering has finite capacity: a writer can block or receive a would-block result when consumers do not drain data quickly enough."
+    },
+    {
+      "title": "Example: a pipeline that never finishes",
+      "body": "A parent creates a pipe, launches a writer and reader, but accidentally keeps its own write descriptor open. After the writer exits, the reader can still wait because at least one write end remains open. Close unused ends in every process. Small writes may have atomicity guarantees up to a platform limit, but arbitrary large messages are not atomic records."
+    }
+  ],
+  "shared-memory": [
+    {
+      "title": "Shared bytes need a protocol",
+      "body": "Mapping the same storage into several processes avoids copying every message through a stream API. It does not provide ownership, message boundaries, ordering, or crash recovery by itself. Use synchronization intended for inter-process use and define when a record becomes valid. Pointers stored inside a shared region may be meaningless at another mapping address; offsets are often safer."
+    },
+    {
+      "title": "Example: publishing a ring-buffer slot",
+      "body": "A producer reserves a slot, writes its payload, then publishes completion with the required memory ordering. A consumer must not read merely because the index was allocated. After consumption, ownership returns to the producer. Generation information distinguishes reused slots. Specify what happens if a producer dies after reserving a slot but before publishing it, so readers do not wait forever."
+    }
+  ],
+  "message-queues-and-signals": [
+    {
+      "title": "Records versus notifications",
+      "body": "A message queue preserves message-oriented structure and may offer ordering, priorities, and bounded capacity. Signals primarily notify; ordinary signals are not a durable arbitrary-length message stream. Choose based on payload needs, backpressure, and delivery semantics. Even a queue does not guarantee that a recipient completed the requested operation merely because the send succeeded."
+    },
+    {
+      "title": "Example: worker dispatch",
+      "body": "A dispatcher sends a job identifier and the worker acknowledges completion separately. If the worker dies after processing but before acknowledging, a retry can duplicate effects, so the operation needs deduplication or idempotency. Bound the queue and define producer behavior when it fills. Signals can announce available work if the actual jobs remain safely recorded elsewhere."
+    }
+  ],
+  "unix-domain-sockets": [
+    {
+      "title": "Local communication with socket semantics",
+      "body": "Unix domain sockets connect processes on one host and provide stream or message-oriented behavior depending on type. They avoid IP routing while retaining familiar send, receive, and readiness patterns. Some platforms support passing descriptor references and checking peer credentials. A filesystem pathname is one naming option; permissions, collisions, and cleanup require deliberate handling."
+    },
+    {
+      "title": "Example: passing an open resource",
+      "body": "A supervisor opens a file under controlled authority and passes a descriptor through the supported ancillary-data mechanism. The worker receives a usable reference, not merely the sender's integer descriptor number. Define who closes each reference and whether access should survive a privilege change. Passing a descriptor transfers capability to an already opened object and deserves explicit ownership rules."
+    }
+  ],
+  "network-sockets-and-the-kernel": [
+    {
+      "title": "Several queues lie behind accept",
+      "body": "A listening socket has connection-establishment state and a queue of connections available for acceptance; accepted sockets have their own send and receive buffers. Backlog settings constrain parts of this path but do not create unlimited workers or throughput. A successful accept returns a new descriptor for one connection rather than replacing the listening socket."
+    },
+    {
+      "title": "Example: fast handshakes, slow requests",
+      "body": "A server accepts connections faster than workers can read them. Accepted sockets accumulate and consume descriptors and buffers; clients experience application timeouts despite successful handshakes. Increasing the listen backlog addresses waiting before acceptance only. Bound admitted connections and work, monitor queue stages separately, and close abandoned connections so added capacity does not simply relocate the bottleneck."
+    }
+  ],
+  "zero-copy-transfers": [
+    {
+      "title": "Avoiding copies does not remove ownership",
+      "body": "Ordinary forwarding can copy bytes from a kernel buffer into user memory and back into another kernel buffer. Interfaces such as sendfile and splice avoid some copies on supported paths. mmap provides address-space access to backing storage but still involves faults, caches, and synchronization. Zero-copy describes a particular data path, not a universal guarantee about an operation."
+    },
+    {
+      "title": "Example: serving a large file",
+      "body": "A server transfers a static file to a socket and loops until the requested range is sent. Partial progress and would-block results still need handling. Transformations or encryption may change the path and savings. Keep source contents stable for the required lifetime and measure CPU, memory bandwidth, and throughput rather than assuming the API name proves the benefit."
+    }
+  ],
+  "the-io-path": [
+    {
+      "title": "Acceptance and completion differ",
+      "body": "A buffered write commonly copies bytes into cached pages, marks them dirty, and returns before storage persists them. Later write-back constructs device requests; the controller and medium complete them according to their guarantees. File metadata, allocation, and ordering add work around the payload. Device completion must be interpreted together with device caches and flush semantics."
+    },
+    {
+      "title": "Example: a log during a crash",
+      "body": "An application prints a log line but crashes before flushing its user-space buffer; the kernel may never receive it. After a successful write, bytes may reach the page cache but remain vulnerable to power loss. Durability requires appropriate synchronization and error checks. Trace language buffers, kernel caches, device queues, and persistent media separately instead of treating them as one boundary."
+    }
+  ],
+  "device-controllers-interrupts-and-dma": [
+    {
+      "title": "Moving data without copying every byte on the CPU",
+      "body": "A driver configures device operations. DMA lets a device transfer data into or out of suitable memory, while interrupts or polling report completion. Buffers must remain valid during transfer, and device-visible addresses need appropriate mapping and synchronization. An IOMMU can restrict and translate device access rather than granting devices unrestricted reach into physical memory."
+    },
+    {
+      "title": "Example: receiving a packet",
+      "body": "A driver prepares buffers and descriptors. The device places incoming bytes into a buffer and reports completion. The driver or deferred processing path validates metadata and hands data onward, then replenishes buffers. If buffers are exhausted, traffic may drop even while application CPUs are idle. Device completion does not mean the application has consumed the packet or finished processing its request."
+    }
+  ],
+  "blocking-and-non-blocking-io": [
+    {
+      "title": "When progress is unavailable",
+      "body": "A blocking operation may suspend the caller until it can make progress or report an error. A nonblocking operation returns promptly when it cannot proceed, often with EAGAIN or EWOULDBLOCK on Unix sockets. Prompt return does not guarantee transferring the full requested buffer. Regular files and special devices can have different behavior from network sockets."
+    },
+    {
+      "title": "Example: sending a response",
+      "body": "A nonblocking send accepts 300 bytes of a 1,000-byte response. Retain the remaining 700 bytes and their offset. Wait for readiness rather than spinning continuously. Retry and handle partial progress again. If the peer closes, report or discard unfinished work according to the protocol; the earlier partial success is not proof the complete response reached the remote application."
+    }
+  ],
+  "synchronous-and-asynchronous-io": [
+    {
+      "title": "Waiting and completion are separate axes",
+      "body": "A synchronous API reports the operation's result through the call performing it, even if its nonblocking variant reports would-block. An asynchronous API separates submission from completion through events, callbacks, futures, or completion queues. A runtime may implement its asynchronous interface using worker threads rather than device-level async operations. The interface does not by itself reveal the implementation."
+    },
+    {
+      "title": "Example: buffer lifetime",
+      "body": "After submitting an asynchronous write, do not overwrite or free the source buffer until the contract permits it. Submission success means the request entered a processing path; completion can still report failure or partial transfer. Associate request identifiers with buffers so out-of-order completions update the correct operation. Cancellation can race with completion and must have a defined cleanup path."
+    }
+  ],
+  "io-multiplexing": [
+    {
+      "title": "One waiter can serve many descriptors",
+      "body": "select, poll, and epoll let an execution context wait for activity across descriptors. select uses descriptor sets with platform-specific limits; poll uses an array; epoll maintains an interest set. Costs depend on descriptor count, active fraction, and registration churn. None parses application messages or guarantees that one event corresponds to one complete request."
+    },
+    {
+      "title": "Example: a thousand idle clients",
+      "body": "A server registers client sockets and sleeps until some can progress. When ten become readable, it processes bounded work from those ten. Connections can close while events remain pending, so descriptor reuse and object lifetime need careful handling. Keep application connection identity separate from a numeric descriptor that the OS can later assign to a different connection."
+    }
+  ],
+  "readiness-and-completion-models": [
+    {
+      "title": "An invitation versus a result",
+      "body": "Readiness says an operation is likely able to progress now, but another actor can change the state before the call. Completion says a submitted operation produced a result. Level-triggered readiness remains reportable while its condition holds. Edge-triggered notification reports transitions and requires consumers to drain or otherwise track pending work before waiting for another transition."
+    },
+    {
+      "title": "Example: an edge-triggered stall",
+      "body": "A socket contains three messages, but the handler reads one and waits again. If it remains readable and no new edge occurs, the remaining messages can stall. Nonblocking handlers commonly read until would-block while preserving fairness for other clients. Re-arming and one-shot modes impose additional duties; follow the actual API contract rather than applying one event-loop recipe everywhere."
+    }
+  ],
+  "io-uring": [
+    {
+      "title": "Submission and completion rings",
+      "body": "io_uring provides queues for describing operations and receiving results. Applications associate identifiers with work and interpret completions independently of submission order. Some operations finish immediately; others wait or use worker paths. Shared rings reduce certain boundary overheads, but supported operations, restrictions, and advantages depend on the kernel, configuration, and workload. They do not eliminate error handling."
+    },
+    {
+      "title": "Example: several reads in flight",
+      "body": "Submit reads for blocks A, B, and C with distinct identifiers. If B completes first, place its result in B's destination rather than assuming submission order. Maintain buffer ownership until completion and inspect every result. Queue saturation, cancellation, and failure of linked operations require explicit handling: successful submission does not mean every requested read completed successfully."
+    }
+  ],
+  "event-loops-reactor-and-proactor": [
+    {
+      "title": "Where the work happens",
+      "body": "A reactor waits for readiness and then performs nonblocking operations. A proactor submits operations and reacts to completion. An event loop coordinates the model exposed by its platform and runtime. Callbacks should do bounded work so one connection cannot monopolize dispatch. Timers, cancellation, and application queues also consume the event loop's limited processing capacity."
+    },
+    {
+      "title": "Example: blocking in a callback",
+      "body": "An event loop handles socket readiness quickly but makes a synchronous database call inside one callback. Unrelated connections on that loop now wait behind the database. A bounded executor or appropriate async database interface restores overlap, but an unlimited offload queue merely relocates the problem. Carry request deadlines and cancellation across the boundary so abandoned work does not accumulate."
+    }
+  ],
+  "buffering-and-backpressure": [
+    {
+      "title": "Buffers absorb bursts, not sustained overload",
+      "body": "When arrivals exceed service, queued work grows until capacity runs out. Backpressure communicates reduced capacity upstream or stops accepting more work. A buffer trades memory and waiting time for burst tolerance. Define whether a full queue blocks, rejects, drops, or coalesces work based on the data's semantics and whether its producer can actually slow down."
+    },
+    {
+      "title": "Worked capacity example",
+      "body": "A producer creates 120 items per second and a consumer handles 100. An empty 200-item buffer fills in 200/(120−100)=10 seconds in a constant-rate model. Doubling it delays failure to 20 seconds but does not repair the mismatch. Reduce input, increase sustainable service, or discard permissible work. Monitor queue age as well as length because a modest queue can still contain expired requests."
+    }
+  ],
+  "event-driven-servers-in-production": [
+    {
+      "title": "Connection state is explicit",
+      "body": "A production server tracks partial reads, parsing state, pending writes, deadlines, and closure for each connection. Event-driven does not mean stateless. Limit memory per connection and work per event, and protect the event loop from blocking calls. Shutdown must account for registered events and in-flight operations before destroying connection objects or reusing their identifiers."
+    },
+    {
+      "title": "Example: a slow reader",
+      "body": "A client sends a small request but consumes its response one byte at a time. Unlimited response production can hold large buffers indefinitely. Pause production when pending output reaches a bound, impose a progress deadline, and close according to policy if progress stays insufficient. Fair dispatch prevents that connection from consuming the service budget needed by other clients."
+    }
+  ],
+  "the-process-address-space": [
+    {
+      "title": "Regions have purposes and permissions",
+      "body": "An address space contains mappings for code, static data, heap allocations, stacks, shared libraries, and other objects. Layout varies with architecture and randomization. A reserved virtual range is not necessarily backed by resident frames. Read, write, and execute permissions protect mappings independently of whether a pointer's numeric value looks plausible or lies near a valid object."
+    },
+    {
+      "title": "Example: a large reservation",
+      "body": "Reserve a large anonymous range and touch only one page. Virtual size can rise substantially while resident memory grows much less. Touching every page changes physical demand and may expose limits that reservation did not. Track residency and application ownership separately; successful reservation does not prove every future access can be serviced cheaply or that memory pressure cannot later interrupt progress."
+    }
+  ],
+  "logical-and-physical-memory": [
+    {
+      "title": "Translation preserves a useful illusion",
+      "body": "Programs use virtual addresses interpreted through the active translation context. Physical addresses identify memory-system locations. Two processes can use the same virtual address for different frames, and two virtual addresses can map one frame. Paging translates the page number while preserving the within-page offset. Permissions are checked along with translation rather than inferred from the resulting address alone."
+    },
+    {
+      "title": "Worked address translation",
+      "body": "With a 4,096-byte page, virtual address 0x3123 has page number 3 and offset 0x123. If page 3 maps to frame 9, the physical address is 0x9123. Missing mappings and prohibited accesses cannot be repaired with arithmetic; they enter a fault path. Changing a mapping also requires appropriate handling of translations cached by CPUs using that address space."
+    }
+  ],
+  "contiguous-allocation-and-fragmentation": [
+    {
+      "title": "Free space can be unusable",
+      "body": "External fragmentation splits free space into holes too small for a contiguous request. Internal fragmentation wastes capacity inside allocated units. First-fit and best-fit policies trade search work against future hole patterns. Compaction requires moving allocations safely, which is not always possible for pinned or externally exposed addresses. Total free capacity therefore does not determine the largest satisfiable allocation."
+    },
+    {
+      "title": "Example: enough total, insufficient contiguous space",
+      "body": "Free holes of 3, 4, and 5 units total 12, but none satisfies an 8-unit contiguous allocation. Coalescing helps only when holes are adjacent in the relevant allocator. Paging reduces applications' need for physically contiguous storage, but devices, huge pages, and low-level allocators may still require it. Distinguish physical contiguity from a continuous range of virtual addresses."
+    }
+  ],
+  "segmentation": [
+    {
+      "title": "Named regions with bounds",
+      "body": "Segmentation represents regions such as code, data, and stack through a base and limit in a simple model. An offset is checked against bounds and translated using the base. This expresses protection and sharing at region granularity, but variable-size regions introduce fragmentation and growth problems. Hardware implementations differ, so the educational model must not be mistaken for every modern CPU's active translation mode."
+    },
+    {
+      "title": "Worked bounds check",
+      "body": "A segment begins at physical address 20,000 and has length 4,000. Offset 1,500 maps to 21,500; offset 4,000 is outside the zero-based region. Paging instead divides regions into fixed-size units, allowing noncontiguous frames. Compare which metadata is needed and where wasted space occurs in each model before deciding that one is simply a larger or smaller version of the other."
+    }
+  ],
+  "how-malloc-works": [
+    {
+      "title": "The allocator sits above virtual memory",
+      "body": "malloc manages user-space metadata and often obtains larger regions from the OS before subdividing them. Freed blocks may stay in arenas for reuse rather than returning immediately to the kernel. Size classes, alignment, thread caches, and fragmentation make requested bytes differ from resident memory. free ends the caller's ownership; it does not promise zeroed storage or a lower RSS."
+    },
+    {
+      "title": "Example: many small objects",
+      "body": "A million 24-byte objects can consume more than 24 million bytes because of rounding, metadata, page layout, and retained free space. An object pool may improve locality and reduce overhead but introduces more lifetime management. Profile allocation sites and retained objects before blaming the kernel. Also distinguish memory retained for reuse from memory still reachable through a genuine application leak."
+    }
+  ],
+  "kernel-memory-allocation": [
+    {
+      "title": "Allocation contexts constrain recovery",
+      "body": "Kernel allocators manage physical pages and smaller objects. Buddy-style allocation tracks power-of-two page blocks; slab-style allocators reuse storage for common object types. An allocation also has context constraints: may it sleep, reclaim memory, or perform I/O? Interrupt-sensitive or atomic contexts cannot assume the same recovery paths as ordinary process-context code, even for identical allocation sizes."
+    },
+    {
+      "title": "Example: failure despite free pages",
+      "body": "A driver requests a large physically contiguous block. Many free pages exist, but no suitable run is available, so allocation fails. Repeatedly retrying in a context that cannot reclaim safely is not a solution. Use the interface designed for the device and lifetime, and establish whether it needs physical contiguity, virtual contiguity, or scatter-gather support before selecting an allocator."
+    }
+  ],
+  "memory-metrics": [
+    {
+      "title": "Each number answers a different question",
+      "body": "Virtual size measures mappings. RSS measures resident pages attributed to a process, including shared pages. PSS apportions shared pages among their sharers. None equals the current size of application objects. Allocator retention, libraries, file-backed pages, and kernel memory complicate diagnosis. Explain the accounting boundary and sampling interval before comparing two process sizes or adding measurements across a fleet."
+    },
+    {
+      "title": "Worked sharing example",
+      "body": "Two processes each use 10 MiB privately and share 20 MiB. Each may show about 30 MiB RSS, giving a misleading 60 MiB sum even though the combined pages occupy 40 MiB. Under equal sharing, each PSS is roughly 20 MiB. Additional kernel allocations and reporting details can change actual figures; use this example to understand attribution rather than as a complete host-memory formula."
+    }
+  ],
+  "memory-pressure-and-the-oom-killer": [
+    {
+      "title": "Pressure has costs before failure",
+      "body": "The kernel can reclaim clean cached pages, write dirty pages, or swap eligible anonymous pages when configured. Reclaim and repeated faults add latency long before an allocation fails. When constraints cannot be satisfied, an out-of-memory action may terminate a task. A container limit can cause local pressure while the host still has unused memory, so host totals alone are insufficient."
+    },
+    {
+      "title": "Example: a cache becomes harmful",
+      "body": "An application enlarges its cache until useful filesystem pages are repeatedly reclaimed. Its own cache hit rate improves while storage traffic and tail latency worsen. Size it against the total working set, not its isolated hit rate. Examine cgroup events, resident trends, swap activity, and completed requests to distinguish a leak, temporary demand, and a workload that permanently exceeds its budget."
+    }
+  ],
+  "why-virtual-memory-exists": [
+    {
+      "title": "Isolation and flexible placement",
+      "body": "Virtual memory gives a process a consistent address-space abstraction while physical pages can be placed, shared, protected, or populated on demand. It supports mapped files and copy-on-write. It does not create infinite capacity: page tables, resident frames, backing storage, and fault handling consume resources. The benefit is flexible management with controlled access, not eliminating physical limits."
+    },
+    {
+      "title": "Example: independent layouts",
+      "body": "Two applications can place data at virtual address 0x400000 while the kernel maps them to different frames. Read-only library pages may instead reference common frames. These decisions happen below ordinary pointer arithmetic. A bad pointer is judged against the current mappings and permissions, not against whether another process happens to use the same numeric address successfully."
+    }
+  ],
+  "the-mmu-and-address-translation": [
+    {
+      "title": "Hardware enforces the active mapping",
+      "body": "The MMU translates addresses and checks permissions through mapping structures and cached entries. A translation-cache miss requires finding the mapping through the architecture's page-table mechanism. A valid translation does not imply a valid operation: writing a read-only resident page can fault even when its frame is known. Separate finding the address from authorizing the access."
+    },
+    {
+      "title": "Example: changing permissions",
+      "body": "Removing write access updates mapping metadata, but a CPU might still hold an older translation. The OS performs the required invalidation and synchronization, sometimes across several CPUs using the address space. Mapping changes can therefore cost more than updating a table entry. Correctness requires that stale writable translations cannot survive beyond the operation's promised protection boundary."
+    }
+  ],
+  "paging": [
+    {
+      "title": "Fixed units separate allocation from placement",
+      "body": "Paging divides virtual ranges into pages and physical memory into frames. Page-table entries connect them and carry information such as permissions and residency. A large virtual range no longer needs one continuous physical allocation. The costs include metadata, translation work, and unused capacity in partly occupied pages. Page size affects all three trade-offs rather than only the number of entries."
+    },
+    {
+      "title": "Worked page count",
+      "body": "A 10,000-byte range starting at a page boundary touches three 4,096-byte pages. Their combined capacity is 12,288 bytes, leaving 2,288 beyond the requested length in the last page. This describes mapped capacity, not necessarily resident frames. An unaligned start can touch another boundary. Work out both start offset and length before estimating page count for an arbitrary buffer."
+    }
+  ],
+  "multilevel-page-tables": [
+    {
+      "title": "Sparse spaces need sparse metadata",
+      "body": "A flat table for every possible virtual page would waste memory in sparse address spaces. Multilevel tables allocate lower levels only where needed. Address bits index successive levels and the final offset chooses a byte. More levels save unused metadata but can add memory accesses on translation misses; caches and supported large-page entries reduce some of that work."
+    },
+    {
+      "title": "Worked scale estimate",
+      "body": "A 4 KiB table with 8-byte entries holds 512 entries. A leaf describing 4 KiB pages covers 2 MiB. Higher levels reference more tables rather than requiring every leaf to exist in advance. Large-page entries can terminate the walk earlier on supported hardware, but exchange fine-grained mapping flexibility for larger allocation and protection units. The exact level count is architecture-dependent."
+    }
+  ],
+  "the-tlb": [
+    {
+      "title": "Translations are cached separately from data",
+      "body": "The TLB stores mappings and permissions so most memory operations avoid page-table walks. A miss can resolve from an existing valid mapping without a page fault or disk access. Context identifiers may allow entries from different address spaces to coexist. Invalidation is required when mappings or permissions change, and its scope depends on the architecture and operation."
+    },
+    {
+      "title": "Example: translation reach",
+      "body": "A simplified 64-entry TLB mapping 4 KiB pages covers 256 KiB at once. Random accesses across thousands of pages can exceed that reach even with every page resident. Larger pages increase reach but have other costs. Associativity, separate instruction/data structures, and additional translation-cache levels mean this capacity calculation is a starting model, not a prediction of every actual miss."
+    }
+  ],
+  "page-faults": [
+    {
+      "title": "Classify the cause and legal recovery",
+      "body": "A fault may mean a valid page needs population, a copy-on-write transition is required, or the access is invalid. The handler checks mapping and operation before deciding whether recovery is legal. Minor faults generally avoid storage I/O; major faults require it under the relevant accounting model. A recoverable fault can still be slow enough to affect application deadlines."
+    },
+    {
+      "title": "Example: three writes, different outcomes",
+      "body": "Writing a newly mapped anonymous page may allocate a zero-filled frame. Writing a private copy-on-write page may allocate and copy a frame. Writing an unmapped address should fail rather than grant arbitrary memory. Successful recovery lets the instruction resume. Compare fault counts with access patterns and I/O instead of combining all faults into one supposed measure of errors or disk activity."
+    }
+  ],
+  "demand-paging": [
+    {
+      "title": "Populate when access creates demand",
+      "body": "Demand paging postpones materializing a page until it is touched. This reduces startup and residency for unused code and data but moves work onto first access. Read-ahead and prefetching can anticipate later accesses. Reserving an address, reading it, and writing it may therefore have distinct physical consequences. A mapping operation alone does not reveal steady-state memory demand."
+    },
+    {
+      "title": "Example: the cold first request",
+      "body": "A service maps a model at startup but touches only metadata. Its first request accesses many new pages and pays fault and possibly storage costs. Warming representative pages improves predictability at the cost of startup time and memory pressure. Measure cold and warm requests separately and warm only what the intended memory budget can keep resident without displacing other useful work."
+    }
+  ],
+  "page-replacement-algorithms": [
+    {
+      "title": "Choose a victim under capacity pressure",
+      "body": "FIFO evicts the earliest-loaded page; LRU favors recently used pages; clock-style policies approximate recency using reference information. The offline optimal policy knows future accesses and is a comparison baseline, not a practical predictor. Dirty victims may need write-back, so eviction cost and future usefulness both matter. Perfect LRU bookkeeping also has costs that simplified exercises omit."
+    },
+    {
+      "title": "Worked reference sequence",
+      "body": "With three empty frames and references 1,2,3,1,4, FIFO evicts 1 on the final reference because it arrived first. LRU evicts 2 because 1 was recently used. A subsequent reference to 1 faults under FIFO and hits under LRU. Compare other patterns before declaring a universal winner; FIFO can even experience more faults with additional frames on certain reference sequences."
+    }
+  ],
+  "working-sets-and-thrashing": [
+    {
+      "title": "The active set determines sustainable residency",
+      "body": "A working set is the collection of pages needed during a relevant recent interval. If competing active sets exceed usable memory, pages can be evicted just before reuse. Increasing time goes into reclaim and faults rather than useful work. High storage activity with low useful CPU throughput can therefore originate in memory pressure instead of slow application computation."
+    },
+    {
+      "title": "Example: too many large workers",
+      "body": "A worker scans a 300 MiB active set repeatedly. Eight such workers cannot keep their active data resident in 1 GiB available to them. Reducing concurrency can improve throughput by avoiding repeated eviction. Compare fault rates, reclaim pressure, and completions together. More workers do not necessarily create more effective capacity when their aggregate working sets overwhelm the memory hierarchy."
+    }
+  ],
+  "copy-on-write": [
+    {
+      "title": "Share first, separate on mutation",
+      "body": "Copy-on-write lets independent logical owners initially reference common contents. Relevant mappings prevent uncontrolled writes. A write fault prompts the OS to determine whether private backing is needed, arrange it, update translation, and resume. The optimization postpones copying; it does not remove later memory demand or guarantee that every fault must copy if the page has become exclusively owned."
+    },
+    {
+      "title": "Example: a snapshotting process",
+      "body": "A parent with a large heap starts a child snapshot. Initially many pages remain shared, but subsequent writes create private versions. Memory can rise sharply without a matching new malloc call. Budget for the pages dirtied during the snapshot interval rather than only the child's initial RSS. Long snapshots allow more divergence and can therefore have a larger transient memory cost."
+    }
+  ],
+  "mmap-and-memory-mapped-files": [
+    {
+      "title": "Mapping mode defines write behavior",
+      "body": "A file mapping connects a file range to virtual addresses. Shared mappings can expose changes through common backing; private mappings provide private modifications. Access still involves permissions, faults, and file-lifetime issues. Closing the descriptor does not by itself remove a successful mapping. Unmapping controls that mapping's lifetime, and persistence requires following the appropriate synchronization contract."
+    },
+    {
+      "title": "Example: a changing backing file",
+      "body": "A reader maps a file while another actor later truncates it. Addresses within the old mapped range may now fault rather than return an ordinary read error. Coordinate mutation or replacement and bound access to the intended object. Mapped writes are not automatically atomic persistent transactions; design consistency, synchronization, and recovery separately from the convenience of pointer-based access."
+    }
+  ],
+  "shared-libraries-and-shared-pages": [
+    {
+      "title": "Code sharing does not share all state",
+      "body": "Read-only library instructions can use common physical pages across processes, while writable state is usually private unless explicitly shared. Relocations and loader behavior influence what stays shareable. Position-independent code helps avoid private instruction modifications when libraries load at different addresses. Shared physical storage does not require identical virtual addresses in every process using the library."
+    },
+    {
+      "title": "Example: estimating many instances",
+      "body": "Ten processes load one library. Adding resident mappings can count common code ten times, although its physical pages exist once. The library's writable caches may still be private and multiply with instance count. Separate read-only sharing from mutable growth, and use proportional attribution where useful, before claiming that a library adds its full on-disk size to every process's physical footprint."
+    }
+  ],
+  "huge-pages-numa-and-aslr": [
+    {
+      "title": "Three mechanisms, different purposes",
+      "body": "Huge pages reduce translation entries but increase allocation granularity and potential waste. NUMA changes memory-access cost according to placement relative to the CPU. ASLR randomizes virtual layout to hinder some exploitation techniques. These mechanisms do not substitute for one another: randomization does not create locality, and larger pages do not enforce object-level bounds or correct unsafe application pointers."
+    },
+    {
+      "title": "Example: moving away from memory",
+      "body": "A worker initializes an array on one NUMA node and later executes mainly on another. Remote access can reduce performance despite apparently sufficient aggregate CPU and RAM. Placement policy, first-touch behavior, and migration matter. Evaluate huge pages separately under the actual pattern, and keep security decisions distinct from performance tuning rather than disabling address randomization as a default remedy."
+    }
+  ],
+  "the-file-abstraction": [
+    {
+      "title": "Names, objects, and open references",
+      "body": "A file presents a byte-oriented object with metadata and operations, hiding physical block placement. Its pathname is a way to find it, not its identity for every purpose. Opening creates a reference used by later operations. Renaming or unlinking a name can therefore have different effects from closing an open reference, and behavior varies with platform contracts."
+    },
+    {
+      "title": "Example: rotating a log",
+      "body": "A process keeps writing through an open descriptor while another process renames the log and creates a new file at the old pathname. On Unix the existing descriptor can keep referring to the original object. The writer must deliberately reopen or participate in rotation. Looking only at the current pathname can make apparently missing log output or retained disk usage confusing."
+    }
+  ],
+  "file-descriptors": [
+    {
+      "title": "An integer indexes a reference table",
+      "body": "A descriptor is local to a process's descriptor table and refers to an open object. The open file description holds state such as the current offset and relevant flags. Duplicated descriptors can reference the same description, while independent opens can have independent offsets. Descriptor numbers can be reused after close, so they are not permanent object identities."
+    },
+    {
+      "title": "Example: shared offset versus separate opens",
+      "body": "Duplicate a descriptor and read 10 bytes through the first. A read through the duplicate can continue at the shared offset rather than restarting. Opening the same pathname twice generally creates independent open descriptions. Choose positional I/O when independent offsets are required, and track descriptor lifetime carefully so an old asynchronous callback cannot act on a newly reused integer."
+    }
+  ],
+  "file-operations": [
+    {
+      "title": "Successful calls can make partial progress",
+      "body": "Open, read, write, seek, close, and synchronization operations have distinct contracts. A write may transfer fewer bytes than requested; a read may return less without reaching end-of-file. Retrying must preserve completed progress. Seeking changes an offset on suitable objects but does not make sense for every stream, such as a pipe or ordinary network socket."
+    },
+    {
+      "title": "Example: copying a file correctly",
+      "body": "Read into a bounded buffer, then keep writing from the unconsumed offset until all bytes from that read are handled. Check every return value and distinguish interruption from permanent errors. Stop on end-of-file and report relevant write or close failures. A loop assuming each write consumes the entire buffer can silently lose data under conditions absent from a small local test."
+    }
+  ],
+  "directories-and-path-resolution": [
+    {
+      "title": "Resolution traverses names and boundaries",
+      "body": "A directory maps names to filesystem objects. Resolving a pathname walks components relative to a root or current directory and may cross mounts or follow symbolic links. Permissions must permit traversal, not merely access to the final file. Concurrent renames and symlink changes can make a pathname identify a different object between two separate operations."
+    },
+    {
+      "title": "Example: check-then-open is racy",
+      "body": "An application checks that a pathname looks safe and then opens it. Another actor changes a component between those operations, so the open reaches something else. Use directory-relative APIs and appropriate resolution restrictions where available, keeping trusted directory references rather than repeatedly resolving a mutable path. Validate the opened object when the security decision depends on its actual identity."
+    }
+  ],
+  "inodes": [
+    {
+      "title": "Metadata and names are separate",
+      "body": "In inode-based filesystems, an inode represents metadata and references to file contents, while directory entries associate names with that inode. An inode number is meaningful within its filesystem and can be reused after deletion. The inode does not generally store every pathname pointing to it. Hard-link count and open references govern different aspects of lifetime."
+    },
+    {
+      "title": "Example: deleting one of two names",
+      "body": "Names report.txt and backup.txt can be hard links to one inode. Removing report.txt removes one directory entry and decreases the link count without deleting backup.txt's contents. If all names disappear but a process retains an open reference, storage can remain until that reference closes. This explains why deleting a large open file may not immediately free its occupied space."
+    }
+  ],
+  "hard-and-symbolic-links": [
+    {
+      "title": "Object reference versus path text",
+      "body": "A hard link adds another name for the same filesystem object, normally within the same filesystem. A symbolic link stores a pathname resolved when followed; it can cross filesystem boundaries and can become dangling. Renaming the target affects these mechanisms differently. Treating them as identical shortcuts leads to incorrect assumptions about deletion, permissions, and deployment updates."
+    },
+    {
+      "title": "Example: replacing a release",
+      "body": "A stable symlink points to releases/v1. Updating it to releases/v2 redirects future path resolution, while already open files can remain associated with v1. A hard link to a file in v1 still names that original object even if another file appears at the old target pathname. Coordinate active readers and cleanup; changing a link does not instantly replace all existing open references."
+    }
+  ],
+  "file-permissions": [
+    {
+      "title": "Directory permissions have special meanings",
+      "body": "For ordinary files, read and write control access to contents while execute permits execution subject to other checks. For directories, read concerns listing names, execute permits traversal, and write permits modifying entries with other constraints. Ownership, groups, ACLs, mount options, and security modules can all affect the final decision. A single mode-bit display may not explain every denial."
+    },
+    {
+      "title": "Example: deleting a read-only file",
+      "body": "A user may be unable to write a file's contents yet still remove its directory entry when the containing directory permits that operation. Conversely, having permission to read the file does not guarantee permission to traverse every directory leading to it. Diagnose the requested operation and each relevant object; do not assume a file's write bit alone controls deletion."
+    }
+  ],
+  "the-vfs-layer": [
+    {
+      "title": "One interface, many implementations",
+      "body": "The virtual filesystem layer presents common operations while filesystem-specific code implements storage and naming behavior. An open reference can dispatch through operations suited to its underlying object. Uniform API names do not make every filesystem's durability, locking, or metadata semantics identical. Network-backed filesystems introduce additional failure and consistency boundaries behind familiar operations."
+    },
+    {
+      "title": "Example: local versus remote storage",
+      "body": "The same application read can be satisfied from a local cache or require a remote server response. A remote interruption can add errors and retries absent from an in-memory filesystem test. Verify required rename, locking, and synchronization guarantees on the actual deployment filesystem instead of treating successful compilation against the same file API as proof of identical behavior."
+    }
+  ],
+  "file-allocation-and-extents": [
+    {
+      "title": "Representing where file bytes live",
+      "body": "Allocation strategies map logical file offsets to storage blocks. Extents describe runs of contiguous blocks compactly, reducing metadata compared with listing every block individually. Fragmented growth needs more extents and may reduce sequential locality. Sparse files represent holes without allocating ordinary data blocks for every logical byte, so logical file length differs from actual allocated storage."
+    },
+    {
+      "title": "Example: a sparse image",
+      "body": "Seek far beyond current end and write a small record on a filesystem supporting sparse behavior. The file's logical size becomes large, but the unwritten hole can read as zeros without consuming equivalent data blocks. Copying it through a tool that does not preserve holes may allocate much more storage. Compare logical size, allocated blocks, and filesystem capabilities before planning capacity."
+    }
+  ],
+  "dentry-and-inode-caches": [
+    {
+      "title": "Cache names and metadata as well as contents",
+      "body": "The dentry cache accelerates name-to-object lookup; inode caches retain metadata-related objects. These differ from the page cache holding file data. A workload repeatedly opening tiny files can spend substantial work on name lookup and metadata even when payload bytes are small. Negative lookup caching can also remember that a name was absent, subject to invalidation rules."
+    },
+    {
+      "title": "Example: a directory-heavy workload",
+      "body": "A build scans hundreds of thousands of paths while compiling little code. Warm runs may be faster because directory and inode information is cached, not merely because source contents are resident. Compare cold and warm metadata behavior and path counts. Avoid diagnosing every filesystem delay with sequential bandwidth tests, which exercise a different part of the storage stack."
+    }
+  ],
+  "crash-consistency": [
+    {
+      "title": "Multi-step updates can be interrupted",
+      "body": "Updating a file may require allocating blocks, changing data, updating metadata, and changing directory entries. A crash can interrupt these steps or expose persisted writes in an unexpected combination. Crash consistency defines which recoverable states are allowed. Application-level atomicity is stronger than merely avoiding structural filesystem corruption, so the filesystem and application each need an appropriate recovery design."
+    },
+    {
+      "title": "Example: replacing configuration",
+      "body": "Write a complete new configuration to a temporary file in the target filesystem, synchronize it as required, rename it into place, and synchronize the containing directory when needed for the intended durability guarantee. Check errors at each stage. Rename can provide atomic namespace replacement under its contract, but atomic visibility and survival after power loss are separate properties."
+    }
+  ],
+  "journaling": [
+    {
+      "title": "Record recovery intent before final placement",
+      "body": "A journal records information sufficient to recover selected updates after interruption. Metadata journaling protects filesystem structures; data journaling can cover payloads too, with different costs. Transaction boundaries, commit records, replay, and write ordering determine which operations are recovered. Journaling is not an automatic transaction system for several unrelated application files or a replacement for application synchronization."
+    },
+    {
+      "title": "Example: crash around a commit",
+      "body": "If a journal transaction is incomplete, recovery must avoid applying a partial metadata change as committed work. If a valid commit exists but final locations were not updated, replay can finish the update. The exact guarantees depend on mode and filesystem. An application must still decide when to request durability and how to handle an error or ambiguous result."
+    }
+  ],
+  "copy-on-write-file-systems": [
+    {
+      "title": "Publish a new version through metadata",
+      "body": "A copy-on-write filesystem writes new versions of modified blocks instead of overwriting the old version immediately, then updates metadata to reference a consistent new tree. Snapshots can retain old references efficiently. Shared blocks require reference tracking, and later modifications allocate additional space. Cheap snapshot creation does not mean snapshots are free to retain under ongoing writes."
+    },
+    {
+      "title": "Example: space retained by a snapshot",
+      "body": "A large file is deleted from the active filesystem, but a snapshot still references its old blocks. Those blocks cannot be reclaimed just because the live pathname disappeared. Capacity planning must include retained versions and metadata. Write amplification, fragmentation, and checksumming behavior depend on implementation; compare actual workloads instead of equating all copy-on-write filesystems with one performance profile."
+    }
+  ],
+  "storage-hardware": [
+    {
+      "title": "Access patterns interact with the medium",
+      "body": "Hard disks pay mechanical seek and rotation costs, making sequential access especially valuable. SSDs eliminate mechanical motion but add flash translation, erase blocks, garbage collection, and endurance constraints. NVMe changes the interface and queueing model rather than making every operation equally fast. Device caches and power-loss protection affect persistence guarantees independently of headline throughput."
+    },
+    {
+      "title": "Example: random small writes",
+      "body": "A workload issuing 4 KiB random writes stresses a different path from streaming large sequential buffers. An SSD may perform well initially and slow when internal maintenance or sustained-write limits become relevant. Test long enough to reach representative conditions, and distinguish device capability from filesystem overhead, queueing, and application durability requirements. One maximum bandwidth number cannot describe all these workloads."
+    }
+  ],
+  "storage-performance": [
+    {
+      "title": "Latency, IOPS, bandwidth, and queue depth",
+      "body": "IOPS counts operations per second; bandwidth counts bytes per second; latency measures an operation's duration. Average request size connects the first two. Queue depth controls how much work is in flight and can improve utilization while increasing wait time. Read/write mix, locality, cache state, and durability mode must accompany measurements for comparisons to be meaningful."
+    },
+    {
+      "title": "Worked throughput estimate",
+      "body": "At 10,000 operations per second with 4 KiB requests, payload throughput is about 39.1 MiB/s. The same IOPS with 64 KiB requests would imply much more bandwidth if the device and stack sustain it. Under steady-state assumptions, 2,000 IOPS with 5 ms average latency imply about ten operations in flight. Use consistent units and measure tail latency as well as averages."
+    }
+  ],
+  "disk-scheduling-algorithms": [
+    {
+      "title": "Reordering trades locality against waiting",
+      "body": "FCFS preserves arrival order; shortest-seek approaches favor nearby requests; SCAN-like policies move through address ranges in an organized direction. These ideas reduce mechanical movement but can disadvantage distant requests without fairness rules. SSDs change the trade-off because seek distance is no longer mechanical, yet queue management, deadlines, and fairness still matter at the block layer."
+    },
+    {
+      "title": "Example: nearby requests keep arriving",
+      "body": "A disk continually receives requests near its current head position while an older request waits far away. Always choosing the nearest request can starve the distant one. A deadline or sweep policy limits that waiting at the cost of some locality. Specify the initial head position, direction, and arrival times before comparing seek totals in a scheduling exercise."
+    }
+  ],
+  "the-block-layer": [
+    {
+      "title": "Requests pass through several queues",
+      "body": "The block layer translates higher-level I/O into requests suitable for devices, potentially merging, splitting, scheduling, and distributing them among hardware queues. Device completion flows back toward waiting callers and cached state. Application operations do not map one-to-one to hardware requests: cache hits may issue none, while one large write may become several requests."
+    },
+    {
+      "title": "Example: apparent request amplification",
+      "body": "An application issues a large write, but tracing shows multiple smaller block requests plus metadata activity. Alignment, filesystem allocation, device limits, and journaling can explain the difference. Correlate bytes and timing across layers rather than assuming each observed request represents a separate application write. Queueing at an upper layer can also make application latency much larger than device service time."
+    }
+  ],
+  "the-page-cache": [
+    {
+      "title": "Read reuse and deferred writes",
+      "body": "The page cache holds file-backed data in memory. Reads can reuse cached pages; buffered writes mark pages dirty for later write-back. Dirty-page limits prevent unlimited deferred work and can throttle writers. Clean cached pages are often reclaimable, but a large cache is not proof memory is wasted. Its value depends on reuse and competition with other working sets."
+    },
+    {
+      "title": "Example: a fast write followed by a stall",
+      "body": "A burst of writes initially completes quickly into memory, making throughput look higher than the device's sustained rate. As dirty data accumulates, write-back and throttling expose the real bottleneck. Run a sufficiently long test and report synchronization behavior. Short benchmark results can describe cache absorption rather than sustainable persistent-storage performance."
+    }
+  ],
+  "buffered-and-direct-io": [
+    {
+      "title": "Bypassing a cache is a trade-off",
+      "body": "Buffered I/O benefits from the kernel page cache, read-ahead, and write aggregation. Direct I/O can bypass parts of that caching path under filesystem- and platform-specific alignment rules. It does not automatically guarantee durability or eliminate every cache. Applications choosing it often assume more responsibility for buffering, request sizing, and coordination with other access paths."
+    },
+    {
+      "title": "Example: a database with its own cache",
+      "body": "A database may prefer direct I/O to avoid retaining the same data in both its buffer pool and the OS page cache. Poorly sized or misaligned requests can still fail or perform badly. Mixing buffered, mapped, and direct access to overlapping regions requires careful coherence reasoning. Benchmark the complete design rather than assuming less caching always means less overhead."
+    }
+  ],
+  "durability-and-fsync": [
+    {
+      "title": "Define which failure must be survived",
+      "body": "A successful write reports data accepted according to the API, not necessarily persistence through power loss. Synchronization requests push relevant updates toward durable storage and can report delayed errors. File contents and the directory entry naming the file are distinct durability concerns. Guarantees depend on the filesystem, device, and correctly honored flush semantics."
+    },
+    {
+      "title": "Example: acknowledging a transaction",
+      "body": "If a service acknowledges a committed record before the necessary durability operation succeeds, a crash can lose an operation clients believe completed. Group commit amortizes synchronization across several records but introduces waiting for the group. Measure durability latency separately from buffered-write latency, and treat synchronization failures as meaningful failures rather than logging them while still returning success."
+    }
+  ],
+  "raid": [
+    {
+      "title": "Redundancy addresses some failures, not all",
+      "body": "Striping distributes blocks for capacity or performance; mirroring duplicates data; parity reconstructs missing blocks within the array's fault model. RAID 0 has no redundancy, RAID 1 mirrors, and common parity arrangements tolerate a bounded number of member failures. Rebuild work competes with application I/O, and correlated failures can exceed the assumed protection."
+    },
+    {
+      "title": "Example: deletion is replicated too",
+      "body": "An application mistakenly deletes valuable data. A redundant array faithfully stores the deletion, so redundancy does not restore the lost version. Backups and tested recovery serve a different purpose. Also examine degraded-mode performance, rebuild duration, controller dependencies, and write-hole protection where relevant. Counting surviving disks alone does not prove the end-to-end durability of acknowledged application operations."
+    }
+  ],
+  "diagnosing-io-problems": [
+    {
+      "title": "Locate waiting before replacing hardware",
+      "body": "Measure application operation latency, queueing, filesystem behavior, and device activity over the same interval. Distinguish cache misses, durability waits, metadata work, and large transfer costs. Device utilization metrics require interpretation on parallel devices: a busy interval is not always a simple percentage of exhausted performance. Use request size and queue depth alongside latency."
+    },
+    {
+      "title": "Example: high latency with modest bandwidth",
+      "body": "A service performs a durability operation after each tiny write. Total bytes per second stay low, but each request waits for a persistence round trip. A sequential bandwidth benchmark would miss this bottleneck. Batching may help if the application's acknowledgment contract permits it. Validate the new failure behavior before treating fewer sync calls as an unconditional improvement."
+    }
+  ],
+  "protection-vs-security": [
+    {
+      "title": "Mechanisms and threats are related but different",
+      "body": "Protection controls which subjects can perform which operations on resources. Security evaluates whether those controls and surrounding processes resist threats such as impersonation, malicious input, and privilege escalation. Correct permission bits are useful but do not make a vulnerable privileged service safe. Begin with assets, trust boundaries, and attacker capabilities before choosing a defense."
+    },
+    {
+      "title": "Example: an authorized service with a bug",
+      "body": "A service legitimately reads a private file but exposes its contents through an incorrectly authorized endpoint. Filesystem protection worked as configured; application authorization failed. Conversely a well-written endpoint cannot protect files that unrelated users can read directly. Trace authority through every layer and reduce privileges so a failure in one component has a smaller reachable damage set."
+    }
+  ],
+  "users-groups-and-permissions": [
+    {
+      "title": "Identity participates in access checks",
+      "body": "Processes carry credentials used by kernel authorization. Files have ownership and permission metadata, and groups provide a way to share selected access. Effective and real identities, supplementary groups, ACLs, and privilege transitions complicate the simple owner/group/other model. Inspect the credentials of the actual failing process instead of assuming they match the interactive shell that launched it."
+    },
+    {
+      "title": "Example: a service cannot read configuration",
+      "body": "A configuration file is readable by the administrator but not the service account. Running the whole service as root hides the symptom while expanding its authority. Grant only the required access to the intended identity, including directory traversal. Recheck how credentials are established at startup and whether workers retain unnecessary privileges after opening required resources."
+    }
+  ],
+  "access-control-and-capabilities": [
+    {
+      "title": "Authority can be scoped to an operation",
+      "body": "Discretionary access control uses ownership and delegated permissions; mandatory policies impose additional constraints. Capability approaches represent authority to particular operations or objects. Linux capabilities split some traditional root powers, while an open descriptor can function as authority to an object. These concepts share least-privilege goals but are not interchangeable implementations of one universal mechanism."
+    },
+    {
+      "title": "Example: bind once, then reduce authority",
+      "body": "A server may need limited startup authority to acquire a resource but not need it for ordinary request handling. Arrange startup to obtain what is required and then drop unnecessary authority using a correctly designed platform-specific mechanism. Verify inherited descriptors and child processes too. A privilege reduction that leaves powerful handles available may retain more effective access than expected."
+    }
+  ],
+  "memory-protection": [
+    {
+      "title": "Permissions protect pages, not every object",
+      "body": "The OS uses mapping permissions and privilege checks to separate address spaces and restrict read, write, and execute access. Guard pages can catch certain boundary crossings; nonexecutable memory reduces some code-injection paths. These mechanisms do not prove a C pointer stays inside its allocation when neighboring objects share a writable page. Language-level memory safety addresses a finer-grained problem."
+    },
+    {
+      "title": "Example: executable data is not required",
+      "body": "A program normally needs writable data and executable code, not arbitrary memory simultaneously writable and executable. Restricting those permissions reduces attack opportunities, but attackers may reuse existing instructions if memory corruption remains. Combine correct lifetimes and bounds, appropriate runtime mitigations, and minimal authority. A page fault catches some bad accesses, not every misuse that corrupts application state."
+    }
+  ],
+  "seccomp-and-syscall-filtering": [
+    {
+      "title": "Reduce the reachable kernel interface",
+      "body": "Seccomp can restrict which system calls a Linux process may make under a filter policy. It is useful when a worker needs a narrow operation set. It does not replace filesystem authorization, memory safety, or namespace isolation, and filtering call numbers alone may not express every desired object-level policy. Compatibility requires accounting for runtime and library behavior."
+    },
+    {
+      "title": "Example: a parsing worker",
+      "body": "A worker receives input and returns a parsed result but should not create arbitrary new network connections. A policy can constrain unnecessary syscall paths after required initialization. Test both successful and exceptional inputs because logging, allocation, and runtime cleanup may use additional calls. Rejecting a syscall without a deliberate failure path can turn a security boundary into unexplained crashes or lost work."
+    }
+  ],
+  "resource-limits": [
+    {
+      "title": "Bound consumption as well as access",
+      "body": "Resource limits constrain quantities such as descriptors, process counts, address space, or CPU time according to platform rules. Soft limits define the active threshold; hard limits bound permitted increases under the relevant privilege model. These limits are not identical to cgroup controls and do not all measure physical consumption. Applications must handle failure when reaching a configured limit."
+    },
+    {
+      "title": "Example: controlled descriptor exhaustion",
+      "body": "A worker leaks one descriptor per request until open or accept fails. Raising its limit delays failure but does not repair ownership. Count descriptors by type and identify missing closes, including exception paths. Keep an operational reserve and define graceful overload behavior so the process can report errors and recover instead of failing every unrelated operation at once."
+    }
+  ],
+  "common-os-vulnerabilities": [
+    {
+      "title": "Boundary mistakes amplify authority",
+      "body": "Memory corruption, unsafe path resolution, race conditions, and overly broad privileges can turn ordinary input into unauthorized behavior. A time-of-check/time-of-use bug arises when the checked fact changes before the protected operation. Integer overflow can turn a large requested size into a small allocation. Correctness must cover transitions and arithmetic, not merely validate an initial string."
+    },
+    {
+      "title": "Example: length multiplication",
+      "body": "A request specifies count objects of size bytes. If count×size wraps before allocation, a small buffer may be allocated and later written as though it were large. Check arithmetic before multiplying and validate every derived length. Even with validation, retain least privilege so an unrelated memory bug does not grant unnecessary filesystem, network, or process-control authority."
+    }
+  ],
+  "side-channels": [
+    {
+      "title": "Observable behavior can reveal hidden state",
+      "body": "A side channel infers information from effects such as execution time, cache activity, or resource contention rather than reading protected data directly. Isolation of addresses does not eliminate shared microarchitectural state. Defenses depend on the threat: constant-time algorithms, reducing sharing, and platform mitigations address different paths. Avoid assuming all timing variation is a vulnerability or all isolation eliminates it."
+    },
+    {
+      "title": "Example: secret-dependent comparison",
+      "body": "A comparison that returns at the first mismatching secret byte can expose differences correlated with matching prefixes. Repeated measurements may extract a signal despite noise. Use a vetted constant-time comparison for relevant secrets rather than improvising one, and consider the surrounding protocol too. Branch removal alone is not a complete proof because compiler transformations and memory access patterns also matter."
+    }
+  ],
+  "what-virtualization-is": [
+    {
+      "title": "Present a managed view of resources",
+      "body": "Virtualization interposes a layer between a consumer and physical resources so each consumer can operate against a controlled abstraction. CPU, memory, storage, and devices require different mechanisms. The abstraction enables isolation, consolidation, and migration but adds management and scheduling interactions. Distinguish a virtual resource's advertised capacity from the physical service available when several guests compete."
+    },
+    {
+      "title": "Example: four busy guests",
+      "body": "Four virtual machines each see four virtual CPUs on a host with fewer physical execution slots than the aggregate demand. Every guest can report runnable work while the host must multiplex it. Increasing a guest's vCPU count does not create host capacity and may worsen scheduling interactions. Diagnose both guest demand and host contention before tuning the application scheduler."
+    }
+  ],
+  "virtual-machines-and-hypervisors": [
+    {
+      "title": "Guest kernels run under a managing layer",
+      "body": "A hypervisor controls guest execution and access to machine resources, using hardware support and device virtualization where available. Type-1 and type-2 labels describe broad deployment arrangements, but implementation details determine the actual path. Guests run their own kernels, which distinguishes a VM from a container sharing the host kernel. Device emulation and paravirtualized interfaces have different overheads."
+    },
+    {
+      "title": "Example: two independent kernel environments",
+      "body": "Two guests can use different kernel versions and isolate many guest-kernel failures from one another, subject to hypervisor and hardware correctness. Their storage or network can still share a host bottleneck. A guest crash boundary is not a guarantee against common infrastructure failure. Track resource dependencies and recovery behavior outside the VM as well as inside it."
+    }
+  ],
+  "virtualized-memory": [
+    {
+      "title": "Two address mappings can be involved",
+      "body": "A guest translates process virtual addresses to guest-physical addresses. The virtualization layer maps guest-physical memory to host backing, often with hardware-assisted nested translation. Translation caches reduce repeated work, but misses can involve extra lookup cost. Guest-visible free memory and host physical pressure are separate observations; overcommit and host reclaim can affect a guest unexpectedly."
+    },
+    {
+      "title": "Example: memory pressure at two levels",
+      "body": "A guest believes it has enough memory, yet host contention delays access to its backing. Conversely the host may have spare RAM while a guest's internal allocation is constrained. Check both accounting layers before increasing an application heap. Huge pages, ballooning, and host allocation policies can influence performance, but their benefits depend on actual configuration and workload locality."
+    }
+  ],
+  "containers-vs-virtual-machines": [
+    {
+      "title": "Different kernel boundaries",
+      "body": "Containers isolate selected views and resource use for processes sharing a host kernel. Virtual machines run guest kernels behind a virtualization boundary. Containers often start quickly and package user space efficiently, but cannot supply arbitrary missing host-kernel behavior simply by installing different user-space files. VM isolation and container convenience can also be combined by running containers inside guests."
+    },
+    {
+      "title": "Example: a kernel-specific feature",
+      "body": "A container image includes a tool expecting a newer syscall than the host supports. The executable can exist and its libraries can load, yet the call fails because the host kernel implements the interface. A VM with a suitable guest kernel addresses a different layer. Diagnose the missing contract rather than repeatedly rebuilding the image with the same kernel assumption."
+    }
+  ],
+  "namespaces": [
+    {
+      "title": "Isolate views of selected resources",
+      "body": "Linux namespaces provide separate views for resources such as process IDs, mounts, networking, and hostnames. User namespaces introduce identity mapping with specific privilege rules. Joining one namespace does not automatically isolate every resource or enforce consumption limits. The process still participates in a shared host kernel, and access through retained references can cross assumptions about visible names."
+    },
+    {
+      "title": "Example: two processes called PID 1",
+      "body": "Two containers can each see a process numbered 1 in their PID namespace while the host sees different host PIDs. Those numbers are namespace-relative identities, not evidence of two host init processes. When debugging, establish which view a tool is showing. For isolation, pair namespace choices with appropriate permissions, resource controls, and careful handling of mounts and inherited descriptors."
+    }
+  ],
+  "cgroups": [
+    {
+      "title": "Account and constrain related work",
+      "body": "Control groups organize processes hierarchically and apply resource controllers. CPU controls can weight service or limit runtime; memory controls can define pressure and hard limits. A child's effective resources remain constrained by ancestors. Namespaces change what a process sees, while cgroups affect accounting and service; one does not replace the other."
+    },
+    {
+      "title": "Example: idle host, throttled container",
+      "body": "A container can exhaust its CPU quota during a period and wait despite idle host capacity outside its allocation. Adding threads inside the container does not remove that cap. Inspect throttling and configured limits before increasing worker count. For memory, distinguish high-pressure events from hard-limit failure and examine whether the active working set fits the effective hierarchy."
+    }
+  ],
+  "container-file-systems": [
+    {
+      "title": "Layers and writable state",
+      "body": "Container images commonly use layered filesystems with a writable layer for runtime changes. Reading unchanged image data differs from modifying it, which may require copying an object into the writable layer. Volumes and bind mounts provide other storage paths with distinct ownership and lifetime. Deleting a name in an upper layer does not necessarily erase bytes from an immutable lower image layer."
+    },
+    {
+      "title": "Example: editing a large image file",
+      "body": "A container modifies a small part of a large file inherited from an image. Copy-up behavior can create more I/O and storage use than the small application write suggests, depending on implementation. Place mutable datasets on an appropriate persistent storage path and measure its actual guarantees. Container recreation can remove the writable layer, so it is not an implicit backup strategy."
+    }
+  ],
+  "pid-1-and-signal-handling": [
+    {
+      "title": "The first process has lifecycle duties",
+      "body": "The process occupying PID 1 in a PID namespace has special responsibilities and signal behavior. It may need to reap adopted children and coordinate termination. A shell wrapper that does not forward signals can prevent the real application from seeing a graceful shutdown request. Container exit semantics also depend on the lifetime of its initial process."
+    },
+    {
+      "title": "Example: shutdown reaches the wrapper",
+      "body": "A runtime sends a termination signal to a wrapper shell, but the server running beneath it never receives it. After a grace period the container is forcibly stopped, losing in-flight work. Use an appropriate exec-form startup or a suitable init/supervision arrangement, and test child reaping and signal forwarding. A healthy request path does not establish correct shutdown behavior."
+    }
+  ],
+  "container-resource-failures": [
+    {
+      "title": "Limits change failure modes",
+      "body": "CPU limits can throttle work; memory limits can trigger reclaim or termination; process limits can prevent new threads or children. Descriptor and filesystem limits add other constraints. A generic application error may reflect any of these boundaries. Correlate the failure timestamp with resource events and effective ancestor limits instead of assuming the host's total capacity describes the container's allowance."
+    },
+    {
+      "title": "Example: threads fail before the heap is full",
+      "body": "A service creates one thread per connection and eventually cannot create more threads. Heap usage may still look modest because task limits, stack reservations, or other resources are exhausted first. Bound concurrency and inspect task counts, stack configuration, and cgroup events. Raising only the heap ceiling may increase contention without addressing the actual limiting resource."
+    }
+  ],
+  "container-security": [
+    {
+      "title": "Reduce authority across several layers",
+      "body": "Container isolation combines namespaces, resource controls, credentials, capability restrictions, syscall filtering, and filesystem choices. A privileged container or sensitive host mount can undermine expected boundaries. Images also bring dependencies and application vulnerabilities. Decide which resources the workload truly needs and reduce unnecessary access; the presence of a container runtime is not itself a complete security policy."
+    },
+    {
+      "title": "Example: a powerful host socket",
+      "body": "Mounting a host management socket into an otherwise restricted container can expose authority far beyond its visible filesystem. Evaluate the operations available through each mounted endpoint and descriptor, not just file paths. Run with suitable identities, minimize capabilities, protect secrets, and keep the host kernel maintained. A read-only root filesystem helps some risks but does not constrain every external capability."
+    }
+  ],
+  "a-systematic-debugging-method": [
+    {
+      "title": "Turn symptoms into falsifiable hypotheses",
+      "body": "Start with the user-visible failure and its time interval. Record what changed, define competing explanations, and choose a measurement that distinguishes them. CPU, memory, storage, network, and locks are connected, so one abnormal counter may be a consequence rather than a cause. Preserve a baseline and change one controlled variable where practical."
+    },
+    {
+      "title": "Example: slow API with low CPU",
+      "body": "Possible causes include a slow dependency, lock contention, storage waits, or a concurrency limit. An on-CPU profile alone cannot separate all of them. Measure request-stage timings and waiting states, then inspect the implicated dependency. If a hypothesis predicts long database time but traces show fast database calls, revise it rather than collecting more unrelated CPU screenshots."
+    }
+  ],
+  "investigating-processes": [
+    {
+      "title": "Establish identity and relationships",
+      "body": "Identify the process, its parent and children, start time, command, credentials, and relevant namespace. A PID can be reused after exit, so historical observations need timestamps and identity context. Inspect task states and thread counts rather than treating the process as one undifferentiated activity. Supervisors and wrappers may be the visible process without doing the actual request work."
+    },
+    {
+      "title": "Example: restarting the wrong worker",
+      "body": "A service has a parent supervisor and several children. One child grows memory while the parent remains small. Monitoring only the parent misses the problem, and restarting an unrelated PID may affect another workload. Correlate ownership, lifetime, and per-child metrics. Inspect repeated growth after controlled restarts to distinguish persistent workload demand from an instance-specific leak."
+    }
+  ],
+  "investigating-cpu": [
+    {
+      "title": "Utilization and runnable delay differ",
+      "body": "CPU utilization reports execution time, while runnable delay measures waiting to execute. A process can be constrained by affinity or quota even when the host has idle CPUs. Separate user and kernel work, and use a profile to attribute on-CPU cost. High utilization can be healthy productive throughput; it becomes a problem relative to latency and capacity objectives."
+    },
+    {
+      "title": "Example: one saturated event loop",
+      "body": "A service uses one event-loop thread on a many-core host. Overall utilization looks low, but its single thread consumes a full CPU and queues requests. Inspect per-thread CPU and request delay. Optimize the hot path or distribute suitable work; increasing the number of accepted connections merely enlarges the queue unless execution capacity also changes."
+    }
+  ],
+  "investigating-memory": [
+    {
+      "title": "Distinguish retained objects from retained pages",
+      "body": "Application allocations, allocator caches, mapped files, and shared resident pages contribute differently to memory reports. Track a time series and relate it to workload phases. A rising RSS can represent useful warm caches or a leak. A heap profile explains managed objects but may omit native buffers, thread stacks, mappings, and kernel resources attributed elsewhere."
+    },
+    {
+      "title": "Example: growth after traffic stops",
+      "body": "After a load test, live object counts return to baseline but RSS stays elevated. The allocator may retain free arenas for future use. If live retained objects also keep increasing across repeated cycles, investigate ownership paths. Compare equivalent workload cycles and use the right metric before declaring either a leak or harmless caching solely from one memory snapshot."
+    }
+  ],
+  "investigating-disk": [
+    {
+      "title": "Separate capacity, service time, and access pattern",
+      "body": "Disk-full errors, high device latency, metadata contention, and durability waits require different fixes. Observe filesystem free space and inode availability alongside request size, queueing, and latency. Caches can hide device work temporarily. Network-backed storage adds another layer, so device statistics on the local host may not capture the true backend bottleneck."
+    },
+    {
+      "title": "Example: free bytes but failed creates",
+      "body": "A filesystem can have free byte capacity while exhausting another required resource such as inodes or a quota. Deleting a few huge files may not address a workload producing millions of tiny files. Inspect the actual error and relevant counters. Test a representative operation instead of relying on a generic throughput benchmark that never creates the same metadata pressure."
+    }
+  ],
+  "investigating-system-calls": [
+    {
+      "title": "Trace boundaries without confusing them with causes",
+      "body": "A syscall trace shows operations, arguments, results, and timing at the user/kernel boundary. It can expose repeated missing-file lookups, short I/O, and long waits. It does not explain all user-space computation, and tracing changes timing. Narrow the process, duration, and operations to the question; captured arguments can also contain sensitive application data."
+    },
+    {
+      "title": "Example: repeated failing opens",
+      "body": "A process tries several nonexistent configuration paths for every request. Tracing reveals the repeated failures even though individual calls are fast. Caching a valid configuration path or correcting initialization can remove the repeated work. Validate the improvement with end-to-end latency and workload volume; a large count of cheap syscalls may matter less than one slow dependency wait."
+    }
+  ],
+  "investigating-network-and-sockets": [
+    {
+      "title": "Inspect both transport and application progress",
+      "body": "Socket state, queue sizes, connection counts, and retransmission observations help locate waiting. A connected TCP socket does not prove the application protocol is healthy. Growing send queues can reflect a slow reader or network problem; growing receive queues can reflect an application not consuming data. Correlate these observations with deadlines and request-stage timings."
+    },
+    {
+      "title": "Example: successful connect, no response",
+      "body": "A client establishes TCP quickly but waits for the first application byte. The delay could be server queueing, backend work, TLS or protocol negotiation, or response buffering. Separate connection establishment from request and response timing. Increasing the connect timeout cannot fix a post-connect bottleneck, and retrying indiscriminately can amplify server overload."
+    }
+  ],
+  "file-descriptor-exhaustion": [
+    {
+      "title": "Each open reference needs a lifecycle",
+      "body": "Files, sockets, pipes, and event interfaces can all consume descriptors. Per-process limits and broader system constraints differ. A leak often occurs on uncommon errors or cancellations rather than the happy path. Count descriptors by type and compare their growth with active work. Descriptor number reuse also makes stale callbacks dangerous after a resource closes."
+    },
+    {
+      "title": "Example: failed connections leak sockets",
+      "body": "A connection succeeds or fails, but cleanup closes the descriptor only on success. During an outage, repeated failures accumulate descriptors until unrelated opens and accepts fail. Put cleanup under explicit ownership so every path closes exactly once. Reproduce cancellation and timeout paths as well as normal completion; increasing limits alone hides the leak temporarily."
+    }
+  ],
+  "profiling-and-flame-graphs": [
+    {
+      "title": "Sampling answers a specific time question",
+      "body": "An on-CPU profile samples executing stacks; a flame graph aggregates stack presence rather than displaying a chronological call sequence. Wide frames indicate accumulated sampled cost in the selected view. Off-CPU or allocation profiles answer different questions. Sampling frequency, symbol quality, inlining, and missing stacks can all affect interpretation, so inspect collection conditions before drawing precise conclusions."
+    },
+    {
+      "title": "Example: a wide waiting function",
+      "body": "A wall-time or off-CPU view may show a blocking function as wide while an on-CPU profile barely shows it. Neither is necessarily wrong; they measure different time. Optimize the relevant critical path and remeasure under comparable load. Removing a narrow CPU function cannot materially reduce a request dominated by remote waiting, even if that function appears in every request."
+    }
+  ],
+  "ebpf-and-bpftrace": [
+    {
+      "title": "Observe selected kernel and user events",
+      "body": "eBPF-based tooling can attach bounded programs to supported observation points, aggregate events, and report selected data with less overhead than exporting every event. Verification and attachment constraints reduce certain risks but do not make all tracing free. Kernel version, permissions, symbols, and event availability affect which probes work. Begin with a precise question and a bounded observation window."
+    },
+    {
+      "title": "Example: a latency distribution",
+      "body": "Instead of printing every I/O event, aggregate operation durations into a histogram keyed by a small, controlled set of categories. This reveals a long tail without generating enormous logs. Validate units, start/end correlation, and missed events before trusting the distribution. High-cardinality keys can consume substantial map memory, and missing completions can bias results unless explicitly accounted for."
+    }
   ]
 }

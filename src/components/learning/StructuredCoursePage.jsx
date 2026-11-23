@@ -5,9 +5,22 @@ import "./StructuredCoursePage.css";
 export default function StructuredCoursePage({ module, track, sections, navigate }) {
   const storageKey = `${track.slug}Section`;
   const lessonCount = sections.reduce((total, item) => total + item.lessons.length, 0);
-  const [openSection, setOpenSection] = useState(
-    () => window.sessionStorage.getItem(storageKey) || sections[0]?.slug,
-  );
+  // The open section is remembered per course: "" means the reader collapsed everything,
+  // no entry means a first visit (open the first section).
+  const [openSection, setOpenSection] = useState(() => {
+    let stored = null;
+    try { stored = window.sessionStorage.getItem(storageKey); } catch { /* storage unavailable */ }
+    return stored === null ? sections[0]?.slug : stored || null;
+  });
+  const remember = (slug) => {
+    try { window.sessionStorage.setItem(storageKey, slug || ""); } catch { /* storage unavailable */ }
+  };
+  // Clicking an open section collapses it; clicking a closed one opens it (and closes the rest).
+  const toggleSection = (slug) => {
+    const nextOpen = openSection === slug ? null : slug;
+    setOpenSection(nextOpen);
+    remember(nextOpen);
+  };
 
   return (
     <main className="structuredCourse" style={{ "--course-accent": module.accent }}>
@@ -23,14 +36,13 @@ export default function StructuredCoursePage({ module, track, sections, navigate
             id={group.slug}
             key={group.slug}
             open={openSection === group.slug}
-            onToggle={(event) => {
-              if (event.currentTarget.open) {
-                setOpenSection(group.slug);
-                window.sessionStorage.setItem(storageKey, group.slug);
-              }
-            }}
           >
-            <summary>
+            <summary
+              onClick={(event) => {
+                event.preventDefault();          // React state, not the browser, decides open/closed
+                toggleSection(group.slug);
+              }}
+            >
               <span>{String(groupIndex + 1).padStart(2, "0")}</span>
               <strong>{group.title}</strong>
               <small>{group.lessons.length} pages</small>
@@ -51,7 +63,8 @@ export default function StructuredCoursePage({ module, track, sections, navigate
                   onFocus={() => preloadArticleComponent(module.id, track.slug, lesson.slug)}
                   onPointerDown={() => preloadArticleComponent(module.id, track.slug, lesson.slug)}
                   onClick={() => {
-                    window.sessionStorage.setItem(storageKey, group.slug);
+                    setOpenSection(group.slug);
+                    remember(group.slug);
                     navigate(`/learn/${module.id}/${track.slug}/${lesson.slug}`);
                   }}
                 >

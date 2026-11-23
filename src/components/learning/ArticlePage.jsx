@@ -17,7 +17,6 @@ const LearningWorkshop = lazy(() => import('./LearningWorkshop'));
 export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const dsaProgress = useDsaProgress();
   const [progress, setProgress] = useState(0);
-  const [expandedSections, setExpandedSections] = useState([]);
   const [workshopOpen, setWorkshopOpen] = useState(false);
   const structuredSections = getStructuredCourseSections(module?.id, track?.slug);
   const articles = getStructuredCourseArticles(module?.id, track?.slug) || articleTemplates;
@@ -29,10 +28,24 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
   const currentSection = isStructuredCourse
     ? structuredSections.find((item) => item.slug === article?.sectionSlug)
     : null;
+  // Sidebar sections the reader has open. Every header toggles (the current section too);
+  // opening an article always opens its own section.
+  const [expandedSections, setExpandedSections] = useState(() => (currentSection ? [currentSection.slug] : []));
 
   useEffect(() => {
     setWorkshopOpen(false);
   }, [articleSlug]);
+
+  useEffect(() => {
+    if (!currentSection || !track) return;
+    setExpandedSections((open) => (open.includes(currentSection.slug) ? open : [...open, currentSection.slug]));
+    // The course overview reopens the section of the last article read.
+    try {
+      window.sessionStorage.setItem(`${track.slug}Section`, currentSection.slug);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [currentSection?.slug, track?.slug, articleSlug]);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -90,7 +103,7 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
           <nav className="groupedChapterNav">
             {structuredSections.map((section, sectionIndex) => {
               const isCurrentSection = section.slug === currentSection?.slug;
-              const isExpanded = isCurrentSection || expandedSections.includes(section.slug);
+              const isExpanded = expandedSections.includes(section.slug);
               return (
                 <section
                   className={[isExpanded ? "open" : "", isCurrentSection ? "current" : ""]
@@ -101,7 +114,6 @@ export default function ArticlePage({ module, track, articleSlug, navigate }) {
                   <button
                     className="sectionLink"
                     onClick={() => {
-                      if (isCurrentSection) return;
                       setExpandedSections((current) =>
                         current.includes(section.slug)
                           ? current.filter((slug) => slug !== section.slug)
