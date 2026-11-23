@@ -52,6 +52,10 @@ const V = {
   forkJoin: () => <FlowVisual flow="forkjoin" />,
   cfuture: () => <FlowVisual flow="cfuture" />,
   vthreads: () => <FlowVisual flow="vthreads" />,
+  lostWakeup: () => <FlowVisual flow="lostwakeup" />,
+  dining: () => <FlowVisual flow="dining" />,
+  tokenBucket: () => <FlowVisual flow="tokenbucket" />,
+  msQueue: () => <FlowVisual flow="msqueue" />,
 };
 
 export const JAVA_VISUALS = {
@@ -111,6 +115,11 @@ export const JAVA_VISUALS = {
   "interview-concurrency-parallelism--concurrency-and-parallelism-q71-q80-fork-join-work-stealing-parallel-streams-and-their-pitfalls": ["forkJoin"],
   "interview-concurrency-parallelism--concurrency-and-parallelism-q81-q90-completablefuture-pipelines-composition-errors-and-timeouts": ["cfuture"],
   "interview-concurrency-parallelism--concurrency-and-parallelism-q91-q100-virtual-threads-pinning-structured-concurrency-scoped-values-testing-and-debugging": ["vthreads", "lifecycle"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q101-q110-thread-states-critical-sections-creating-threads-and-concurrency-models": ["lifecycle", "concPar"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q111-q120-signaling-lost-and-spurious-wake-ups-optimistic-locking-and-two-phase-locking": ["lostWakeup"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q121-q130-classic-synchronization-problems-from-foobar-to-dining-philosophers": ["dining", "deadlock"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q131-q140-designing-a-ttl-cache-rate-limiter-pub-sub-crawler-and-task-scheduler": ["tokenBucket", "cfuture"],
+  "interview-concurrency-parallelism--concurrency-and-parallelism-q141-q150-building-concurrent-data-structures-and-multithreaded-algorithms": ["msQueue", "forkJoin"],
 
   // Java Data Structures: core lessons
   "data-structures--singly-linked-list-insert-delete-sorted-insert-and-objects": ["singly"],

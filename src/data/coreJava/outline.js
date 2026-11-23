@@ -1953,7 +1953,7 @@ export default [
   },
   {
     "slug": "interview-concurrency-parallelism",
-    "title": "Interview Q&A: Top 100 Concurrency and Parallelism Questions",
+    "title": "Interview Q&A: Top 100 Concurrency and Parallelism Questions (+50 Extra)",
     "lessons": [
       {
         "title": "Concurrency and Parallelism Q1-Q10: The Fundamentals, Amdahl's Law and Sizing Thread Pools",
@@ -2004,6 +2004,31 @@ export default [
         "title": "Concurrency and Parallelism Q91-Q100: Virtual Threads, Pinning, Structured Concurrency, Scoped Values, Testing and Debugging",
         "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q91-q100-virtual-threads-pinning-structured-concurrency-scoped-values-testing-and-debugging",
         "time": "19 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q101-Q110: Thread States, Critical Sections, Creating Threads and Concurrency Models",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q101-q110-thread-states-critical-sections-creating-threads-and-concurrency-models",
+        "time": "20 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q111-Q120: Signaling, Lost and Spurious Wake-ups, Optimistic Locking and Two-Phase Locking",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q111-q120-signaling-lost-and-spurious-wake-ups-optimistic-locking-and-two-phase-locking",
+        "time": "21 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q121-Q130: Classic Synchronization Problems, from FooBar to Dining Philosophers",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q121-q130-classic-synchronization-problems-from-foobar-to-dining-philosophers",
+        "time": "28 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q131-Q140: Designing a TTL Cache, Rate Limiter, Pub-Sub, Crawler and Task Scheduler",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q131-q140-designing-a-ttl-cache-rate-limiter-pub-sub-crawler-and-task-scheduler",
+        "time": "31 min"
+      },
+      {
+        "title": "Concurrency and Parallelism Q141-Q150: Building Concurrent Data Structures and Multithreaded Algorithms",
+        "slug": "interview-concurrency-parallelism--concurrency-and-parallelism-q141-q150-building-concurrent-data-structures-and-multithreaded-algorithms",
+        "time": "36 min"
       }
     ]
   }

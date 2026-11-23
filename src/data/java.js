@@ -121,7 +121,7 @@ const interviewGroups = [
   ["Q&A: Collections, equals and hashCode", [...coreBySlug["interview-collections"], ...coreBySlug["interview-equals-hashcode"], ...topicLessons("Q&A: Collections, equals and hashCode")]],
   ["Q&A: Exception handling", [...coreBySlug["interview-exceptions"], ...topicLessons("Q&A: Exception handling")]],
   ["Q&A: Multithreading and concurrency", [...coreBySlug["interview-threads"], ...coreBySlug["interview-concurrency"], ...topicLessons("Q&A: Multithreading and concurrency")]],
-  ["Q&A: Top 100 concurrency and parallelism", coreBySlug["interview-concurrency-parallelism"]],
+  ["Q&A: Concurrency and parallelism (top 100 + 50 extra)", coreBySlug["interview-concurrency-parallelism"]],
   ["Q&A: Serialization and JDBC", [...coreBySlug["interview-serialization"], ...coreBySlug["interview-jdbc"]]],
   ["Q&A: JVM, memory and garbage collection", topicLessons("Q&A: JVM, memory and garbage collection")],
   ["Q&A: JDK versions 1.0 to 27", coreBySlug["interview-jdk-versions"]],
