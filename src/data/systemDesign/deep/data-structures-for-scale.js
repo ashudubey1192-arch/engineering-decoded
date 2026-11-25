@@ -1,0 +1,268 @@
+import { deep } from "../schema.js";
+
+export default {
+  "data-structures-for-scale--introduction": deep({
+    anim: ["Counting unique visitors: exact or sketch", "v:Visits 1B | e:Exact set, s:HyperLogLog | m1:Memory exact:0, m2:Memory sketch:0 | r:Report", [
+      ["v>e", "every id", "An exact count must remember each distinct visitor id.", "e=growing"],
+      ["e>m1", "100M ids", "100 million ids of 16 bytes, plus set overhead, need about 5 GB. Per page and per day this explodes.", "m1=!5 GB"],
+      ["v>s", "hash each id", "A sketch keeps only small statistics about the hashes.", "s=16k counters"],
+      ["s>m2", "12 KB", "It always needs 12 KB, for a thousand or a billion visitors.", "m2=+12 KB"],
+      ["s>r", "99.4M", "It answers 99.4 million: an error of 0.6%.", "r=99.4M"],
+      ["r", "good enough?", "For a trend chart a 1% error is invisible, and 400,000 times less memory is not. For billing you would count exactly.", "r=+ok for charts"],
+    ]],
+    more: [
+      ["Pick by question", "Seen before? Bloom or Cuckoo. How many distinct? HyperLogLog. How often? Count-Min. How similar? MinHash. What percentile? t-digest. Where nearby? Geohash, quad tree, S2 or H3."],
+      ["Mergeable", "Most sketches from different servers can be combined without loss. That makes them ideal for distributed and time-window analytics."],
+      ["Know the error side", "Bloom filters never miss a present item; Count-Min never underestimates. Use the direction of error in your design."],
+    ],
+    use: "Huge streams where a small known error is acceptable.",
+    avoid: "Money, quotas, legal reporting, or small data that fits in memory anyway.",
+    answer: "Nobody acts differently on 99.4M versus 100M visitors, so a bounded 1% error costs nothing, while exact counting would need gigabytes per metric. The sketch needs a few KB, can be merged across servers, and is fast enough for real time.",
+    qa: [
+      ["What makes a sketch mergeable?", "Combining two sketches gives the same result as sketching the combined stream, e.g. maximum of HyperLogLog registers or sum of Count-Min cells."],
+      ["How do you validate an approximate metric?", "Compute the exact value on a sample or a small time window, compare regularly, and publish the error bound with the metric."],
+    ],
+  }),
+  "data-structures-for-scale--geohash": deep({
+    anim: ["Finding neighbours by prefix", "u:User 12.97 77.59 | g:Geohash:tdr1 | i:Index on prefix | c:8 neighbours | r:Results", [
+      ["u>g", "encode", "The world is halved again and again, alternating longitude and latitude. Each half adds one bit.", "g=tdr1y"],
+      ["g", "5 chars", "Five base-32 characters describe a cell of about 5 x 5 km. Each extra character divides it by 32.", "g=tdr1y 5 km"],
+      ["g>i", "LIKE tdr1y%", "Nearby points share a prefix, so an ordinary B-tree index finds them with a range scan.", "i=40 places"],
+      ["u", "near the border", "The user stands 20 metres from the cell's edge. A cafe across the edge has a **different** prefix.", "u=~edge of cell"],
+      ["g>c", "+ 8 cells", "So always search the cell and its 8 neighbours.", "c=+9 ranges"],
+      ["c>r", "exact distance", "Compute the real distance for the candidates and drop those outside the radius.", "r=+6 within 1 km"],
+    ]],
+    more: [
+      ["Precision table", "4 characters about 39 x 20 km, 5 about 4.9 km, 6 about 1.2 km, 7 about 150 m, 8 about 38 m. Choose the length so that a cell is close to your radius."],
+      ["Distortion", "Cells get narrower towards the poles. For global accuracy consider S2 or H3."],
+      ["Sharding", "Using the prefix as a shard key groups neighbours but makes cities hot. Combine with a hash suffix for writes."],
+    ],
+    use: "Simple proximity search on any database with string indexes.",
+    avoid: "Precise shapes, polar regions, or strongly uneven density.",
+    answer: "Cells have hard edges. Two points a metre apart on opposite sides of a major boundary (such as the equator or a first-level split) fall into different halves at an early step, so their hashes differ from the first characters on.",
+    qa: [
+      ["How do you search a 3 km radius with geohash?", "Use a precision whose cell is at least 3 km (5 characters), search the 9 cells, then filter by exact distance. Alternatively cover the circle with several smaller cells."],
+      ["Geohash or PostGIS?", "PostGIS (R-tree) handles polygons and exact queries in one database. Geohash is portable to key-value stores and caches, and simple to shard."],
+    ],
+  }),
+  "data-structures-for-scale--quad-trees": deep({
+    anim: ["Splitting only where drivers are dense", "n:New drivers | r:City root:4 of 4 | a:Downtown:empty, b:Suburb:empty | d1:Downtown NW, d2:Downtown SE", [
+      ["n>r", "5th driver", "A cell may hold 4 drivers. The fifth forces a split into quadrants.", "r=split"],
+      ["r>a", "4 drivers", "Four of them are downtown.", "a=4 of 4"],
+      ["r>b", "1 driver", "One is in the suburb, so that cell stays large.", "b=1 of 4"],
+      ["n>a", "more downtown", "More drivers appear downtown and that cell splits again. The suburb does not.", "a=split"],
+      ["a>d1,d2", "small cells", "Downtown gets small cells and the suburb one big one: detail follows density.", "d1=3 of 4; d2=3 of 4"],
+      ["r>d2", "search nearby", "A search descends from the root and skips every quadrant that does not touch the circle.", "d2=+3 found"],
+    ]],
+    more: [
+      ["Moving objects", "Drivers move every few seconds. Update in memory: remove from the old leaf and insert in the new one; split and merge with hysteresis to avoid flapping."],
+      ["Memory", "About twice as many nodes as leaves; 100 million places with 100 per leaf make 1 million leaves: easily in memory."],
+      ["Distribution", "Give each server a region subtree, replicate it, and rebuild from the database on restart."],
+    ],
+    use: "In-memory search of points with very uneven density.",
+    avoid: "Data that lives in a database index, or constant heavy movement at extreme rates, where fixed grids are simpler.",
+    answer: "A cell splits only when it holds more than the limit. Downtown has many points, so it keeps splitting into smaller cells, while a sparse rural cell never reaches the limit and stays large. Detail adapts to density.",
+    qa: [
+      ["How do you find the 10 nearest with a quad tree?", "Go to the leaf of the query point, then expand to neighbouring cells in order of distance with a priority queue, stopping when the next cell is farther than the tenth result."],
+      ["Quad tree or geohash grid?", "A quad tree adapts to density but needs a custom in-memory structure. A grid is trivial to shard and update but has crowded and empty cells."],
+    ],
+  }),
+  "data-structures-for-scale--r-trees": deep({
+    anim: ["Skipping whole rectangles in a search", "q:Window query | r:Root | a:Box North, b:Box South | x:Parks 1-40, y:Parks 41-90", [
+      ["q>r", "area near river", "Which parks touch this window? The root stores two bounding boxes.", "r=2 boxes"],
+      ["r>a", "no overlap", "The North box does not touch the window, so everything in it is skipped without looking.", "a=+skipped"],
+      ["r>b", "overlap", "The South box overlaps, so the search descends there.", "b=opened"],
+      ["b>x", "no overlap", "One child box is outside: 40 parks are skipped with one comparison.", "x=+skipped"],
+      ["b>y", "overlap", "The other is inside. Only its parks are checked.", "y=50 candidates"],
+      ["y>q", "exact shape", "A bounding box is larger than the shape, so a final exact test removes false matches.", "q=+3 parks"],
+    ]],
+    more: [
+      ["Quality of boxes", "Overlapping boxes force the search down several branches. R* trees reinsert entries to reduce overlap; bulk loading builds nearly perfect trees."],
+      ["Beyond maps", "Any rectangles: time ranges with values, collision detection, CAD, window systems."],
+      ["Filter and refine", "Index on cheap boxes, then verify with expensive geometry. The same two-step idea appears in many search systems."],
+    ],
+    use: "Shapes and areas: roads, buildings, delivery zones, overlaps.",
+    avoid: "Only points at massive write rates, or very high dimensions, where boxes overlap everywhere.",
+    answer: "Each node stores a rectangle enclosing everything below it. If the query does not overlap that rectangle, nothing below can match, so the whole branch is skipped with one comparison.",
+    qa: [
+      ["Why does an R-tree need a refine step?", "It indexes bounding rectangles, not true shapes. Two shapes may have overlapping rectangles without touching, so candidates are checked with exact geometry."],
+      ["Why do R-trees fail in high dimensions?", "Bounding boxes become large and overlap almost everywhere, so few branches can be skipped. Approximate nearest neighbour indexes work better there."],
+    ],
+  }),
+  "data-structures-for-scale--s2-and-h3": deep({
+    anim: ["Square and hexagon neighbours", "p:Driver point | s:Square cell, h:Hex cell | s4:4 edge cells, s8:4 corner cells | h6:6 neighbours", [
+      ["p>s", "square grid", "In a square grid the driver's cell has eight neighbours.", "s=8 neighbours"],
+      ["s>s4", "distance 1.0", "Four share an edge, with centres one unit away.", "s4=dist 1.0"],
+      ["s>s8", "distance 1.41", "Four touch only at a corner and are 41% farther. Which of them count as near?", "s8=~dist 1.41"],
+      ["p>h", "hex grid", "In a hexagon grid the cell has six neighbours.", "h=6 neighbours"],
+      ["h>h6", "all distance 1.0", "**All six** are equally far. Rings around a cell approximate circles well.", "h6=+dist 1.0"],
+      ["h", "parent cell", "Both systems are hierarchical: zoom out to a parent cell for coarse counting, zoom in for detail.", "h=+16 levels"],
+    ]],
+    more: [
+      ["S2 cells", "Projects the sphere on a cube and numbers cells along a space-filling curve: 64-bit ids, exact containment in parents, and any region as a few id ranges."],
+      ["H3 cells", "Hexagons with 16 resolutions. Children do not fit their parent exactly, so roll-ups are approximate. Good for flows and surge areas."],
+      ["Choosing", "S2 for indexing, range scans and exact hierarchy. H3 for movement, neighbours and visual analysis."],
+    ],
+    use: "Global location indexing, demand heat maps, geofencing.",
+    avoid: "A single small city where a plain grid would do.",
+    answer: "Each hexagon has six neighbours at the same distance across a full edge. A square has four at distance 1 and four diagonal ones at about 1.41, so neighbour rings and distances are uneven.",
+    qa: [
+      ["How would you compute surge pricing areas?", "Map requests and drivers to H3 cells, count per cell and neighbour ring in a short time window, compute the ratio, and smooth over the ring to avoid sharp edges."],
+      ["How does S2 turn a region into a database query?", "It covers the region with a few cells of mixed sizes. Each cell is a contiguous id range, so the query becomes several range scans on an indexed integer."],
+    ],
+  }),
+  "data-structures-for-scale--bloom-filters": deep({
+    anim: ["Adding two names and asking for two", "k:Key | h:3 hashes | b:10 bits:0000000000 | d:Disk", [
+      ["k>h", "add ana", "Three hash functions give positions 1, 4 and 7.", "h=1 4 7"],
+      ["h>b", "set 1 4 7", "Those bits become 1. The name itself is not stored.", "b=0100100100"],
+      ["h>b", "add bob: 2 4 9", "Bob sets 2, 4 and 9. Bit 4 was set already: sharing is allowed.", "b=0110100101"],
+      ["k>b", "has cat? 1 3 8", "Bit 3 is 0. If cat had been added it would be 1, so cat is **certainly absent**.", "k=+no disk read"],
+      ["k>b", "has dan? 2 7 9", "All three bits are 1, but set by others. Answer: maybe.", "k=~maybe"],
+      ["b>d", "check disk", "Only a maybe costs a real lookup, which finds nothing: a false positive.", "d=~not found"],
+    ]],
+    more: [
+      ["Sizing", "About 10 bits per item with 7 hashes gives 1% false positives; 15 bits give 0.1%. The size depends on the count and not on how long the items are."],
+      ["Filling up", "More items than planned raise the error quickly. Use scalable Bloom filters or rebuild periodically."],
+      ["Variants", "Counting (supports deletion), blocked (one cache line per lookup), and Cuckoo (deletion, better at low error rates)."],
+    ],
+    use: "Avoiding expensive lookups for absent items: disk files, cache penetration, seen URLs.",
+    avoid: "Needing exact answers, deletions, or a list of the members.",
+    answer: "Adding sets all the item's bits and nothing ever clears them, so a present item always finds its bits set: no false negatives. But other items may set the same bits, so an absent item can look present: false positives are possible.",
+    qa: [
+      ["Where would you use one in a web crawler?", "To skip URLs that were probably seen. A false positive loses a page now and then, which is acceptable; memory drops from hundreds of GB to a few."],
+      ["Why not just use a hash set?", "It stores the items: 100 million URLs need about 10 GB, against 120 MB for a Bloom filter with a 1% error."],
+    ],
+  }),
+  "data-structures-for-scale--cuckoo-filter": deep({
+    anim: ["Insert with a kick, then a safe delete", "k:Item | f:Fingerprint | b1:Bucket 3:x9, b2:Bucket 8:m2 | b3:Bucket 5:empty", [
+      ["k>f", "ana", "The item is reduced to a short fingerprint, a7, and two possible buckets, 3 and 8.", "f=a7"],
+      ["f>b1", "bucket 3 full", "Bucket 3 is occupied by x9.", "b1=~x9"],
+      ["f>b2", "bucket 8 full", "Bucket 8 is occupied by m2.", "b2=~m2"],
+      ["b1>b3", "kick x9", "x9 is moved to **its** other bucket, 5, which can be calculated from the fingerprint and the current bucket.", "b3=x9; b1=a7"],
+      ["k>b1", "has ana?", "A lookup checks just two buckets.", "b1=+a7"],
+      ["k>b1", "delete ana", "Deleting removes one copy of a7. Nobody else shares that slot, unlike Bloom bits.", "b1=empty"],
+    ]],
+    more: [
+      ["Partial-key cuckoo hashing", "Second bucket = first XOR hash(fingerprint). So the alternative can be found without the original item."],
+      ["Load limit", "With 4 slots per bucket it fills to about 95%. Above that, inserts need many kicks and can fail: resize before."],
+      ["Deletion rule", "Delete only items that were really inserted, otherwise you may remove another item's identical fingerprint and create a false negative."],
+    ],
+    use: "Membership with deletions and low error rates.",
+    avoid: "Unknown growth without resizing, or many duplicates of the same item.",
+    answer: "A cuckoo filter stores a separate fingerprint per item, so deletion removes just that entry. In a Bloom filter bits are shared between items, and clearing one may erase evidence for others, giving false negatives.",
+    qa: [
+      ["Bloom or Cuckoo?", "Bloom is simpler and never fails an insert. Cuckoo supports deletion, touches two cache lines per lookup, and is smaller when the error must be below about 3%."],
+      ["What happens if an insert fails?", "After a maximum number of kicks the filter is considered full. Grow it and re-insert (needs the items) or chain a second filter."],
+    ],
+  }),
+  "data-structures-for-scale--hyperloglog": deep({
+    anim: ["Estimating distinct users from leading zeros", "v:User ids | h:Hash | r1:Register 1:0, r2:Register 2:0 | e:Estimate", [
+      ["v>h", "ana to 0101...", "Each id is hashed to random-looking bits. The first bits choose a register.", "h=reg 1 rest 0101"],
+      ["h>r1", "1 zero", "The rest begins with one zero. The register keeps the **largest** run seen.", "r1=max 1"],
+      ["h>r2", "00001...", "Another id has four leading zeros. This happens by chance once in about 16 ids.", "r2=max 4"],
+      ["v>h", "ana again", "The same id gives the same hash, so nothing changes: duplicates are ignored by design.", "r1=max 1"],
+      ["h>r1", "0001...", "More distinct ids make longer runs likely. Run length is a clue to the count: about 2^run.", "r1=max 3"],
+      ["r1>e", "harmonic mean", "One register is noisy. 16,384 registers averaged give an error of 0.8% in 12 KB.", "e=+about 10M"],
+    ]],
+    more: [
+      ["Merging", "Take the maximum of each register. Daily sketches combine into a monthly unique count without double counting."],
+      ["No intersection", "Union is easy, but intersection must be estimated by inclusion-exclusion, and the error becomes large when the overlap is small."],
+      ["Small counts", "With few items the raw estimate is biased. Implementations use linear counting or a sparse form at the start."],
+    ],
+    use: "Unique visitors, distinct queries, cardinality estimates in databases.",
+    avoid: "Exact counts, or asking whether a given item was seen.",
+    answer: "Hash bits are random, so a run of k zeros appears once in about 2^k distinct values. Seeing a long run is strong evidence that roughly 2^k different items were hashed. Repeated items give the same hash, so they do not count.",
+    qa: [
+      ["How do you count unique users per hour and per day?", "Keep one sketch per hour and merge 24 of them for the day. Adding the hourly counts would count returning users several times."],
+      ["How accurate is it?", "Standard error is about 1.04 / sqrt(m). 16,384 registers give 0.81%; 1,024 give 3.25%."],
+    ],
+  }),
+  "data-structures-for-scale--count-min-sketch": deep({
+    anim: ["Counting searches with collisions", "q:Search term | h:2 hashes | r1:Row 1:all 0, r2:Row 2:all 0 | e:Estimate", [
+      ["q>h", "cat x 5", "Each term is hashed once per row to choose a column.", "h=col 2 and col 4"],
+      ["h>r1,r2", "+5", "The term's counter is increased in **every** row.", "r1=c2 = 5; r2=c4 = 5"],
+      ["h>r1", "dog x 3", "Dog collides with cat in row 1 (column 2) but not in row 2 (column 1).", "r1=~c2 = 8; r2=c4 = 5 c1 = 3"],
+      ["q>r1", "cat?", "Row 1 says 8: too high, since it contains dog.", "e=~8"],
+      ["q>r2", "cat?", "Row 2 says 5. Collisions only ever **add**, so the smallest value is the best.", "e=+min = 5"],
+      ["e", "never too low", "The true count is never larger than the answer. More columns reduce the error, more rows reduce its probability.", "e=+5"],
+    ]],
+    more: [
+      ["Sizing", "Columns = 2.72 / error, rows = ln(1 / probability). For 0.1% error with 99% confidence: 2,719 x 5 counters, about 54 KB."],
+      ["Top-K", "Keep a small heap of the biggest estimates next to the sketch. That gives trending terms without storing every term."],
+      ["Conservative update", "Increase only the counters that equal the current minimum. Errors drop noticeably for skewed data."],
+    ],
+    use: "Heavy hitters, trending topics, rate limiting by key, join size estimation.",
+    avoid: "Rare items: their estimate is dominated by collisions.",
+    answer: "Each row overestimates by whatever collided there. Because errors are only positive, the row with the fewest collisions has the smallest value, and that is closest to the truth. One row alone might have a bad collision.",
+    qa: [
+      ["How do you support a sliding window?", "Keep one sketch per minute and add up the last N, or use decay: halve all counters periodically."],
+      ["Count-Min or a hash map?", "A hash map is exact and grows with the number of keys. Count-Min has fixed memory and bounded error relative to the total, ideal for unbounded keys."],
+    ],
+  }),
+  "data-structures-for-scale--minhash": deep({
+    anim: ["Similarity of two documents by four slots", "a:Doc A words, b:Doc B words | h:4 hash orders | sa:Signature A, sb:Signature B | s:Similarity", [
+      ["a>h", "words of A", "For each hash function, calculate the hash of every word and keep only the **minimum**.", "h=4 functions"],
+      ["h>sa", "3 7 1 9", "Document A becomes four numbers, whatever its length.", "sa=3 7 1 9"],
+      ["b>h", "words of B", "The same four functions are used for B.", "h=same 4"],
+      ["h>sb", "3 8 1 9", "B becomes four numbers as well.", "sb=3 8 1 9"],
+      ["sa>s", "compare", "The minimum of both sets together is equally likely to be any word. It is shared exactly when that word is in **both**.", "s=3 of 4 equal"],
+      ["sb>s", "3 / 4", "Matching slots / all slots estimates shared words / all words: 75%. With 128 slots the error is about 9%.", "s=+75% similar"],
+    ]],
+    more: [
+      ["Shingles", "Use overlapping word groups (for example 5 words) in place of single words, so that order matters and common words do not dominate."],
+      ["LSH banding", "Split the signature into bands and hash each band to a bucket. Only documents sharing a bucket are compared, which avoids comparing all pairs."],
+      ["Alternatives", "SimHash for cosine-like similarity in 64 bits; embeddings for meaning rather than wording."],
+    ],
+    use: "Near-duplicate pages, plagiarism, clustering, recommendation by shared items.",
+    avoid: "Semantic similarity with different words, or exact set operations.",
+    answer: "For a random order of all words, the first word of the union is equally likely to be any of them. The two minima match exactly if that word is in the intersection, with probability |A and B| / |A or B|: the Jaccard similarity. The fraction over many slots estimates it.",
+    qa: [
+      ["How do you find near duplicates among a billion documents?", "MinHash signatures, LSH banding into buckets, compare only bucket-mates, verify by exact Jaccard, and cluster."],
+      ["How many hash functions are needed?", "The error is about 1/sqrt(k): 100 for 10%, 400 for 5%. One permutation hashing gives the same result with much less work."],
+    ],
+  }),
+  "data-structures-for-scale--skip-lists": deep({
+    anim: ["Finding 26 in three express levels", "s:Start | l3:Level 3:1 .. 21 | l2:Level 2:1 9 21 26 | l1:Level 1:all nodes | f:Found", [
+      ["s>l3", "1 to 21", "Level 3 has few nodes: jump from 1 to 21 in one step.", "l3=at 21"],
+      ["l3>l2", "drop at 21", "The next on level 3 is the end, so go down one level and continue from 21.", "l2=at 21"],
+      ["l2>f", "26", "One step on level 2 reaches 26. Three steps instead of eight on the bottom list.", "f=+26"],
+      ["s>l1", "insert 23", "To insert 23, find its place on the bottom level between 21 and 26.", "l1=21 23 26"],
+      ["l1>l2", "coin: heads", "Flip a coin: heads, so 23 is promoted to level 2 as well.", "l2=1 9 21 23 26"],
+      ["l2", "coin: tails", "Tails: stop. Half of the nodes reach each next level **on average**, so it stays balanced without rotations.", "l3=unchanged"],
+    ]],
+    more: [
+      ["Why not a balanced tree", "Simple code, easy range scans on the bottom list, and fine-grained locks or lock-free updates, since an insert changes only a few pointers."],
+      ["Cost", "Expected O(log n) for search, insert and delete; about 2 pointers per node with p = 1/2, or 1.33 with p = 1/4. Worst cases are extremely unlikely."],
+      ["In practice", "Sorted sets in in-memory stores, memtables in LSM engines, concurrent sorted maps in standard libraries."],
+    ],
+    use: "Concurrent ordered maps, leaderboards, memtables.",
+    avoid: "Disk storage (B+ trees fit pages better) or unordered lookups (hash tables).",
+    answer: "With probability 1/2 each element is promoted, so each level has about half the nodes of the one below, giving about log2(n) levels. A search makes a constant expected number of steps per level, so about log n in total.",
+    qa: [
+      ["How do you get rank in a skip list?", "Store on each forward pointer how many bottom nodes it jumps over. Summing these spans on the search path gives the rank in O(log n)."],
+      ["What if the coin flips are unlucky?", "The structure may be temporarily less balanced, but the probability of being much worse than log n falls exponentially with size."],
+    ],
+  }),
+  "data-structures-for-scale--merkle-trees": deep({
+    anim: ["Finding the one different block of eight", "a:Replica A | ra:Root A, rb:Root B | l:Left half, r:Right half | d:Block 6", [
+      ["a>ra", "compare roots", "Each leaf is the hash of a block, and each parent is the hash of its children. Compare only the roots first.", "ra=9f; rb=~c2"],
+      ["ra>rb", "9f is not c2", "The roots differ, so something differs. Equal roots would have proved all 8 blocks equal at once.", "rb=!differs"],
+      ["rb>l", "left equal", "Left halves have the same hash: four blocks are **verified without sending them**.", "l=+same"],
+      ["rb>r", "right differs", "Right halves differ: go down.", "r=~differs"],
+      ["r>d", "block 6", "Two more comparisons lead to block 6. Three levels for 8 blocks, 20 for a million.", "d=!differs"],
+      ["d>a", "send block 6", "Only that block is transferred and the hashes are updated up to the root.", "d=+fixed; rb=+9f"],
+    ]],
+    more: [
+      ["Proof of inclusion", "To prove that a block is part of a set you need only its sibling hashes to the root: log n hashes. Light clients and certificate logs use this."],
+      ["Keeping trees current", "Each write changes a path of hashes. Databases often rebuild per key range periodically, or keep them incrementally."],
+      ["Range alignment", "Both replicas must divide data into the same ranges, otherwise equal data gives different hashes."],
+    ],
+    use: "Replica repair, version control, content addressing, tamper evidence.",
+    avoid: "Small data, where sending everything is cheaper.",
+    answer: "Each hash covers a whole subtree. Equal hashes mean that the subtree is identical and can be skipped; only the differing child is followed. So each level halves the search, and the block is found after log2(n) comparisons.",
+    qa: [
+      ["How does version control use Merkle trees?", "Files are hashed, folders are hashes of their entries, and a commit points to the root. Equal hashes mean unchanged folders, so comparing two versions skips them."],
+      ["Why separate leaf and node hashing?", "Prefix them differently so that an attacker cannot present an inner node as a leaf (second preimage attack)."],
+    ],
+  }),
+};

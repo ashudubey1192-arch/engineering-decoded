@@ -40,7 +40,7 @@ function checkAnimation(anim, key) {
     for (const id of [step.from, ...step.to, ...Object.keys(step.changes)])
       expect(ids.has(id), `${where}: unknown node "${id}"`);
     expect(step.token.length > 0 && step.token.length <= TOKEN, `${where}: token "${step.token}"`);
-    text(step.note, 20, `${where} note`);
+    text(step.note, 15, `${where} note`);
     for (const { sub } of Object.values(step.changes))
       expect(sub.length > 0 && sub.length <= SUB, `${where}: state "${sub}"`);
   });
@@ -95,7 +95,7 @@ for (const [track, articles] of Object.entries(tracks)) {
       guided.push([track, article]);
       text(content.intro, 80, `${key} intro`);
       text(content.scene, 100, `${key} scenario`);
-      pairs(content.parts, 3, 60, `${key} concepts`);
+      pairs(content.parts, 3, 25, `${key} concepts`);
       pairs(content.example, 4, 35, `${key} example`);
       pairs(content.mistakes, 3, 50, `${key} mistakes`);
       text(content.check, 40, `${key} check`);

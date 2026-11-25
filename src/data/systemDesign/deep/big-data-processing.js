@@ -1,0 +1,206 @@
+import { deep } from "../schema.js";
+
+export default {
+  "big-data-processing--batch-vs-stream-processing": deep({
+    anim: ["A late event in a stream and in a batch", "e:Events | s:Stream job:10h window | w:Watermark:10h00 | r:Result, b:Nightly batch", [
+      ["e>s", "sale at 10h20", "A sale at 10:20 arrives at 10:20. The running total for the 10 o'clock window is 1.", "s=count 1"],
+      ["e>s", "sale at 10h59", "Another arrives in time: the total is 2.", "s=count 2"],
+      ["s>w", "seen up to 11h05", "The watermark says: we probably have everything up to 11:00. It allows 5 minutes of delay.", "w=11h00"],
+      ["w>r", "emit 2", "The window closes and 2 is published.", "r=10h total 2"],
+      ["e>s", "late: 10h50", "A phone was offline. Its 10:50 sale arrives at 11:20, **after** the window closed.", "s=~late event"],
+      ["s>r", "correct to 3", "The job must decide: drop it, send it aside, or publish a correction.", "r=~10h total 3"],
+      ["e>b", "all at 02h00", "The nightly batch reads a finished day. Late events are already there, so it simply counts 3.", "b=+10h total 3"],
+    ]],
+    more: [
+      ["Event and processing time", "Event time is when it happened; processing time is when you saw it. Business questions nearly always mean event time."],
+      ["Micro-batch", "Processing tiny batches every second is a middle way: simpler recovery and good throughput, with latency of about a second."],
+      ["Same code for both", "Unified engines treat a batch as a stream that ends. Use one definition of the metric so the two results cannot disagree."],
+    ],
+    use: "Stream for fraud, alerts, live dashboards; batch for billing, training data, heavy reports.",
+    avoid: "Streaming a report that people read once a day.",
+    answer: "A batch runs when the data for the period is complete, so order does not matter. A stream must give results while data is still arriving, so it needs event time, watermarks and rules for late events to decide when a window is finished.",
+    qa: [
+      ["What is a watermark?", "A statement of progress: the system believes that no events older than time T will still arrive. It triggers window results; events behind it are late."],
+      ["How do you choose the allowed lateness?", "From the measured delay distribution, e.g. cover 99.9%, weighed against how long users can wait, plus a correction path for the rest."],
+    ],
+  }),
+  "big-data-processing--mapreduce": deep({
+    anim: ["Word count over two machines", "i:Text splits | m1:Map 1, m2:Map 2 | s:Shuffle | r1:Reduce a-m, r2:Reduce n-z", [
+      ["i>m1,m2", "64 MB each", "Each mapper gets its own split, preferably on the machine that already stores it.", "m1=red cat red; m2=cat sun"],
+      ["m1>s", "red 1 cat 1 red 1", "Mappers emit key-value pairs. They never talk to each other.", "m1=+done"],
+      ["m1", "combine red 2", "A combiner adds locally first, so less data crosses the network.", "m1=red 2 cat 1"],
+      ["m2>s", "cat 1 sun 1", "The shuffle groups all pairs by key. It is the most expensive part: network and sorting.", "s=grouped by word"],
+      ["s>r1", "cat [1 1]", "All values of one key go to **one** reducer.", "r1=cat 2"],
+      ["s>r2", "red [2] sun [1]", "Reducers add up and write the output.", "r2=red 2 sun 1"],
+      ["m2", "machine dies", "If a mapper dies, only its split is run again elsewhere, because map has no side effects.", "m2=+re-run"],
+    ]],
+    more: [
+      ["Stragglers", "One slow machine delays the whole job. Speculative execution starts a second copy of slow tasks and takes the first to finish."],
+      ["Skew", "One key with half the data overloads one reducer. Use a salt (key#1..key#10) and combine the parts in a second step."],
+      ["Successors", "Newer engines keep data in memory, build a graph of many steps and optimise it. The ideas (partition, shuffle, recompute) remain."],
+    ],
+    use: "Understanding partitioned batch processing over huge data.",
+    avoid: "Interactive queries, iterative algorithms, or data that fits in one machine.",
+    answer: "Each mapper reads only its own input split and writes only its own output; the function is applied record by record with no shared state. So nothing has to be coordinated until the shuffle, and a failed mapper can simply be rerun.",
+    qa: [
+      ["Why must the combiner be associative?", "It is applied zero or more times to partial groups. Sum or max give the same result regardless of grouping; an average does not, so combine (sum, count) instead."],
+      ["Where is the bottleneck of a typical job?", "The shuffle: disk writes, network transfer and sorting. Reduce data early, use combiners, compress, and avoid unnecessary wide operations."],
+    ],
+  }),
+  "big-data-processing--etl-pipelines": deep({
+    anim: ["A nightly load that can be rerun safely", "s:Source DB | g:Raw zone | t:Transform | w:Warehouse:day 24 | q:Checks", [
+      ["s>g", "extract day 25", "Extract all rows changed on the 25th and store them **unchanged** in the raw zone.", "g=raw 25"],
+      ["g>t", "clean + join", "Transform: fix types, remove duplicates, join with products.", "t=10k rows"],
+      ["t>q", "row count ok?", "Quality checks: counts, nulls, sums against the source.", "q=+pass"],
+      ["t>w", "write partition 25", "Load replaces the **whole partition** of the 25th.", "w=day 24 25"],
+      ["t", "bug found", "Two days later a currency bug is found in the transform.", "t=!bug"],
+      ["g>t", "rerun raw 25", "Since the raw data was kept, only the transform is run again.", "t=+fixed"],
+      ["t>w", "replace 25", "Replacing a partition is idempotent: running it twice gives the same result as once.", "w=+day 24 25 fixed"],
+    ]],
+    more: [
+      ["ETL or ELT", "ETL transforms before loading, useful for privacy and small warehouses. ELT loads raw data and transforms inside the warehouse with SQL: flexible and re-runnable."],
+      ["Orchestration", "A scheduler runs a graph of tasks with dependencies, retries, backfills and alerts. Tasks should take a date as parameter, never 'now'."],
+      ["Incremental extraction", "Use an updated-at column, or change data capture. The first misses deletes and needs an overlap window for late commits."],
+    ],
+    use: "Feeding analytics from operational systems.",
+    avoid: "Operational features that need seconds; use events there.",
+    answer: "ETL transforms data before it is loaded; ELT loads the raw data first and transforms it inside the warehouse. Modern warehouses have cheap storage and elastic compute, so keeping raw data and transforming with SQL is simpler, and can be repeated when logic changes.",
+    qa: [
+      ["How do you make a pipeline idempotent?", "Write to a partition keyed by the processing date and overwrite it, or merge by a unique key. Never append blindly on retries."],
+      ["How do you notice bad data early?", "Contracts with producers, schema checks at ingestion, freshness and volume monitors, quarantine of bad rows, and tests on business totals."],
+    ],
+  }),
+  "big-data-processing--data-lakes": deep({
+    anim: ["From raw files to a usable table", "s:Sources | b:Bronze raw | v:Silver clean | g:Gold marts | u:Users", [
+      ["s>b", "JSON, CSV, logs", "Everything lands as is, partitioned by date. No schema is needed at write time.", "b=raw files"],
+      ["b", "no catalog", "Six months later: 40,000 files, nobody knows the owner or meaning. This is a data swamp.", "b=!unknown files"],
+      ["b", "catalog + owner", "Register each dataset with schema, owner, description and sensitivity.", "b=+catalogued"],
+      ["b>v", "parse + dedupe", "The silver layer gives types, removes duplicates and writes a columnar format.", "v=typed Parquet"],
+      ["v>g", "join + aggregate", "Gold tables answer a business question, with tests and an owner.", "g=daily sales"],
+      ["g>u", "query 2 s", "Analysts use gold; data scientists may go to silver or bronze with permission.", "u=+trusted"],
+    ]],
+    more: [
+      ["Schema on read", "You interpret data when reading. That keeps all options open and moves the quality problem to every reader unless a cleaned layer exists."],
+      ["File layout", "Partition by date or region, aim for 128 MB-1 GB files, compact small ones. Millions of tiny files make queries slow and lists expensive."],
+      ["Security", "Central catalog permissions, column masking for personal data, encryption, retention and deletion that really reach all copies."],
+    ],
+    use: "Large varied raw data, machine learning, cheap long-term storage.",
+    avoid: "As the only place for business reporting, without governance.",
+    answer: "Data can be stored before anyone knows how it will be used, and each reader applies the schema needed. The risk: without agreed schemas, owners and quality checks, files become undocumented, inconsistent and possibly sensitive: a data swamp.",
+    qa: [
+      ["How do you delete one person's data from a lake?", "Use table formats with row-level deletes, keep an index of where identifiers appear, or encrypt per person and destroy the key. Also cover raw copies and backups."],
+      ["Why columnar formats in a lake?", "Queries read only needed columns and skip blocks by statistics. Compression is strong. JSON must be fully read and parsed each time."],
+    ],
+  }),
+  "big-data-processing--data-warehousing": deep({
+    anim: ["Revenue by region on rows and on columns", "q:SUM by region | r:Row table:100 cols | c:Column table | d:Disk reads:0", [
+      ["q>r", "scan", "The row table stores all 100 columns of a sale together.", "r=100 cols per row"],
+      ["r>d", "read 500 GB", "To sum one column it must read every column of every row.", "d=!500 GB"],
+      ["q>c", "2 columns", "The column table stores each column apart. The query needs region and amount.", "c=region + amount"],
+      ["c>d", "read 10 GB", "Two of 100 columns: 2% of the data.", "d=10 GB"],
+      ["c>d", "compressed", "Region has 12 distinct values and compresses 20x, amount about 4x.", "d=+1.5 GB"],
+      ["c>q", "vectorised", "Values are processed in blocks of thousands, so the CPU works on arrays rather than rows.", "q=+2 s"],
+    ]],
+    more: [
+      ["Star schema", "A fact table of events (sales) with keys to dimension tables (product, store, date). Easy to understand, easy to optimise."],
+      ["Slowly changing dimensions", "Type 1 overwrites; type 2 adds a new row with validity dates, so old sales keep their old region."],
+      ["Separate compute and storage", "Many clusters can read the same data without disturbing each other, and stop when idle. Watch the cost of forgotten clusters."],
+    ],
+    use: "Aggregations over millions of rows, dashboards, consistent business metrics.",
+    avoid: "Single-row lookups and updates, or application back ends.",
+    answer: "The query uses two columns of many rows. Columnar storage reads just those, strongly compressed and processed in blocks. Row storage must read whole rows, including the columns it does not need. Transactions are the opposite: they touch all columns of one row.",
+    qa: [
+      ["Why not report directly from the production database?", "Heavy scans compete with user traffic, schemas are normalised for writes, history may be overwritten, and data from other systems is missing."],
+      ["What is a fact table's grain?", "What one row means, e.g. one order line. Decide it first; mixing grains leads to double counting."],
+    ],
+  }),
+  "big-data-processing--data-lakehouse": deep({
+    anim: ["Adding transactions to files in a lake", "w:Writer | m:Table log:v1 | f1:File A, f2:File B | r:Reader", [
+      ["r>m", "read v1", "The table is defined by a log: version 1 consists of file A only.", "r=sees A"],
+      ["w>f2", "write file B", "A writer adds a new file. It is **invisible**, because no version mentions it.", "f2=written"],
+      ["w>m", "commit v2", "Committing means atomically adding a log entry: version 2 = A + B.", "m=v2: A + B"],
+      ["r>f1", "still v1", "A running query keeps its version 1 snapshot and is not disturbed.", "r=+v1 consistent"],
+      ["w>m", "commit v2 again?", "Another writer tries to commit the same version and is refused: optimistic concurrency.", "w=~retry as v3"],
+      ["r>m", "AS OF v1", "Old versions remain readable: time travel, audit, undo.", "r=+time travel"],
+    ]],
+    more: [
+      ["One copy", "Reports, SQL and machine learning read the same files. No nightly copy from lake to warehouse, no two versions of the truth."],
+      ["Maintenance", "Compact small files, expire old snapshots, remove orphans, cluster by frequently filtered columns. Otherwise it gets slow and expensive."],
+      ["Open formats", "Table formats on Parquet let several engines share tables. Check which features each engine really supports for writing."],
+    ],
+    use: "Large data used by both BI and machine learning, with open formats.",
+    avoid: "Small data, or very high-concurrency low-latency dashboards without a serving layer.",
+    answer: "It removes the cost of keeping two copies and the pipelines between them: copying, delay, double storage, double governance, and differences between lake and warehouse numbers.",
+    qa: [
+      ["How does a lakehouse give ACID on object storage?", "By a metadata log of file lists. A commit is one atomic operation on the log; readers use a snapshot; conflicting commits are detected and retried."],
+      ["How do row updates work on immutable files?", "Copy-on-write rewrites the affected file. Merge-on-read writes small delete or delta files that are applied when reading and compacted later."],
+    ],
+  }),
+  "big-data-processing--lambda-architecture": deep({
+    anim: ["Batch and speed layers side by side", "e:Events | l:Master log | b:Batch layer:day 24, s:Speed layer:empty | v:Serving view:0", [
+      ["e>l", "append", "All events are kept forever in an immutable log.", "l=all events"],
+      ["l>b", "nightly", "Once a day the batch layer recomputes exact results for everything up to yesterday.", "b=1000 exact"],
+      ["e>s", "since midnight", "The speed layer counts only today's events, quickly and perhaps approximately.", "s=37 approx"],
+      ["b>v", "1000", "A query combines both...", "v=1000"],
+      ["s>v", "+ 37", "...exact past + recent estimate = 1037.", "v=+1037"],
+      ["b", "logic change", "A rule changes. It must be written **twice**, in two systems, and give equal results.", "b=~code v2; s=!code v1"],
+    ]],
+    more: [
+      ["Why it existed", "Early stream systems could lose or repeat events. The batch layer corrected them each night."],
+      ["Human error", "Because raw data is immutable, any bug can be fixed by recomputing. This idea survived the architecture."],
+      ["Reducing duplication", "Shared libraries, or engines with one API for batch and stream, remove most of the double work."],
+    ],
+    use: "Exact historical results plus fast recent ones, when the stream engine cannot be trusted alone.",
+    avoid: "New systems with an exactly-once stream engine and a replayable log.",
+    answer: "The batch layer and the speed layer run on different engines with different models (complete datasets against incremental state). The same computation is therefore written, tested and changed in both, and they must stay equivalent.",
+    qa: [
+      ["How does the serving layer combine results?", "It answers with the batch view up to its cut-off time plus the speed view after it. When a new batch finishes, the overlapping speed results are discarded."],
+      ["What is the main operational cost?", "Two pipelines, two sets of bugs, reconciliation of differences, and double compute for recent data."],
+    ],
+  }),
+  "big-data-processing--kappa-architecture": deep({
+    anim: ["Reprocessing by replaying the log", "e:Events | l:Log (90 days) | j1:Job v1, j2:Job v2:not started | t1:Table v1, t2:Table v2 | q:Queries", [
+      ["e>l", "append", "All events go to one replayable log.", "l=events"],
+      ["l>j1", "live", "A single streaming job computes the results.", "j1=at head"],
+      ["j1>t1", "update", "Queries read table v1.", "t1=+live; q=uses v1"],
+      ["l>j2", "from day 1", "The logic changes. Start job v2 **from the beginning of the log**, beside v1.", "j2=~catching up"],
+      ["j2>t2", "fill", "It processes 90 days at full speed into a new table. Users still see v1.", "t2=filling"],
+      ["t2>q", "switch", "Once v2 has caught up and was checked, queries are switched. v1 is deleted.", "q=+uses v2; t2=+live; j1=stopped"],
+    ]],
+    more: [
+      ["Requirements", "A log with long retention (or tiered storage), an engine that can replay quickly, and outputs that can be built in parallel."],
+      ["Limits", "Replaying years may take days, large joins with history are harder, and training jobs over everything often stay batch."],
+      ["Side effects", "Replay must not resend emails or payments. Keep side effects in a separate consumer that is not replayed."],
+    ],
+    use: "Event-centred systems with one definition of logic.",
+    avoid: "Workloads dominated by ad hoc analysis of long history.",
+    answer: "There is just one processing path: the stream job. Historical recomputation is the same code run on replayed events, so no second batch implementation is needed.",
+    qa: [
+      ["How long must the log be kept?", "As far back as you may need to recompute, or keep compacted topics and snapshots and archive older events to object storage for replay."],
+      ["How do you verify job v2 before switching?", "Compare both tables for overlapping time ranges with tolerance for intended changes, check lag, and keep v1 running until you are confident."],
+    ],
+  }),
+  "big-data-processing--streaming-engines": deep({
+    anim: ["Recovering a counter with a checkpoint", "k:Log:offset 0 | o:Count operator:0 | s:Checkpoint:none | d:Sink", [
+      ["k>o", "events 1-100", "The operator keeps state: the count is 100 at offset 100.", "o=count 100; k=offset 100"],
+      ["o>s", "barrier", "A checkpoint saves count **and** offset together, consistently.", "s=100 @100"],
+      ["k>o", "events 101-140", "Forty more events are processed.", "o=count 140; k=offset 140"],
+      ["o", "crash", "The machine dies. The count in memory is gone.", "o=!lost"],
+      ["s>o", "restore 100 @100", "State and position are restored **to the same point**. Restoring only one would lose or double 40 events.", "o=count 100; k=offset 100"],
+      ["k>o", "replay 101-140", "The 40 events are read again and the count is 140 once more.", "o=+count 140"],
+      ["o>d", "commit with ckpt", "The output is committed with the checkpoint (or written idempotently). Otherwise the sink would see them twice.", "d=+once"],
+    ]],
+    more: [
+      ["State is the hard part", "Windows, joins and deduplication need state, often bigger than memory. Engines keep it locally on disk and snapshot it incrementally."],
+      ["Backpressure", "When the sink slows, the operators slow and the source reads less. Lag grows in the log instead of memory growing in the job."],
+      ["Choosing", "Library inside your service (simple operations), or a cluster engine (large state, complex event time). Both need a replayable source."],
+    ],
+    use: "Continuous aggregation, joins, pattern detection with state.",
+    avoid: "Simple per-message work, where a plain consumer is enough.",
+    answer: "State, input position and output must all move together. A crash between any two of them loses or repeats events. Doing that by hand over machines, with windows and rescaling, requires consistent snapshots, replay and transactional or idempotent sinks.",
+    qa: [
+      ["What does exactly-once mean in a stream engine?", "Each event affects the state exactly once, even though it may be processed more than once after failure. End to end it also needs a transactional or idempotent sink."],
+      ["How do you change the parallelism of a stateful job?", "Take a savepoint, restart with the new parallelism, and the engine redistributes state by key groups."],
+    ],
+  }),
+};

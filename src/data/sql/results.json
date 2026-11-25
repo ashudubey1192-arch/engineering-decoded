@@ -1,0 +1,3510 @@
+{
+  "foundations--introduction-to-sql": [
+    {
+      "columns": [
+        "id",
+        "amount_cents",
+        "status"
+      ],
+      "rows": [
+        [
+          101,
+          1200,
+          "paid"
+        ],
+        [
+          102,
+          800,
+          "paid"
+        ],
+        [
+          103,
+          500,
+          "pending"
+        ],
+        [
+          104,
+          1500,
+          "paid"
+        ],
+        [
+          105,
+          500,
+          "paid"
+        ],
+        [
+          106,
+          300,
+          "cancelled"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ],
+        [
+          104,
+          1500
+        ],
+        [
+          105,
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          104,
+          1500
+        ]
+      ]
+    }
+  ],
+  "foundations--sql-architecture": [
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ],
+        [
+          102,
+          1,
+          800
+        ],
+        [
+          103,
+          2,
+          500
+        ],
+        [
+          104,
+          3,
+          1500
+        ],
+        [
+          105,
+          2,
+          500
+        ],
+        [
+          106,
+          3,
+          300
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ],
+        [
+          102,
+          1,
+          800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    }
+  ],
+  "foundations--installing-sql": [
+    {
+      "columns": [
+        "connected"
+      ],
+      "rows": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_count"
+      ],
+      "rows": [
+        [
+          4
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "city"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          "Pune"
+        ]
+      ]
+    }
+  ],
+  "foundations--sql-data-model": [
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha"
+        ],
+        [
+          2,
+          "Ravi"
+        ],
+        [
+          3,
+          "Meera"
+        ],
+        [
+          4,
+          "Kabir"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "customer_id"
+      ],
+      "rows": [
+        [
+          101,
+          1
+        ],
+        [
+          102,
+          1
+        ],
+        [
+          103,
+          2
+        ],
+        [
+          104,
+          3
+        ],
+        [
+          105,
+          2
+        ],
+        [
+          106,
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "order_count"
+      ],
+      "rows": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    }
+  ],
+  "foundations--sql-tooling": [
+    {
+      "columns": [
+        "id",
+        "status",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          "paid",
+          1200
+        ],
+        [
+          102,
+          "paid",
+          800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "status",
+        "row_count"
+      ],
+      "rows": [
+        [
+          "cancelled",
+          1
+        ],
+        [
+          "paid",
+          4
+        ],
+        [
+          "pending",
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "paid_orders",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          4,
+          4000
+        ]
+      ]
+    }
+  ],
+  "modeling--modeling-relational-data": [
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "product",
+        "quantity",
+        "unit_cents",
+        "line_cents"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          2,
+          400,
+          800
+        ],
+        [
+          "Pen set",
+          1,
+          400,
+          400
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_id",
+        "calculated_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ]
+      ]
+    }
+  ],
+  "modeling--keys-and-identifiers": [
+    {
+      "columns": [
+        "rows_present"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "tenant_id",
+        "external_ref"
+      ],
+      "rows": [
+        [
+          7,
+          "A1"
+        ],
+        [
+          8,
+          "A1"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "tenant_id",
+        "external_ref"
+      ],
+      "rows": [
+        [
+          1,
+          7,
+          "A1"
+        ],
+        [
+          2,
+          8,
+          "A1"
+        ]
+      ]
+    }
+  ],
+  "modeling--relationships-and-constraints": [
+    {
+      "columns": [
+        "customer_id"
+      ],
+      "rows": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          101,
+          "Asha"
+        ],
+        [
+          102,
+          "Asha"
+        ],
+        [
+          103,
+          "Ravi"
+        ],
+        [
+          104,
+          "Meera"
+        ],
+        [
+          105,
+          "Ravi"
+        ],
+        [
+          106,
+          "Meera"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": []
+    }
+  ],
+  "modeling--schema-design": [
+    {
+      "columns": [
+        "products"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "sku",
+        "available"
+      ],
+      "rows": [
+        [
+          "BOOK",
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "sku",
+        "available"
+      ],
+      "rows": [
+        [
+          "BOOK",
+          5
+        ]
+      ]
+    }
+  ],
+  "modeling--model-evolution": [
+    {
+      "columns": [
+        "id",
+        "notification_mode"
+      ],
+      "rows": [
+        [
+          1,
+          null
+        ],
+        [
+          2,
+          null
+        ],
+        [
+          3,
+          null
+        ],
+        [
+          4,
+          null
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "notification_mode"
+      ],
+      "rows": [
+        [
+          1,
+          "email"
+        ],
+        [
+          2,
+          "email"
+        ],
+        [
+          3,
+          "email"
+        ],
+        [
+          4,
+          "email"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "unresolved"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    }
+  ],
+  "modeling--data-types-and-precision": [
+    {
+      "columns": [
+        "integer_ratio"
+      ],
+      "rows": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "decimal_ratio"
+      ],
+      "rows": [
+        [
+          1.5
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "ratio",
+        "undefined_ratio"
+      ],
+      "rows": [
+        [
+          1.5,
+          null
+        ]
+      ]
+    }
+  ],
+  "modeling--null-and-three-valued-logic": [
+    {
+      "columns": [
+        "id",
+        "name",
+        "email"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          "asha@example.test"
+        ],
+        [
+          2,
+          "Ravi",
+          null
+        ],
+        [
+          3,
+          "Meera",
+          "meera@example.test"
+        ],
+        [
+          4,
+          "Kabir",
+          null
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          2,
+          "Ravi"
+        ],
+        [
+          4,
+          "Kabir"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customers",
+        "known_emails"
+      ],
+      "rows": [
+        [
+          4,
+          2
+        ]
+      ]
+    }
+  ],
+  "modeling--normalization-and-functional-dependencies": [
+    {
+      "columns": [
+        "id",
+        "name",
+        "city"
+      ],
+      "rows": [
+        [
+          101,
+          "Asha",
+          "Pune"
+        ],
+        [
+          102,
+          "Asha",
+          "Pune"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "city"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          "Mumbai"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "city"
+      ],
+      "rows": [
+        [
+          101,
+          "Mumbai"
+        ],
+        [
+          102,
+          "Mumbai"
+        ]
+      ]
+    }
+  ],
+  "operations--querying-data": [
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents",
+        "status"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200,
+          "paid"
+        ],
+        [
+          102,
+          1,
+          800,
+          "paid"
+        ],
+        [
+          103,
+          2,
+          500,
+          "pending"
+        ],
+        [
+          104,
+          3,
+          1500,
+          "paid"
+        ],
+        [
+          105,
+          2,
+          500,
+          "paid"
+        ],
+        [
+          106,
+          3,
+          300,
+          "cancelled"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ],
+        [
+          102,
+          1,
+          800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_id",
+        "total_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    }
+  ],
+  "operations--select-distinct-and-aliases": [
+    {
+      "columns": [
+        "city"
+      ],
+      "rows": [
+        [
+          "Delhi"
+        ],
+        [
+          "Jaipur"
+        ],
+        [
+          "Pune"
+        ],
+        [
+          "Pune"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "city",
+        "id"
+      ],
+      "rows": [
+        [
+          "Delhi",
+          2
+        ],
+        [
+          "Jaipur",
+          4
+        ],
+        [
+          "Pune",
+          1
+        ],
+        [
+          "Pune",
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "served_city"
+      ],
+      "rows": [
+        [
+          "Delhi"
+        ],
+        [
+          "Jaipur"
+        ],
+        [
+          "Pune"
+        ]
+      ]
+    }
+  ],
+  "operations--filtering-and-sorting": [
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ],
+        [
+          104,
+          1500
+        ],
+        [
+          105,
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ],
+        [
+          104,
+          1500
+        ],
+        [
+          105,
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          104,
+          1500
+        ],
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ],
+        [
+          105,
+          500
+        ]
+      ]
+    }
+  ],
+  "operations--logical-query-processing": [
+    {
+      "columns": [
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          1,
+          1200
+        ],
+        [
+          1,
+          800
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    }
+  ],
+  "operations--case-and-coalesce": [
+    {
+      "columns": [
+        "id",
+        "contact"
+      ],
+      "rows": [
+        [
+          1,
+          "asha@example.test"
+        ],
+        [
+          2,
+          "Not supplied"
+        ],
+        [
+          3,
+          "meera@example.test"
+        ],
+        [
+          4,
+          "Not supplied"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "size"
+      ],
+      "rows": [
+        [
+          101,
+          "large"
+        ],
+        [
+          102,
+          "small"
+        ],
+        [
+          103,
+          "small"
+        ],
+        [
+          104,
+          "large"
+        ],
+        [
+          105,
+          "small"
+        ],
+        [
+          106,
+          "small"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "size",
+        "orders"
+      ],
+      "rows": [
+        [
+          "large",
+          2
+        ],
+        [
+          "small",
+          4
+        ]
+      ]
+    }
+  ],
+  "operations--string-and-date-functions": [
+    {
+      "columns": [
+        "normalized"
+      ],
+      "rows": [
+        [
+          "asha"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "month"
+      ],
+      "rows": [
+        [
+          101,
+          "2026-01"
+        ],
+        [
+          102,
+          "2026-01"
+        ],
+        [
+          103,
+          "2026-01"
+        ],
+        [
+          104,
+          "2026-01"
+        ],
+        [
+          105,
+          "2026-01"
+        ],
+        [
+          106,
+          "2026-01"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "january_orders"
+      ],
+      "rows": [
+        [
+          6
+        ]
+      ]
+    }
+  ],
+  "operations--aggregation": [
+    {
+      "columns": [
+        "customer_id",
+        "amount_cents",
+        "status"
+      ],
+      "rows": [
+        [
+          1,
+          1200,
+          "paid"
+        ],
+        [
+          1,
+          800,
+          "paid"
+        ],
+        [
+          2,
+          500,
+          "pending"
+        ],
+        [
+          2,
+          500,
+          "paid"
+        ],
+        [
+          3,
+          1500,
+          "paid"
+        ],
+        [
+          3,
+          300,
+          "cancelled"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "attempts",
+        "attempt_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2,
+          2000
+        ],
+        [
+          2,
+          2,
+          1000
+        ],
+        [
+          3,
+          2,
+          1800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "paid_orders",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2,
+          2000
+        ],
+        [
+          2,
+          1,
+          500
+        ],
+        [
+          3,
+          1,
+          1500
+        ]
+      ]
+    }
+  ],
+  "operations--pagination-and-keyset-cursors": [
+    {
+      "columns": [
+        "id",
+        "ordered_on"
+      ],
+      "rows": [
+        [
+          101,
+          "2026-01-03"
+        ],
+        [
+          102,
+          "2026-01-05"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "ordered_on"
+      ],
+      "rows": [
+        [
+          103,
+          "2026-01-05"
+        ],
+        [
+          104,
+          "2026-01-06"
+        ],
+        [
+          105,
+          "2026-01-07"
+        ],
+        [
+          106,
+          "2026-01-08"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "ordered_on"
+      ],
+      "rows": [
+        [
+          103,
+          "2026-01-05"
+        ],
+        [
+          104,
+          "2026-01-06"
+        ]
+      ]
+    }
+  ],
+  "operations--creating-and-updating-data": [
+    {
+      "columns": [
+        "id",
+        "amount_cents",
+        "status"
+      ],
+      "rows": [
+        [
+          107,
+          600,
+          "pending"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents",
+        "status"
+      ],
+      "rows": [
+        [
+          107,
+          650,
+          "pending"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "remaining_orders"
+      ],
+      "rows": [
+        [
+          6
+        ]
+      ]
+    }
+  ],
+  "operations--bulk-operations": [
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          107,
+          700
+        ],
+        [
+          108,
+          900
+        ],
+        [
+          109,
+          -20
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          109,
+          -20
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_count",
+        "total_cents"
+      ],
+      "rows": [
+        [
+          8,
+          6400
+        ]
+      ]
+    }
+  ],
+  "joins--inner-joins": [
+    {
+      "columns": [
+        "id",
+        "customer_id"
+      ],
+      "rows": [
+        [
+          101,
+          1
+        ],
+        [
+          102,
+          1
+        ],
+        [
+          103,
+          2
+        ],
+        [
+          104,
+          3
+        ],
+        [
+          105,
+          2
+        ],
+        [
+          106,
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_id",
+        "name"
+      ],
+      "rows": [
+        [
+          101,
+          "Asha"
+        ],
+        [
+          102,
+          "Asha"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_id",
+        "name"
+      ],
+      "rows": [
+        [
+          101,
+          "Asha"
+        ],
+        [
+          102,
+          "Asha"
+        ],
+        [
+          103,
+          "Ravi"
+        ],
+        [
+          104,
+          "Meera"
+        ],
+        [
+          105,
+          "Ravi"
+        ],
+        [
+          106,
+          "Meera"
+        ]
+      ]
+    }
+  ],
+  "joins--left-joins-and-unmatched-rows": [
+    {
+      "columns": [
+        "id",
+        "name",
+        "order_id"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          101
+        ],
+        [
+          1,
+          "Asha",
+          102
+        ],
+        [
+          2,
+          "Ravi",
+          103
+        ],
+        [
+          2,
+          "Ravi",
+          105
+        ],
+        [
+          3,
+          "Meera",
+          104
+        ],
+        [
+          3,
+          "Meera",
+          106
+        ],
+        [
+          4,
+          "Kabir",
+          null
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "order_id"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          101
+        ],
+        [
+          1,
+          "Asha",
+          102
+        ],
+        [
+          2,
+          "Ravi",
+          105
+        ],
+        [
+          3,
+          "Meera",
+          104
+        ],
+        [
+          4,
+          "Kabir",
+          null
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "paid_orders"
+      ],
+      "rows": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ]
+    }
+  ],
+  "joins--cross-joins": [
+    {
+      "columns": [
+        "color"
+      ],
+      "rows": [
+        [
+          "blue"
+        ],
+        [
+          "red"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "size"
+      ],
+      "rows": [
+        [
+          "M"
+        ],
+        [
+          "S"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "color",
+        "size"
+      ],
+      "rows": [
+        [
+          "blue",
+          "M"
+        ],
+        [
+          "blue",
+          "S"
+        ],
+        [
+          "red",
+          "M"
+        ],
+        [
+          "red",
+          "S"
+        ]
+      ]
+    }
+  ],
+  "joins--self-joins": [
+    {
+      "columns": [
+        "id",
+        "name",
+        "manager_id"
+      ],
+      "rows": [
+        [
+          1,
+          "Nila",
+          null
+        ],
+        [
+          2,
+          "Dev",
+          1
+        ],
+        [
+          3,
+          "Ira",
+          1
+        ],
+        [
+          4,
+          "Om",
+          2
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "manager"
+      ],
+      "rows": [
+        [
+          2,
+          "Dev",
+          "Nila"
+        ],
+        [
+          3,
+          "Ira",
+          "Nila"
+        ],
+        [
+          4,
+          "Om",
+          "Dev"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "manager"
+      ],
+      "rows": [
+        [
+          1,
+          "Nila",
+          null
+        ],
+        [
+          2,
+          "Dev",
+          "Nila"
+        ],
+        [
+          3,
+          "Ira",
+          "Nila"
+        ],
+        [
+          4,
+          "Om",
+          "Dev"
+        ]
+      ]
+    }
+  ],
+  "joins--exists-and-anti-joins": [
+    {
+      "columns": [
+        "customer_id"
+      ],
+      "rows": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha"
+        ],
+        [
+          2,
+          "Ravi"
+        ],
+        [
+          3,
+          "Meera"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          4,
+          "Kabir"
+        ]
+      ]
+    }
+  ],
+  "joins--join-cardinality-and-double-counting": [
+    {
+      "columns": [
+        "id",
+        "amount_cents",
+        "product"
+      ],
+      "rows": [
+        [
+          101,
+          1200,
+          "Notebook"
+        ],
+        [
+          101,
+          1200,
+          "Pen set"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "wrong_cents"
+      ],
+      "rows": [
+        [
+          5200
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          4000
+        ]
+      ]
+    }
+  ],
+  "subqueries--scalar-subqueries": [
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ],
+        [
+          104,
+          1500
+        ],
+        [
+          105,
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "average_paid_cents"
+      ],
+      "rows": [
+        [
+          1000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          104,
+          1500
+        ]
+      ]
+    }
+  ],
+  "subqueries--correlated-subqueries": [
+    {
+      "columns": [
+        "customer_id",
+        "avg_cents"
+      ],
+      "rows": [
+        [
+          1,
+          1000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          900
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ],
+        [
+          104,
+          3,
+          1500
+        ]
+      ]
+    }
+  ],
+  "subqueries--common-table-expressions": [
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "name",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          "Asha",
+          2000
+        ],
+        [
+          "Meera",
+          1500
+        ]
+      ]
+    }
+  ],
+  "subqueries--recursive-ctes": [
+    {
+      "columns": [
+        "id",
+        "name",
+        "depth"
+      ],
+      "rows": [
+        [
+          1,
+          "Nila",
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "depth"
+      ],
+      "rows": [
+        [
+          2,
+          "Dev",
+          1
+        ],
+        [
+          3,
+          "Ira",
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "depth"
+      ],
+      "rows": [
+        [
+          1,
+          "Nila",
+          0
+        ],
+        [
+          2,
+          "Dev",
+          1
+        ],
+        [
+          3,
+          "Ira",
+          1
+        ],
+        [
+          4,
+          "Om",
+          2
+        ]
+      ]
+    }
+  ],
+  "subqueries--union-intersect-and-except": [
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": [
+        [
+          1
+        ],
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": [
+        [
+          1
+        ],
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": [
+        [
+          2
+        ]
+      ]
+    }
+  ],
+  "analytics--window-function-basics": [
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ],
+        [
+          102,
+          1,
+          800
+        ],
+        [
+          104,
+          3,
+          1500
+        ],
+        [
+          105,
+          2,
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "customer_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents",
+        "customer_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200,
+          2000
+        ],
+        [
+          102,
+          1,
+          800,
+          2000
+        ],
+        [
+          104,
+          3,
+          1500,
+          1500
+        ],
+        [
+          105,
+          2,
+          500,
+          500
+        ]
+      ]
+    }
+  ],
+  "analytics--ranking-and-top-n-per-group": [
+    {
+      "columns": [
+        "id",
+        "name",
+        "salary"
+      ],
+      "rows": [
+        [
+          1,
+          "Nila",
+          90000
+        ],
+        [
+          2,
+          "Dev",
+          70000
+        ],
+        [
+          3,
+          "Ira",
+          70000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "position",
+        "salary_rank",
+        "dense_rank"
+      ],
+      "rows": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          3,
+          3,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "band"
+      ],
+      "rows": [
+        [
+          1,
+          "Nila",
+          1
+        ],
+        [
+          2,
+          "Dev",
+          2
+        ],
+        [
+          3,
+          "Ira",
+          2
+        ]
+      ]
+    }
+  ],
+  "analytics--lag-lead-and-period-comparisons": [
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents",
+        "previous_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200,
+          null
+        ],
+        [
+          102,
+          800,
+          1200
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "change_cents"
+      ],
+      "rows": [
+        [
+          101,
+          null
+        ],
+        [
+          102,
+          -400
+        ]
+      ]
+    }
+  ],
+  "analytics--window-frames-and-running-totals": [
+    {
+      "columns": [
+        "id",
+        "ordered_on",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          "2026-01-03",
+          1200
+        ],
+        [
+          102,
+          "2026-01-05",
+          800
+        ],
+        [
+          104,
+          "2026-01-06",
+          1500
+        ],
+        [
+          105,
+          "2026-01-07",
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "running_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          2000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "running_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          2000
+        ],
+        [
+          104,
+          3500
+        ],
+        [
+          105,
+          4000
+        ]
+      ]
+    }
+  ],
+  "analytics--conditional-aggregation": [
+    {
+      "columns": [
+        "customer_id",
+        "status",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          1,
+          "paid",
+          1200
+        ],
+        [
+          1,
+          "paid",
+          800
+        ],
+        [
+          2,
+          "pending",
+          500
+        ],
+        [
+          2,
+          "paid",
+          500
+        ],
+        [
+          3,
+          "paid",
+          1500
+        ],
+        [
+          3,
+          "cancelled",
+          300
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "paid_part"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ],
+        [
+          103,
+          0
+        ],
+        [
+          104,
+          1500
+        ],
+        [
+          105,
+          500
+        ],
+        [
+          106,
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents",
+        "pending_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000,
+          0
+        ],
+        [
+          2,
+          500,
+          500
+        ],
+        [
+          3,
+          1500,
+          0
+        ]
+      ]
+    }
+  ],
+  "performance--query-planning": [
+    {
+      "columns": [
+        "id",
+        "parent",
+        "notused",
+        "detail"
+      ],
+      "rows": [
+        [
+          2,
+          0,
+          216,
+          "SCAN orders"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "parent",
+        "notused",
+        "detail"
+      ],
+      "rows": [
+        [
+          3,
+          0,
+          61,
+          "SEARCH orders USING INDEX orders_customer_lookup (customer_id=?)"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    }
+  ],
+  "performance--index-strategy": [
+    {
+      "columns": [
+        "id",
+        "ordered_on"
+      ],
+      "rows": [
+        [
+          101,
+          "2026-01-03"
+        ],
+        [
+          102,
+          "2026-01-05"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "name"
+      ],
+      "rows": [
+        [
+          "customer_id"
+        ],
+        [
+          "ordered_on"
+        ],
+        [
+          "id"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    }
+  ],
+  "performance--sargable-predicates": [
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": [
+        [
+          101
+        ],
+        [
+          102
+        ],
+        [
+          103
+        ],
+        [
+          104
+        ],
+        [
+          105
+        ],
+        [
+          106
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": [
+        [
+          101
+        ],
+        [
+          102
+        ],
+        [
+          103
+        ],
+        [
+          104
+        ],
+        [
+          105
+        ],
+        [
+          106
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "rows_in_period",
+        "cents"
+      ],
+      "rows": [
+        [
+          6,
+          4800
+        ]
+      ]
+    }
+  ],
+  "performance--covering-and-composite-indexes": [
+    {
+      "columns": [
+        "id",
+        "ordered_on",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          "2026-01-03",
+          1200
+        ],
+        [
+          102,
+          "2026-01-05",
+          800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "name"
+      ],
+      "rows": [
+        [
+          "customer_id"
+        ],
+        [
+          "ordered_on"
+        ],
+        [
+          "id"
+        ],
+        [
+          "amount_cents"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    }
+  ],
+  "performance--caching": [
+    {
+      "columns": [
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          4000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "cached_cents",
+        "current_cents"
+      ],
+      "rows": [
+        [
+          4000,
+          4500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          4500
+        ]
+      ]
+    }
+  ],
+  "performance--partitioning-strategy": [
+    {
+      "columns": [
+        "piece",
+        "rows"
+      ],
+      "rows": [
+        [
+          "January",
+          6
+        ],
+        [
+          "February",
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "ordered_on"
+      ],
+      "rows": [
+        [
+          107,
+          "2026-02-01"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "rows",
+        "cents"
+      ],
+      "rows": [
+        [
+          6,
+          4800
+        ]
+      ]
+    }
+  ],
+  "performance--performance-tuning": [
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha"
+        ],
+        [
+          2,
+          "Ravi"
+        ],
+        [
+          3,
+          "Meera"
+        ],
+        [
+          4,
+          "Kabir"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          2000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ],
+        [
+          4,
+          0
+        ]
+      ]
+    }
+  ],
+  "reliability--transactions-and-consistency": [
+    {
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "A",
+          1000
+        ],
+        [
+          "B",
+          200
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "A",
+          700
+        ],
+        [
+          "B",
+          200
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "A",
+          700
+        ],
+        [
+          "B",
+          500
+        ]
+      ]
+    }
+  ],
+  "reliability--savepoints": [
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1300
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1300
+        ],
+        [
+          102,
+          900
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1300
+        ],
+        [
+          102,
+          800
+        ]
+      ]
+    }
+  ],
+  "reliability--concurrency-control": [
+    {
+      "columns": [
+        "sku",
+        "available",
+        "version"
+      ],
+      "rows": [
+        [
+          "BOOK",
+          10,
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "sku",
+        "available",
+        "version"
+      ],
+      "rows": [
+        [
+          "BOOK",
+          9,
+          2
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "sku",
+        "available",
+        "version"
+      ],
+      "rows": [
+        [
+          "BOOK",
+          9,
+          2
+        ]
+      ]
+    }
+  ],
+  "reliability--isolation-levels": [
+    {
+      "columns": [
+        "policy",
+        "first_read"
+      ],
+      "rows": [
+        [
+          "statement snapshot",
+          100
+        ],
+        [
+          "transaction snapshot",
+          100
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "committed_value"
+      ],
+      "rows": [
+        [
+          120
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "policy",
+        "first_read",
+        "second_read"
+      ],
+      "rows": [
+        [
+          "statement snapshot",
+          100,
+          120
+        ],
+        [
+          "transaction snapshot",
+          100,
+          100
+        ]
+      ]
+    }
+  ],
+  "reliability--replication": [
+    {
+      "columns": [
+        "primary_version",
+        "replica_version"
+      ],
+      "rows": [
+        [
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "primary_version",
+        "replica_version"
+      ],
+      "rows": [
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "primary_version",
+        "replica_version"
+      ],
+      "rows": [
+        [
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "reliability--backup-and-recovery": [
+    {
+      "columns": [
+        "rows",
+        "cents"
+      ],
+      "rows": [
+        [
+          6,
+          4800
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "rows",
+        "cents"
+      ],
+      "rows": [
+        [
+          6,
+          13599
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "rows",
+        "cents"
+      ],
+      "rows": [
+        [
+          6,
+          4800
+        ]
+      ]
+    }
+  ],
+  "reliability--failure-handling": [
+    {
+      "columns": [
+        "operations"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "operation_key",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          "pay-81",
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "operations",
+        "cents"
+      ],
+      "rows": [
+        [
+          1,
+          500
+        ]
+      ]
+    }
+  ],
+  "production--views-and-data-contracts": [
+    {
+      "columns": [
+        "status",
+        "orders"
+      ],
+      "rows": [
+        [
+          "cancelled",
+          1
+        ],
+        [
+          "paid",
+          4
+        ],
+        [
+          "pending",
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "customer_id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1,
+          1200
+        ],
+        [
+          102,
+          1,
+          800
+        ],
+        [
+          104,
+          3,
+          1500
+        ],
+        [
+          105,
+          2,
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    }
+  ],
+  "production--triggers-and-stored-routines": [
+    {
+      "columns": [
+        "audit_rows"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_id",
+        "old_cents",
+        "new_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200,
+          1250
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "order_id",
+        "old_cents",
+        "new_cents"
+      ],
+      "rows": [
+        [
+          101,
+          1200,
+          1250
+        ]
+      ]
+    }
+  ],
+  "production--security-and-access-control": [
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha"
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": []
+    },
+    {
+      "columns": [
+        "matches"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    }
+  ],
+  "production--monitoring": [
+    {
+      "columns": [
+        "shape",
+        "calls",
+        "mean_ms"
+      ],
+      "rows": [
+        [
+          "customer lookup",
+          1000,
+          2
+        ],
+        [
+          "order list",
+          100,
+          5
+        ],
+        [
+          "revenue report",
+          10,
+          80
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "shape",
+        "cumulative_ms"
+      ],
+      "rows": [
+        [
+          "customer lookup",
+          2000
+        ],
+        [
+          "revenue report",
+          800
+        ],
+        [
+          "order list",
+          500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "shape",
+        "cumulative_ms"
+      ],
+      "rows": [
+        [
+          "customer lookup",
+          2000
+        ]
+      ]
+    }
+  ],
+  "production--capacity-planning": [
+    {
+      "columns": [
+        "retained_rows"
+      ],
+      "rows": [
+        [
+          180000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "payload_bytes"
+      ],
+      "rows": [
+        [
+          36000000
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "retained_rows",
+        "one_copy_bytes",
+        "two_copy_bytes"
+      ],
+      "rows": [
+        [
+          180000,
+          36000000,
+          72000000
+        ]
+      ]
+    }
+  ],
+  "production--migration-strategy": [
+    {
+      "columns": [
+        "source_rows",
+        "candidate_rows"
+      ],
+      "rows": [
+        [
+          6,
+          6
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "amount_cents"
+      ],
+      "rows": [
+        [
+          104,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "mismatches"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    }
+  ],
+  "production--operational-best-practices": [
+    {
+      "columns": [
+        "orders"
+      ],
+      "rows": [
+        [
+          6
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "rows": []
+    },
+    {
+      "columns": [
+        "check_name",
+        "value"
+      ],
+      "rows": [
+        [
+          "negative amounts",
+          0
+        ],
+        [
+          "orphan orders",
+          0
+        ],
+        [
+          "paid revenue cents",
+          4000
+        ]
+      ]
+    }
+  ],
+  "projects--customer-revenue-report": [
+    {
+      "columns": [
+        "customer_id",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          2000
+        ],
+        [
+          2,
+          500
+        ],
+        [
+          3,
+          1500
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "paid_cents"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          2000
+        ],
+        [
+          2,
+          "Ravi",
+          500
+        ],
+        [
+          3,
+          "Meera",
+          1500
+        ],
+        [
+          4,
+          "Kabir",
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "id",
+        "name",
+        "paid_cents",
+        "revenue_rank"
+      ],
+      "rows": [
+        [
+          1,
+          "Asha",
+          2000,
+          1
+        ],
+        [
+          3,
+          "Meera",
+          1500,
+          2
+        ],
+        [
+          2,
+          "Ravi",
+          500,
+          3
+        ],
+        [
+          4,
+          "Kabir",
+          0,
+          4
+        ]
+      ]
+    }
+  ],
+  "projects--inventory-reservation": [
+    {
+      "columns": [
+        "sku",
+        "available"
+      ],
+      "rows": [
+        [
+          "BOOK",
+          1
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "affected_rows",
+        "available"
+      ],
+      "rows": [
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "affected_rows",
+        "available"
+      ],
+      "rows": [
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ]
+}
