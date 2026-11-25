@@ -1,0 +1,246 @@
+import { deep } from "../schema.js";
+
+export default {
+  "caching--introduction-to-caching": deep({
+    anim: ["What a 95% hit rate does to the database", "u:Users:10k rps | a:App | c:Cache:empty | d:Database:limit 2k rps", [
+      ["u>a", "10k req/s", "Without a cache every request becomes a query: 10,000 per second on a database that handles 2,000.", "d=!overloaded"],
+      ["a>c", "first lookup", "Add a cache. The first request for each key is a miss.", "c=miss"],
+      ["a>d", "load once", "The miss reads the database and stores the result with a TTL of 60 seconds.", "c=filling; d=reading"],
+      ["a>c", "95% hits", "After a few seconds, 95 of 100 lookups are found in memory in about 1 ms.", "c=+95% hits"],
+      ["a>d", "5% misses", "Only 500 queries per second remain, well under the limit. Average read time falls from 20 ms to about 2 ms.", "d=+500 rps"],
+      ["c", "restart", "If the cache restarts empty, 10,000 per second hit the database at once. A cache that is required for survival needs its own protection plan.", "c=!empty; d=!overloaded"],
+    ]],
+    more: [
+      ["Hit-rate maths", "Average = hit x 1 ms + miss x 20 ms. From 90% to 95% hits halves the misses, and therefore halves the database load: the last few percent matter most."],
+      ["What to cache", "Read often, changed rarely, costly to compute, and tolerable when slightly old. Cache the final form (rendered or joined) rather than raw rows when you can."],
+      ["What not to cache", "Data that must be exact at the moment of decision (balance during a withdrawal), secrets, and keys that are almost never read twice."],
+    ],
+    use: "Read-heavy workloads with a hot set much smaller than the data.",
+    avoid: "Hiding a missing index, or data whose staleness nobody has agreed to.",
+    answer: "Yes: 10,000 reads per minute against one change every 5 minutes is ideal. A TTL of 30-60 seconds removes over 99% of the reads; worst case, users see a value up to one TTL old. If the writer can delete the key on change, staleness falls to near zero.",
+    qa: [
+      ["Where can a cache live?", "Browser, CDN, gateway, in-process memory, distributed cache, and inside the database. Each step closer to the user is faster but harder to invalidate."],
+      ["What do you monitor on a cache?", "Hit rate per key group, evictions, memory, latency, hot keys, and above all the load on the source behind it when the cache misses."],
+    ],
+  }),
+  "caching--client-side-caching": deep({
+    anim: ["Fresh, stale and revalidated in the browser", "b:Browser:empty | c:Browser cache:empty | s:Server:ETag v1", [
+      ["b>s", "GET /logo.png", "The first visit downloads 80 KB. The response says `max-age=60` and `ETag: v1`.", "s=80 KB sent"],
+      ["b>c", "store 60s", "The browser stores the body with its age and version.", "c=v1 fresh"],
+      ["b>c", "read at 30s", "Within 60 seconds it is reused with **no network at all**.", "b=+0 ms"],
+      ["b>s", "If-None-Match v1", "After 60 seconds it is stale, so the browser asks whether v1 is still current.", "c=~v1 stale"],
+      ["s>b", "304 + max-age", "The answer is a few bytes: still current. The stored copy becomes fresh again.", "c=+v1 fresh; b=1 round trip"],
+      ["b>s", "v2 changed", "Once the file changes, the ETag differs and the server sends the new body.", "s=ETag v2; c=+v2 fresh"],
+    ]],
+    more: [
+      ["Directives worth knowing", "`no-cache` means store but revalidate. `no-store` means never keep. `private` forbids shared caches. `immutable` skips revalidation. `stale-while-revalidate` shows old while refreshing."],
+      ["Other client stores", "Service worker caches for offline, IndexedDB for data, in-memory caches of client libraries. Each needs its own version and clean-up rule."],
+      ["You cannot recall it", "A response cached for a day stays for a day. Use versioned names for long lifetimes and short lifetimes for names that must stay the same."],
+    ],
+    use: "Static assets, reference data, and repeat visits on slow networks.",
+    avoid: "Long max-age on HTML or API responses under fixed URLs.",
+    answer: "The request still happens, but a matching ETag makes the server answer 304 with headers only. The 80 KB body is not sent again, so bandwidth and transfer time are saved and only one round trip remains.",
+    qa: [
+      ["Strong or weak ETag?", "A strong ETag means byte-identical and allows range requests. A weak one (`W/`) means equivalent content, for example after different compression."],
+      ["How do you log a user out of cached pages?", "Send personal pages with `Cache-Control: no-store` (or private + no-cache), and use `Clear-Site-Data` at logout where supported."],
+    ],
+  }),
+  "caching--cdn-caching": deep({
+    anim: ["Tracking parameters destroy the hit rate", "u:Users | e:CDN edge:empty | o:Origin:0 rps", [
+      ["u>e", "/?utm=mail", "A campaign link adds a tracking parameter. By default the full URL is the cache key.", "e=key 1 miss"],
+      ["e>o", "fetch", "The page is fetched and stored under that exact URL.", "o=1 fetch"],
+      ["u>e", "/?utm=x1 x2 x3", "Every ad uses its own value, so the **same page** gets thousands of keys.", "e=!5% hits"],
+      ["e>o", "1000s of misses", "The origin renders the same HTML again and again.", "o=!overloaded"],
+      ["e", "normalise key", "Configure the edge to drop `utm_*` from the cache key (the browser still keeps it for analytics).", "e=key = /"],
+      ["u>e", "/?utm=x4", "All variants now share one entry.", "e=+98% hits; o=+idle"],
+    ]],
+    more: [
+      ["Vary with care", "`Vary: Accept-Encoding` is fine. `Vary: User-Agent` creates thousands of variants. Normalise at the edge into a few classes."],
+      ["Tag purging", "Attach surrogate keys such as `product-9` to pages. One purge by tag removes every page that shows that product."],
+      ["Serve stale", "`stale-if-error` lets the edge keep serving the last good copy during an origin outage, which often hides the outage completely."],
+    ],
+    use: "Public responses that many users share, with a clear key and lifetime.",
+    avoid: "Anything with Set-Cookie or personal data unless the key and headers are proven correct.",
+    answer: "Each `utm_campaign` value creates a different cache key for the same page, so requests miss. Configure the CDN to ignore (strip) tracking parameters in the cache key, or redirect to the clean URL.",
+    qa: [
+      ["What is web cache poisoning?", "An attacker uses an input that changes the response but is not part of the key (an odd header), so the malicious response is cached for others. Include such inputs in the key or ignore them completely."],
+      ["How long should HTML be cached at the edge?", "Often 30-60 seconds plus stale-while-revalidate: it absorbs spikes while staying fresh. Purge on publish for instant updates."],
+    ],
+  }),
+  "caching--application-caching": deep({
+    anim: ["In-process caches disagree, a shared cache does not", "u:User | lb:Balancer | a:App A:cache empty, b:App B:cache empty | r:Shared cache:empty", [
+      ["u>lb", "login", "The user logs in and the balancer picks App A.", "lb=to A"],
+      ["lb>a", "session in A", "A stores the session in its own memory.", "a=session Asha"],
+      ["lb>b", "next request", "The next request goes to App B, whose memory knows nothing.", "b=!not logged in"],
+      ["a>r", "move session", "Store the session in a shared cache instead.", "r=session Asha; a=stateless"],
+      ["b>r", "lookup 0.5 ms", "B reads the same session. Any instance can serve any user.", "b=+logged in"],
+      ["b", "L1 + L2", "For hot, rarely changing data, keep a tiny in-process copy for a few seconds in front of the shared cache.", "b=+L1 5 s"],
+    ]],
+    more: [
+      ["Two-level caching", "L1 in-process (nanoseconds, per instance) and L2 shared (about 0.5 ms). Keep L1 TTL short, or broadcast invalidations, because instances will disagree."],
+      ["Key naming", "Use `app:entity:id:version`. A version segment lets you invalidate a whole family by changing a number, and prevents old code from reading new formats."],
+      ["Memory discipline", "Bound every in-process cache by size. An unbounded map is a memory leak with good intentions."],
+    ],
+    use: "Computed results, sessions, permissions, configuration and rendered fragments.",
+    avoid: "Keeping user-specific state only in one process behind a balancer.",
+    answer: "Users appear to be logged out or lose their cart at random, because each instance has its own cache. Move sessions to a shared cache (or use signed tokens) so that every instance sees the same data.",
+    qa: [
+      ["How do you invalidate L1 caches on all instances?", "Publish an invalidation message that all instances subscribe to, plus a short TTL as a safety net in case a message is lost."],
+      ["How do you deploy a change to the cached format?", "Put a version in the key. New code writes v2 keys and old code continues with v1; v1 entries expire on their own."],
+    ],
+  }),
+  "caching--database-caching": deep({
+    anim: ["The buffer pool at work", "q:Query | e:SQL engine | b:Buffer pool:cold | d:Disk", [
+      ["q>e", "SELECT id 42", "The query needs an index page and one data page.", "e=needs 4 pages"],
+      ["e>b", "page 901?", "The engine looks in the buffer pool, its own memory cache of disk pages.", "b=~miss"],
+      ["b>d", "read pages", "Four random reads from disk take about 0.4 ms on SSD, or 40 ms on a spinning disk.", "d=4 reads; b=4 pages"],
+      ["q>e", "same query", "The query runs again. All four pages are in memory.", "b=+hit"],
+      ["b>e", "0.02 ms", "No disk access at all: the second run is many times faster **without** any application cache.", "e=+fast"],
+      ["b", "restart", "A restart empties the pool. The first minutes are slow until hot pages are read again.", "b=!cold"],
+    ]],
+    more: [
+      ["Working set", "If the hot pages fit in memory, the database feels fast. When they stop fitting, latency rises sharply rather than gradually. Watch the buffer hit ratio and read IOPS."],
+      ["Plan and result caches", "Prepared plans save parsing. Result caches help only for identical queries over unchanged tables and are often disabled because invalidation is costly."],
+      ["Scan resistance", "Big scans could flush hot pages. Engines protect themselves with midpoint insertion or ring buffers; run large reports on a replica anyway."],
+    ],
+    use: "Sizing database memory before adding another caching layer.",
+    avoid: "Benchmarking only the second run, or only the first. Measure warm and cold separately.",
+    answer: "The pages it needed were loaded into the database's buffer pool (and the operating system's page cache), so the second run reads memory instead of disk. A restart clears that memory, so pages must be read from disk again.",
+    qa: [
+      ["Why add Redis if the database already caches?", "The buffer pool still costs a query: connection, parse, locks, CPU. An application cache returns a finished result, offloads connections, and can be nearer to the user."],
+      ["How do you warm a database after failover?", "Replay recent hot queries, dump and reload the list of hot pages (several engines support it), or ramp traffic slowly while the pool fills."],
+    ],
+  }),
+  "caching--cache-aside-pattern": deep({
+    anim: ["Cache-aside with a race", "r:Reader | w:Writer | c:Cache:price 10 | d:Database:price 10", [
+      ["r>c", "get price", "The entry has just expired: a miss.", "c=~empty"],
+      ["r>d", "read 10", "The reader loads 10 from the database, then pauses for a moment.", "r=holds 10"],
+      ["w>d", "price = 12", "Meanwhile a writer updates the database to 12.", "d=price 12"],
+      ["w>c", "delete key", "The writer deletes the cache key, which is already empty.", "c=empty"],
+      ["r>c", "set 10", "The slow reader now stores its **old** value. The cache will say 10 until the TTL ends.", "c=!price 10"],
+      ["c", "TTL 60s", "A TTL bounds the damage. Versioned writes (set only if newer) or a lease token remove the race entirely.", "c=+expires soon"],
+    ]],
+    more: [
+      ["Delete, do not update", "On write, delete the key. Updating it lets two writers finish in different orders in the cache and the database, leaving them different."],
+      ["Order matters", "Write the database first, then delete the key. The reverse order lets a reader refill the old value before the database changes."],
+      ["Leases", "On a miss the cache hands out a token. Only the holder may fill, and a delete cancels the token. This prevents stale sets and stampedes."],
+    ],
+    use: "The default for read-heavy data where the application can tolerate brief staleness.",
+    avoid: "Write-heavy keys (constant misses) or data that must never be stale.",
+    answer: "Readers keep seeing the old price from the cache until the entry's TTL expires (or it is evicted). Without a TTL that could be forever, so always set one and also delete the key on update.",
+    qa: [
+      ["What if deleting the cache key fails after the database write?", "Retry through a queue or outbox, or derive invalidations from the database's change log. Keep a TTL as the final safety net."],
+      ["Why is cache-aside resilient?", "If the cache is down the application can still read the database, provided it is protected by limits. With inline caches an outage blocks the path."],
+    ],
+  }),
+  "caching--read-through-cache": deep({
+    anim: ["The cache loads on your behalf", "a:Service A, b:Service B | c:Read-through:empty | d:Database", [
+      ["a>c", "get product 9", "Service A asks only the cache. It has no database code for this data.", "c=miss"],
+      ["c>d", "loader runs", "The cache itself runs the registered loader.", "d=1 query"],
+      ["b>c", "get product 9", "Service B asks while the load is running. The cache merges the two requests.", "c=~loading once"],
+      ["d>c", "row", "One query returns, one entry is stored with one TTL rule.", "c=+product 9"],
+      ["c>a,b", "same value", "Both services receive the same value, format and expiry behaviour.", "a=+ok; b=+ok"],
+      ["d", "price changes", "A direct update in the database is still invisible to the cache until TTL or explicit invalidation.", "d=new price; c=~stale"],
+    ]],
+    more: [
+      ["Benefit", "One loader, one key format and one TTL policy. Request merging comes built in, so stampedes are rarer."],
+      ["Cost", "The cache needs access to the database and the loading code, and a cache outage blocks reads unless you build a bypass."],
+      ["Pairing", "Often combined with write-through so that writes update the same layer, or with change data capture for invalidation."],
+    ],
+    use: "Several services read the same data the same way.",
+    avoid: "Each caller needs different shapes or joins, or the cache product cannot run your loader.",
+    answer: "Read-through centralises loading: one implementation of keys, TTL and miss handling, with merged concurrent misses. It does not fix staleness: when the database changes, something must still invalidate or expire the entry.",
+    qa: [
+      ["How does read-through differ from cache-aside in failure?", "In cache-aside the application can skip the cache. In read-through the cache sits in the path, so you need redundancy or an explicit fallback to the database."],
+      ["What is request coalescing?", "When many callers miss the same key, one load runs and all wait for it. It turns a thousand identical queries into one."],
+    ],
+  }),
+  "caching--write-through-cache": deep({
+    anim: ["Every write passes through both stores", "a:App | c:Cache:price 10 | d:Database:price 10 | r:Reader", [
+      ["a>c", "set 12", "The application writes to the cache layer, not to the database directly.", "c=~12 pending"],
+      ["c>d", "write 12", "The cache writes the database **before** it confirms.", "d=price 12"],
+      ["d>c", "ok", "Only after the database accepts does the new value become visible.", "c=+price 12"],
+      ["c>a", "done 8 ms", "The write costs cache plus database time: slower than either alone.", "a=+confirmed"],
+      ["r>c", "get", "Readers always find the latest value. No deletion step, no stale window.", "r=+12"],
+      ["d", "script writes 15", "A batch script that bypasses the cache breaks the guarantee: the cache still says 12.", "d=15; c=!12 stale"],
+    ]],
+    more: [
+      ["Pollution", "Data that is written but never read still fills memory. Combine with a TTL so cold entries leave."],
+      ["Failure in the middle", "If the database write fails, the cache must not keep the new value. If the cache write fails after the database, delete or retry."],
+      ["Sequential consistency per key", "Writes to one key must be ordered by the cache, otherwise two writers can end in different orders in the two stores."],
+    ],
+    use: "Read-after-write must be fresh and the write rate is moderate.",
+    avoid: "Write-heavy data that is rarely read, or databases changed by many other tools.",
+    answer: "The write updates the cache and the database together, so the cached value is already the new one and nothing is left to invalidate. The price is higher write latency: every write waits for both stores, and it fills the cache with data that may never be read.",
+    qa: [
+      ["Write-through or cache-aside with delete?", "Write-through keeps hot keys warm and fresh but slows writes. Cache-aside keeps writes simple and only caches what is read, with a small stale or miss window."],
+      ["Does write-through make the cache the source of truth?", "No. The database remains the source of truth; the cache can be dropped and refilled at any time."],
+    ],
+  }),
+  "caching--write-back-cache": deep({
+    anim: ["Absorbing a burst of likes, and the risk", "u:Users | c:Cache:likes 500 | d:Database:likes 500", [
+      ["u>c", "+1 x 300", "Three hundred likes arrive in one second. Each increments a counter in memory only.", "c=likes 800 dirty"],
+      ["c>u", "ack 1 ms", "Users get an answer in a millisecond. The database has not been touched.", "u=+instant"],
+      ["c>d", "flush 800", "After one second the cache writes a **single** update: 300 writes became one.", "d=likes 800; c=+clean"],
+      ["u>c", "+1 x 200", "Another burst arrives.", "c=~1000 dirty"],
+      ["c", "crash", "The cache node dies before flushing. 200 acknowledged likes are gone.", "c=!lost 200"],
+      ["d", "likes 800", "For likes this is acceptable. For money it is not: choose by the cost of losing one interval.", "d=~800"],
+    ]],
+    more: [
+      ["Reducing the risk", "Replicate the cache, keep an append-only log on disk, shorten the flush interval, and flush on shutdown. Each step gives back some speed."],
+      ["Ordering", "Flush per key in order and make flushes idempotent (set an absolute value or include a version), so a retried flush does no harm."],
+      ["Also inside hardware", "Disk controllers and operating systems use write-back, which is why durable databases call fsync and use batteries or capacitors."],
+    ],
+    use: "High-rate counters, metrics, view counts, and draft saves.",
+    avoid: "Payments, orders, or anything users were told is saved for good.",
+    answer: "Likes: yes. Losing a second of likes after a crash is acceptable, and batching removes most writes. Bank transfer: no. Write-back acknowledges before durable storage, so a crash could lose a confirmed transfer.",
+    qa: [
+      ["How does write-back differ from write-behind with a queue?", "With a durable queue the write is safe before acknowledging, and the database is updated later. It costs a little latency but removes the loss window."],
+      ["What does a reader see during the dirty period?", "Readers through the cache see the new value; readers that go directly to the database see the old one. Reports should know that."],
+    ],
+  }),
+  "caching--cache-eviction-policies": deep({
+    anim: ["A nightly scan ruins an LRU cache", "r:Requests | c:LRU cache:A B C hot | s:Scan job | d:Database:calm", [
+      ["r>c", "A B C", "The cache holds three entries. The hot items A, B and C are read all day.", "c=+A B C 95% hit"],
+      ["s>c", "reads X Y Z", "A nightly job reads every row once. LRU treats each as the most recent.", "c=~X Y Z"],
+      ["c", "evict A B C", "The hot items were least recent for a moment, so they are evicted for data nobody will read again.", "c=!no hot items"],
+      ["r>d", "A B C miss", "In the morning all hot reads miss together and the database takes the load.", "d=!overloaded"],
+      ["c", "use LFU admission", "With frequency-aware admission a new item enters only if it is used **more often** than the victim.", "c=+A B C kept"],
+      ["s>c", "X rejected", "Scan items have a count of one, so they are not admitted.", "d=+calm"],
+    ]],
+    more: [
+      ["Policies", "LRU: recent. LFU: frequent. FIFO: oldest. TTL: expired. Random: cheap and surprisingly fair. W-TinyLFU combines a small recent window with frequency-based admission."],
+      ["Approximation", "Exact LRU needs a linked list and locks. Many caches sample a few keys and evict the worst, which is nearly as good at much lower cost."],
+      ["Size and cost aware", "Evicting one 5 MB item may be better than evicting 5,000 small ones. Some policies weigh size and reload cost."],
+    ],
+    use: "LRU as a default; LFU or TinyLFU for stable popularity; TTL where freshness decides.",
+    avoid: "noeviction on a cache: it turns a full cache into write errors.",
+    answer: "The scan fills the LRU cache with rows that are read once and pushes the hot data out, since LRU only looks at recency. Right after it your normal traffic misses, the hit rate collapses and the database is hit until the hot set reloads.",
+    qa: [
+      ["LRU or LFU for a news site?", "Popularity changes quickly, so pure LFU would keep yesterday's stories. Use LRU or LFU with ageing (decay) so that old counts fade."],
+      ["What is the difference between eviction and expiration?", "Eviction removes entries because memory is needed. Expiration removes entries because their time is over. A key can leave for either reason."],
+    ],
+  }),
+  "caching--cache-invalidation": deep({
+    anim: ["One name cached in many places", "u:User renames | d:Database:name Asha | p:profile 7, c1:comment 31, c2:comment 88 | r:Readers", [
+      ["u>d", "name = Asha V", "The user changes the display name.", "d=name Asha V"],
+      ["d>p", "delete profile:7", "The application deletes the profile entry. The profile page is right on the next read.", "p=+reloaded"],
+      ["r>c1", "read comments", "Comments were cached with the name **copied inside**, and nobody deleted those.", "c1=!old name; c2=!old name"],
+      ["c1", "option 1 tags", "Tag every entry that contains user 7 and purge by tag. Correct, but requires tracking tags.", "c1=+purged"],
+      ["c2", "option 2 ids", "Better: cache the comment with the user **id** and look the name up separately (batched).", "c2=+id only"],
+      ["d>p", "change stream", "Drive invalidation from the database change log, so scripts and other services cannot forget it.", "p=+by CDC"],
+    ]],
+    more: [
+      ["Three tools", "Expire by time, delete on change, or change the key (versioning). Most systems use all three: versioned keys for assets, deletes for data, TTL for safety."],
+      ["Generation numbers", "Keep `user:7:gen = 5` and build keys with it. Increasing the number makes every old entry unreachable in one step."],
+      ["Invalidate after commit", "Deleting inside the transaction lets a reader refill the old value before commit. Send invalidations after commit, via an outbox or change stream."],
+    ],
+    use: "Any cached value that has a writer. Decide the rule at the moment you add the cache.",
+    avoid: "Relying on humans to remember every key that depends on a field.",
+    answer: "No. The name is also embedded in every cached comment, which stays old. Either tag and purge all entries that contain this user, or cache only the user id in comments and resolve the name from one profile entry. A TTL limits what is missed.",
+    qa: [
+      ["Why is invalidation called one of the hard problems?", "Because dependencies between data and derived copies are implicit, writes race with reads, messages get lost, and caches exist in places you do not control, such as browsers."],
+      ["How do you invalidate across regions?", "Publish events to every region, accept propagation delay, and add TTLs. For critical reads, bypass the cache or check a version with the home region."],
+    ],
+  }),
+};

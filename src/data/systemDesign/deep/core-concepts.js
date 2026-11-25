@@ -1,0 +1,248 @@
+import { deep } from "../schema.js";
+
+export default {
+  "core-concepts--functional-and-non-functional-requirements": deep({
+    anim: ["Turning a vague request into testable requirements", "pm:Product ask | fn:Functional list, nf:Quality list | tgt:Measurable target | dsn:Design choice", [
+      ["pm>fn", "what it does", "The ask is: build messaging. First list **behaviours** a user can see: send a message, delete a message, see history.", "fn=send + delete"],
+      ["pm>nf", "how well", "Next list **qualities** that apply to every behaviour: fast, available, durable, secure. These are adjectives, so they are not usable yet.", "nf=fast + durable"],
+      ["nf>tgt", "add numbers", "Attach a number to each adjective. Fast becomes `p95 send under 200 ms`; durable becomes `zero acknowledged messages lost`.", "tgt=p95 200 ms"],
+      ["tgt>dsn", "pick mechanism", "Each number forces a mechanism. Zero loss means writing to replicated storage **before** acknowledging the sender.", "dsn=replicate then ack"],
+      ["fn>dsn", "check coverage", "Walk every function through the design. Delete must also remove the copy in search and cache, which nobody wrote down.", "dsn=~gap: delete"],
+      ["dsn>pm", "confirm", "Send the list back with the open question. A requirement that cannot be tested or priced goes back for another round.", "pm=+agreed"],
+    ]],
+    more: [
+      ["Constraints are a third kind", "Budget, deadline, team skills, data residency law and existing vendors are not features or qualities, yet they remove options. Write them in their own list so nobody argues about them twice."],
+      ["Explicit, implied and unknown", "Stakeholders state features, assume qualities and forget edge cases. Ask about data retention, abuse, peak hour, offline use and what happens when a dependency is down."],
+      ["Prioritise the qualities", "You cannot maximise everything. Rank the top three (for a wallet: correctness, durability, availability) and let that ranking settle later arguments such as strong versus eventual consistency."],
+    ],
+    use: "Starting any design, estimating a project, or when two teams disagree because each assumed a different scale.",
+    avoid: "Do not collect requirements for months. If a decision is cheap to reverse, note the assumption and move on.",
+    answer: "(a) Ordered delivery is non-functional (a correctness quality of sending). (b) Deleting a message is functional: the user does it. (c) 99.99% uptime is non-functional. (d) Never losing a sent message is non-functional (durability), although it needs functional work such as acknowledgements and retries.",
+    qa: [
+      ["How do you turn 'the app must be fast' into a requirement?", "Name the operation, the percentile, the load and the measuring point. For example: `GET /feed` returns in under 300 ms at p95, measured at the edge, at 5,000 requests per second."],
+      ["Which questions do you ask first in a design interview?", "Who are the users and what are the two or three core actions; how many users and requests; read/write ratio; how fresh and consistent data must be; what may never be lost; and which regions it must run in."],
+    ],
+  }),
+  "core-concepts--scalability": deep({
+    anim: ["Scaling a web tier from one server to three", "u:Users:1k req/s | lb:Load balancer | a:App A:idle, b:App B:off, c:App C:off | r:Session store, db:Database:20% CPU", [
+      ["u>lb", "1k req/s", "Traffic is 1,000 requests per second. One app server can handle about 1,200, so a single machine still copes.", "a=~83% CPU"],
+      ["a>r", "move session", "Before adding machines, move login sessions out of App A's memory into a shared store. Now **any** server can serve any user.", "r=sessions here"],
+      ["u>lb", "3k req/s", "A campaign triples the traffic. App A alone would be at 250% of capacity, so requests would queue and time out.", "u=3k req/s; a=!overloaded"],
+      ["lb>b,c", "scale out", "Start two identical servers. Because they are stateless, they begin taking traffic as soon as their health checks pass.", "b=+83% CPU; c=+83% CPU; a=+83% CPU"],
+      ["a>db", "3x queries", "Adding app servers moved the pressure. The database now receives three times the queries and becomes the next bottleneck.", "db=!95% CPU"],
+      ["db>r", "cache reads", "Reads are 90% of the load, so cached results remove most of it. Scaling is finding the **next** bottleneck, one layer at a time.", "db=+35% CPU; r=sessions + cache"],
+    ]],
+    more: [
+      ["Amdahl's limit", "If 10% of the work must run one at a time (a lock, a single writer), ten thousand servers give at most a 10x speed-up. Remove serial sections before buying machines."],
+      ["Scale cube", "Three directions: clone the app (X), split by function or service (Y), split the data by customer or key (Z). Most systems grow in that order because each step costs more to operate."],
+      ["Linear is a claim to test", "Double the machines and measure. If throughput grows 1.6x instead of 2x, coordination cost is eating the rest: chatty calls, hot rows, lock contention or cache misses."],
+    ],
+    use: "Traffic or data is growing in a predictable direction and you can name the resource that will run out first.",
+    avoid: "You are scaling before measuring. A missing index costs less to fix than twenty extra servers.",
+    answer: "At 15% per month the 30% headroom is gone in about two to three months (70% x 1.15^2.5 is roughly 100%). Scaling up once buys time, but plan to scale out. First change: move session and file state off the server, so a second copy can run behind a load balancer.",
+    qa: [
+      ["What is the difference between performance and scalability?", "Performance is how fast one request is at the current load. Scalability is how that speed changes as load or data grows. A fast system can scale badly and a scalable one can be slow."],
+      ["A service stops getting faster after eight servers. Where do you look?", "Shared resources: database CPU and locks, connection limits, a single cache node, a global lock or sequence, network bandwidth, then uneven load balancing. Compare saturation of each at 4, 8 and 12 servers."],
+    ],
+  }),
+  "core-concepts--availability": deep({
+    anim: ["Availability in series and in parallel", "u:User | lb:Load balancer:99.99% | a:App A:99.9%, b:App B:99.9% | db:Database:99.95%", [
+      ["u>lb", "request", "A request needs the balancer, an app **and** the database. Parts in series multiply: every extra dependency lowers the total.", "lb=99.99%"],
+      ["lb>a", "one app", "With one app: 0.9999 x 0.999 x 0.9995 = **99.84%**. That is about 14 hours of downtime per year.", "a=~total 99.84%"],
+      ["lb>b", "add second", "Two independent apps fail together only 0.001 x 0.001 of the time, so the pair reaches **99.9999%**.", "b=+pair 99.9999%"],
+      ["a>db", "query", "The total is now limited by the database at 99.95%. More app servers cannot lift it any further.", "db=~weakest link"],
+      ["a", "deploy bug", "Both apps run the same build. A bad deploy takes both down, so the failures were **not independent** and the maths was optimistic.", "a=!bad build; b=!bad build"],
+      ["db>b", "replica + canary", "Fix the real risks: a database replica with automatic failover, and rolling deploys that stop after the first unhealthy server.", "db=+99.99%; a=+healthy; b=+healthy"],
+    ]],
+    more: [
+      ["Downtime budget", "99% is 3.65 days a year, 99.9% is 8.8 hours, 99.99% is 53 minutes, 99.999% is 5.3 minutes. Above four nines a human cannot react in time, so recovery must be automatic."],
+      ["MTBF and MTTR", "Availability = MTBF / (MTBF + MTTR). Failing half as often or recovering twice as fast gives the same number, and faster recovery is usually cheaper to build."],
+      ["Partial availability", "Measure per feature. If recommendations are down but checkout works, users are mostly fine. Design so optional parts can disappear without taking the page with them."],
+    ],
+    use: "Setting a target for a user-facing system, choosing redundancy, or deciding whether a dependency is acceptable.",
+    avoid: "Adding nines nobody needs. Each extra nine usually multiplies cost and complexity.",
+    answer: "Run at least two independent instances behind a health-checked balancer: 1 - (0.001 x 0.001) = 99.9999% for that tier. Then the total is limited by what is in series, so check the single parts first: the load balancer itself, the database, DNS, and whatever both instances share (config, deploy, zone).",
+    qa: [
+      ["Two services at 99.9% are called one after another. What is the result?", "0.999 x 0.999 = 99.8%. With ten such calls it drops to about 99%. Remove dependencies, call them in parallel with fallbacks, or make some of them asynchronous."],
+      ["Active-active or active-passive?", "Active-active uses all capacity and fails over instantly, but needs data that can be written in both places. Active-passive is simpler but wastes capacity and adds failover time, and the standby may not work when needed unless you test it."],
+    ],
+  }),
+  "core-concepts--reliability": deep({
+    anim: ["A retry that does not charge twice", "c:Client | api:Payment API | k:Key store:empty, bank:Bank | db:Ledger:balance 100", [
+      ["c>api", "pay 30 key=K1", "The client creates one unique key **before** the first attempt and sends it with the payment.", "api=working"],
+      ["api>k", "reserve K1", "The API inserts K1 with a unique constraint. If it already existed, the API would stop here.", "k=K1 pending"],
+      ["api>bank", "charge 30", "The bank charges the card once and returns a reference.", "bank=+charged once"],
+      ["api>db", "record 30", "The result and the ledger entry are saved together, so the stored answer can be replayed later.", "db=balance 70; k=K1 done"],
+      ["api>c", "reply lost", "The connection drops. The client sees a timeout and cannot know whether the payment happened.", "c=!timeout"],
+      ["c>api", "retry K1", "The client retries with the **same** key, which is what makes the retry safe.", "c=retrying"],
+      ["api>k", "found K1", "K1 is already done, so the API returns the saved result without calling the bank again.", "c=+paid 30; api=+replayed"],
+    ]],
+    more: [
+      ["Fault, error, failure", "A fault is a broken part (a full disk). An error is wrong internal state. A failure is what users see. Reliable systems stop faults from becoming failures."],
+      ["Reliability is not availability", "A system can answer every request and still give wrong balances. Availability asks whether it answers; reliability asks whether it does the right thing over time."],
+      ["Common fault sources", "Deploys and configuration changes cause most outages, followed by overload and dependency failures. Hardware is a smaller share, so invest in safe rollout first."],
+    ],
+    use: "Any operation with money, inventory, messages or data users would miss.",
+    avoid: "Building perfect durability for data you can recompute, such as a thumbnail cache.",
+    answer: "The payment must be idempotent: the client sends the same unique key on every attempt, and the server stores the key with the outcome atomically. A retry then returns the recorded result (or in progress) instead of creating a second charge.",
+    qa: [
+      ["How would you prove a system is reliable?", "Define what correct means, then test it under faults: kill processes, cut the network, fill disks, replay duplicates, restore a backup. Track correctness metrics such as reconciliation differences, not only uptime."],
+      ["What is the difference between fault tolerance and fault prevention?", "Prevention lowers the chance of a fault (reviews, tests, better hardware). Tolerance assumes faults will happen and keeps service correct anyway (replicas, retries, checksums). You need both."],
+    ],
+  }),
+  "core-concepts--single-point-of-failure-spof": deep({
+    anim: ["Finding and removing a single point of failure", "u:Users | dns:DNS | l1:Balancer 1, l2:Balancer 2:not built | app:App x3 | p:Primary DB, s:Standby DB", [
+      ["u>dns", "lookup", "Walk the request path and ask of each box: if this disappears, does the request still work?", "dns=two providers"],
+      ["dns>l1", "route", "All traffic enters one balancer. The three app servers behind it look redundant but share this one door.", "l1=~SPOF"],
+      ["l1", "crash", "The balancer fails. Every healthy server behind it is now unreachable.", "l1=!down; app=unreachable"],
+      ["dns>l2", "floating IP", "Add a second balancer that takes over the shared address when heartbeats stop. Users reconnect within seconds.", "l2=+active; app=serving"],
+      ["l2>app", "request", "The app tier survives the loss of any one server, because three copies run in different zones.", "app=+3 zones"],
+      ["app>p", "write", "The next SPOF is the primary database. It has a standby, but is promotion automatic and tested?", "p=!down"],
+      ["p>s", "promote", "A failover drill promotes the standby, and the app reconnects by name instead of by a fixed address.", "s=+primary"],
+    ]],
+    more: [
+      ["Hidden SPOFs", "Shared configuration, one cloud account, one certificate, a single DNS provider, one build pipeline, one person who knows the runbook, or one power feed for two 'independent' racks."],
+      ["N+1, 2N and zones", "N+1 survives one failure. 2N survives losing half. Size each zone so the remaining zones can carry full load, otherwise failover simply moves the outage."],
+      ["Redundancy must be exercised", "An untested standby is a hope. Fail over on a schedule, measure the time, and check that backups restore. Unused paths rot."],
+    ],
+    use: "Reviewing any architecture before launch, or after an outage where one component stopped everything.",
+    avoid: "Duplicating parts whose failure nobody notices. Spend on the path that earns money or holds data.",
+    answer: "SPOFs: the Redis cache (one copy), the load balancer if there is only one, DNS, and the database primary if promotion is manual. Smallest fixes: Redis replica with automatic failover (or code that works without cache), a second balancer with a floating IP, and automated, tested promotion of the replica.",
+    qa: [
+      ["Is a load balancer a SPOF?", "One instance is. Managed balancers run many nodes across zones behind one name. Self-hosted ones need a pair with a floating IP, or several addresses published through DNS or anycast."],
+      ["Can a shared library be a single point of failure?", "Yes. If every service loads the same broken version at once, replicas fail together. Staged rollouts and version pinning turn a common cause into a small, contained one."],
+    ],
+  }),
+  "core-concepts--latency-throughput-and-bandwidth": deep({
+    anim: ["Why queues make latency explode near full load", "c:Clients | q:Queue:0 waiting | w:Workers x4:idle | db:Disk", [
+      ["c>w", "40 req/s", "Each request takes 50 ms of work. Four workers can finish 4 / 0.05 = **80 requests per second**.", "w=50% busy"],
+      ["w>db", "50 ms work", "At 40 requests per second there is always a free worker. Latency is just the work: about 50 ms.", "q=0 waiting"],
+      ["c>q", "72 req/s", "At 72 requests per second the workers are 90% busy. Random bursts now have to wait, so latency roughly doubles or worse.", "w=~90% busy; q=~5 waiting"],
+      ["c>q", "85 req/s", "At 85 arrivals and 80 completions per second the queue grows by 5 every second, without limit.", "w=!100% busy; q=!300 after 60s"],
+      ["q>c", "timeout", "After a minute, 300 requests wait: 300 / 80 = **3.75 seconds** before work even starts. Clients time out and retry, adding load.", "c=!timeouts"],
+      ["w>db", "batch 2", "Batching two reads per disk trip halves the work per request. Capacity becomes 160 per second and the queue drains.", "w=+53% busy; q=+0 waiting; c=fast again"],
+    ]],
+    more: [
+      ["Little's Law", "Items in the system = arrival rate x time in the system. At 500 requests per second and 40 ms, 20 requests are in flight, so you need at least 20 concurrent slots."],
+      ["Bandwidth-delay product", "Bandwidth x round-trip time is how much data can be in flight. 100 Mbps x 100 ms = 1.25 MB. A smaller TCP window leaves the link idle no matter how wide it is."],
+      ["Latency you cannot buy back", "Light in fibre covers about 200 km per millisecond. Sydney to London is at least 170 ms round trip. Only moving the data or removing round trips helps."],
+    ],
+    use: "Sizing pools, choosing batch sizes, or explaining why a system that was fine at noon fell over at one o'clock.",
+    avoid: "Running anything user-facing above roughly 70-80% utilisation. The last 20% is paid for with latency.",
+    answer: "Concurrency = 500 x 0.04 = 20 requests in flight. Bandwidth = 500 x 20 KB = 10 MB/s = 80 Mbps. If latency doubles at the same request rate, concurrency doubles to 40 while bandwidth stays at 80 Mbps.",
+    qa: [
+      ["Can you raise throughput and hurt latency at the same time?", "Yes. Batching waits to collect items, so each item is slower while the total per second is higher. Group commit, compression and large network buffers all make this trade."],
+      ["Throughput is flat but latency climbs. What does that mean?", "The system is saturated: extra requests wait in a queue instead of adding work done. Find the saturated resource (CPU, pool, lock, disk) and either add capacity or shed load."],
+    ],
+  }),
+  "core-concepts--consistent-hashing": deep({
+    anim: ["Adding a node moves only one arc of the ring", "k:Key user42:hash 55 | r:Ring 0-99 | s1:Node A:at 12, s2:Node B:at 48, s3:Node C:at 90, s4:Node D:not joined", [
+      ["k>r", "hash = 55", "The key hashes to 55. Its owner is the first node clockwise from 55.", "k=hash 55"],
+      ["r>s3", "owner C", "Walking clockwise from 55 the next node is C at 90, so C stores user42. C owns the arc **48 to 90**.", "s3=+owns 48-90"],
+      ["r>s4", "join at 70", "Node D joins at position 70. It takes over the arc **48 to 70** and nothing else.", "s4=~owns 48-70; s3=owns 70-90"],
+      ["s3>s4", "copy 48-70", "C streams only that arc to D. Reads continue from C until the copy is complete.", "s4=+owns 48-70"],
+      ["r>s4", "user42 now D", "The key at 55 now resolves to D. Keys on A and B did not move at all.", "k=on node D"],
+      ["r>s1", "B leaves", "When B fails, its arc 12 to 48 falls to the **next** node clockwise, which is D. With virtual nodes the arc would be split among many.", "s2=!down; s4=~owns 12-70; s1=unchanged"],
+    ]],
+    more: [
+      ["Virtual nodes", "Give each server 100-256 positions. Load evens out, a bigger machine simply gets more positions, and a failed node's load spreads over all others instead of one neighbour."],
+      ["Alternatives", "Rendezvous hashing scores every node per key and picks the highest: no ring, simple for small clusters. Jump hash uses no memory but only supports adding or removing the last node."],
+      ["Bounded loads", "Consistent hashing balances keys, not traffic. With bounded loads a node that is already 25% above average passes the request to the next node clockwise."],
+    ],
+    use: "Distributed caches, sharded stores and sticky routing where servers come and go.",
+    avoid: "A small fixed set of shards, or when you need range scans across keys, since hashing destroys order.",
+    answer: "Modulo hashing moves about 10/11 of the keys, roughly 909,000. Consistent hashing moves about 1/11, roughly 91,000. Every moved key is a cache miss, so modulo would send almost all traffic to the database at once, while the ring sends about 9% of it.",
+    qa: [
+      ["Why hash the server names onto the same ring as keys?", "So ownership depends only on relative position. Adding a server inserts one point and changes ownership only for keys just before it. With modulo the divisor changes for every key."],
+      ["How are replicas placed on a ring?", "Store each key on the owner and on the next N-1 distinct physical nodes clockwise, skipping virtual nodes of the same machine and preferring different racks or zones."],
+    ],
+  }),
+  "core-concepts--cap-theorem": deep({
+    anim: ["The same partition, two different choices", "c1:Client EU, c2:Client US | n1:Node EU:stock 1, n2:Node US:stock 1", [
+      ["n1>n2", "link cut", "Both nodes hold stock = 1 when the network between them breaks. Each node is healthy but cannot see the other.", "n1=~isolated; n2=~isolated"],
+      ["c1>n1", "buy 1", "A customer in Europe tries to buy the last item. The EU node must decide without asking the US node.", "n1=~deciding"],
+      ["n1>c1", "CP: refuse", "**Choosing consistency:** without a majority the node returns an error. No overselling, but the customer cannot buy.", "c1=!error; n1=stock 1"],
+      ["n1>c1", "AP: accept", "**Choosing availability:** the node sells the item and records it locally, hoping to reconcile later.", "c1=+bought; n1=stock 0"],
+      ["c2>n2", "buy 1", "Under the AP choice the US node also sells the same last item, because it still sees stock = 1.", "c2=+bought; n2=!oversold"],
+      ["n1>n2", "heal + merge", "The link heals and the conflict appears: two sales, one item. The business now needs a rule, for example refund the later order.", "n1=~resolve; n2=~resolve"],
+    ]],
+    more: [
+      ["What the letters mean here", "C is linearizability (everyone sees the latest write), A means every non-failed node answers, and P means messages may be lost. P is not optional on a real network, so the choice is C or A **during** a partition."],
+      ["It is per operation", "One product can be CP for checkout and AP for product views. Labelling a whole database CP or AP hides the settings that actually decide."],
+      ["No partition, different question", "Most of the time there is no partition. Then the trade is latency against consistency, which PACELC describes."],
+    ],
+    use: "Deciding what an endpoint should do when it cannot reach its peers: wrong answer, no answer, or an older answer.",
+    avoid: "Using CAP to justify general slowness or to pick a database by slogan.",
+    answer: "(a) The lock is CP: giving one ride to two drivers is worse than making a rider wait. (b) The driver count is AP: a slightly old number on a map is harmless, while an error page is not.",
+    qa: [
+      ["Can a system be CA?", "Only if partitions cannot happen, which means a single node. Any distributed system must decide what to do when messages are lost, and refusing to answer is a decision for C."],
+      ["How does a quorum system sit in CAP?", "With R + W > N and no sloppy quorum it leans CP: the minority side refuses. Lower R or W, or allow hinted handoff, and it leans AP."],
+    ],
+  }),
+  "core-concepts--consistency-models": deep({
+    anim: ["One write seen through four consistency models", "w:Writer | p:Primary:price 10 | r1:Replica 1:price 10, r2:Replica 2:price 10 | rd:Reader", [
+      ["w>p", "price = 12", "The writer changes a price from 10 to 12 on the primary. What may a reader see next?", "p=price 12"],
+      ["rd>p", "strong: 12", "**Linearizable:** the read goes through the primary (or a quorum), so it returns 12. Correct, but it pays the distance.", "rd=sees 12"],
+      ["p>r1", "replicate", "Replica 1 gets the change after 40 ms. Replica 2 is lagging behind.", "r1=price 12"],
+      ["rd>r1", "monotonic: 12", "**Monotonic reads:** this reader has seen 12 and is pinned to replica 1, so time never appears to go backwards.", "rd=sees 12"],
+      ["rd>r2", "eventual: 10", "**Eventual:** without pinning, the next read may land on replica 2 and return 10. The user sees the price jump back.", "rd=!sees 10"],
+      ["p>r2", "replicate", "Replica 2 catches up. With no new writes, all copies **converge**. That is all eventual consistency promises.", "r2=price 12; rd=+sees 12"],
+    ]],
+    more: [
+      ["From strong to weak", "Linearizable, sequential, causal, read-your-writes / monotonic, eventual. Each step down gives up an ordering guarantee and gains speed or availability."],
+      ["Causal is often enough", "A reply must never appear before its question, but unrelated messages may appear in any order. Causal consistency gives exactly that, and works during partitions."],
+      ["Isolation is different", "Consistency models describe single objects across replicas. Isolation levels describe transactions over several rows. Strict serializability is both together."],
+    ],
+    use: "Choosing, per read, how old an answer may be and which anomalies users would notice.",
+    avoid: "Defaulting every read to strong: you pay latency and lose availability for data nobody checks.",
+    answer: "Units in stock needs strong consistency (or a conditional write at checkout), because a stale value sells items that do not exist. '12 people are viewing' is fine with eventual consistency: it is only a hint, and being a few seconds old harms nobody.",
+    qa: [
+      ["How do you give read-your-writes on top of lagging replicas?", "After a write, return its log position and make the client's next reads use a replica that has reached it, or route that user to the primary for a few seconds."],
+      ["Is eventual consistency the same as no consistency?", "No. It promises convergence when writes stop, but says nothing about when or about what you read in between. Conflict rules are still needed so that copies converge to the same value."],
+    ],
+  }),
+  "core-concepts--capacity-estimation": deep({
+    anim: ["From daily users to machines", "dau:5M users:x 40 msgs | avg:Average rate | pk:Peak rate | st:Storage, net:Bandwidth | box:Servers", [
+      ["dau>avg", "200M / day", "5M users x 40 messages = 200M per day. Divide by 86,400 (call it 100k) for about **2,300 writes per second**.", "avg=2.3k per sec"],
+      ["avg>pk", "x3 peak", "Traffic is not flat. A peak factor of 3 gives about **7,000 per second**, the number you must design for.", "pk=7k per sec"],
+      ["dau>st", "200 B x 3", "200M x 200 bytes = 40 GB per day. Three copies make 120 GB per day, or about **44 TB per year**.", "st=44 TB per year"],
+      ["pk>net", "7k x 200 B", "Ingress is 7k x 200 B = 1.4 MB/s, tiny. If each message is delivered to 5 devices, egress is 7 MB/s.", "net=7 MB per sec"],
+      ["pk>box", "/ 1k per box", "If a load test shows 1,000 messages per second per server, 7 servers carry the peak. Add spare capacity for a lost zone.", "box=7 + 4 spare"],
+      ["box>pk", "sanity check", "Check the dominant number. Here storage (44 TB) matters far more than servers, so the design effort belongs in the data layer.", "st=~design driver"],
+    ]],
+    more: [
+      ["Peak factors", "Use 2-3x for consumer apps, 5-10x for events and sales, and much more for ticket drops. Ask about the calendar, not only the average."],
+      ["Do not forget overheads", "Indexes often add 50-100%, replicas multiply by 3, metadata can exceed a small payload, and compaction or migration needs free disk space."],
+      ["Growth horizon", "Design for roughly 18 months of growth, and know what breaks at 10x. Designing for 100x today usually means building the wrong thing slowly."],
+    ],
+    use: "Early in a design to choose between one machine and many, or to spot the dominating resource.",
+    avoid: "Reporting 2,314.8 requests per second. One significant digit is honest; more is decoration.",
+    answer: "5M x 40 = 200M messages per day; / 86,400 is about 2,300 writes per second (roughly 7,000 at a 3x peak). Storage: 200M x 200 B = 40 GB per day, x 365 = 14.6 TB, x 3 replicas is about 44 TB per year before indexes.",
+    qa: [
+      ["How do you estimate cache size?", "Find the hot set. If 20% of objects serve 80% of reads, cache 20% of a day's distinct data: for example 10M objects x 2 KB x 20% = 4 GB, plus about 30% for metadata."],
+      ["Why estimate at all if real numbers will differ?", "To pick the order of magnitude. Whether data is 50 GB or 50 TB decides single node versus sharding, and that decision survives a factor-of-two mistake."],
+    ],
+  }),
+  "core-concepts--back-of-the-envelope-calculations": deep({
+    anim: ["Estimating one image service in five moves", "req:Requests:1M per sec | sz:Object size:50 KB | bw:Bandwidth | nic:Server link:10 Gbps | fl:Fleet", [
+      ["req>sz", "1M x 50 KB", "Write units on every number. 1M per second x 50 KB = 50,000,000 KB per second.", "sz=50 KB each"],
+      ["sz>bw", "50 GB/s", "Drop three zeros twice: 50 million KB/s = **50 GB/s**.", "bw=50 GB per sec"],
+      ["bw>nic", "x8 = 400 Gb/s", "Links are sold in bits. 50 GB/s x 8 = **400 Gbps**, forty times a 10 Gbps link.", "nic=!40x too small"],
+      ["nic>fl", "/ 7 Gbps", "Plan for 70% of each link: 400 / 7 is about **58 servers** just to move the bytes.", "fl=58 servers"],
+      ["bw>req", "95% at CDN", "A CDN that serves 95% leaves 50k requests per second at the origin, which is 20 Gbps.", "req=50k at origin; bw=20 Gbps"],
+      ["nic>fl", "20 / 7", "Now the origin needs about 3 servers for bandwidth. The estimate just justified the CDN.", "nic=+fits; fl=+3 servers"],
+    ]],
+    more: [
+      ["Numbers worth remembering", "Memory read about 100 ns, SSD read about 100 microseconds, same-datacentre round trip about 0.5 ms, disk seek about 5-10 ms, cross-continent round trip about 150 ms."],
+      ["Handy roundings", "A day is about 100k seconds. 1 million per day is about 12 per second. 2^10 is about 10^3. A byte is 8 bits, the most common 8x mistake."],
+      ["Bracket the answer", "Compute a low and a high case. If both lead to the same design, stop. If they lead to different designs, that assumption is worth measuring."],
+    ],
+    use: "Comparing two designs, sanity-checking a vendor claim, or spotting a number that is off by 1000x.",
+    avoid: "Replacing a load test. Estimates ignore contention, garbage collection, skew and bugs.",
+    answer: "1,000,000 x 50 KB = 50 GB/s, which is 400 Gbps. A single 10 Gbps link carries about 1.25 GB/s, so it could serve only around 2.5% of the load. You need a CDN and many origin servers.",
+    qa: [
+      ["How long does it take to scan 1 TB from one SSD?", "At about 2 GB/s sequential, 1,000 GB / 2 = 500 seconds, around 8 minutes. Spread over 20 disks in parallel it drops to about 25 seconds."],
+      ["Roughly how many requests can one web server handle?", "For small cached reads tens of thousands per second; for requests with a few database calls, often 500-2,000. State the assumption, then measure."],
+    ],
+  }),
+};

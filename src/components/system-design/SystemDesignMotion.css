@@ -1,0 +1,279 @@
+.sdMotion {
+  margin: 28px 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.sdMotion > header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.sdMotion header small,
+.sdMotionNow small {
+  display: block;
+  color: var(--course-accent);
+  font: 700 10px var(--font-mono);
+  letter-spacing: 0.1em;
+}
+.sdMotion header strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.35;
+}
+.sdMotionControls {
+  display: flex;
+  gap: 8px;
+}
+.sdMotion button {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--text);
+  padding: 9px 13px;
+  font: 600 12px/1.3 var(--font-sans);
+  cursor: pointer;
+}
+.sdMotion button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.sdMotion button:not(:disabled):hover,
+.sdMotion button:focus-visible {
+  border-color: var(--course-accent);
+}
+.sdMotion .sdMotionPlay {
+  min-width: 74px;
+  border-color: var(--course-accent);
+  background: color-mix(in srgb, var(--course-accent) 16%, var(--bg));
+}
+.sdMotionStage {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg);
+}
+.sdMotionStage svg {
+  display: block;
+  width: 100%;
+  min-width: 560px;
+  height: auto;
+}
+.sdMotionEdge {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+}
+.sdMotionEdge.isActive {
+  stroke: var(--course-accent);
+  stroke-dasharray: 7 6;
+  animation: sdMotionDash 1.1s linear infinite;
+}
+.sdMotionNode rect {
+  fill: var(--surface);
+  stroke: var(--muted);
+  stroke-width: 1.4;
+  transition:
+    fill 0.4s ease,
+    stroke 0.4s ease;
+}
+.sdMotionNode text {
+  fill: var(--text);
+  font: 700 12px var(--font-sans);
+  text-anchor: middle;
+}
+.sdMotionNode .sdMotionSub {
+  fill: var(--muted);
+  font: 600 10px var(--font-mono);
+}
+.sdMotionNode.isSource rect {
+  stroke: var(--course-accent);
+}
+.sdMotionNode.isTarget rect {
+  stroke: var(--course-accent);
+  stroke-width: 2.6;
+  fill: color-mix(in srgb, var(--course-accent) 15%, var(--surface));
+}
+.sdMotionNode.is-good rect {
+  stroke: #2e9e6b;
+  fill: color-mix(in srgb, #2e9e6b 16%, var(--surface));
+}
+.sdMotionNode.is-warn rect {
+  stroke: #d18b1f;
+  fill: color-mix(in srgb, #d18b1f 16%, var(--surface));
+}
+.sdMotionNode.is-bad rect {
+  stroke: #d6455d;
+  fill: color-mix(in srgb, #d6455d 17%, var(--surface));
+}
+.sdMotionToken {
+  offset-rotate: 0deg;
+  offset-distance: 100%;
+  animation: sdMotionTravel 1.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  pointer-events: none;
+}
+.sdMotionToken circle {
+  fill: var(--course-accent);
+  stroke: var(--bg);
+  stroke-width: 3;
+}
+.sdMotionToken rect {
+  fill: var(--bg);
+  stroke: var(--course-accent);
+}
+.sdMotionToken text {
+  fill: var(--text);
+  font: 700 10px var(--font-mono);
+  text-anchor: middle;
+}
+.sdMotionNow {
+  min-height: 84px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--course-accent);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--course-accent) 7%, var(--bg));
+}
+.article .sdMotionNow p,
+.sdMotionNow p {
+  margin: 7px 0 0;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.article .sdMotionSteps,
+.sdMotionSteps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.sdMotionSteps li {
+  margin: 0;
+}
+.sdMotion .sdMotionSteps button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.sdMotionSteps span {
+  color: var(--course-accent);
+  font: 700 11px var(--font-mono);
+}
+.sdMotion .sdMotionSteps button[aria-current="step"] {
+  border-color: var(--course-accent);
+  background: color-mix(in srgb, var(--course-accent) 13%, var(--bg));
+  color: var(--text);
+}
+@keyframes sdMotionTravel {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+@keyframes sdMotionDash {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sdMotionToken,
+  .sdMotionEdge.isActive {
+    animation: none;
+  }
+}
+@media (max-width: 600px) {
+  .sdMotion {
+    padding: 16px 14px;
+  }
+  .sdMotionControls {
+    width: 100%;
+  }
+  .sdMotionControls button {
+    flex: 1;
+  }
+}
+
+/* ---------- Still figure, depth cards and interview answers ---------- */
+.sdConcept .fig .figStepNo {
+  fill: var(--bg);
+  font: 700 11px var(--font-sans);
+}
+.sdDepthGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+.sdDepthGrid > div {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.article .sdDepthGrid h3,
+.article .sdChoice h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: var(--text);
+}
+.article .sdDepthGrid p,
+.article .sdChoice p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.sdChoice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+.sdChoice > div {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-top: 3px solid #2e9e6b;
+  border-radius: 10px;
+  background: var(--surface);
+}
+.sdChoice > div + div {
+  border-top-color: #d6455d;
+}
+.sdAnswers {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.sdAnswers details {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.sdAnswers summary {
+  padding: 14px 16px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.article .sdAnswers details p {
+  margin: 0;
+  padding: 0 16px 16px;
+  font-size: 15px;
+  line-height: 1.75;
+}

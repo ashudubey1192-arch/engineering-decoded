@@ -1,0 +1,247 @@
+import { deep } from "../schema.js";
+
+export default {
+  "communication-patterns--synchronous-communication": deep({
+    anim: ["A slow call at the end of a chain", "u:User:waiting | o:Orders:10 threads | p:Payments | f:Fraud", [
+      ["u>o", "place order", "The user waits while Orders handles the request on one of its 10 threads.", "o=1 of 10 busy"],
+      ["o>p", "charge", "Orders waits for Payments, and Payments waits for Fraud. Total time is the **sum** of the chain.", "p=waiting"],
+      ["p>f", "score", "Fraud normally answers in 20 ms.", "f=20 ms"],
+      ["f", "slows to 5s", "Fraud slows down. Payments threads are stuck waiting on it.", "f=!5 s; p=!all stuck"],
+      ["p>o", "no answer", "Orders threads are stuck on Payments. Even requests that need no payment cannot get a thread.", "o=!10 of 10 busy"],
+      ["o>p", "timeout 300 ms", "With a timeout and a circuit breaker, Orders gives up early, frees the thread and shows a clear message.", "o=+responsive; u=try again"],
+    ]],
+    more: [
+      ["Coupling in time", "Both sides must be up at the same moment. A chain of five services at 99.9% gives 99.5%: each synchronous hop lowers availability."],
+      ["Parallel where possible", "Independent calls should run together: latency becomes the maximum rather than the sum. Watch tail latency, since more calls raise the odds of one slow reply."],
+      ["Blocking versus waiting", "Async I/O avoids holding threads, but the caller still waits for the result. It is non-blocking code, not asynchronous architecture."],
+    ],
+    use: "The caller cannot continue without the answer: price, login, availability, payment approval.",
+    avoid: "Work whose result nobody is waiting for, or long chains across many teams.",
+    answer: "Validate and charge stay synchronous because the user needs the answer before continuing. The confirmation email should be asynchronous: queue it after the order commits, so a slow mail provider cannot fail the checkout.",
+    qa: [
+      ["How do you keep synchronous chains safe?", "Deadlines passed along the chain, short timeouts, limited retries at one layer only, circuit breakers, bulkheads, and fallbacks for optional data."],
+      ["When is a synchronous call better than an event?", "When you need an immediate, consistent answer and simple error handling. Events add delay, duplicates and harder debugging, which is not worth it for a simple lookup."],
+    ],
+  }),
+  "communication-patterns--asynchronous-communication": deep({
+    anim: ["A report export as a background job", "u:User | a:API | q:Job queue:empty, d:Job table:empty | w:Worker | s:File store", [
+      ["u>a", "POST /exports", "The user asks for a report that takes three minutes to build.", "a=accepts"],
+      ["a>d", "job 9 = queued", "The API records the job so that its status survives any restart.", "d=job 9 queued"],
+      ["a>q", "enqueue 9", "It queues the work and answers `202 Accepted` with `/exports/9` in 20 ms.", "q=1 job; u=+202"],
+      ["q>w", "job 9", "A worker picks it up when it has capacity.", "w=building"],
+      ["w>s", "write file", "The file is stored, and the job is marked done **after** the file is safe.", "s=report.csv; d=job 9 done"],
+      ["u>a", "GET /exports/9", "The client polls (or receives a push) and gets a signed download link.", "u=+download link"],
+    ]],
+    more: [
+      ["What you take on", "Delivery guarantees, duplicates, ordering, dead letters, monitoring of queue age, and a user interface that shows pending states."],
+      ["Commands and events", "A command asks one receiver to do something. An event tells anyone that something happened. Mixing the two makes ownership unclear."],
+      ["Load levelling", "A queue turns a spike of 10,000 jobs into steady work. The spike shows up as waiting time, so set an age limit and alert on it."],
+    ],
+    use: "Slow work, spiky load, unreliable dependencies, or several independent consumers.",
+    avoid: "When the user needs the result now and it is fast to compute.",
+    answer: "The API stores a job, queues it and returns `202 Accepted` with a job id and status URL. A worker builds the file, saves it to object storage and marks the job done. The client polls the status (or gets an email, push or webhook) and downloads through a signed URL.",
+    qa: [
+      ["How do you tell the user that a background job failed?", "Keep job state with attempts and error reason, show it at the status URL, notify on final failure, and offer a safe retry that reuses the same job id."],
+      ["How do you size workers?", "Arrival rate x service time gives the workers needed on average. Add headroom for peaks and scale on the age of the oldest message rather than on queue length alone."],
+    ],
+  }),
+  "communication-patterns--request-response": deep({
+    anim: ["Why the server cannot speak first", "c:Client | s:Server | o:Order system", [
+      ["c>s", "GET /order/5", "The client asks, the server answers. Every exchange starts at the client.", "s=packing"],
+      ["s>c", "packing", "The answer is true at this moment only.", "c=packing"],
+      ["o>s", "shipped", "One second later the order ships. The server knows, and has **no open request** to answer.", "s=shipped; c=~stale: packing"],
+      ["c>s", "GET again", "With plain request-response the client learns only when it asks again.", "c=+shipped"],
+      ["s>c", "push channel", "Alternatives: hold a request open (long polling), keep a stream open (SSE, WebSocket), or send a push notification.", "c=+instant"],
+    ]],
+    more: [
+      ["Correlation", "Request-response over a queue works too: a correlation id and a reply queue match answers to questions, at the cost of more moving parts."],
+      ["Statelessness", "Each request carries everything needed, so any server can answer. This is the property that makes simple horizontal scaling work."],
+      ["Timeouts are part of it", "After a timeout the outcome is unknown: it may have failed before, during or after the work. Design the retry before you need it."],
+    ],
+    use: "Queries and commands where one caller needs one answer.",
+    avoid: "Updates that start on the server, or one message for many receivers.",
+    answer: "In request-response the server can only reply to a request that is open, so it has no way to start a message. Patterns that solve it: long polling, server-sent events, WebSockets, or webhooks/push notifications.",
+    qa: [
+      ["What information should a good response include?", "A status, a body or a machine-readable error, caching and version headers, and a request id so that client reports can be matched to server logs."],
+      ["Why do interviewers like request-response first?", "It is the simplest correct choice: easy to cache, retry, debug and scale. Move away from it only when a requirement (push, long work, fan-out) demands it."],
+    ],
+  }),
+  "communication-patterns--polling": deep({
+    anim: ["Ten thousand clients polling every five seconds", "c:10k clients | s:API:idle | d:Database", [
+      ["c>s", "2,000 req/s", "10,000 clients every 5 seconds make 2,000 requests per second, all day.", "s=2k rps"],
+      ["s>d", "2,000 queries", "Each poll asks: anything new? 99% of the answers are no.", "d=~2k queries"],
+      ["s>c", "1,980 empty", "Only 20 responses per second carry data. The rest is overhead.", "c=99% empty"],
+      ["c>s", "ETag check", "Add a version per user in a cache. A 304 costs one memory read and no query.", "d=+20 queries; s=2k cheap"],
+      ["c>s", "back off to 30s", "Slow idle clients to 30 seconds and speed up active ones: about 400 per second remain.", "s=+400 rps"],
+      ["c>s", "add jitter", "Without jitter, clients that started together poll together. Random offsets flatten the spikes.", "s=+smooth"],
+    ]],
+    more: [
+      ["Freshness maths", "Average delay is half the interval, worst case is the full interval. Request rate is clients / interval. Halving delay doubles cost."],
+      ["Delta queries", "Send `since=cursor` so the server returns only what changed. Cheap for the database and correct across missed polls."],
+      ["When it wins", "Simple, works through every proxy, no open connections, easy to cache. For updates every few minutes it is hard to beat."],
+    ],
+    use: "Infrequent updates, batch job status, or clients on unreliable networks.",
+    avoid: "Many clients with near real-time needs and mostly empty answers.",
+    answer: "Cost: 10,000 / 5 = 2,000 requests per second, of which about 1,980 do nothing but still use connections, CPU and queries. Long polling or SSE keeps updates nearly as fast while sending a response only when there is data.",
+    qa: [
+      ["How do you make polling efficient without changing the pattern?", "Conditional requests (ETag), cursors, adaptive intervals with jitter, a cheap change flag in memory, and CDN caching for shared data."],
+      ["Why add jitter?", "Clients synchronise after deploys or outages. Random delay spreads them out so the server sees a steady rate rather than a spike at each tick."],
+    ],
+  }),
+  "communication-patterns--long-polling": deep({
+    anim: ["Holding a request until there is news", "c:Client | s:Server:0 held | e:Event source", [
+      ["c>s", "GET ?after=7", "The client asks for events after number 7.", "s=1 held"],
+      ["s", "wait up to 30s", "There is nothing new, so the server **holds** the request open instead of answering empty.", "s=~holding"],
+      ["e>s", "event 8", "At second 20 event 8 happens.", "s=event 8"],
+      ["s>c", "200 event 8", "The held request is answered immediately: delay is one network hop.", "c=+event 8; s=0 held"],
+      ["c>s", "GET ?after=8", "The client asks again at once, with the new cursor. Events between the two requests are not lost.", "s=1 held"],
+      ["s>c", "204 at 30s", "If nothing happens, the server answers empty just before proxies would cut the connection.", "c=asks again"],
+    ]],
+    more: [
+      ["Server cost", "One open connection per waiting client. With async I/O that is cheap memory; with one thread per request it is expensive."],
+      ["Cursor is essential", "Without `after=` an event that occurs between two requests disappears. The cursor makes the gap safe."],
+      ["Timeout alignment", "Hold for less than the shortest timeout on the path: client, proxy, balancer. 25-30 seconds is typical."],
+    ],
+    use: "Near real-time updates with simple infrastructure and moderate event rates.",
+    avoid: "Several events per second per client: each one costs a full request cycle.",
+    answer: "Short polling every 2 seconds sends about 10 requests per event. Long polling sends about one per event (plus a timeout request now and then). Neither needs a WebSocket because data flows only from server to client and only every 20 seconds.",
+    qa: [
+      ["Long polling versus SSE?", "SSE keeps one response open and streams many events with built-in reconnect. Long polling closes after each event but works with any HTTP client and stricter proxies."],
+      ["What happens at deploy time?", "All held requests are released at once and clients reconnect together. Add random delay on the client and drain servers gradually."],
+    ],
+  }),
+  "communication-patterns--server-sent-events": deep({
+    anim: ["A price stream that survives a disconnect", "b:Browser | s:SSE endpoint | f:Price feed", [
+      ["b>s", "EventSource GET", "The browser opens a normal HTTP request with `Accept: text/event-stream`.", "s=stream open"],
+      ["f>s", "101.2", "The feed produces a price.", "s=id 41"],
+      ["s>b", "id 41: 101.2", "The server writes a text event and keeps the response open.", "b=101.2"],
+      ["s>b", "id 42: 101.5", "Another event follows on the same response. No new request was made.", "b=101.5"],
+      ["b", "network lost", "The train enters a tunnel. The browser reconnects by itself after a few seconds.", "b=!offline"],
+      ["b>s", "Last-Event-ID 42", "It sends the last id it saw, and the server replays 43 onwards. Nothing is missed.", "b=+caught up"],
+    ]],
+    more: [
+      ["Plain HTTP", "Works with normal auth, proxies, compression and HTTP/2 multiplexing. On HTTP/1.1 browsers allow about six connections per host, so many tabs can block."],
+      ["Format", "Lines of `event:`, `id:`, `data:` and a blank line. Text only, so binary must be encoded."],
+      ["Disable buffering", "Reverse proxies may buffer responses and hold events back. Turn buffering off for the route and send a comment line every 15 seconds as heartbeat."],
+    ],
+    use: "One-way feeds: notifications, dashboards, progress, streaming text from a model.",
+    avoid: "Frequent client-to-server messages or binary data.",
+    answer: "SSE. The browser never sends data, so a WebSocket's second direction is unused complexity: upgrade handling, custom reconnect and framing. SSE is plain HTTP with automatic reconnect and event ids.",
+    qa: [
+      ["How do you scale SSE across servers?", "Each server holds its own connections and subscribes to a shared pub/sub bus. Keep recent events in a store so any server can replay after `Last-Event-ID`."],
+      ["How do you authenticate SSE?", "The browser API cannot set custom headers, so use cookies, or a short-lived signed token in the URL that is limited to that stream."],
+    ],
+  }),
+  "communication-patterns--websockets": deep({
+    anim: ["A live auction over WebSockets", "a:Bidder A, b:Bidder B | s:Auction server | r:Auction row:high 100", [
+      ["a>s", "open socket", "Both bidders open a socket once. From now on either side can send at any time.", "a=connected; b=connected"],
+      ["a>s", "bid 110", "A sends a bid. No HTTP headers are repeated: a few bytes of framing.", "s=validating"],
+      ["s>r", "if high < 110", "The server writes **conditionally**, so two equal bids cannot both win.", "r=+high 110"],
+      ["s>a,b", "high = 110", "It broadcasts the new high bid to everyone on the same sockets.", "a=sees 110; b=sees 110"],
+      ["b>s", "bid 105", "B's older bid arrives late.", "s=validating"],
+      ["s>b", "rejected", "The conditional write fails, so only B is told. Fast delivery does not replace correctness in the store.", "b=~too low"],
+    ]],
+    more: [
+      ["Message design", "Give each message a type, id and version. Acknowledge important ones; a socket that is open does not prove the message was processed."],
+      ["Slow consumers", "If a client cannot keep up, its outgoing buffer grows. Drop intermediate updates (keep the latest price) or disconnect it."],
+      ["Authorization per action", "Connecting once is not permission forever. Check rights for each message and close sockets when the session ends."],
+    ],
+    use: "Frequent messages both ways with low delay.",
+    avoid: "Rare or one-way updates, or networks that block long-lived connections.",
+    answer: "WebSockets, because they are full duplex: the same open connection carries bids from client to server and updates from server to client with low overhead. SSE covers only the server-to-client half.",
+    qa: [
+      ["How do you deploy without dropping everyone?", "Drain: stop new connections, ask clients to reconnect over several minutes with jitter, and replay missed messages by last id."],
+      ["What limits sockets per server?", "File descriptors, memory for buffers, and message fan-out CPU. Fan-out is usually first: one message to 50,000 sockets is 50,000 writes."],
+    ],
+  }),
+  "communication-patterns--message-queues": deep({
+    anim: ["Crash after charging, before acknowledging", "p:Producer | q:Queue:empty | w1:Worker 1, w2:Worker 2 | c:Card system", [
+      ["p>q", "order 7", "The producer adds a message and continues without waiting for the work.", "q=1 visible"],
+      ["q>w1", "deliver 7", "Worker 1 receives it. The message becomes **invisible**, not deleted.", "q=1 in flight"],
+      ["w1>c", "charge key=7", "The worker charges the card, using the order id as idempotency key.", "c=charged once"],
+      ["w1", "crash", "It crashes before acknowledging.", "w1=!crashed"],
+      ["q", "timeout 30s", "After the visibility timeout the queue makes the message visible again. At-least-once delivery.", "q=~1 visible"],
+      ["q>w2", "deliver 7", "Worker 2 gets the same message.", "w2=working"],
+      ["w2>c", "charge key=7", "The card system has already seen key 7 and returns the first result. The message is now acknowledged.", "c=+still once; q=+empty"],
+    ]],
+    more: [
+      ["Visibility timeout", "Longer than the slowest normal job, or extend it with heartbeats. Too short causes duplicates while the first worker still runs."],
+      ["What to alert on", "Age of the oldest message (users feel this), depth trend, retries and dead-letter count. Depth alone says little."],
+      ["Message content", "Send ids and a few facts, not huge payloads. Put large data in object storage and reference it."],
+    ],
+    use: "Background jobs, load levelling, and protecting a slow dependency.",
+    avoid: "Fast answers for the caller, or several consumers that each need every message (use pub/sub or a log).",
+    answer: "It must check whether this order was already charged, using the order or message id as an idempotency key stored with the result. That relies on idempotency (Reliability): the same operation repeated has one effect.",
+    qa: [
+      ["Can a queue give exactly-once processing?", "Delivery is at-least-once or at-most-once. Exactly-once **effects** come from idempotent handlers or from storing the result and the processed id in one transaction."],
+      ["How do you preserve order for one customer?", "Use a message group or partition key per customer so that only one message of that customer is in flight at a time. Other customers stay parallel."],
+    ],
+  }),
+  "communication-patterns--publish-subscribe": deep({
+    anim: ["One event, three independent subscribers", "o:Orders | t:Topic order.placed | e:Email, s:Stock, a:Analytics", [
+      ["o>t", "order 7 placed", "Orders publishes one fact. It does not know who listens.", "t=1 event"],
+      ["t>e,s,a", "copy to each", "Each **subscription** gets its own copy and its own progress.", "e=1 pending; s=1 pending; a=1 pending"],
+      ["s", "reserve", "Stock finishes in 10 ms and acknowledges its copy.", "s=+done"],
+      ["e", "mail down", "Email fails. Only Email's copy is retried: Stock and Analytics are unaffected.", "e=~retrying"],
+      ["a", "added later", "A new subscriber can be added without changing or redeploying Orders.", "a=+done"],
+      ["t>e", "retry", "The mail provider recovers and the copy is delivered.", "e=+sent"],
+    ]],
+    more: [
+      ["Competing inside a subscription", "Three Email instances share one subscription and split its messages. Three subscriptions each get all messages. Mixing these up sends three emails."],
+      ["Push and pull delivery", "Push is simple but can flood a slow subscriber. Pull lets each consumer control its pace."],
+      ["Event contract", "Name in the past tense, include id, time, version and the owner. Treat it as a public API: subscribers you do not know depend on it."],
+    ],
+    use: "Several independent reactions to one fact, especially across teams.",
+    avoid: "One specific receiver must act and report success: that is a command for a queue or a call.",
+    answer: "Email: a work queue (one consumer handles each message). Notify every interested service: pub/sub. With pub/sub for the email, each subscriber instance with its own subscription would get a copy and the customer would receive several emails.",
+    qa: [
+      ["What happens if no subscriber is active?", "In a transient broker the message is lost. Durable subscriptions store it until acknowledged or expired. Check which one your broker provides."],
+      ["How do you find who depends on an event?", "Keep a schema registry and subscription inventory with owners, contract tests per consumer, and deprecation periods before removing fields."],
+    ],
+  }),
+  "communication-patterns--event-driven-architecture": deep({
+    anim: ["Choreography after an order is placed", "o:Orders | b:Event broker | p:Payments, s:Shipping, e:Email", [
+      ["o>b", "OrderPlaced", "Orders commits and publishes a fact in the past tense.", "b=OrderPlaced"],
+      ["b>p", "OrderPlaced", "Payments reacts by charging. Orders did not tell it to.", "p=charging"],
+      ["p>b", "PaymentTaken", "Payments publishes its own fact.", "b=PaymentTaken; p=+done"],
+      ["b>s,e", "PaymentTaken", "Shipping prepares a parcel and Email sends a receipt. Each **decides for itself** what the event means.", "s=packing; e=+sent"],
+      ["s>b", "OutOfStock", "Shipping cannot fulfil it and says so.", "b=OutOfStock; s=!no stock"],
+      ["b>p", "OutOfStock", "Payments refunds. The flow works, but nobody owns the whole picture: trace ids and a process view become essential.", "p=~refunded"],
+    ]],
+    more: [
+      ["Choreography and orchestration", "Choreography: services react to each other. Orchestration: one component directs the steps. Use orchestration when the flow has many steps or needs visibility."],
+      ["Thin or fat events", "A thin event has an id and makes consumers call back. A fat event carries the data, avoiding calls but copying data that may grow stale."],
+      ["Eventual by nature", "Between events, services disagree for a moment. Show pending states and design compensations as normal paths, not exceptions."],
+    ],
+    use: "Independent teams reacting to business facts, audit trails, and extensibility.",
+    avoid: "Simple flows in one team, or where an immediate consistent answer is required.",
+    answer: "Publish `OrderPlaced` (or `PaymentTaken`) with the order id and facts. The Email service subscribes and itself decides to send a receipt. The order service neither knows nor calls it.",
+    qa: [
+      ["How do you debug an event-driven flow?", "Carry correlation and causation ids in every event, trace through the broker, keep a searchable event store, and build a process view that shows where each order is stuck."],
+      ["How do you avoid event loops?", "Publish facts only when state really changes, make handlers idempotent, carry causation ids, and alert on unusually long chains."],
+    ],
+  }),
+  "communication-patterns--webhooks": deep({
+    anim: ["A refund webhook delivered three times", "p:Payment provider | h:Webhook endpoint | t:Events table:empty, q:Queue | w:Refund worker", [
+      ["p>h", "evt_5 refund", "The provider calls your URL with a signed body.", "h=verify"],
+      ["h", "HMAC check", "The endpoint verifies the signature over the raw body and rejects old timestamps.", "h=+genuine"],
+      ["h>t", "INSERT evt_5", "It stores the event id under a unique constraint.", "t=evt_5"],
+      ["h>q", "enqueue", "It queues the work and answers 200 within milliseconds. No heavy work in the handler.", "q=1 job"],
+      ["p>h", "evt_5 again", "A slow reply earlier made the provider retry.", "h=verify"],
+      ["h>t", "duplicate", "The insert fails, so the handler answers 200 and does nothing more.", "t=+evt_5 once"],
+      ["q>w", "refund once", "The worker refunds once, with evt_5 as idempotency key for the refund itself.", "w=+refunded"],
+    ]],
+    more: [
+      ["Sender duties", "Retry with backoff for days, sign requests, include an event id and time, offer replay and a delivery log, and disable endpoints that always fail."],
+      ["Order is not guaranteed", "`refunded` may arrive before `paid`. Use versions or fetch the current state from the API, and treat the event as a hint."],
+      ["Reconcile", "Deliveries get lost. A nightly job that compares your records with the provider's list catches what webhooks missed."],
+    ],
+    use: "Telling another company's system that something happened.",
+    avoid: "Internal high-volume events, where a broker gives better control.",
+    answer: "1) Deduplicate by event id with a unique constraint before acting. 2) Make the refund itself idempotent (same key to the payment API). Also answer 200 quickly and process in the background, so retries become rare.",
+    qa: [
+      ["How do you protect a webhook endpoint?", "Verify an HMAC signature over the raw body with a timestamp, reject replays, use TLS, limit size and rate, and never trust ids in the body without checking them against your data."],
+      ["Webhook or polling for partners?", "Webhooks give quick updates and save calls, but need a public endpoint and retry handling. Polling is simpler and self-healing. Many integrations use webhooks plus periodic reconciliation."],
+    ],
+  }),
+};

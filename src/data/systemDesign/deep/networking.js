@@ -1,0 +1,226 @@
+import { deep } from "../schema.js";
+
+export default {
+  "networking--how-the-internet-works": deep({
+    anim: ["From typing a URL to seeing the page", "b:Browser | r:DNS resolver, isp:ISP router | ix:Exchange point | s:Web server", [
+      ["b>r", "where is it?", "The browser asks the **DNS** resolver for the address of `shop.example`. The answer is 203.0.113.9.", "r=203.0.113.9"],
+      ["b>isp", "SYN", "The browser opens a **TCP** connection. Its first packet goes to the home router and then the provider.", "isp=forwarding"],
+      ["isp>ix", "hop by hop", "Each router reads only the destination **IP** and picks the next hop from its table. No router knows the full path.", "ix=forwarding"],
+      ["ix>s", "arrives", "After about 10-20 hops the packet reaches the server network, where the handshake completes.", "s=connected"],
+      ["b>s", "TLS + GET /", "**TLS** agrees on keys, then **HTTP** asks for the page. Routers in between see only encrypted bytes.", "s=sends HTML"],
+      ["s>b", "HTML 14 KB", "The first response fits in about ten packets. If one is lost, TCP resends just that one.", "b=+rendering"],
+    ]],
+    more: [
+      ["Autonomous systems and BGP", "The internet is about 75,000 networks that announce address blocks to each other with BGP. Routes follow business agreements, so the path is not always the shortest one."],
+      ["Packets and MTU", "Data is cut into packets of about 1,500 bytes. Each can take a different path, arrive late or vanish, and the end hosts put them back in order."],
+      ["Last mile versus backbone", "Backbones are fast and lightly loaded. Wi-Fi and mobile links add most of the delay and jitter, which is why reducing round trips helps phones most."],
+    ],
+    use: "Explaining a slow first load, choosing regions, or debugging 'works here but not there'.",
+    avoid: "Assuming distance is the only delay. DNS, TLS and server time are often larger and easier to fix.",
+    answer: "DNS: turn the name into an IP address. TCP (over IP): open a reliable connection to that address. TLS: prove the server's identity and encrypt. HTTP: ask for the page and receive the HTML.",
+    qa: [
+      ["How many round trips happen before the first byte of a new HTTPS page?", "DNS one (if not cached), TCP one, TLS 1.3 one, HTTP one: about four. HTTP/3 merges transport and TLS setup, and a resumed connection can send data in the first flight."],
+      ["What happens when a router on the path fails?", "Neighbours notice and withdraw the route; BGP or the internal protocol converges on another path in seconds to minutes. TCP connections usually survive by retransmitting."],
+    ],
+  }),
+  "networking--ip-addresses-and-subnets": deep({
+    anim: ["Deciding local or routed with a subnet mask", "a:Host A:10.0.1.10 /24 | sw:Switch:10.0.1.0/24 | b:Host B:10.0.1.77, gw:Gateway:10.0.1.1 | c:Host C:10.0.2.5", [
+      ["a", "mask check", "A wants to reach 10.0.1.77. It applies its /24 mask to both addresses: `10.0.1` equals `10.0.1`, so B is local.", "a=same subnet"],
+      ["a>sw", "ARP: who has .77", "A broadcasts ARP to learn B's hardware address. Only devices in the same subnet hear it.", "sw=broadcast"],
+      ["sw>b", "frame to B", "The switch delivers directly by MAC address. No router takes part.", "b=+received"],
+      ["a", "mask check", "Now A wants 10.0.2.5. `10.0.1` differs from `10.0.2`, so the target is **not** local.", "a=other subnet"],
+      ["a>gw", "send to gateway", "A sends the packet to its default gateway, keeping C's IP as the destination.", "gw=routing"],
+      ["gw>c", "route to 10.0.2", "The router finds a route for 10.0.2.0/24 and forwards. Firewall rules between subnets apply here.", "c=+received"],
+    ]],
+    more: [
+      ["Counting hosts", "A /n block has 2^(32-n) addresses, minus network and broadcast. /24 gives 254 usable, /26 gives 62, /30 gives 2. Cloud providers reserve a few more per subnet."],
+      ["Private ranges", "10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16 never appear on the public internet. Plan them without overlap, or joining two networks later will be painful."],
+      ["IPv6", "128-bit addresses, usually a /64 per subnet, no NAT needed. Security then comes from firewalls rather than from hiding behind a shared address."],
+    ],
+    use: "Laying out a cloud network: public subnets for balancers, private ones for apps, isolated ones for databases.",
+    avoid: "Tiny subnets 'to save addresses'. Auto scaling and containers use far more than expected.",
+    answer: "A /26 has 64 addresses, 62 usable. 172.16.10.5 is in 172.16.10.0-63 and 172.16.10.70 is in 172.16.10.64-127, so they are in different subnets and need a router.",
+    qa: [
+      ["Why put databases in a private subnet?", "It has no route from the internet, so even a wrong firewall rule cannot expose it directly. Only the app subnet's security group is allowed to connect."],
+      ["What does CIDR aggregation buy?", "Many small networks can be advertised as one larger prefix, so routers keep smaller tables and route lookups stay fast."],
+    ],
+  }),
+  "networking--dns": deep({
+    anim: ["Resolving a name nobody has cached", "c:Client:cache empty | rs:Resolver:cache empty | rt:Root, tld:.com servers, au:Authoritative:TTL 300", [
+      ["c>rs", "shop.com?", "The client asks one recursive resolver and waits. The resolver does the walking.", "rs=working"],
+      ["rs>rt", "shop.com?", "A root server does not know the answer but knows who runs `.com`.", "rt=ask .com"],
+      ["rs>tld", "shop.com?", "The .com servers return the nameservers that the domain owner registered.", "tld=ask ns1.shop"],
+      ["rs>au", "A shop.com?", "The authoritative server holds the real record: `203.0.113.9` with TTL 300.", "au=203.0.113.9"],
+      ["rs>c", "answer", "The resolver stores the answer for 300 seconds and replies. The next user gets it in about 1 ms.", "rs=+cached 300s; c=+203.0.113.9"],
+      ["au", "owner changes IP", "The owner moves to a new address. Until cached copies expire, some users still go to the **old** server.", "au=198.51.100.4; rs=~old for 300s"],
+    ]],
+    more: [
+      ["Record types", "A / AAAA addresses, CNAME alias, MX mail, TXT proofs, NS delegation, CAA allowed certificate issuers. A CNAME cannot sit at the zone apex, so providers offer ALIAS."],
+      ["Planning a cutover", "Lower the TTL at least one old-TTL in advance, switch, keep the old server running for a while, then raise the TTL again."],
+      ["Security", "Plain DNS is unauthenticated. DNSSEC signs records; DoH and DoT encrypt the question. Registrar lock and two-factor login stop the simplest domain theft."],
+    ],
+    use: "Naming services, coarse traffic steering between regions, and moving providers without changing clients.",
+    avoid: "Second-level failover. Caches ignore your urgency, and some resolvers stretch low TTLs.",
+    answer: "On Monday (earlier than the old TTL) lower the TTL on the record, for example from 86,400 to 300, so cached copies expire quickly after Tuesday's switch. `www` pointing at `site.com` is a CNAME record.",
+    qa: [
+      ["What is the difference between a recursive and an authoritative server?", "A recursive resolver finds answers on behalf of clients and caches them. An authoritative server holds the official records of a zone and only answers for that zone."],
+      ["How would you make DNS itself highly available?", "Use at least two providers with the same zone, anycast nameservers, sensible TTLs, monitoring of answers from outside, and protected registrar access."],
+    ],
+  }),
+  "networking--tcp-and-udp": deep({
+    anim: ["A lost packet in TCP and in UDP", "s:Sender | n:Network | t:TCP receiver:waiting, u:UDP receiver:waiting", [
+      ["s>t", "SYN / SYN-ACK", "TCP first spends a round trip agreeing on sequence numbers. UDP has no setup at all.", "t=connected"],
+      ["s>n", "packets 1 2 3", "The sender transmits 1, 2 and 3 on both protocols. The network loses packet 2.", "n=!lost 2"],
+      ["n>t", "1 and 3", "TCP received 1 and 3. It **holds back** 3 because the application must see bytes in order.", "t=~holding 3"],
+      ["t>s", "ACK 2 x3", "Repeated acknowledgements asking for 2 tell the sender it was lost.", "s=resending 2"],
+      ["s>t", "2 again", "Packet 2 arrives after one extra round trip. TCP delivers 2 and 3 together: correct but late.", "t=+1 2 3"],
+      ["n>u", "1 and 3", "UDP delivers 1 and 3 immediately and never mentions 2. For live audio a 20 ms gap beats a 100 ms pause.", "u=+1 3 on time"],
+    ]],
+    more: [
+      ["Head-of-line blocking", "One lost packet stalls everything behind it on that connection. HTTP/2 multiplexes many streams over one TCP connection and suffers from this; QUIC fixes it with independent streams over UDP."],
+      ["Flow versus congestion control", "Flow control protects the receiver's buffer (advertised window). Congestion control protects the network (congestion window). The sender obeys the smaller one."],
+      ["Building on UDP", "Real protocols add only what they need: sequence numbers for games, forward error correction for video, full reliability for QUIC."],
+    ],
+    use: "TCP for anything that must arrive complete: pages, APIs, files, databases. UDP for DNS, voice, video, games and telemetry.",
+    avoid: "Writing your own reliability on UDP. Use QUIC or WebRTC, which already solved loss, pacing and encryption.",
+    answer: "UDP. A lost position is replaced 33 ms later by a newer one, so resending is pointless. The client should ignore out-of-order updates by sequence number and interpolate or predict movement until the next arrives.",
+    qa: [
+      ["Why is DNS on UDP?", "One small question and one small answer need no connection, so UDP saves a round trip and server state. Large answers fall back to TCP."],
+      ["What is TIME_WAIT and why does it matter?", "The side that closes a TCP connection keeps it for about a minute to absorb late packets. Servers that open many short outgoing connections can run out of ports; reuse connections instead."],
+    ],
+  }),
+  "networking--http-and-https": deep({
+    anim: ["An HTTPS request with a conditional repeat", "b:Browser:cache empty | t:TLS layer | s:Server:v1 ETag abc", [
+      ["b>t", "ClientHello", "Before HTTP, TLS agrees on keys and checks the server certificate against the name in the URL.", "t=+encrypted"],
+      ["b>s", "GET /cart", "The request line, headers and cookies travel encrypted. Only the destination IP and the server name are visible outside.", "s=builds page"],
+      ["s>b", "200 ETag abc", "The response carries a status, headers and body. `ETag: abc` names this exact version.", "b=+v1 cached"],
+      ["b>s", "If-None-Match abc", "Later the browser asks again: send it only if it changed.", "s=compares"],
+      ["s>b", "304, no body", "Nothing changed, so 304 returns with no body. The round trip remains, the 80 KB do not.", "b=+reused v1"],
+      ["b>s", "POST /orders", "POST is not idempotent. On a timeout the browser must **not** silently retry without an idempotency key.", "s=order created"],
+    ]],
+    more: [
+      ["Method promises", "Safe: GET, HEAD. Idempotent: GET, PUT, DELETE. Neither: POST, and PATCH in general. Proxies and clients retry based on these promises, so keep them."],
+      ["Headers that matter", "Cache-Control, ETag, Content-Type, Authorization, Retry-After, Vary, Strict-Transport-Security. Most performance and security bugs are a missing or wrong header."],
+      ["What HTTPS does not do", "It protects data in transit and proves the domain. It does not make the site honest, fix server bugs, or hide which site you visit."],
+    ],
+    use: "Nearly all client-server traffic. Semantics are understood by every cache, proxy and tool on the way.",
+    avoid: "High-frequency two-way streams or raw telemetry at huge rates, where WebSockets, gRPC streams or UDP fit better.",
+    answer: "Three identical PUTs leave the user in one final state: the first sets it and the others set the same values again. PUT is idempotent. Three POSTs to /users would normally create three users.",
+    qa: [
+      ["401 or 403?", "401 means we do not know who you are (missing or invalid credentials). 403 means we know, and you are not allowed. Returning 404 instead of 403 can hide that a resource exists."],
+      ["What happens if TLS terminates at the load balancer?", "Traffic behind it is plain unless re-encrypted. Forward the client address and scheme in trusted headers, and use mutual TLS or re-encryption where the internal network is not trusted."],
+    ],
+  }),
+  "networking--websockets": deep({
+    anim: ["Delivering a chat message across two servers", "x:User X | s1:Chat server 1:X connected | ps:Pub/sub bus | s3:Chat server 3:Y connected | y:User Y", [
+      ["x>s1", "HTTP upgrade", "X starts with a normal HTTP request asking to upgrade. After `101 Switching Protocols` the same TCP connection stays open.", "x=+socket open"],
+      ["y>s3", "HTTP upgrade", "Y connects and the balancer happens to pick server 3. Each server knows only its **own** sockets.", "y=+socket open"],
+      ["s3>ps", "subscribe Y", "Server 3 tells the bus it is interested in messages for Y.", "ps=Y on server 3"],
+      ["x>s1", "hi Y", "X sends a frame. Server 1 looks for Y locally and does not find it.", "s1=~Y not local"],
+      ["s1>ps", "publish to Y", "Server 1 publishes to the channel for Y without knowing where Y is.", "ps=routing"],
+      ["ps>s3", "deliver", "The bus hands the message to server 3, the only subscriber.", "s3=found Y"],
+      ["s3>y", "hi Y", "Server 3 pushes it down Y's open socket, a few milliseconds after X pressed send.", "y=+received"],
+    ]],
+    more: [
+      ["Keeping connections alive", "Proxies drop idle connections after 30-120 seconds. Send ping/pong about every 25 seconds, detect dead peers, and reconnect with backoff and jitter."],
+      ["Reconnect without losing messages", "Give each message an increasing id. After reconnecting the client sends the last id it saw and the server replays the rest from storage."],
+      ["Scaling", "Memory per idle socket is small (tens of KB), so one server can hold 100k+. Deploys are the hard part: drain slowly, or everyone reconnects at once."],
+    ],
+    use: "Both sides send at any time: chat, multiplayer, collaborative editing, live trading.",
+    avoid: "Updates every minute or one direction only. Polling or server-sent events are simpler and cache-friendly.",
+    answer: "You need a pub/sub bus (or a routing table of user to server) shared by all chat servers. Server 1 holds X's socket and cannot write to Y's socket on server 3, so it publishes and server 3, subscribed for Y, delivers.",
+    qa: [
+      ["How do you authenticate a WebSocket?", "During the HTTP upgrade: cookie or a short-lived ticket. Check the Origin header to stop cross-site hijacking, and re-check authorization for each channel joined."],
+      ["How do you load balance sockets?", "Use least connections, since connections are long-lived. After adding servers, rebalance gradually by asking some clients to reconnect; round robin never moves existing ones."],
+    ],
+  }),
+  "networking--content-delivery-networks": deep({
+    anim: ["A CDN cache fill and a versioned update", "u1:User Delhi, u2:User Mumbai | e:Edge India:empty | sh:Shield:empty | o:Origin US:app.a1.css", [
+      ["u1>e", "GET app.a1.css", "The user reaches the nearest edge in 15 ms instead of the origin in 220 ms.", "e=miss"],
+      ["e>sh", "miss", "The edge asks a regional shield so that hundreds of edges do not all hit the origin.", "sh=miss"],
+      ["sh>o", "fetch once", "The origin is asked exactly once and answers with `max-age=31536000, immutable`.", "o=1 request"],
+      ["o>e", "fill", "The file is stored at the shield and the edge on the way back.", "sh=+a1 cached; e=+a1 cached"],
+      ["u2>e", "GET app.a1.css", "The second user is served from the edge: 15 ms, zero origin load.", "u2=+15 ms"],
+      ["o", "deploy app.b2.css", "A new release uses a **new file name**. HTML points to b2, so nobody can receive an old stylesheet.", "o=app.b2.css"],
+      ["u1>e", "GET app.b2.css", "A new name is a new cache key, so it misses once and then is cached forever. No purge needed.", "e=+a1 and b2"],
+    ]],
+    more: [
+      ["Push and pull CDNs", "Pull fetches on first miss and suits websites. Push uploads ahead of time and suits large files released at a known hour."],
+      ["Cache key design", "Ignore tracking parameters, include only headers that change the body, and normalise order. A careless key (a full cookie) drops the hit rate to near zero."],
+      ["Beyond static files", "Edges also terminate TLS, absorb attacks, resize images, run small functions and keep warm connections to the origin, which speeds up even uncacheable APIs."],
+    ],
+    use: "Public assets, video, downloads, and pages that are the same for many users.",
+    avoid: "Caching personalised responses without `private` or a correct key: one user's page shown to another is a breach.",
+    answer: "1) Use content-hashed file names (`app.b2.css`) with a one-year immutable cache. 2) Purge the old path after deploy, or use a short max-age with revalidation. Hashed names are the one that lets you cache forever.",
+    qa: [
+      ["What is an origin shield?", "A middle cache between edges and origin. It merges misses from many edges so the origin sees one request per object instead of one per location."],
+      ["How do you protect paid content on a CDN?", "Signed URLs or signed cookies that the edge verifies: path, expiry and optionally IP, signed with a key the origin shares with the CDN. Keep the bucket private so the edge cannot be bypassed."],
+    ],
+  }),
+  "networking--osi-model": deep({
+    anim: ["Wrapping a message layer by layer", "app:L7 Application:GET / | tr:L4 Transport | net:L3 Network | dl:L2 Data link | wire:L1 Physical", [
+      ["app>tr", "HTTP bytes", "The application hands over bytes. It knows URLs and headers and nothing about cables.", "app=GET /"],
+      ["tr>net", "+ ports", "Transport adds ports and sequence numbers: which program, and in which order.", "tr=443 + seq"],
+      ["net>dl", "+ IP addresses", "Network adds source and destination IP: which machine on which network.", "net=10.1 to 203.0"],
+      ["dl>wire", "+ MAC addresses", "Data link adds hardware addresses for the **next hop only**, and a checksum.", "dl=to next hop"],
+      ["wire>dl", "bits arrive", "A router receives the bits, removes the L2 frame, reads L3 and builds a new L2 frame for its next hop.", "wire=signals; dl=new frame"],
+      ["dl>app", "unwrap", "The final host removes every layer in reverse until the server process reads `GET /`.", "app=+GET / read"],
+    ]],
+    more: [
+      ["Seven versus four", "Practice uses four layers: link, internet, transport, application. Session and presentation duties (TLS, encoding, compression) live inside the application in modern stacks."],
+      ["Debugging by layer", "Start low: link up? (L1/2) ping? (L3) port open? (L4) certificate valid? (TLS) correct status code? (L7). Each step halves the search."],
+      ["Where devices work", "Switch L2, router L3, L4 balancer L4, API gateway and WAF L7. Higher layers know more, so they can make smarter but slower decisions."],
+    ],
+    use: "Naming where a problem or a product lives, and explaining encapsulation.",
+    avoid: "Forcing every protocol into one box. TLS, QUIC and VPNs cross layers on purpose.",
+    answer: "(a) Layer 2, data link. (b) Layer 4, transport. (c) Layer 7, application. (d) Layer 3, network.",
+    qa: [
+      ["What changes at each router hop?", "The L2 addresses are replaced for the next hop and the IP TTL decreases by one. Source and destination IP and the payload stay the same unless NAT rewrites them."],
+      ["Why can an L4 balancer not route by URL?", "It sees addresses and ports of a connection, not the encrypted or even plain HTTP content. Reading the path requires terminating the connection and parsing at L7."],
+    ],
+  }),
+  "networking--checksums": deep({
+    anim: ["Catching corruption end to end", "c:Uploader:file F | net:Network | s:Server | d:Disk | v:Verifier", [
+      ["c", "hash = 9f3a", "Before sending, the client computes SHA-256 of the whole file.", "c=hash 9f3a"],
+      ["c>net", "F + 9f3a", "File and hash travel together. Each TCP segment also has a small 16-bit checksum.", "net=in transit"],
+      ["net>s", "bytes", "TCP catches most line errors, but a faulty proxy can corrupt data and compute a **fresh valid** TCP checksum.", "s=received"],
+      ["s", "recompute", "The server hashes what it received: 9f3a equals 9f3a, so the transfer is good.", "s=+9f3a match"],
+      ["s>d", "store + hash", "The hash is stored beside the data. Months later a bit flips on disk.", "d=!bit flipped"],
+      ["v>d", "scrub", "A background scrub re-reads and hashes: 71bc is not 9f3a. The copy is replaced from a healthy replica.", "v=+repaired"],
+    ]],
+    more: [
+      ["Pick by threat", "Accidental errors: CRC32C, fast and in hardware. Change detection: MD5 or xxHash. Deliberate tampering: SHA-256 with a signature or HMAC, because an attacker can recompute a plain hash."],
+      ["End-to-end argument", "Checks inside each hop cannot catch errors between hops or in memory. Only the endpoints can verify what the application really needs."],
+      ["Chunk hashes", "Hash 1 MB blocks as well as the file. A mismatch then names the bad block, resumable uploads restart from there, and a Merkle tree compares copies quickly."],
+    ],
+    use: "Uploads, backups, replication, message formats and any long-term storage.",
+    avoid: "Using CRC or MD5 as proof against an attacker. They detect accidents only.",
+    answer: "TCP's checksum is only 16 bits and covers one hop's segment, so corruption in proxies, memory or disk can pass. A SHA-256 over the file verifies end to end, also proves the stored copy is still intact later, and allows deduplication and resume.",
+    qa: [
+      ["What is silent data corruption?", "Data that changes without an error being reported: flipped bits in memory, firmware bugs, misdirected writes. Only independent checksums and regular scrubbing reveal it before all replicas are overwritten."],
+      ["Checksum or digital signature?", "A checksum shows the data matches the hash. A signature shows the data matches **and** who produced it, because only the key holder could have signed."],
+    ],
+  }),
+  "networking--proxy-vs-reverse-proxy": deep({
+    anim: ["Who hides whom", "e:Employee:10.0.0.8 | fp:Forward proxy:52.1.1.1 | rp:Reverse proxy:shop.com | a:App 1, b:App 2", [
+      ["e>fp", "GET shop.com", "The employee's browser is configured to use the company proxy. The proxy checks policy and logs the request.", "fp=allowed"],
+      ["fp>rp", "from 52.1.1.1", "The shop sees only the company's address. A **forward proxy hides clients**.", "rp=sees 52.1.1.1"],
+      ["rp>a", "X-Forwarded-For", "The shop's own proxy terminates TLS and picks an app. A **reverse proxy hides servers**. It appends the caller to X-Forwarded-For.", "a=gets header"],
+      ["a", "rate limit by IP", "If the app limits by TCP peer, everyone looks like the proxy and shares one budget.", "a=!all one IP"],
+      ["rp>a", "trust the header", "Configure the app to read the client address from the header, **only** when the peer is the known proxy.", "a=+per client"],
+      ["rp>b", "retry on fail", "When App 1 fails, the reverse proxy sends the request to App 2. The client notices nothing.", "a=!down; b=+serving"],
+    ]],
+    more: [
+      ["What reverse proxies do", "TLS termination, routing, compression, caching, buffering of slow clients, retries, authentication and request size limits: work you do not want in every service."],
+      ["Forward proxy uses", "Outbound filtering, data-loss checks, caching of packages, and fixed egress addresses that partners can allow-list."],
+      ["Header trust", "Clients can send any X-Forwarded-For. Use the right-most address added by a proxy you control; the left part may be forged."],
+    ],
+    use: "Reverse proxy in front of almost every web service; forward proxy when outbound traffic must be controlled.",
+    avoid: "Stacking proxies without agreeing on timeouts, headers and body limits. Each layer adds a place to fail.",
+    answer: "The app uses the TCP peer address, which is Nginx. Fix both ends: Nginx must set `X-Forwarded-For` (or the PROXY protocol), and the app must be told to trust that header from the Nginx address and rate limit on the client IP in it.",
+    qa: [
+      ["Is a load balancer a reverse proxy?", "An L7 balancer is a reverse proxy that spreads requests over several backends. A reverse proxy with a single backend is still useful for TLS, caching and protection."],
+      ["How does a VPN differ from a forward proxy?", "A VPN tunnels all IP traffic of a device at the network layer, encrypted. A forward proxy handles specific protocols such as HTTP for applications configured to use it."],
+    ],
+  }),
+};

@@ -20,7 +20,14 @@ export default function SystemDesignFundamentalsCourse({ navigate }) {
         <button onClick={() => navigate(`/learn/${module.id}`)}>← {module.name}</button>
         <small>SYSTEM DESIGN / COURSE</small>
         <h1>{track.name}</h1>
-        <p>{lessonCount} focused lessons covering the foundations of scalable systems.</p>
+        <p>{lessonCount} focused lessons to help you explain how systems work, why they fail, and how to make practical design decisions.</p>
+        <p>Follow a request through APIs, caches, databases, and distributed services using clear explanations, worked examples, and step-by-step visual walkthroughs.</p>
+        <div className="fundamentalsLearningFeatures">
+          <div><strong>Understand the idea</strong><span>Learn the problem, the mechanism, and the trade-off before choosing a tool.</span></div>
+          <div><strong>Animated case studies</strong><span>Play, pause, inspect state changes, and revisit each step of a shared section example.</span></div>
+          <div><strong>Practice your reasoning</strong><span>Predict what happens next, reveal a worked answer, and check the lesson quiz.</span></div>
+        </div>
+        <button className="fundamentalsStart" onClick={() => navigate(`/learn/${module.id}/${track.slug}/welcome--course-introduction`)}>Start with the course introduction</button>
       </header>
       <section className="fundamentalsOutline">
         {systemDesignFundamentalsSections.map((group, groupIndex) => (

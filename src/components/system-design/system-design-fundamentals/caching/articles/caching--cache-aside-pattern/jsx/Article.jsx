@@ -78,8 +78,10 @@ export default function CachingCacheAsideArticle() {
             <b>Works with any cache and any database</b> &mdash; no special integration needed.
           </li>
           <li>
-            <b>A cache outage degrades, not breaks, reads.</b> Every request just becomes a miss and
-            falls back to the database.
+            <b>Reads can fall back during a cache outage.</b> This requires short cache timeouts,
+            explicit error handling, and enough database capacity. Without concurrency limits or
+            load shedding, the extra misses can overload the database and turn a cache failure
+            into a wider outage.
           </li>
         </ul>
 
@@ -120,6 +122,15 @@ export default function CachingCacheAsideArticle() {
           Cache-aside is only half the story on its own &mdash; it needs a deliberate invalidation
           step on every write, or reads will happily serve stale data.
         </div>
+        <h3>Why invalidation alone is not a strict freshness guarantee</h3>
+        <p>
+          Imagine a reader loads the old ₹500 price from the database and pauses before filling
+          the cache. A writer then commits ₹550 and deletes the cache key. If the reader resumes
+          and stores its old result, the cache contains ₹500 again. Deleting after a write helps
+          the usual path, but this race needs version-aware writes, stronger coordination, or a
+          deliberately accepted staleness window. Use the database for decisions that require
+          current authoritative data, such as confirming a checkout price.
+        </p>
       </section>
 
       <section id="mistakes">
@@ -145,8 +156,9 @@ export default function CachingCacheAsideArticle() {
             <b>03</b>
             <h3>No TTL as a safety net</h3>
             <p>
-              If invalidation code has a bug, a TTL is the backstop that guarantees staleness cannot
-              last forever.
+              A TTL limits how long one cached entry remains usable. It is a useful backstop,
+              but it does not guarantee that newly loaded data is fresh: a lagging replica or an
+              old in-flight read can refill the cache with a stale value.
             </p>
           </div>
         </div>

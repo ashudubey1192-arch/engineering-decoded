@@ -1,0 +1,53 @@
+.article .sdWalkthrough { --trace-accent: #7ee5bd; margin: 36px 0; padding: clamp(18px, 3vw, 30px); border: 1px solid #34574f; border-radius: 18px; background: #0a1718; color: #e8f4f1; scroll-margin-top: 90px; }
+.sdWalkthrough *, .sdWalkthrough *::before, .sdWalkthrough *::after { box-sizing: border-box; }
+.sdWalkthrough .sdWalkthroughEyebrow { font-size: .75rem; letter-spacing: .09em; color: var(--trace-accent); font-weight: 700; }
+.sdWalkthrough h2 { margin: 12px 0; font-size: clamp(1.4rem, 3vw, 1.85rem); line-height: 1.3; color: #f0faf7; }
+.sdWalkthrough h3 { margin: 0 0 10px; font-size: 1.125rem; line-height: 1.5; color: #ecf8f4; }
+.sdWalkthrough h4 { margin: 18px 0 6px; font-size: 1rem; color: var(--trace-accent); }
+.sdWalkthrough p { font-size: 1rem; line-height: 1.8; color: #c2d6d0; margin: 10px 0; }
+.sdWalkthrough .sdWalkthroughContext, .sdWalkthrough .sdWalkthroughHint { font-size: .875rem; color: #a6c0b8; }
+.sdWalkthrough .sdWalkthroughContext { margin-bottom: 20px; }
+.sdWalkthroughScenario { margin: 22px 0 16px; padding: 18px; background: #132728; border-left: 3px solid #68cde0; border-radius: 0 10px 10px 0; }
+.sdWalkthroughControls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 20px 0 14px; }
+.sdWalkthrough button, .sdWalkthrough select { min-height: 42px; padding: 9px 12px; border: 1px solid #46605b; border-radius: 8px; background: #142b29; color: #e4f5ee; font: inherit; font-size: .875rem; cursor: pointer; }
+.sdWalkthrough button:hover:not(:disabled) { background: #204139; border-color: var(--trace-accent); }
+.sdWalkthrough button:focus-visible, .sdWalkthrough select:focus-visible, .sdWalkthrough summary:focus-visible { outline: 3px solid #7dd3fc; outline-offset: 3px; }
+.sdWalkthrough button:disabled { opacity: .45; cursor: default; }
+.sdWalkthrough .sdWalkthroughPlay { background: #7ee5bd; color: #08271e; border-color: #7ee5bd; font-weight: 700; }
+.sdWalkthrough .sdWalkthroughPlay:hover { background: #a3f2d4; }
+.sdWalkthroughControls label { display: flex; align-items: center; gap: 8px; font-size: .875rem; }
+.sdWalkthrough select { appearance: none; padding-right: 28px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='m2 4 4 4 4-4' fill='none' stroke='%23e4f5ee' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 9px center; }
+.sdWalkthroughVisual { overflow-x: auto; border: 1px solid #2e4e48; border-radius: 12px; background: #0b1c1e; }
+.sdWalkthrough .sdTraceDiagram { display: block; width: 100%; min-width: 540px; height: auto; }
+.sdWalkthrough .sdWalkthroughMobileHint { display: none; }
+.sdTraceActor rect { fill: #132a2b; stroke: #385551; stroke-width: 1.5; }
+.sdTraceActor.active rect { fill: #173d35; stroke: #7ee5bd; stroke-width: 2; }
+.sdTraceActorName { fill: #f0faf6; font-size: 17px; font-weight: 600; }
+.sdTraceActorState { fill: #b9d8cc; font-size: 14px; }
+.sdTraceStepLabel { fill: #9bbbb0; font-size: 13px; letter-spacing: 2px; paint-order: stroke; stroke: #0b1c1e; stroke-width: 9px; stroke-linejoin: round; }
+.sdTraceConnection { stroke: #7ee5bd; stroke-width: 2.5; stroke-dasharray: 8 6; fill: none; }
+.sdTraceDiagram marker path { fill: #7ee5bd; }
+.sdTraceDiagram.isMoving .sdTraceConnection { animation: sdTraceFlow 1.2s linear infinite; }
+.sdWalkthroughSteps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 18px 0; }
+.sdWalkthroughSteps button { display: flex; gap: 10px; align-items: center; text-align: left; line-height: 1.5; }
+.sdWalkthroughSteps button span { display: grid; place-items: center; width: 25px; height: 25px; flex: 0 0 25px; border-radius: 50%; background: #25483e; color: #c0f4dd; }
+.sdWalkthroughSteps button[aria-pressed="true"] { background: #214a3c; border-color: #7ee5bd; color: #fff; }
+.sdWalkthroughExplanation { padding: 20px; background: #102c24; border: 1px solid #315c49; border-radius: 12px; }
+.sdWalkthroughExplanation h3 { margin-top: 10px; }
+.sdWalkthrough .sdWalkthroughResult { padding-top: 14px; border-top: 1px solid #385e4d; color: #c9f5df; }
+.sdWalkthroughDetails { margin-top: 14px; border: 1px solid #3a554f; border-radius: 10px; padding: 0 16px; }
+.sdWalkthroughDetails summary { padding: 15px 0; font-size: .875rem; font-weight: 600; color: #d0e9df; cursor: pointer; line-height: 1.5; }
+.sdWalkthroughTable { overflow: auto; padding-bottom: 15px; }
+.sdWalkthrough table { width: 100%; border-collapse: collapse; font-size: .875rem; line-height: 1.6; }
+.sdWalkthrough th, .sdWalkthrough td { text-align: left; padding: 12px; border-bottom: 1px solid #36534a; min-width: 130px; }
+.sdWalkthrough th { color: #e1f2eb; }.sdWalkthrough td { color: #bcd4c9; }
+.sdWalkthrough caption { text-align: left; font-size: .875rem; color: #a8c4b8; padding: 8px 12px; }
+.sdWalkthroughTradeoff { margin: 24px 0; padding: 18px 20px; border-left: 3px solid #f5c56c; background: #29291b; border-radius: 0 10px 10px 0; }
+.sdWalkthroughChallenge { padding: 20px; border-radius: 12px; background: #13262e; border: 1px solid #34535c; }
+.sdWalkthroughChallenge h3 { margin-top: 12px; }
+.sdWalkthroughTranscript ol { padding-left: 25px; }.sdWalkthroughTranscript li { padding: 12px 0; }
+.sdLearningLinks { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 30px; }
+.sdLearningLinks a { color: var(--course-accent); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: .875rem; text-decoration: none; }
+@keyframes sdTraceFlow { to { stroke-dashoffset: -28; } }
+@media (max-width: 600px) { .sdWalkthroughSteps { grid-template-columns: 1fr; } .sdWalkthroughExplanation, .sdWalkthroughChallenge { padding: 16px; } .sdWalkthrough .sdWalkthroughMobileHint { display: block; font-size: .875rem; } }
+@media (prefers-reduced-motion: reduce) { .sdTraceDiagram.isMoving .sdTraceConnection { animation: none; } }

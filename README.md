@@ -65,6 +65,19 @@ module, course, and six editable article pairs without overwriting existing cont
 
 ## Commands
 
+The System Design Fundamentals reader includes a shared worked case study for each
+of its 30 curriculum sections. Authored scenarios live in
+`src/data/systemDesignWalkthroughs.js`; the player and changing diagrams live in
+`src/components/learning/SystemDesignWalkthrough.jsx`. Each case has explicit
+assumptions, four system states, explanations, a trade-off, and an answer reveal.
+The cases supplement the individual articles and quizzes; they are not presented
+as unique simulations for every lesson. Playback starts paused, stops at the end,
+and suspends while offscreen or in a hidden tab. Reduced motion removes moving
+connections, and a transcript makes every step available without playback.
+
+Run `npm run check:system-design-walkthroughs` to check section coverage, render
+all 120 diagram states, and validate controls, transcripts, and authored content.
+
 ```bash
 npm install
 npm run dev

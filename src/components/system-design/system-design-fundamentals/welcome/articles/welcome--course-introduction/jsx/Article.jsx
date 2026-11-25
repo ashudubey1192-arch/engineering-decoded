@@ -16,6 +16,13 @@ export default function WelcomeCourseIntroductionArticle() {
           place, taught in plain language, so a beginner can follow it start to finish without a
           computer science degree in their back pocket.
         </p>
+        <p>
+          Think of an architecture as an explanation of a user action. When someone buys a ticket,
+          which component checks the seat, which one records the reservation, and when is it safe
+          to say &quot;confirmed&quot;? Then ask what changes if two people choose the same seat,
+          the response gets lost, or the database becomes unavailable. Those questions turn a
+          diagram into a design you can reason about.
+        </p>
 
         <div className="scenarioBox">
           <small>WHO THIS IS FOR</small>
@@ -47,13 +54,25 @@ export default function WelcomeCourseIntroductionArticle() {
             pieces connect, and that is easier to see than to read.
           </li>
           <li>
-            <b>Every lesson ends with a worked, numeric example</b> &mdash; the kind of back-of-the-
-            envelope math you would actually do while designing something.
+            <b>Each section includes an interactive case study.</b> Step through changes to a
+            system, inspect its state, and explain the trade-off. Numerical examples state their
+            assumptions so you can redo the calculation with different inputs.
           </li>
         </ul>
 
-        <h2>2. How a lesson is laid out</h2>
-        <p>Every article in this course follows the same four-part shape, so you always know what to expect:</p>
+        <h2>2. What you will learn to explain</h2>
+        <ul>
+          <li><b>The request path:</b> how a browser finds a server, sends a request, and receives a response.</li>
+          <li><b>The source of truth:</b> where a value is durable and which copies may temporarily be stale.</li>
+          <li><b>The capacity limit:</b> how traffic, storage growth, and dependency limits constrain a design.</li>
+          <li><b>The failure behavior:</b> what a timeout means, whether retrying is safe, and how a system recovers.</li>
+          <li><b>The decision:</b> why a component is needed, what it improves, and what complexity it adds.</li>
+        </ul>
+        <p>
+          Basic familiarity with an application, an HTTP request, and stored data is enough to
+          start. If those are new, read the Networking and API Design introductions slowly and
+          return to them as needed. You can follow the visual examples without installing servers.
+        </p>
       </section>
 
       <section id="example">
@@ -80,6 +99,24 @@ export default function WelcomeCourseIntroductionArticle() {
           You do not need to memorise definitions. If you can explain the scenario and sketch the
           diagram from memory, you know the concept.
         </div>
+        <h2>A first design decision: should we add a cache?</h2>
+        <p>
+          Suppose a link shortener handles 10,000 redirects per day. Divide by 86,400 seconds:
+          that is about <b>0.12 requests per second</b> on average. Even an assumed 100-fold burst
+          is about 12 requests per second. Start with an application and a database, then measure
+          the peak before adding another service.
+        </p>
+        <p>
+          Later, traffic grows to 1,000 requests per second and repeated lookups strain the database.
+          With a measured 90% cache hit rate, approximately <b>100 requests per second</b> still need
+          the database: 1,000 × (1 − 0.90). The cache now has a specific purpose. It also creates a
+          new problem: an edited destination must not remain cached forever.
+        </p>
+        <p>
+          Practice this reasoning: state the workload, identify a bottleneck, add a mechanism, and
+          explain the new failure mode. The interactive case study below walks through this
+          example one change at a time. Its numbers are teaching assumptions, not performance promises.
+        </p>
       </section>
 
       <section id="mistakes">
@@ -116,6 +153,16 @@ export default function WelcomeCourseIntroductionArticle() {
 
       <section id="check">
         <h2>5. Before you start</h2>
+        <p>
+          Read the explanation, predict the next step, advance the animation, and compare the
+          system state with your prediction. Use Previous or Restart whenever something is unclear.
+          The section case study connects related lessons; article diagrams and quizzes focus on
+          the individual topic.
+        </p>
+        <p>
+          After a lesson, try saying: &quot;This solves ___ when ___, but costs ___. If ___ fails,
+          the system will ___.&quot; A clear answer is more useful than memorizing a list of tools.
+        </p>
         <div className="quiz">
           <p>
             In one or two sentences, write down why <i>you</i> are taking this course &mdash; an

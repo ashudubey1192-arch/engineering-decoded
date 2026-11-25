@@ -20,7 +20,7 @@ export default function WelcomeCourseRoadmapArticle() {
           <p>
             Early lessons ask &quot;how does a single request even reach a server?&quot; Middle
             lessons ask &quot;how do we serve millions of requests without falling over?&quot; Later
-            lessons (being added over time) ask &quot;how do dozens of services and data centres stay
+            lessons ask &quot;how do dozens of services and data centres stay
             correct together?&quot; You are always answering a bigger version of the same question.
           </p>
         </div>
@@ -32,7 +32,7 @@ export default function WelcomeCourseRoadmapArticle() {
           <svg viewBox="0 0 640 150" role="img" aria-labelledby="roadmapTitle">
             <title id="roadmapTitle">
               Four stages in order: Foundations, APIs and Communication, Data Layer, then more
-              advanced stages being added over time.
+              advanced coordination and operating systems in production.
             </title>
             <rect className="boxAccent" x="10" y="55" width="140" height="50" />
             <text className="boxText" x="80" y="76">
@@ -55,7 +55,7 @@ export default function WelcomeCourseRoadmapArticle() {
               3. Data Layer
             </text>
             <text className="boxText" x="420" y="92">
-              (in progress)
+              durable data
             </text>
             <line className="flow" x1="480" y1="80" x2="515" y2="80" />
             <rect className="box" x="515" y="55" width="115" height="50" />
@@ -63,7 +63,7 @@ export default function WelcomeCourseRoadmapArticle() {
               4. Advanced
             </text>
             <text className="boxText" x="572" y="92">
-              topics (coming)
+              coordination
             </text>
           </svg>
           <figcaption>
@@ -94,14 +94,14 @@ export default function WelcomeCourseRoadmapArticle() {
             </tr>
             <tr>
               <td>3. Data Layer</td>
-              <td>Caching, and Databases / Scaling / Storage as they are added</td>
+              <td>Caching, Databases, Database Scaling Techniques, Storage Systems</td>
               <td>Where does data live, and how does it survive real traffic?</td>
             </tr>
             <tr>
               <td>4. Advanced topics</td>
               <td>
                 Architecture patterns, distributed systems, deployment, observability, security
-                &mdash; added progressively
+                &mdash; including consensus, transactions, and recovery
               </td>
               <td>How do many services stay correct, fast, and recoverable together?</td>
             </tr>
@@ -125,14 +125,14 @@ export default function WelcomeCourseRoadmapArticle() {
             single request actually reaches a server, which every later section assumes.
           </li>
           <li>
-            <b>Use the sidebar&apos;s checkmarks as your map.</b> A section&apos;s badge (e.g.{" "}
-            <code>8/9</code>) shows exactly how far through it you are &mdash; use it to pick up where
-            you left off.
+            <b>Use the sidebar as your map.</b> The highlighted lesson shows your current location.
+            Section counts describe the number of lessons, not completed work. Keep a note of the
+            ideas you can explain and the examples you want to revisit.
           </li>
           <li>
             <b>Once Foundations feels solid,</b> move into APIs &amp; Communication, then the Data
-            Layer. New sections are being added in that same order, so the course will keep making
-            sense as it grows.
+            Layer. Then study distributed coordination, safe deployment, and observability so you
+            can explain how the design behaves when something fails.
           </li>
           <li>
             <b>Revisit, don&apos;t just reread.</b> Come back to a finished lesson a week later and
@@ -145,6 +145,22 @@ export default function WelcomeCourseRoadmapArticle() {
         </div>
       </section>
 
+      <section>
+        <h2>Build evidence of understanding at each stage</h2>
+        <ul>
+          <li><b>Foundations:</b> trace one HTTPS request and estimate average and peak traffic with units.</li>
+          <li><b>APIs and communication:</b> explain a retry after a lost response and make one operation idempotent.</li>
+          <li><b>Data:</b> choose the authoritative store, identify stale copies, and protect a business invariant.</li>
+          <li><b>Distributed systems:</b> describe what happens during a partition and how recovery works.</li>
+          <li><b>Production:</b> propose a gradual rollout, useful alerts, and a recovery plan including data already written.</li>
+        </ul>
+        <p>
+          Every section has a shared four-step case study. Read the topic explanation, then use
+          the case to connect it to surrounding ideas. Inspect the before-and-after state, answer
+          the practice question, and change one assumption: more traffic, a failed server, or a
+          stricter freshness requirement. Explain which part of your design must change.
+        </p>
+      </section>
       <section id="mistakes">
         <h2>3. Common mistakes when following a roadmap</h2>
         <div className="mistakeGrid">

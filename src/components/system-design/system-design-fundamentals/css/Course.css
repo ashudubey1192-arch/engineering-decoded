@@ -4,6 +4,13 @@
 .fundamentalsCourse > header small { display: block; margin-top: 40px; color: var(--course-accent); font: 700 11px ui-monospace; letter-spacing: .12em; }
 .fundamentalsCourse h1 { margin: 10px 0; font-size: clamp(34px, 6vw, 64px); }
 .fundamentalsCourse header p { color: var(--muted); }
+.fundamentalsCourse .fundamentalsLearningFeatures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 28px 0; }
+.fundamentalsLearningFeatures > div { padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.fundamentalsLearningFeatures strong { display: block; color: var(--text); font-size: 1rem; margin-bottom: 10px; }
+.fundamentalsLearningFeatures span { color: var(--muted); font-size: 1rem; line-height: 1.7; }
+.fundamentalsCourse > header .fundamentalsStart { padding: 13px 18px; background: var(--course-accent); color: #061a10; font-size: 1rem; font-weight: 700; border-radius: 8px; }
+.fundamentalsStart:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
+@media (max-width: 760px) { .fundamentalsCourse .fundamentalsLearningFeatures { grid-template-columns: 1fr; } }
 .fundamentalsOutline { display: grid; gap: 14px; padding-top: 28px; }
 .fundamentalsOutline details { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .fundamentalsOutline summary { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 12px; padding: 20px; cursor: pointer; }
